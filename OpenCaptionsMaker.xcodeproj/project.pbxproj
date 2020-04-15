@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A37FD13C2446C43600CD1C15 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13B2446C43600CD1C15 /* VideoPlayerView.swift */; };
+		A37FD13E2446C46800CD1C15 /* CaptionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13D2446C46800CD1C15 /* CaptionsListView.swift */; };
+		A37FD1402446C66700CD1C15 /* CaptionsListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13F2446C66700CD1C15 /* CaptionsListRowView.swift */; };
+		A37FD1432446C99D00CD1C15 /* CaptionsListTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1422446C99D00CD1C15 /* CaptionsListTitleView.swift */; };
+		A3AE25F52446A9B40000F42A /* EditScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE25F42446A9B40000F42A /* EditScreenView.swift */; };
+		A3AE25F72446AB440000F42A /* UserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE25F62446AB440000F42A /* UserInputView.swift */; };
 		A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48A92445A1D10077E555 /* AppDelegate.swift */; };
 		A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48AB2445A1D10077E555 /* ContentView.swift */; };
 		A3EB48AE2445A1D90077E555 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3EB48AD2445A1D90077E555 /* Assets.xcassets */; };
@@ -34,6 +40,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A37FD13B2446C43600CD1C15 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
+		A37FD13D2446C46800CD1C15 /* CaptionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsListView.swift; sourceTree = "<group>"; };
+		A37FD13F2446C66700CD1C15 /* CaptionsListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsListRowView.swift; sourceTree = "<group>"; };
+		A37FD1422446C99D00CD1C15 /* CaptionsListTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsListTitleView.swift; sourceTree = "<group>"; };
+		A3AE25F42446A9B40000F42A /* EditScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScreenView.swift; sourceTree = "<group>"; };
+		A3AE25F62446AB440000F42A /* UserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputView.swift; sourceTree = "<group>"; };
 		A3EB48A62445A1D10077E555 /* OpenCaptionsMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenCaptionsMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3EB48A92445A1D10077E555 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3EB48AB2445A1D10077E555 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +87,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A37FD1412446C6FC00CD1C15 /* Screen Views */ = {
+			isa = PBXGroup;
+			children = (
+				A3AE25F42446A9B40000F42A /* EditScreenView.swift */,
+				A3AE25F62446AB440000F42A /* UserInputView.swift */,
+			);
+			path = "Screen Views";
+			sourceTree = "<group>";
+		};
+		A3AE25F32446A97B0000F42A /* Supporting Views */ = {
+			isa = PBXGroup;
+			children = (
+				A37FD13B2446C43600CD1C15 /* VideoPlayerView.swift */,
+				A37FD13D2446C46800CD1C15 /* CaptionsListView.swift */,
+				A37FD13F2446C66700CD1C15 /* CaptionsListRowView.swift */,
+				A37FD1422446C99D00CD1C15 /* CaptionsListTitleView.swift */,
+			);
+			path = "Supporting Views";
+			sourceTree = "<group>";
+		};
 		A3EB489D2445A1D10077E555 = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +130,8 @@
 		A3EB48A82445A1D10077E555 /* OpenCaptionsMaker */ = {
 			isa = PBXGroup;
 			children = (
+				A37FD1412446C6FC00CD1C15 /* Screen Views */,
+				A3AE25F32446A97B0000F42A /* Supporting Views */,
 				A3EB48A92445A1D10077E555 /* AppDelegate.swift */,
 				A3EB48AB2445A1D10077E555 /* ContentView.swift */,
 				A3EB48AD2445A1D90077E555 /* Assets.xcassets */,
@@ -266,8 +300,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A37FD1432446C99D00CD1C15 /* CaptionsListTitleView.swift in Sources */,
+				A37FD1402446C66700CD1C15 /* CaptionsListRowView.swift in Sources */,
+				A37FD13E2446C46800CD1C15 /* CaptionsListView.swift in Sources */,
+				A3AE25F72446AB440000F42A /* UserInputView.swift in Sources */,
 				A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */,
 				A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */,
+				A3AE25F52446A9B40000F42A /* EditScreenView.swift in Sources */,
+				A37FD13C2446C43600CD1C15 /* VideoPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

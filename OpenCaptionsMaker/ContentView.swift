@@ -9,27 +9,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    let windowWidth: CGFloat = 1600
-    let windowHeight: CGFloat = 800
-    
+        
     var body: some View {
         
         HStack {
-            Spacer()
-            VStack {
-                Text("Video will go here!")
-            }
-            
-            Spacer()
-            List {
-                Text("Item 1")
-                Text("Item 2")
-                Text("Item 3")
-            }
-            .frame(width: windowWidth/2, height: windowHeight)
+            Text("Hello, World!")
         }
-        .frame(width: windowWidth, height: windowHeight)
+        .frame(width: 600, height: 300, alignment: .center)
+            
     }
     
 }
