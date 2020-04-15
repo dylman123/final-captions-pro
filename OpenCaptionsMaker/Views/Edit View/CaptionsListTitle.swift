@@ -1,5 +1,5 @@
 //
-//  CaptionsListTitleView.swift
+//  CaptionsListTitle.swift
 //  OpenCaptionsMaker
 //
 //  Created by Dylan Klein on 15/4/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CaptionsListTitleView: View {
+struct CaptionsListTitle: View {
     var body: some View {
         HStack {
             Text("Timings")
@@ -22,8 +22,8 @@ struct CaptionsListTitleView: View {
     }
 }
 
-struct CaptionsListTitleView_Previews: PreviewProvider {
+struct CaptionsListTitle_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionsListTitleView()
+        CaptionsListTitle()
     }
 }

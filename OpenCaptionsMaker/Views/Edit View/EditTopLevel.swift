@@ -1,5 +1,5 @@
 //
-//  EditScreenView.swift
+//  EditTopLevel.swift
 //  OpenCaptionsMaker
 //
 //  Created by Dylan Klein on 15/4/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct EditScreenView: View {
+struct EditTopLevel: View {
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
@@ -19,13 +19,12 @@ struct EditScreenView: View {
                 Image("screenshot")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .cornerRadius(20)
                     .shadow(radius: 10)
             }
             .padding(.leading, 50)
             VStack {
-                CaptionsListTitleView()
-                CaptionsListView()
+                CaptionsListTitle()
+                CaptionsList()
             }
             .frame(width: windowWidth/2, height: windowHeight*0.8)
         }
@@ -33,8 +32,8 @@ struct EditScreenView: View {
     }
 }
 
-struct EditScreenView_Previews: PreviewProvider {
+struct EditTopLevel_Previews: PreviewProvider {
     static var previews: some View {
-        EditScreenView()
+        EditTopLevel()
     }
 }

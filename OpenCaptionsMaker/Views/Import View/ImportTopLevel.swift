@@ -1,5 +1,5 @@
 //
-//  UserInputView.swift
+//  ImportTopLevel.swift
 //  OpenCaptionsMaker
 //
 //  Created by Dylan Klein on 15/4/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct UserInputView: View {
+struct ImportTopLevel: View {
     let windowWidth: CGFloat = 400
     let windowHeight: CGFloat = 600
     
@@ -34,8 +34,8 @@ struct UserInputView: View {
     }
 }
 
-struct UserInputView_Previews: PreviewProvider {
+struct ImportTopLevel_Previews: PreviewProvider {
     static var previews: some View {
-        UserInputView()
+        ImportTopLevel()
     }
 }

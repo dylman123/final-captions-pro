@@ -1,0 +1,29 @@
+[
+    {
+        "id": 0,
+        "start": 0.0,
+        "end": 1.5,
+        "duration": 1.5,
+        "text": "I'm fucking competitive",
+        "speakerTag": 1,
+        "speakerName": "Daisy"
+    },
+    {
+        "id": 1,
+        "start": 1.6,
+        "end": 2.0,
+        "duration": 0.4,
+        "text": "okay",
+        "speakerTag": 1,
+        "speakerName": "Daisy"
+    },
+    {
+        "id": 2,
+        "start": 2.0,
+        "end": 2.8,
+        "duration": 0.8,
+        "text": "don't get me started",
+        "speakerTag": 2,
+        "speakerName": "Darren"
+    }
+]

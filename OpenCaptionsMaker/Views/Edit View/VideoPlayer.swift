@@ -1,5 +1,5 @@
 //
-//  VideoPlayerView.swift
+//  VideoPlayer.swift
 //  OpenCaptionsMaker
 //
 //  Created by Dylan Klein on 15/4/20.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct VideoPlayerView: View {
+struct VideoPlayer: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct VideoPlayerView_Previews: PreviewProvider {
+struct VideoPlayer_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerView()
+        VideoPlayer()
     }
 }
