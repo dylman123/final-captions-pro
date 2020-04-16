@@ -10,7 +10,19 @@ import SwiftUI
 
 struct VideoPlayer: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        VStack {
+            
+            // Visual pane
+            Image("screenshot")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .shadow(radius: 10)
+            
+            // Playback options
+            Text("Sliders and buttons")
+        }
+        
     }
 }
 

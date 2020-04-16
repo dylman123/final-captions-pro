@@ -9,19 +9,24 @@
 import SwiftUI
 
 struct CaptionsList: View {
+    
+    // Track the the selected caption
+    @Binding var selectedCaption: Caption?
+    
     var body: some View {
         
-        List(captionData) { (caption) -> CaptionsListRow in
-            CaptionsListRow(caption: caption)
-            
+        // Dynamically read the list from captionData
+        List(selection: $selectedCaption) {
+            ForEach(captionData) { caption in
+                    CaptionsListRow(caption: caption).tag(caption)
+                        .padding(.vertical, 10)
+            }
         }
-        .cornerRadius(10)
-
     }
 }
 
 struct CaptionsList_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionsList()
+        CaptionsList(selectedCaption: .constant(captionData[0]))
     }
 }

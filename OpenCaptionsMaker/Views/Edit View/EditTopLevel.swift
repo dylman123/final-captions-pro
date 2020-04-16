@@ -9,22 +9,28 @@
 import SwiftUI
 
 struct EditTopLevel: View {
+    
+    //Set window sizes
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
+    // A variable to track the selected row
+    @State private var selectedCaption: Caption?
+    
     var body: some View {
         
+        // Window view for edit screen
         HStack {
-            VStack {
-                Image("screenshot")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .shadow(radius: 10)
-            }
+            
+            //Video player
+            VideoPlayer()
+            //.frame(width: windowWidth/3)
             .padding(.leading, 50)
+            
+            // Captions list
             VStack {
                 CaptionsListTitle()
-                CaptionsList()
+                CaptionsList(selectedCaption: $selectedCaption)
             }
             .frame(width: windowWidth/2, height: windowHeight*0.8)
             .padding(.horizontal, 50)
