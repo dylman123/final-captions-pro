@@ -28,7 +28,7 @@ class VideoPlayerNSView: NSView {
     
         backgroundColor = .lightGray
         playerLayer.player = player
-        layer.addSublayer(playerLayer)
+        layer?.addSublayer(playerLayer)
         
         // Observe the duration of the player's item so we can display it
         // and use it for updating the seek bar's position
@@ -56,9 +56,8 @@ class VideoPlayerNSView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
   
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    
+    override func layout() {
+        super.layout()
         playerLayer.frame = bounds
     }
     
@@ -113,6 +112,18 @@ struct VideoPlayerControlsView : View {
     
     let player: AVPlayer
     
+//    // Current video time
+//    let videoTimeFormatter = DateComponentsFormatter()
+//    videoTimeFormatter.allowedUnits = [.hour, .minute, .second]
+//    videoTimeFormatter.unitsStyle = .positional
+//    let videoTimeDisplay = videoTimeFormatter.string(from: TimeInterval(videoPos * videoDuration))!
+//
+//    // Video duration
+//    let videoDurationFormatter = DateComponentsFormatter()
+//    videoDurationFormatter.allowedUnits = [.hour, .minute, .second]
+//    videoDurationFormatter.unitsStyle = .positional
+//    let videoDurationDisplay = videoDurationFormatter.string(from: TimeInterval(videoDuration))!
+    
     @State private var playerPaused = true
     
     var body: some View {
@@ -122,12 +133,14 @@ struct VideoPlayerControlsView : View {
                 Image(playerPaused ? "play.neg" : "pause.neg")
                     .padding(.trailing, 10)
             }
+
             // Current video time
             Text("\(Utility.formatSecondsToHMS(videoPos * videoDuration))")
             // Slider for seeking / showing video progress
             Slider(value: $videoPos, in: 0...1, onEditingChanged: sliderEditingChanged)
             // Video duration
             Text("\(Utility.formatSecondsToHMS(videoDuration))")
+
         }
         .padding(.leading, 10)
         .padding(.trailing, 10)
