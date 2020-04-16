@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct EditTopLevel: View {
     
@@ -24,7 +25,7 @@ struct EditTopLevel: View {
             
             //Video player
             VideoPlayer()
-            //.frame(width: windowWidth/3)
+            .frame(width: windowWidth/3, height: windowHeight/2)
             .padding(.leading, 50)
             
             // Captions list

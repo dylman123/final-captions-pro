@@ -14,6 +14,8 @@
 		A37FD148244722D700CD1C15 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD147244722D700CD1C15 /* Data.swift */; };
 		A37FD14A244722F000CD1C15 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD149244722F000CD1C15 /* Caption.swift */; };
 		A37FD14E2447254400CD1C15 /* captionData.json in Resources */ = {isa = PBXBuildFile; fileRef = A37FD14D2447254400CD1C15 /* captionData.json */; };
+		A37FD1532448337D00CD1C15 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1522448337D00CD1C15 /* PlayerView.swift */; };
+		A37FD1552448788100CD1C15 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1542448788100CD1C15 /* VideoPlayerView.swift */; };
 		A3AE25F52446A9B40000F42A /* EditTopLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE25F42446A9B40000F42A /* EditTopLevel.swift */; };
 		A3AE25F72446AB440000F42A /* ImportTopLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE25F62446AB440000F42A /* ImportTopLevel.swift */; };
 		A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48A92445A1D10077E555 /* AppDelegate.swift */; };
@@ -50,6 +52,8 @@
 		A37FD147244722D700CD1C15 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		A37FD149244722F000CD1C15 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
 		A37FD14D2447254400CD1C15 /* captionData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = captionData.json; sourceTree = "<group>"; };
+		A37FD1522448337D00CD1C15 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		A37FD1542448788100CD1C15 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		A3AE25F42446A9B40000F42A /* EditTopLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTopLevel.swift; sourceTree = "<group>"; };
 		A3AE25F62446AB440000F42A /* ImportTopLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTopLevel.swift; sourceTree = "<group>"; };
 		A3EB48A62445A1D10077E555 /* OpenCaptionsMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenCaptionsMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +105,8 @@
 				A37FD13D2446C46800CD1C15 /* CaptionsList.swift */,
 				A37FD13F2446C66700CD1C15 /* CaptionsListRow.swift */,
 				A37FD1422446C99D00CD1C15 /* CaptionsListTitle.swift */,
+				A37FD1522448337D00CD1C15 /* PlayerView.swift */,
+				A37FD1542448788100CD1C15 /* VideoPlayerView.swift */,
 			);
 			path = "Edit View";
 			sourceTree = "<group>";
@@ -345,6 +351,7 @@
 				A37FD1432446C99D00CD1C15 /* CaptionsListTitle.swift in Sources */,
 				A37FD1402446C66700CD1C15 /* CaptionsListRow.swift in Sources */,
 				A37FD13E2446C46800CD1C15 /* CaptionsList.swift in Sources */,
+				A37FD1532448337D00CD1C15 /* PlayerView.swift in Sources */,
 				A3AE25F72446AB440000F42A /* ImportTopLevel.swift in Sources */,
 				A37FD14A244722F000CD1C15 /* Caption.swift in Sources */,
 				A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */,
@@ -352,6 +359,7 @@
 				A3AE25F52446A9B40000F42A /* EditTopLevel.swift in Sources */,
 				A37FD148244722D700CD1C15 /* Data.swift in Sources */,
 				A37FD13C2446C43600CD1C15 /* VideoPlayer.swift in Sources */,
+				A37FD1552448788100CD1C15 /* VideoPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
