@@ -27,6 +27,7 @@ struct EditTopLevel: View {
                 CaptionsList()
             }
             .frame(width: windowWidth/2, height: windowHeight*0.8)
+            .padding(.horizontal, 50)
         }
         .frame(width: windowWidth, height: windowHeight)
     }

@@ -139,6 +139,13 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		A37FD151244804D300CD1C15 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A3EB489D2445A1D10077E555 = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +169,7 @@
 		A3EB48A82445A1D10077E555 /* OpenCaptionsMaker */ = {
 			isa = PBXGroup;
 			children = (
+				A37FD151244804D300CD1C15 /* Resources */,
 				A37FD14C2447247200CD1C15 /* Views */,
 				A37FD14B2447243400CD1C15 /* Transcription */,
 				A37FD146244722B500CD1C15 /* Models */,

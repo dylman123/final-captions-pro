@@ -13,15 +13,25 @@ struct CaptionsListRow: View {
     var caption: Caption
     
     var body: some View {
-        HStack {
-            VStack {
-                Text(String(caption.start))
-                Text(String(caption.end))
+        VStack {
+            HStack(alignment: .center) {
+                VStack {
+                    Text(String(caption.start))
+                    Spacer()
+                    Text(String(caption.end))
+                }
+                Spacer()
+                Text(caption.text)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(2)
+                Spacer()
+                Text(caption.speakerName)
+                    .multilineTextAlignment(.trailing)
+
             }
-            Spacer()
-            Text(caption.text)
-            Spacer()
-            Text(caption.speakerName)
+            .frame(height: 30)
+            .padding(.horizontal)
+            Divider()
         }
     }
 }

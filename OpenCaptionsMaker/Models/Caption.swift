@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Caption: Hashable, Codable {
+struct Caption: Hashable, Codable, Identifiable {
     var id: Int
     var start: Float
     var end: Float

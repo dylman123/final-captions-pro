@@ -10,13 +10,12 @@ import SwiftUI
 
 struct CaptionsList: View {
     var body: some View {
-        List {
-            CaptionsListRow(caption: captionData[0]).padding(.bottom)
-            CaptionsListRow(caption: captionData[1]).padding(.bottom)
-            CaptionsListRow(caption: captionData[2]).padding(.bottom)
+        
+        List(captionData) { (caption) -> CaptionsListRow in
+            CaptionsListRow(caption: caption)
+            
         }
         .cornerRadius(10)
-        .padding(.horizontal, 30)
 
     }
 }
