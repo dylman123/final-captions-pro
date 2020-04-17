@@ -10,10 +10,19 @@ import SwiftUI
 
 struct CaptionsListRow: View {
     
+//    @Binding var id: Int
+    @Binding var start: Float
+    @Binding var end: Float
+//    @Binding var duration: Float
     @Binding var text: String
+//    @Binding var speakerTag: Int
+    @Binding var speakerName: String
 
     init(caption: Caption) {
+        self.start = caption.start
+        self.end = caption.end
         self.text = caption.text
+        self.speakerName = caption.speakerName
     }
     
     var body: some View {
@@ -26,9 +35,9 @@ struct CaptionsListRow: View {
                 
                 // Display caption timings
                 VStack {
-                    Text(String(caption.start))
+                    Text(String($start))
                     Spacer()
-                    Text(String(caption.end))
+                    Text(String($end))
                 }
                 Spacer()
                 
@@ -40,7 +49,7 @@ struct CaptionsListRow: View {
                 Spacer()
                 
                 // Display speaker name
-                Text(caption.speakerName)
+                Text($speakerName)
                     .multilineTextAlignment(.trailing)
                 
                 // Display insert plus icon
