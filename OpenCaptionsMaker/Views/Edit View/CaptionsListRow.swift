@@ -10,7 +10,11 @@ import SwiftUI
 
 struct CaptionsListRow: View {
     
-    var caption: Caption
+    @Binding var text: String
+
+    init(caption: Caption) {
+        self.text = caption.text
+    }
     
     var body: some View {
         
@@ -29,9 +33,10 @@ struct CaptionsListRow: View {
                 Spacer()
                 
                 // Display caption text
-                Text(caption.text)
-                    .multilineTextAlignment(.leading)
+                TextField("", text: $text)
+                    .multilineTextAlignment(.center)
                     .lineLimit(2)
+                    .frame(width: 300)
                 Spacer()
                 
                 // Display speaker name
