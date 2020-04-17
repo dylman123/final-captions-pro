@@ -1,5 +1,5 @@
 //
-//  VideoPlayerView.swift
+//  VideoView.swift
 //  AVPlayer-SwiftUI
 //
 //  Created by Chris Mash on 11/09/2019.
@@ -25,8 +25,8 @@ class VideoPlayerNSView: NSView {
         self.seeking = seeking
         
         super.init(frame: .zero)
-    
-        backgroundColor = .lightGray
+        _ = NSView.BackgroundStyle(rawValue: 0)
+        //backgroundColor = .lightGray
         playerLayer.player = player
         layer?.addSublayer(playerLayer)
         
@@ -130,7 +130,7 @@ struct VideoPlayerControlsView : View {
         HStack {
             // Play/pause button
             Button(action: togglePlayPause) {
-                Image(playerPaused ? "play.neg" : "pause.neg")
+                Image(playerPaused ? "play" : "pause")
                     .padding(.trailing, 10)
             }
 
@@ -216,7 +216,21 @@ struct VideoPlayerContainerView : View {
 
 // This is the main SwiftUI view for this app, containing a single PlayerContainerView
 struct VideoView: View {
+    var url: String?
+    
+    init(url: String) {
+        self.url = url
+        guard self.url != nil else {
+            return
+        }
+    }
     var body: some View {
-        VideoPlayerContainerView(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!)
+        VideoPlayerContainerView(url: URL(string: (self.url)!)!)
+    }
+}
+
+struct VideoView_Previews: PreviewProvider {
+    static var previews: some View {
+        VideoView(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
     }
 }

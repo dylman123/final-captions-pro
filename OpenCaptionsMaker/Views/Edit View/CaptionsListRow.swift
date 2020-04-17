@@ -40,10 +40,11 @@ struct CaptionsListRow: View {
                 
                 // Display insert plus icon
                 VStack {
-                    Image("app.plus.fill")
-                        .resizable()
-                        .frame(width: 12, height: 12)
-                        .cornerRadius(3.0)
+                    //NSImage(imageLiteralResourceName: "app.plus.fill")
+                    Image("play")
+                        //.resizable()
+                        //.frame(width: 12, height: 12)
+                        //.cornerRadius(3.0)
                     Spacer()
                 }
 

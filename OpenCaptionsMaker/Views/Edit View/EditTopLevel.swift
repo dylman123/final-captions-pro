@@ -24,7 +24,8 @@ struct EditTopLevel: View {
         HStack {
             
             //Video player
-            VideoPlayer()
+            FakeVideoExample()
+            //VideoView(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
             .frame(width: windowWidth/3, height: windowHeight/2)
             .padding(.leading, 50)
             

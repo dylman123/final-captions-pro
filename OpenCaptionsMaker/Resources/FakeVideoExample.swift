@@ -1,5 +1,5 @@
 //
-//  VideoPlayer.swift
+//  FakeVideoExample.swift
 //  OpenCaptionsMaker
 //
 //  Created by Dylan Klein on 15/4/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct VideoPlayer: View {
+struct FakeVideoExample: View {
     var body: some View {
         
         VStack {
@@ -26,8 +26,8 @@ struct VideoPlayer: View {
     }
 }
 
-struct VideoPlayer_Previews: PreviewProvider {
+struct FakeVideoExample_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayer()
+        FakeVideoExample()
     }
 }
