@@ -33,6 +33,7 @@ struct EditTopLevel: View {
             VStack {
                 CaptionsListTitle()
                 CaptionsList(selectedCaption: $selectedCaption)
+                .environmentObject(UserData())
             }
             .frame(width: windowWidth/2, height: windowHeight*0.8)
             .padding(.horizontal, 50)

@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Caption: Hashable, Codable, Identifiable {
+    
     var id: Int
     var start: Float
     var end: Float

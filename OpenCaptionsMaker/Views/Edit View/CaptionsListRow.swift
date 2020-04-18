@@ -7,25 +7,27 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CaptionsListRow: View {
     
-    @Binding var id: Int?
-    @Binding var start: Float?
-    @Binding var end: Float?
-    @Binding var duration: Float?
-    @Binding var text: String?
-    @Binding var speakerTag: Int?
-    @Binding var speakerName: String?
-
-    init(caption: Caption) {
-        self.id = caption.id
-        self.start = caption.start
-        self.end = caption.end
-        self.duration = caption.duration
-        self.text = caption.text
-        self.speakerTag = caption.speakerTag
-        self.speakerName = caption.speakerName
+    // Write data back to model
+    @EnvironmentObject var userData: UserData
+    
+    // To index the current caption
+    var captionIndex: Int {
+        userData.captions.firstIndex(where: { $0.id == caption.id })!
+    }
+    
+    // The current caption object
+    var caption: Caption
+    
+    // To format the time values in text
+    var timeFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 1
+        return formatter
     }
     
     var body: some View {
@@ -38,21 +40,24 @@ struct CaptionsListRow: View {
                 
                 // Display caption timings
                 VStack {
-                    //TextField("", text: String($start))
+                    TextField("", value: $userData.captions[self.captionIndex].start, formatter: timeFormatter)
+                        
                     Spacer()
-                    //TextField("", text: String($end))
+                    TextField("", value: $userData.captions[self.captionIndex].end, formatter: timeFormatter)
                 }
+                .frame(width: 50.0)
                 Spacer()
                 
                 // Display caption text
-                TextField("", text: $text)
+                TextField("", text: $userData.captions[self.captionIndex].text)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .frame(width: 300)
                 Spacer()
                 
                 // Display speaker name
-                TextField("", text: $speakerName)
+                TextField("", text: $userData.captions[self.captionIndex].speakerName)
+                    .frame(width: 80.0)
                     .multilineTextAlignment(.trailing)
                 
                 // Display insert plus icon
@@ -78,5 +83,6 @@ struct CaptionsListRow_Previews: PreviewProvider {
     static var previews: some View {
         CaptionsListRow(caption: captionData[0])
             .frame(height: 50)
+            .environmentObject(UserData())
     }
 }
