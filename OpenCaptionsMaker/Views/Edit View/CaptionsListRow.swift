@@ -16,8 +16,18 @@ struct CaptionsListRow: View {
     
     // To index the current caption
     var captionIndex: Int {
-        userData.captions.firstIndex(where: { $0.id == caption.id })!
+//        guard caption != nil else {
+//            return 0
+//        }
+        return userData.captions.firstIndex(where: { $0.id == caption.id })!
+//        }
     }
+    
+    // Index of recently deleted caption
+//    var deadIndex: Int?
+//    func setDeadIndex() {
+//        self.deadIndex = self.captionIndex
+//    }
     
     // The current caption object
     var caption: Caption
@@ -72,7 +82,10 @@ struct CaptionsListRow: View {
                             .colorInvert()
                     }
                     
-                    Button(action: {self.userData.deleteCaption(atIndex: self.captionIndex)}) {
+                    Button(action: {
+                        //self.setDeadIndex()
+                        self.userData.deleteCaption(atIndex: self.captionIndex)
+                    }) {
                         Image("minus")
                             .renderingMode(.original)
                             .resizable()

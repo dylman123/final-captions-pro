@@ -14,26 +14,40 @@ class UserData: ObservableObject {
     
     @Published var captions: [Caption] = captionData
     
-    // Adds a blank caption into the row above the selected cell
+    // Adds a blank caption into the row above the selected cell.
+    // The new caption's end time will match the caller caption's start time.
     func addCaption(beforeIndex id: Int, atTime end: Float) {
         
         #if DEBUG
-        print("Before adding: \n")
-        for caption in captions {
+        print("Before adding caption \(id):")
+        for caption in self.captions {
             print(caption.id)
         }
         #endif
         
         // Increment all subsequent captions' ids
-         for var caption in captions {
-             if caption.id >= id {
-                 caption.id += 1
-             }
+        for caption in self.captions {
+            if caption.id >= id {
+                self.captions[id].id += 1
+            }
          }
         
+        // Compute timing values
+        var prev_end: Float? {
+            do { return try self.captions[id-1].end } catch { return nil }
+        }
         let buffer: Float = 1.0 // seconds before previous caption's start
-        let start: Float = end - buffer
+        var start: Float {
+            if prev_end == nil {  // if previous caption is at position 0
+                return 0.0
+            }
+            else if end - prev_end! < buffer {  // if gap is smaller than buffer
+                return prev_end!
+            }
+            else { return end - buffer }  // if gap is larger than buffer
+        }
         let duration: Float = end - start
+        
         let newCaption = Caption(
             id: id,
             start: start,
@@ -47,8 +61,8 @@ class UserData: ObservableObject {
         self.captions.insert(newCaption, at: id)
         
         #if DEBUG
-        print("After adding: \n")
-        for caption in captions {
+        print("After adding caption \(id):")
+        for caption in self.captions {
             print(caption.id)
         }
         #endif
@@ -58,8 +72,8 @@ class UserData: ObservableObject {
     func deleteCaption(atIndex id: Int) {
         
         #if DEBUG
-        print("Before deleting: \n")
-        for caption in captions {
+        print("Before deleting caption \(id):")
+        for caption in self.captions {
             print(caption.id)
         }
         #endif
@@ -68,18 +82,17 @@ class UserData: ObservableObject {
         self.captions.remove(at: id)
         
         // Decrement all subsequent captions' ids
-        for var caption in captions {
+        for var caption in self.captions {
             if caption.id >= id {
-                caption.id -= 1
+                self.captions[id].id -= 1
             }
         }
         
         #if DEBUG
-        print("After deleting: \n")
-        for caption in captions {
+        print("After deleting caption \(id):")
+        for caption in self.captions {
             print(caption.id)
         }
         #endif
     }
-    
 }
