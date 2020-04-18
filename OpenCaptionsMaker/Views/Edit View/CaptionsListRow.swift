@@ -30,6 +30,9 @@ struct CaptionsListRow: View {
         return formatter
     }
     
+    // To format the plus button
+    var buttonStyle = BorderlessButtonStyle()
+    
     var body: some View {
         
         // Embed the contents & a divider in a VStack
@@ -41,7 +44,6 @@ struct CaptionsListRow: View {
                 // Display caption timings
                 VStack {
                     TextField("", value: $userData.captions[self.captionIndex].start, formatter: timeFormatter)
-                        
                     Spacer()
                     TextField("", value: $userData.captions[self.captionIndex].end, formatter: timeFormatter)
                 }
@@ -62,19 +64,27 @@ struct CaptionsListRow: View {
                 
                 // Display insert plus icon
                 VStack {
-                    //NSImage(imageLiteralResourceName: "app.plus.fill")
-                    Image("play")
-                        //.resizable()
-                        //.frame(width: 12, height: 12)
-                        //.cornerRadius(3.0)
-                    Spacer()
+                    Button(action: {self.userData.addCaption(beforeIndex: self.captionIndex, atTime: self.userData.captions[self.captionIndex].start)}) {
+                        Image("plus")
+                            .renderingMode(.original)
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .colorInvert()
+                    }
+                    
+                    Button(action: {self.userData.deleteCaption(atIndex: self.captionIndex)}) {
+                        Image("minus")
+                            .renderingMode(.original)
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .colorInvert()
+                    }
                 }
-
+                .offset(x: 5)
+                .buttonStyle(buttonStyle)
             }
             .frame(height: 30)
             .padding(.leading)
-            
-            //Divider()
         }
     }
 }
