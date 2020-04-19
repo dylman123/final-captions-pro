@@ -18,23 +18,17 @@ class UserData: ObservableObject {
     // The new caption's end time will match the caller caption's start time.
     func addCaption(beforeIndex id: Int, atTime end: Float) {
         
-        #if DEBUG
-        print("Before adding caption \(id):")
-        for caption in self.captions {
-            print(caption.id)
-        }
-        #endif
-        
         // Increment all subsequent captions' ids
-        for caption in self.captions {
-            if caption.id >= id {
-                self.captions[id].id += 1
+        for idx in 0..<self.captions.count {
+            if self.captions[idx].id >= id {
+                self.captions[idx].id += 1
             }
-         }
+        }
         
         // Compute timing values
         var prev_end: Float? {
-            do { return try self.captions[id-1].end } catch { return nil }
+            if id != 0 { return self.captions[id-1].end }
+            else { return nil }
         }
         let buffer: Float = 1.0 // seconds before previous caption's start
         var start: Float {
@@ -59,40 +53,19 @@ class UserData: ObservableObject {
         
         // Insert new Caption object
         self.captions.insert(newCaption, at: id)
-        
-        #if DEBUG
-        print("After adding caption \(id):")
-        for caption in self.captions {
-            print(caption.id)
-        }
-        #endif
     }
     
     // Deletes the selected cell
     func deleteCaption(atIndex id: Int) {
         
-        #if DEBUG
-        print("Before deleting caption \(id):")
-        for caption in self.captions {
-            print(caption.id)
-        }
-        #endif
-        
         // Remove current Caption object from captions list
         self.captions.remove(at: id)
         
         // Decrement all subsequent captions' ids
-        for var caption in self.captions {
-            if caption.id >= id {
-                self.captions[id].id -= 1
+        for idx in 0..<self.captions.count {
+            if self.captions[idx].id >= id {
+                self.captions[idx].id -= 1
             }
         }
-        
-        #if DEBUG
-        print("After deleting caption \(id):")
-        for caption in self.captions {
-            print(caption.id)
-        }
-        #endif
     }
 }

@@ -16,18 +16,8 @@ struct CaptionsListRow: View {
     
     // To index the current caption
     var captionIndex: Int {
-//        guard caption != nil else {
-//            return 0
-//        }
-        return userData.captions.firstIndex(where: { $0.id == caption.id })!
-//        }
+        return userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
-    
-    // Index of recently deleted caption
-//    var deadIndex: Int?
-//    func setDeadIndex() {
-//        self.deadIndex = self.captionIndex
-//    }
     
     // The current caption object
     var caption: Caption
@@ -44,48 +34,45 @@ struct CaptionsListRow: View {
     var buttonStyle = BorderlessButtonStyle()
     
     var body: some View {
-        
-        // Embed the contents & a divider in a VStack
-        VStack {
             
-            // Contents of the row
-            HStack(alignment: .center) {
-                
-                // Display caption timings
-                VStack {
-                    TextField("", value: $userData.captions[self.captionIndex].start, formatter: timeFormatter)
-                    Spacer()
-                    TextField("", value: $userData.captions[self.captionIndex].end, formatter: timeFormatter)
+        // Contents of the row
+        HStack(alignment: .center) {
+            
+            // Display caption timings
+            VStack {
+                TextField("", value: $userData.captions[self.captionIndex].start, formatter: timeFormatter)
+                Spacer()
+                TextField("", value: $userData.captions[self.captionIndex].end, formatter: timeFormatter)
+            }
+            .frame(width: 50.0)
+            Spacer()
+            
+            // Display caption text
+            TextField("", text: $userData.captions[self.captionIndex].text)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .frame(width: 300)
+            Spacer()
+            
+            // Display speaker name
+            TextField("", text: $userData.captions[self.captionIndex].speakerName)
+                .frame(width: 80.0)
+                .multilineTextAlignment(.trailing)
+            
+            // Display insert plus icon
+            VStack {
+                Button(action: {self.userData.addCaption(beforeIndex: self.captionIndex, atTime: self.userData.captions[self.captionIndex].start)}) {
+                    Image("plus")
+                        .renderingMode(.original)
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                        .colorInvert()
                 }
-                .frame(width: 50.0)
-                Spacer()
                 
-                // Display caption text
-                TextField("", text: $userData.captions[self.captionIndex].text)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .frame(width: 300)
-                Spacer()
-                
-                // Display speaker name
-                TextField("", text: $userData.captions[self.captionIndex].speakerName)
-                    .frame(width: 80.0)
-                    .multilineTextAlignment(.trailing)
-                
-                // Display insert plus icon
-                VStack {
-                    Button(action: {self.userData.addCaption(beforeIndex: self.captionIndex, atTime: self.userData.captions[self.captionIndex].start)}) {
-                        Image("plus")
-                            .renderingMode(.original)
-                            .resizable()
-                            .frame(width: 15, height: 15)
-                            .colorInvert()
-                    }
-                    
-                    Button(action: {
-                        //self.setDeadIndex()
-                        self.userData.deleteCaption(atIndex: self.captionIndex)
-                    }) {
+                Button(action: {
+                    self.userData.deleteCaption(atIndex: self.captionIndex)
+                }) {
+                    if self.userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
                         Image("minus")
                             .renderingMode(.original)
                             .resizable()
@@ -93,12 +80,12 @@ struct CaptionsListRow: View {
                             .colorInvert()
                     }
                 }
-                .offset(x: 5)
-                .buttonStyle(buttonStyle)
             }
-            .frame(height: 30)
-            .padding(.leading)
+            .offset(x: 5)
+            .buttonStyle(buttonStyle)
         }
+        .frame(height: 30)
+        .padding(.leading)
     }
 }
 
