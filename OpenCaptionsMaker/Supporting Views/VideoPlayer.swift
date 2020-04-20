@@ -239,3 +239,4 @@ struct VideoPlayer_Previews: PreviewProvider {
         VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
     }
 }
+
