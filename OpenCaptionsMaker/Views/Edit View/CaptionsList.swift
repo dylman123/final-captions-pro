@@ -9,20 +9,28 @@
 import SwiftUI
 
 struct CaptionsList: View {
+    
+    // Write data back to model
+    @EnvironmentObject var userData: UserData
+    
+    // Track the the selected caption
+    @Binding var selectedCaption: Caption?
+    
     var body: some View {
-        List {
-            CaptionsListRow(caption: captionData[0]).padding(.bottom)
-            CaptionsListRow(caption: captionData[1]).padding(.bottom)
-            CaptionsListRow(caption: captionData[2]).padding(.bottom)
+        
+        // Dynamically read the list from captionData
+        List(selection: $selectedCaption) {
+            ForEach(userData.captions) { caption in
+                    CaptionsListRow(caption: caption).tag(caption)
+                        .padding(.vertical, 10)
+            }
         }
-        .cornerRadius(10)
-        .padding(.horizontal, 30)
-
     }
 }
 
 struct CaptionsList_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionsList()
+        CaptionsList(selectedCaption: .constant(captionData[0]))
+            .environmentObject(UserData())
     }
 }

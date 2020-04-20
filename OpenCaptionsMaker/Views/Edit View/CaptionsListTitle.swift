@@ -10,15 +10,17 @@ import SwiftUI
 
 struct CaptionsListTitle: View {
     var body: some View {
-        HStack {
-            Text("Timings")
-            Spacer()
-            Text("Caption")
-            Spacer()
-            Text("Speaker")
+        VStack {
+            HStack {
+                Text("Timings")
+                Spacer()
+                Text("Caption").offset(x: -10)
+                Spacer()
+                Text("Speaker")
+            }
+            .font(.body)
         }
-        .font(.headline)
-        .padding(.horizontal, 50)
+        .padding(.horizontal)
     }
 }
 
