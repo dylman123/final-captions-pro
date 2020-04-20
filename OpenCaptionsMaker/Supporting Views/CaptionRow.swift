@@ -13,14 +13,20 @@ struct CaptionRow: View {
     
     // Write data back to model
     @EnvironmentObject var userData: UserData
+       
+    // The current caption object
+    var caption: Caption
     
     // To index the current caption
     var captionIndex: Int {
         return userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
-    // The current caption object
-    var caption: Caption
+    // The current caption binding
+    var captionBinding: Binding<Caption> {
+        let captionIndex = userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return $userData.captions[captionIndex]
+    }
     
     // To format the time values in text
     var timeFormatter: NumberFormatter {
@@ -34,38 +40,36 @@ struct CaptionRow: View {
     var buttonStyle = BorderlessButtonStyle()
     
     var body: some View {
-            
+                   
         // Contents of the row
         HStack(alignment: .center) {
             
             // Display caption timings
             VStack {
-                TextField("", value: $userData.captions[self.captionIndex].start, formatter: timeFormatter)
-                Spacer()
-                TextField("", value: $userData.captions[self.captionIndex].end, formatter: timeFormatter)
+                Stepper(value: self.captionBinding.start, step: -0.1) {
+                    TextField("", value: self.captionBinding.start, formatter: timeFormatter)
+                }
+                Stepper(value: self.captionBinding.end, step: -0.1) {
+                    TextField("", value: self.captionBinding.end, formatter: timeFormatter)
+                }
             }
-            .frame(width: 50.0)
+            .frame(width: 80.0)
             Spacer()
             
             // Display caption text
-            TextField("", text: $userData.captions[self.captionIndex].text)
+            TextField("", text: self.captionBinding.text)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .frame(width: 300)
             Spacer()
             
-            // Display speaker name
-            TextField("", text: $userData.captions[self.captionIndex].speakerName)
-                .frame(width: 80.0)
-                .multilineTextAlignment(.trailing)
-            
             // Display insert plus icon
             VStack {
-                Button(action: {self.userData.addCaption(beforeIndex: self.captionIndex, atTime: self.userData.captions[self.captionIndex].start)}) {
+                Button(action: {self.userData.addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
                     Image("plus")
                         .renderingMode(.original)
                         .resizable()
-                        .frame(width: 15, height: 15)
+                        .frame(width: 12, height: 12)
                         .colorInvert()
                 }
                 
@@ -76,16 +80,14 @@ struct CaptionRow: View {
                         Image("minus")
                             .renderingMode(.original)
                             .resizable()
-                            .frame(width: 15, height: 15)
+                            .frame(width: 12, height: 12)
                             .colorInvert()
                     }
                 }
             }
-            .offset(x: 5)
             .buttonStyle(buttonStyle)
         }
         .frame(height: 30)
-        .padding(.leading)
     }
 }
 

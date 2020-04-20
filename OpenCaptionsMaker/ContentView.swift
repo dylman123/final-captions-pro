@@ -24,19 +24,19 @@ struct ContentView: View {
         HStack {
             
             //Video player
-            FakeVideoExample()
-            //VideoView(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-            .frame(width: windowWidth/3, height: windowHeight/2)
-            .padding(.leading, 50)
-            
+            //FakeVideoExample()
+            VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
+                .frame(width: windowWidth*0.6, height: windowHeight*0.6)
+            .padding(.horizontal, 25)
+
             // Captions list
             VStack {
                 Headers()
                 CaptionList(selectedCaption: $selectedCaption)
                 .environmentObject(UserData())
             }
-            .frame(width: windowWidth/2, height: windowHeight*0.8)
-            .padding(.horizontal, 50)
+            .frame(width: windowWidth/3, height: windowHeight*0.8)
+            .padding(.horizontal, 25)
         }
         .frame(width: windowWidth, height: windowHeight)
     }

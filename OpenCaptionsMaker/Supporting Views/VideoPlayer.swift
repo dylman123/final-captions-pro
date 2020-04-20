@@ -1,5 +1,5 @@
 //
-//  VideoView.swift
+//  VideoPlayer.swift
 //  AVPlayer-SwiftUI
 //
 //  Created by Chris Mash on 11/09/2019.
@@ -76,19 +76,19 @@ class VideoPlayerNSView: NSView {
 }
 
 // This is the SwiftUI view which wraps the AppKit-based PlayerNSView above
-struct VideoPlayerView: NSViewRepresentable {
+struct VideoPlayerPaneView: NSViewRepresentable {
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
     
     let player: AVPlayer
     
-    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<VideoPlayerView>) {
+    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<VideoPlayerPaneView>) {
         // This function gets called if the bindings change, which could be useful if
         // you need to respond to external changes, but we don't in this example
     }
     
-    func makeNSView(context: NSViewRepresentableContext<VideoPlayerView>) -> NSView {
+    func makeNSView(context: NSViewRepresentableContext<VideoPlayerPaneView>) -> NSView {
         let nsView = VideoPlayerNSView(player: player,
                                        videoPos: $videoPos,
                                        videoDuration: $videoDuration,
@@ -128,18 +128,6 @@ struct VideoPlayerControlsView : View {
     @Binding private(set) var seeking: Bool
     
     let player: AVPlayer
-    
-//    // Current video time
-//    let videoTimeFormatter = DateComponentsFormatter()
-//    videoTimeFormatter.allowedUnits = [.hour, .minute, .second]
-//    videoTimeFormatter.unitsStyle = .positional
-//    let videoTimeDisplay = videoTimeFormatter.string(from: TimeInterval(videoPos * videoDuration))!
-//
-//    // Video duration
-//    let videoDurationFormatter = DateComponentsFormatter()
-//    videoDurationFormatter.allowedUnits = [.hour, .minute, .second]
-//    videoDurationFormatter.unitsStyle = .positional
-//    let videoDurationDisplay = videoDurationFormatter.string(from: TimeInterval(videoDuration))!
     
     @State private var playerPaused = true
     
@@ -215,7 +203,7 @@ struct VideoPlayerContainerView : View {
   
     var body: some View {
         VStack {
-            VideoPlayerView(videoPos: $videoPos,
+            VideoPlayerPaneView(videoPos: $videoPos,
                             videoDuration: $videoDuration,
                             seeking: $seeking,
                             player: player)
@@ -232,7 +220,7 @@ struct VideoPlayerContainerView : View {
 }
 
 // This is the main SwiftUI view for this app, containing a single PlayerContainerView
-struct VideoView: View {
+struct VideoPlayer: View {
     var url: String?
     
     init(url: String) {
@@ -246,8 +234,8 @@ struct VideoView: View {
     }
 }
 
-struct VideoView_Previews: PreviewProvider {
+struct VideoPlayer_Previews: PreviewProvider {
     static var previews: some View {
-        VideoView(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
+        VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
     }
 }
