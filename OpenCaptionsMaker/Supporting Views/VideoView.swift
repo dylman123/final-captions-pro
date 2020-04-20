@@ -6,6 +6,7 @@
 //  Copyright © 2019 Chris Mash. All rights reserved.
 //
 import SwiftUI
+import Foundation
 import AVFoundation
 
 // This is the NSView that contains the AVPlayerLayer for rendering the video
@@ -102,6 +103,22 @@ struct VideoPlayerView: NSViewRepresentable {
         
         playerNSView.cleanUp()
     }
+}
+
+class Utility: NSObject {
+    
+    private static var timeHMSFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        formatter.allowedUnits = [.minute, .second]
+        formatter.zeroFormattingBehavior = [.pad]
+        return formatter
+    }()
+    
+    static func formatSecondsToHMS(_ seconds: Double) -> String {
+        return timeHMSFormatter.string(from: seconds) ?? "00:00"
+    }
+    
 }
 
 // This is the SwiftUI view that contains the controls for the player

@@ -1,5 +1,5 @@
 //
-//  CaptionsList.swift
+//  CaptionList.swift
 //  OpenCaptionsMaker
 //
 //  Created by Dylan Klein on 15/4/20.
@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct CaptionsList: View {
+struct CaptionList: View {
     
-    // Write data back to model
+    // Read/write data back to model
     @EnvironmentObject var userData: UserData
     
     // Track the the selected caption
@@ -21,16 +21,16 @@ struct CaptionsList: View {
         // Dynamically read the list from captionData
         List(selection: $selectedCaption) {
             ForEach(userData.captions) { caption in
-                    CaptionsListRow(caption: caption).tag(caption)
+                    CaptionRow(caption: caption).tag(caption)
                         .padding(.vertical, 10)
             }
         }
     }
 }
 
-struct CaptionsList_Previews: PreviewProvider {
+struct CaptionList_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionsList(selectedCaption: .constant(captionData[0]))
+        CaptionList(selectedCaption: .constant(captionData[0]))
             .environmentObject(UserData())
     }
 }

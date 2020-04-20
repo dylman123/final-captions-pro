@@ -1,5 +1,5 @@
 //
-//  CaptionsListRow.swift
+//  CaptionRow.swift
 //  OpenCaptionsMaker
 //
 //  Created by Dylan Klein on 15/4/20.
@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-struct CaptionsListRow: View {
+struct CaptionRow: View {
     
     // Write data back to model
     @EnvironmentObject var userData: UserData
@@ -89,9 +89,9 @@ struct CaptionsListRow: View {
     }
 }
 
-struct CaptionsListRow_Previews: PreviewProvider {
+struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionsListRow(caption: captionData[0])
+        CaptionRow(caption: captionData[0])
             .frame(height: 50)
             .environmentObject(UserData())
     }
