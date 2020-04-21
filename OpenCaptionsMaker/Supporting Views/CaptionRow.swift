@@ -62,27 +62,23 @@ struct CaptionRow: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .frame(width: 300)
+                .offset(x: -30)
             Spacer()
             
             // Display insert plus icon
             VStack {
                 Button(action: {self.userData.addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
-                    Image("plus")
-                        .renderingMode(.original)
-                        .resizable()
+                    IconView("NSAddTemplate")
                         .frame(width: 12, height: 12)
-                        .colorInvert()
                 }
+
                 
                 Button(action: {
                     self.userData.deleteCaption(atIndex: self.captionIndex)
                 }) {
                     if self.userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
-                        Image("minus")
-                            .renderingMode(.original)
-                            .resizable()
-                            .frame(width: 12, height: 12)
-                            .colorInvert()
+                        IconView("NSRemoveTemplate")
+                        .frame(width: 12, height: 12)
                     }
                 }
             }
@@ -95,7 +91,7 @@ struct CaptionRow: View {
 struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
         CaptionRow(caption: captionData[0])
-            .frame(height: 50)
+            .frame(height: 100)
             .environmentObject(UserData())
     }
 }

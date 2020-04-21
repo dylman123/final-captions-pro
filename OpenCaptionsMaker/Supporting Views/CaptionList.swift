@@ -22,7 +22,7 @@ struct CaptionList: View {
         List(selection: $selectedCaption) {
             ForEach(userData.captions) { caption in
                     CaptionRow(caption: caption).tag(caption)
-                        .padding(.vertical, 5)
+                        .padding(.vertical, 10)
             }
         }
     }

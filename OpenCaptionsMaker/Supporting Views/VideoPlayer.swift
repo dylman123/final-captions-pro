@@ -135,8 +135,8 @@ struct VideoPlayerControlsView : View {
         HStack {
             // Play/pause button
             Button(action: togglePlayPause) {
-                Image(playerPaused ? "play" : "pause")
-                    .padding(.trailing, 10)
+                //Image(playerPaused ? "play" : "pause")
+                IconView(playerPaused ? "NSTouchBarPlayTemplate" : "NSTouchBarPauseTemplate")
             }
 
             // Current video time
