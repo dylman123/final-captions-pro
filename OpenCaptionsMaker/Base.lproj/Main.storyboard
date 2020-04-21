@@ -675,14 +675,36 @@
                     </connections>
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="OpenCaptionsMaker" customModuleProvider="target"/>
-                <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" id="QvO-gB-b6H">
-                    <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </progressIndicator>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="TWF-Dg-fm3">
+            <objects>
+                <viewController id="tCT-8M-sYA" sceneMemberID="viewController">
+                    <view key="view" id="7NG-QG-eR6">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="mcq-rf-uxC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="64" y="-254"/>
+        </scene>
+        <!--Page Controller-->
+        <scene sceneID="ife-cL-FLc">
+            <objects>
+                <pagecontroller id="RBc-xN-E3t" sceneMemberID="viewController">
+                    <view key="view" id="Ykb-ze-YDw">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </pagecontroller>
+                <customObject id="uRY-1v-bAP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="64" y="-647"/>
         </scene>
     </scenes>
 </document>

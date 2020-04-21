@@ -31,8 +31,17 @@ struct IconView: NSViewRepresentable {
 //  User to pick a color from  well
 struct ColorWellView: NSViewRepresentable {
   
+    class Coordinator {
+        
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+    
     func makeNSView(context: Context) -> NSColorWell {
         let well = NSColorWell()
+        //well.delegate = context.coordinator
         return well
     }
     
@@ -50,6 +59,42 @@ struct ProgressView: NSViewRepresentable {
     
     func updateNSView(_ nsView: NSProgressIndicator, context: Context) {
     }
+}
+
+struct PageController: NSViewControllerRepresentable {
+    
+    class Coordinator: NSObject, NSPageControllerDelegate {
+        var parent: PageController
+        
+        init(_ parent: PageController) {
+            self.parent = parent
+        }
+        
+        func nsPageController(_ picker: NSPageController, info: [NSPageController.InfoKey : Any]) {
+            if let nsView = info[.view] as? NSView {
+                parent.view = nsView
+            }
+            
+            parent.presentationMode.wrappedvalue.dismiss()
+        }
+    }
+    
+    @Binding var view: NSView?
+    @Environment(\.presentationMode) var presentationMode
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    func makeNSViewController(context: NSViewControllerRepresentableContext<PageController>) -> NSPageController {
+        let ctrl = NSPageController()
+        ctrl.delegate = context.coordinator as NSPageControllerDelegate
+        return ctrl
+    }
+    
+    func updateNSViewController(_ nsPageController: NSPageController, context: NSViewControllerRepresentableContext<PageController>) {
+    }
+    
 }
 
 struct AppKitElements_Previews: PreviewProvider {

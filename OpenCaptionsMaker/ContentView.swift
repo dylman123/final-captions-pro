@@ -22,12 +22,15 @@ struct ContentView: View {
         
         // Window view for edit screen
         HStack {
-            
-            //Video player
-            //FakeVideoExample()
-            VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-                .frame(width: windowWidth*0.6, height: windowHeight*0.6)
-            .padding(.horizontal, 25)
+
+            VStack {
+                //Video player
+                //FakeVideoExample()
+                VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
+                    .frame(width: windowWidth*0.6, height: windowHeight*0.6)
+                    .padding(.horizontal, 25)
+                ColorWellView().frame(width: 40, height: 30)
+            }
 
             // Captions list
             VStack {
