@@ -12,6 +12,7 @@
 		A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1542448788100CD1C15 /* VideoPlayer.swift */; };
 		A36655D0244DC0B7002FA173 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655CF244DC0B7002FA173 /* ProgressBar.swift */; };
 		A36655D2244DC0DA002FA173 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A36655D1244DC0DA002FA173 /* MainMenu.xib */; };
+		A36655D5244EDC29002FA173 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655BC24499293002FA173 /* IconView.swift */; };
 		A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */; };
 		A37FD1402446C66700CD1C15 /* CaptionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13F2446C66700CD1C15 /* CaptionRow.swift */; };
 		A37FD1432446C99D00CD1C15 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1422446C99D00CD1C15 /* Headers.swift */; };
@@ -45,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A36655BC24499293002FA173 /* MySVGView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySVGView.swift; sourceTree = "<group>"; };
+		A36655BC24499293002FA173 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		A36655BE244993A0002FA173 /* Plus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plus.swift; sourceTree = "<group>"; };
 		A36655C4244A8F1D002FA173 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		A36655CD244D7E95002FA173 /* FileInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInput.swift; sourceTree = "<group>"; };
@@ -142,7 +143,7 @@
 		A37FD151244804D300CD1C15 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A36655BC24499293002FA173 /* MySVGView.swift */,
+				A36655BC24499293002FA173 /* IconView.swift */,
 				A36655BE244993A0002FA173 /* Plus.swift */,
 				A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */,
 			);
@@ -358,6 +359,7 @@
 				A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */,
 				A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */,
 				A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */,
+				A36655D5244EDC29002FA173 /* IconView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
