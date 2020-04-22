@@ -11,19 +11,16 @@ import AppKit
 
 struct FileInput: View {
     
-    @State private var val: Double = 0
+    @State private var isPressed: Bool = false
+    let dialog: NSOpenPanel = NSOpenPanel()
     
     var body: some View {
         
-        func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<FileInput>) {
-            // This function gets called if the bindings change, which could be useful if
-            // you need to respond to external changes, but we don't in this example
-        }
-        
-        func makeNSView(context: NSViewRepresentableContext<FileInput>) -> NSView {
-            let nsView = NSDocumentController()
-            
-            return nsView
+        Button(action: {
+            self.isPressed.toggle()
+            self.dialog.runModal()
+        }) {
+            Text("Select video from file")
         }
         
     }

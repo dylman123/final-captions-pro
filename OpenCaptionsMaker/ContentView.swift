@@ -15,8 +15,9 @@ struct ContentView: View {
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
-    // A variable to track the selected row
-    @State private var selectedCaption: Caption?
+
+    @State private var selectedCaption: Caption?  //  To track the selected row
+    @State private var display: Bool = true  //  To display overlaying file input sheet
     
     var body: some View {
         
@@ -27,9 +28,8 @@ struct ContentView: View {
                 //Video player
                 //FakeVideoExample()
                 VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-                    .frame(width: windowWidth*0.6, height: windowHeight*0.6)
+                    .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.6)
                     .padding(.horizontal, 25)
-                ColorWellView().frame(width: 40, height: 30)
             }
 
             // Captions list
@@ -38,10 +38,15 @@ struct ContentView: View {
                 CaptionList(selectedCaption: $selectedCaption)
                 .environmentObject(UserData())
             }
-            .frame(width: windowWidth/3, height: windowHeight*0.8)
+            .frame(width: self.windowWidth/3, height: self.windowHeight*0.8)
             .padding(.horizontal, 25)
         }
-        .frame(width: windowWidth, height: windowHeight)
+        .frame(width: self.windowWidth, height: self.windowHeight)
+        .sheet(isPresented: $display, content: {
+            FileInput()
+                .padding()
+                .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
+        })
     }
 }
 
