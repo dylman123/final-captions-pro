@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -679,32 +678,6 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="TWF-Dg-fm3">
-            <objects>
-                <viewController id="tCT-8M-sYA" sceneMemberID="viewController">
-                    <view key="view" id="7NG-QG-eR6">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="mcq-rf-uxC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="64" y="-254"/>
-        </scene>
-        <!--Page Controller-->
-        <scene sceneID="ife-cL-FLc">
-            <objects>
-                <pagecontroller id="RBc-xN-E3t" sceneMemberID="viewController">
-                    <view key="view" id="Ykb-ze-YDw">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </pagecontroller>
-                <customObject id="uRY-1v-bAP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="64" y="-647"/>
         </scene>
     </scenes>
 </document>
