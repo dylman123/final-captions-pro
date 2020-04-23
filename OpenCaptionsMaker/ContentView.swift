@@ -36,7 +36,7 @@ struct ContentView: View {
             VStack {
                 Headers()
                 CaptionList(selectedCaption: $selectedCaption)
-                .environmentObject(UserData())
+                .environmentObject(CaptionData())
             }
             .frame(width: self.windowWidth/3, height: self.windowHeight*0.8)
             .padding(.horizontal, 25)

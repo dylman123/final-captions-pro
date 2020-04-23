@@ -13,20 +13,20 @@ import AppKit
 struct CaptionRow: View {
     
     // Write data back to model
-    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var captionData: CaptionData
        
     // The current caption object
     var caption: Caption
     
     // To index the current caption
     var captionIndex: Int {
-        return userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return captionData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
-        let captionIndex = userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
-        return $userData.captions[captionIndex]
+        let captionIndex = captionData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return $captionData.captions[captionIndex]
     }
     
     // To format the time values in text
@@ -67,16 +67,16 @@ struct CaptionRow: View {
             
             // Display insert plus icon
             VStack {
-                Button(action: {self.userData.addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
+                Button(action: {self.captionData.addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
                     IconView("NSAddTemplate")
                         .frame(width: 12, height: 12)
                 }
 
                 
                 Button(action: {
-                    self.userData.deleteCaption(atIndex: self.captionIndex)
+                    self.captionData.deleteCaption(atIndex: self.captionIndex)
                 }) {
-                    if self.userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
+                    if self.captionData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
                         IconView("NSRemoveTemplate")
                         .frame(width: 12, height: 12)
                     }
@@ -92,6 +92,6 @@ struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
         CaptionRow(caption: captionData[0])
             .frame(height: 100)
-            .environmentObject(UserData())
+            .environmentObject(CaptionData())
     }
 }

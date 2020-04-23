@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class UserData: ObservableObject {
+class CaptionData: ObservableObject {
     
     @Published var captions: [Caption] = captionData
     

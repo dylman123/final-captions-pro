@@ -11,7 +11,7 @@ import SwiftUI
 struct CaptionList: View {
     
     // Read/write data back to model
-    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var captionData: CaptionData
     
     // Track the the selected caption
     @Binding var selectedCaption: Caption?
@@ -20,7 +20,7 @@ struct CaptionList: View {
         
         // Dynamically read the list from captionData
         List(selection: $selectedCaption) {
-            ForEach(userData.captions) { caption in
+            ForEach(captionData.captions) { caption in
                     CaptionRow(caption: caption).tag(caption)
                         .padding(.vertical, 10)
             }
@@ -31,6 +31,6 @@ struct CaptionList: View {
 struct CaptionList_Previews: PreviewProvider {
     static var previews: some View {
         CaptionList(selectedCaption: .constant(captionData[0]))
-            .environmentObject(UserData())
+            .environmentObject(CaptionData())
     }
 }
