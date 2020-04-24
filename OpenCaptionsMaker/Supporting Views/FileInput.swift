@@ -11,10 +11,8 @@ import AppKit
 
 struct FileInput: View {
     
-    @State private var isPressed: Bool = false
-    //@EnvironmentObject var filePath: FilePath
-    
-    var filePath: String? {
+    // Store the video filepath in videoPath
+    var videoPath: String? {
         let dialog = NSOpenPanel()
         dialog.showsResizeIndicator = true
         dialog.showsHiddenFiles = false
@@ -37,8 +35,7 @@ struct FileInput: View {
     var body: some View {
         
         Button(action: {
-            self.isPressed.toggle()
-                print(self.filePath ?? "No file selected")
+            print(self.videoPath ?? "No file selected")
         }) {
             Text("Select video from file")
         }
