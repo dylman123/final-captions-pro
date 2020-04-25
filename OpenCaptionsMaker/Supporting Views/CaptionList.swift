@@ -11,7 +11,7 @@ import SwiftUI
 struct CaptionList: View {
     
     // Read/write data back to model
-    @EnvironmentObject var captionData: CaptionData
+    @EnvironmentObject var captionData: UserData
     
     // Track the the selected caption
     @Binding var selectedCaption: Caption?
@@ -31,6 +31,6 @@ struct CaptionList: View {
 struct CaptionList_Previews: PreviewProvider {
     static var previews: some View {
         CaptionList(selectedCaption: .constant(captionData[0]))
-            .environmentObject(CaptionData())
+            .environmentObject(UserData())
     }
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 import AVFoundation
+import AVKit
 
 // This is the NSView that contains the AVPlayerLayer for rendering the video
 class VideoPlayerNSView: NSView {
@@ -234,9 +235,21 @@ struct VideoPlayer: View {
     }
 }
 
-struct VideoPlayer_Previews: PreviewProvider {
-    static var previews: some View {
-        VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
+struct TestVideoView: NSViewRepresentable {
+    
+    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<TestVideoView>) {
+        // This function gets called if the bindings change, which could be useful if
+        // you need to respond to external changes, but we don't in this example
+    }
+    
+    func makeNSView(context: NSViewRepresentableContext<TestVideoView>) -> NSView {
+        let nsView = AVPlayerView()
+        return nsView
     }
 }
 
+struct VideoPlayer_Previews: PreviewProvider {
+    static var previews: some View {
+        TestVideoView()
+    }
+}

@@ -7,9 +7,13 @@
 //
 
 import SwiftUI
+import Combine
 import AppKit
 
 struct FileInput: View {
+    
+    // Write data back to model
+    @EnvironmentObject var captionData: UserData
     
     // Store the video filepath in videoPath
     var videoPath: String? {
@@ -36,6 +40,7 @@ struct FileInput: View {
         
         Button(action: {
             print(self.videoPath ?? "No file selected")
+            
         }) {
             Text("Select video from file")
         }

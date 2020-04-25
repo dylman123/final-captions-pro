@@ -7,7 +7,8 @@
 //
 
 import SwiftUI
-import AVFoundation
+//import AVFoundation
+import AVKit
 
 struct ContentView: View {
     
@@ -27,8 +28,9 @@ struct ContentView: View {
             VStack {
                 //Video player
                 //FakeVideoExample()
-                VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-                    .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.6)
+                //VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
+                TestVideoView()
+                    .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
                     .padding(.horizontal, 25)
             }
 
@@ -36,17 +38,17 @@ struct ContentView: View {
             VStack {
                 Headers()
                 CaptionList(selectedCaption: $selectedCaption)
-                .environmentObject(CaptionData())
+                .environmentObject(UserData())
             }
             .frame(width: self.windowWidth/3, height: self.windowHeight*0.8)
             .padding(.horizontal, 25)
         }
         .frame(width: self.windowWidth, height: self.windowHeight)
-        .sheet(isPresented: $display, content: {
+        /*.sheet(isPresented: $display, content: {
             FileInput()
                 .padding()
                 .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
-        })
+        })*/
     }
 }
 

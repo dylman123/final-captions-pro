@@ -5,9 +5,12 @@
 //  Created by Dylan Klein on 24/4/20.
 //  Copyright © 2020 Dylan Klein. All rights reserved.
 //
+//
+//  generateCaptions() is the top level function which is called upon video file import.
+//    - Input: Video filepath
+//    - Output: Array of Caption objects, returned as captionData
 
-//  Top level function which is called upon video file import
-func generateCaptions(forFile videoPath: String) {
+func generateCaptions(forFile videoPath: String) -> [Caption] {
     
     //  Extract audio from video file
     var audioPath: String = ""
@@ -18,7 +21,7 @@ func generateCaptions(forFile videoPath: String) {
     transcriptionData = transcribeAudio(ofAudioFile: audioPath)
     
     //  Form captions from the transcribed data
-    var captionData: [String:String] = ["":""]
+    var captionData: [Caption]
     captionData = formCaptions(fromData: transcriptionData)
     
     return captionData
@@ -40,6 +43,9 @@ func transcribeAudio(ofAudioFile audioPath: String) -> [String:String] {
     return transcriptionData
 }
 
-func formCaptions(fromData transcriptionData: [String:String]) -> [String:String] {
+func formCaptions(fromData transcriptionData: [String:String]) -> [Caption] {
+    var captionData: [Caption] = []
+    //  Insert code to form captions from a JSON structured API response
     
+    return captionData
 }

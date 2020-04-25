@@ -13,7 +13,7 @@ import AppKit
 struct CaptionRow: View {
     
     // Write data back to model
-    @EnvironmentObject var captionData: CaptionData
+    @EnvironmentObject var captionData: UserData
        
     // The current caption object
     var caption: Caption
@@ -67,14 +67,14 @@ struct CaptionRow: View {
             
             // Display insert plus icon
             VStack {
-                Button(action: {self.captionData.addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
+                Button(action: {self.captionData._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
                     IconView("NSAddTemplate")
                         .frame(width: 12, height: 12)
                 }
 
                 
                 Button(action: {
-                    self.captionData.deleteCaption(atIndex: self.captionIndex)
+                    self.captionData._deleteCaption(atIndex: self.captionIndex)
                 }) {
                     if self.captionData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
                         IconView("NSRemoveTemplate")
@@ -92,6 +92,6 @@ struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
         CaptionRow(caption: captionData[0])
             .frame(height: 100)
-            .environmentObject(CaptionData())
+            .environmentObject(UserData())
     }
 }
