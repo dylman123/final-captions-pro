@@ -14,7 +14,7 @@ class UserData: ObservableObject {
     
     // A boolean to indicate whether or not to show the fileInput sheet
     @Published var displayFileInput: Bool = true
-    
+
     // The global array which is to be generated via transcription API and edited by the user
     @Published var captions: [Caption] = captionData
     //@Published var captions: [Caption] = generateCaptions() // when function is set up

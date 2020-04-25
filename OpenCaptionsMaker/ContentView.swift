@@ -45,6 +45,7 @@ struct ContentView: View {
         .frame(width: self.windowWidth, height: self.windowHeight)
         .sheet(isPresented: $userData.displayFileInput, content: {
             FileInput()
+                .environmentObject(UserData())
                 .padding()
                 .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
         })
