@@ -13,20 +13,20 @@ import AppKit
 struct CaptionRow: View {
     
     // Write data back to model
-    @EnvironmentObject var captionData: UserData
+    @EnvironmentObject var userData: UserData
        
     // The current caption object
     var caption: Caption
     
     // To index the current caption
     var captionIndex: Int {
-        return captionData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
-        let captionIndex = captionData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
-        return $captionData.captions[captionIndex]
+        let captionIndex = userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return $userData.captions[captionIndex]
     }
     
     // To format the time values in text
@@ -67,16 +67,16 @@ struct CaptionRow: View {
             
             // Display insert plus icon
             VStack {
-                Button(action: {self.captionData._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
+                Button(action: {self.userData._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
                     IconView("NSAddTemplate")
                         .frame(width: 12, height: 12)
                 }
 
                 
                 Button(action: {
-                    self.captionData._deleteCaption(atIndex: self.captionIndex)
+                    self.userData._deleteCaption(atIndex: self.captionIndex)
                 }) {
-                    if self.captionData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
+                    if self.userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
                         IconView("NSRemoveTemplate")
                         .frame(width: 12, height: 12)
                     }

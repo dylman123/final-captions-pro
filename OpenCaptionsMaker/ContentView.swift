@@ -16,9 +16,8 @@ struct ContentView: View {
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
-
+    @EnvironmentObject var userData: UserData
     @State private var selectedCaption: Caption?  //  To track the selected row
-    @State private var display: Bool = true  //  To display overlaying file input sheet
     
     var body: some View {
         
@@ -44,16 +43,16 @@ struct ContentView: View {
             .padding(.horizontal, 25)
         }
         .frame(width: self.windowWidth, height: self.windowHeight)
-        /*.sheet(isPresented: $display, content: {
+        .sheet(isPresented: $userData.displayFileInput, content: {
             FileInput()
                 .padding()
                 .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
-        })*/
+        })
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(UserData())
     }
 }

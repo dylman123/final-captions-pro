@@ -13,7 +13,7 @@ import AppKit
 struct FileInput: View {
     
     // Write data back to model
-    @EnvironmentObject var captionData: UserData
+    @EnvironmentObject var userData: UserData
     
     // Store the video filepath in videoPath
     var videoPath: String? {
@@ -39,8 +39,8 @@ struct FileInput: View {
     var body: some View {
         
         Button(action: {
+            self.userData.displayFileInput.toggle()  // FIXME: Keeps crashing app!
             print(self.videoPath ?? "No file selected")
-            
         }) {
             Text("Select video from file")
         }
@@ -51,6 +51,6 @@ struct FileInput: View {
 struct FileInput_Previews: PreviewProvider {
     
     static var previews: some View {
-        FileInput()
+        FileInput().environmentObject(UserData())
     }
 }
