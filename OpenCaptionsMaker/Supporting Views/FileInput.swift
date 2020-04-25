@@ -15,8 +15,11 @@ struct FileInput: View {
     // Write data back to model
     @EnvironmentObject var userData: UserData
     
-    // Store the video filepath in videoPath
-    var videoPath: String? {
+    // To show/hide the FileInput view
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+        
+    // Function to prompt user to import a video file
+    func openFileDialog() -> String? {
         let dialog = NSOpenPanel()
         dialog.showsResizeIndicator = true
         dialog.showsHiddenFiles = false
@@ -39,8 +42,14 @@ struct FileInput: View {
     var body: some View {
         
         Button(action: {
-            self.userData.displayFileInput.toggle()  // FIXME: Keeps crashing app!
-            print(self.videoPath ?? "No file selected")
+            let videoPath: String? = self.openFileDialog()
+            print("Selected file has path: \(videoPath ?? "None")")
+            if videoPath != nil {
+                // Close the FileInput view
+                self.userData.displayFileInput.toggle()
+                self.presentationMode.wrappedValue.dismiss()
+            }
+
         }) {
             Text("Select video from file")
         }
