@@ -42,14 +42,19 @@ struct FileInput: View {
     var body: some View {
         
         Button(action: {
+            
             let videoPath: String? = self.openFileDialog()
             print("Selected file has path: \(videoPath ?? "None")")
+            
             if videoPath != nil {
+                
                 // Close the FileInput view
                 self.userData.displayFileInput.toggle()
                 self.presentationMode.wrappedValue.dismiss()
+                
+                // Proceed to caption generation step
+                self.userData._generateCaptions(forFile: videoPath!)
             }
-
         }) {
             Text("Select video from file")
         }
