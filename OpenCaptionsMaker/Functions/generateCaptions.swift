@@ -14,25 +14,32 @@ import AVFoundation
 func generateCaptions(forFile videoPath: String) -> [Caption] {
     
     //  Extract audio from video file
-    var audioPath: String = ""
-    audioPath = extractAudio(fromVideoFile: videoPath)
+    let videoURL: URL = URL(fileURLWithPath: videoPath)
+    let audioURL: URL = URL(fileURLWithPath: ".temp/audiofile.wav")
+    extractAudio(fromVideoFile: videoURL, andSaveAudioAs: audioURL) { audioURL in
+        DispatchQueue.main.async {
+            let transcriptionData: [String:String]
+            transcriptionData = transcribeAudio(ofAudioFile: audioURL)
+        }
+    }
     
     //  Transcribe audio using Google Cloud Speech to Text API
-    var transcriptionData: [String:String] = ["":""]
-    transcriptionData = transcribeAudio(ofAudioFile: audioPath)
+    //var transcriptionData: [String:String] = ["":""]
+    //transcriptionData = transcribeAudio(ofAudioFile: audioURL)
     
     //  Form captions from the transcribed data
-    var captionData: [Caption]
-    captionData = formCaptions(fromData: transcriptionData)
+    //var captionData: [Caption]
+    //captionData = formCaptions(fromData: transcriptionData)
     
     return captionData
 }
 
-func extractAudio(fromVideoFile videoPath: String) -> String {
+func extractAudio(fromVideoFile videoURL: URL, andSaveAudioAs audioURL: URL, completion: @escaping (URL) -> Void) {
     
+    var audioFinished = false
     var assetWriter: AVAssetWriter?
     var assetReader: AVAssetReader?
-    let asset = AVAsset(url: URL(fileURLWithPath: videoPath))
+    let asset = AVAsset(url: videoURL)
     
     //  Create asset reader
     do {
@@ -60,9 +67,8 @@ func extractAudio(fromVideoFile videoPath: String) -> String {
     let audioInputQueue = DispatchQueue(label: "audioQueue")
     
     //  Write to the new asset
-    let audioPath: String = "./temp/audiofile.wav"
     do {
-        assetWriter = try AVAssetWriter(outputURL: URL(fileURLWithPath: audioPath), fileType: AVFileType.wav)
+        assetWriter = try AVAssetWriter(outputURL: audioURL, fileType: AVFileType.wav)
     } catch {
         assetWriter = nil
     }
@@ -73,17 +79,41 @@ func extractAudio(fromVideoFile videoPath: String) -> String {
     writer.add(audioInput)
     writer.startWriting()
     reader.startReading()
-    writer.startSession(atSourceTime: kCMTimeEpochKey)
+    writer.startSession(atSourceTime: CMTime.zero)
     
+    //  Closure to finish off the reading & writing functions
+    let closeWriter: () -> Void = {
+        if audioFinished {
+            assetWriter?.finishWriting(completionHandler: {
+                completion((assetWriter?.outputURL)!)
+            })
+            assetReader?.cancelReading()
+        }
+    }
     
+    audioInput.requestMediaDataWhenReady(on: audioInputQueue) {
+        while(audioInput.isReadyForMoreMediaData) {
+            let sample = assetReaderAudioOutput.copyNextSampleBuffer()
+            if (sample != nil) {
+                audioInput.append(sample!)
+            } else {
+                audioInput.markAsFinished()
+                DispatchQueue.main.async {
+                    audioFinished = true
+                    closeWriter()
+                }
+                break;
+            }
+        }
+    }
     
-    return audioPath
 }
 
-func transcribeAudio(ofAudioFile audioPath: String) -> [String:String] {
+func transcribeAudio(ofAudioFile audioPath: URL) -> [String:String] {
     var transcriptionData: [String:String] = ["":""]
     
     //  Insert code to transcribe audio
+    print("We made it to this point! Audio URL is \(audioPath)")
     
     return transcriptionData
 }
