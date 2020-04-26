@@ -6,6 +6,7 @@
 //  Copyright © 2020 Dylan Klein. All rights reserved.
 //
 //
+import Foundation
 import AVFoundation
 
 // generateCaptions() is the top level function which is called upon video file import.
@@ -83,7 +84,7 @@ func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([
     }
     
     // URL Request
-    var request = URLRequest(url: url!)
+    var request = URLRequest(url: url!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30.0)
     
     // Specify the header
     let headers = [
@@ -95,13 +96,13 @@ func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([
     request.allHTTPHeaderFields = headers
     
     // Specify the body
-    let jsonObject: [String:String] = [
-        "media_url": String(describing: audioPath),
+    let parameters: [String:Any] = [
+        "media_url": "https://support.rev.com/hc/en-us/article_attachments/200043975/FTC_Sample_1_-_Single.mp3",
         "metadata": "Optional metadata associated with the job",
         "callback_url": "https://www.example.com/callback"
     ]
     do {
-        let requestBody = try JSONSerialization.data(withJSONObject: jsonObject, options: .fragmentsAllowed)
+        let requestBody = try JSONSerialization.data(withJSONObject: parameters, options: .fragmentsAllowed)
         request.httpBody = requestBody
     } catch {
         print("Error creating the data object from the JSON object.")
@@ -122,7 +123,7 @@ func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([
             // Try to parse out the data
             do {
                 let dictionary = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? [String:Any]
-                print(dictionary)
+                print(dictionary!)
             } catch {
                 print("Error parsing response data.")
             }
