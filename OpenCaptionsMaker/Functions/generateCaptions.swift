@@ -15,11 +15,14 @@ func generateCaptions(forFile videoPath: String) -> [Caption] {
     
     //  Extract audio from video file
     let videoURL: URL = URL(fileURLWithPath: videoPath)
-    let audioURL: URL = URL(fileURLWithPath: ".temp/audiofile.wav")
-    extractAudio(fromVideoFile: videoURL, andSaveAudioAs: audioURL) { audioURL in
-        DispatchQueue.main.async {
-            let transcriptionData: [String:String]
-            transcriptionData = transcribeAudio(ofAudioFile: audioURL)
+    var audioURL: URL?
+    extractAudio(fromVideoFile: videoURL) { outputURL, error in
+        if outputURL != nil {
+            audioURL = outputURL
+            print("The audio URL is: \(audioURL!)")
+        }
+        else if error != nil {
+            print(error!)
         }
     }
     
@@ -34,79 +37,40 @@ func generateCaptions(forFile videoPath: String) -> [Caption] {
     return captionData
 }
 
-func extractAudio(fromVideoFile videoURL: URL, andSaveAudioAs audioURL: URL, completion: @escaping (URL) -> Void) {
-    
-    var audioFinished = false
-    var assetWriter: AVAssetWriter?
-    var assetReader: AVAssetReader?
-    let asset = AVAsset(url: videoURL)
-    
-    //  Create asset reader
+func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (URL?, Error?) -> Void) {
+    // Create a composition
+    let composition = AVMutableComposition()
     do {
-        assetReader = try AVAssetReader(asset: asset)
+        // Creat an AVAsset from the video's sourceURL
+        let asset = AVURLAsset(url: sourceURL)
+        guard let audioAssetTrack = asset.tracks(withMediaType: AVMediaType.audio).first else { return }
+        guard let audioCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) else { return }
+        try audioCompositionTrack.insertTimeRange(audioAssetTrack.timeRange, of: audioAssetTrack, at: CMTime.zero)
     } catch {
-        assetReader = nil
+        completionHandler(nil, error)
     }
-    guard let reader = assetReader else {
-        fatalError("Could not initialize assetReader.")
+
+    // Get URL for output
+    let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "extracted-audio.m4a")
+    if FileManager.default.fileExists(atPath: outputURL.path) {
+        try? FileManager.default.removeItem(atPath: outputURL.path)
     }
-    
-    //  Create audio track
-    let audioTrack = asset.tracks(withMediaType: AVMediaType.audio).first!
-    
-    //  Define settings for the audio output reader
-    let assetReaderAudioOutput = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: nil)
-    if reader.canAdd(assetReaderAudioOutput) {
-        reader.add(assetReaderAudioOutput)
-    } else {
-        fatalError("Couldn't add audio output reader.")
-    }
-    
-    //  Create the AVAssetWriterInput & dispatch queue
-    let audioInput = AVAssetWriterInput(mediaType: AVMediaType.audio, outputSettings: nil)
-    let audioInputQueue = DispatchQueue(label: "audioQueue")
-    
-    //  Write to the new asset
-    do {
-        assetWriter = try AVAssetWriter(outputURL: audioURL, fileType: AVFileType.wav)
-    } catch {
-        assetWriter = nil
-    }
-    guard let writer = assetWriter else {
-        fatalError("Could not initialize assetWriter.")
-    }
-    writer.shouldOptimizeForNetworkUse = true
-    writer.add(audioInput)
-    writer.startWriting()
-    reader.startReading()
-    writer.startSession(atSourceTime: CMTime.zero)
-    
-    //  Closure to finish off the reading & writing functions
-    let closeWriter: () -> Void = {
-        if audioFinished {
-            assetWriter?.finishWriting(completionHandler: {
-                completion((assetWriter?.outputURL)!)
-            })
-            assetReader?.cancelReading()
+
+    // Create an export session
+    let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!
+    exportSession.outputFileType = AVFileType.m4a
+    exportSession.outputURL = outputURL
+
+    // Export file
+    exportSession.exportAsynchronously {
+        guard case exportSession.status = AVAssetExportSession.Status.completed else { return }
+
+        DispatchQueue.main.async {
+            guard let outputURL = exportSession.outputURL else { return }
+            completionHandler(outputURL, nil)
         }
     }
-    
-    audioInput.requestMediaDataWhenReady(on: audioInputQueue) {
-        while(audioInput.isReadyForMoreMediaData) {
-            let sample = assetReaderAudioOutput.copyNextSampleBuffer()
-            if (sample != nil) {
-                audioInput.append(sample!)
-            } else {
-                audioInput.markAsFinished()
-                DispatchQueue.main.async {
-                    audioFinished = true
-                    closeWriter()
-                }
-                break;
-            }
-        }
-    }
-    
+    return
 }
 
 func transcribeAudio(ofAudioFile audioPath: URL) -> [String:String] {
