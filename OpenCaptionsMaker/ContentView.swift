@@ -43,11 +43,18 @@ struct ContentView: View {
             .padding(.horizontal, 25)
         }
         .frame(width: self.windowWidth, height: self.windowHeight)
-        .sheet(isPresented: $userData.displayFileInput, content: {
-            FileInput()
-                .environmentObject(UserData())
-                .padding()
-                .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
+        .sheet(isPresented: $userData.showTaskPane, content: {
+            if self.userData.showFileInput {
+                FileInput()
+                    .environmentObject(UserData())
+                    .padding()
+                    .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
+            }
+            else if self.userData.showProgressBar {
+                ProgressView()
+                    .padding()
+                    .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
+            }
         })
     }
 }

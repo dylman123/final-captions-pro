@@ -9,26 +9,27 @@
 import AVFoundation
 
 //  generateCaptions() is the top level function which is called upon video file import.
-//    - Input: Video filepath
+//    - Input: Video filepath URL
 //    - Output: Array of Caption objects, returned as captionData
-func generateCaptions(forFile videoPath: String) -> [Caption] {
+func generateCaptions(forFile videoURL: URL) -> [Caption] {
     
-    //  Extract audio from video file
-    let videoURL: URL = URL(fileURLWithPath: videoPath)
-    var audioURL: URL?
-    extractAudio(fromVideoFile: videoURL) { outputURL, error in
-        if outputURL != nil {
-            audioURL = outputURL
-            print("The audio URL is: \(audioURL!)")
+    //  Extract audio from video file and asynchronously return result in a closure
+    extractAudio(fromVideoFile: videoURL) { audioURL, error in
+        if audioURL != nil {
+            print("Extracted audio file has URL path: \(audioURL!)")
+            
+            //  Transcribe audio using Google Cloud Speech to Text API and asynchronously return result in a closure
+            var transcriptionData: [String:String]?
+            //transcribeAudio(ofAudioFile: audioURL!) { textURL, error in
+                
+            //}
         }
         else if error != nil {
             print(error!)
         }
     }
     
-    //  Transcribe audio using Google Cloud Speech to Text API
-    //var transcriptionData: [String:String] = ["":""]
-    //transcriptionData = transcribeAudio(ofAudioFile: audioURL)
+
     
     //  Form captions from the transcribed data
     //var captionData: [Caption]

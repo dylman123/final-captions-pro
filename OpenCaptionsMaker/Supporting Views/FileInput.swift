@@ -19,7 +19,7 @@ struct FileInput: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
         
     // Function to prompt user to import a video file
-    func openFileDialog() -> String? {
+    func openFileDialog() -> URL? {
         let dialog = NSOpenPanel()
         dialog.showsResizeIndicator = true
         dialog.showsHiddenFiles = false
@@ -30,7 +30,7 @@ struct FileInput: View {
         if (dialog.runModal() ==  NSApplication.ModalResponse.OK) {
             let result = dialog.url  // Pathname of the file
             if (result != nil) {
-                let path: String = result!.path
+                let path: URL = result!.absoluteURL
                 return path// path contains the file path e.g
             }
         } else {
@@ -43,17 +43,20 @@ struct FileInput: View {
         
         Button(action: {
             
-            let videoPath: String? = self.openFileDialog()
-            print("Selected file has path: \(videoPath ?? "None")")
+            let videoPath: URL? = self.openFileDialog()
             
             if videoPath != nil {
+                print("Selected video file has URL path: \(String(describing: videoPath!))")
                 
                 // Close the FileInput view
-                self.userData.displayFileInput.toggle()
+                self.userData.showFileInput.toggle()
                 self.presentationMode.wrappedValue.dismiss()
                 
                 // Proceed to caption generation step
                 self.userData._generateCaptions(forFile: videoPath!)
+            }
+            else {
+                print("No file was selected.")
             }
         }) {
             Text("Select video from file")

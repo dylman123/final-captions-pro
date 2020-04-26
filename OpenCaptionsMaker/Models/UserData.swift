@@ -12,15 +12,17 @@ import Combine
 
 class UserData: ObservableObject {
     
-    // A boolean to indicate whether or not to show the fileInput sheet
-    @Published var displayFileInput: Bool = true
+    // Boolean values to handle the logic of showing the task pane
+    @Published var showTaskPane: Bool = true
+    @Published var showFileInput: Bool = true
+    @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
     @Published var captions: [Caption] = captionData
     //@Published var captions: [Caption] = generateCaptions() // when function is set up
     
     // Generates captions by using a transcription service
-    func _generateCaptions(forFile videoPath: String) {
+    func _generateCaptions(forFile videoPath: URL) {
         self.captions = generateCaptions(forFile: videoPath)
     }
     
