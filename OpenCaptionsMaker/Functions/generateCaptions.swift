@@ -8,21 +8,20 @@
 //
 import AVFoundation
 
-//  generateCaptions() is the top level function which is called upon video file import.
-//    - Input: Video filepath URL
-//    - Output: Array of Caption objects, returned as captionData
+// generateCaptions() is the top level function which is called upon video file import.
+//   - Input: Video filepath URL
+//   - Output: Array of Caption objects, returned as captionData
 func generateCaptions(forFile videoURL: URL) -> [Caption] {
     
-    //  Extract audio from video file and asynchronously return result in a closure
+    // Extract audio from video file and asynchronously return result in a closure
     extractAudio(fromVideoFile: videoURL) { audioURL, error in
         if audioURL != nil {
             print("Extracted audio file has URL path: \(audioURL!)")
             
-            //  Transcribe audio using Google Cloud Speech to Text API and asynchronously return result in a closure
-            var transcriptionData: [String:String]?
-            //transcribeAudio(ofAudioFile: audioURL!) { textURL, error in
+            // Transcribe audio using a Speech to Text API and asynchronously return result in a closure
+            transcribeAudio(ofAudioFile: audioURL!) { transcriptionData, error in
                 
-            //}
+            }
         }
         else if error != nil {
             print(error!)
@@ -31,7 +30,7 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
     
 
     
-    //  Form captions from the transcribed data
+    // Form captions from the transcribed data
     //var captionData: [Caption]
     //captionData = formCaptions(fromData: transcriptionData)
     
@@ -74,18 +73,72 @@ func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (UR
     return
 }
 
-func transcribeAudio(ofAudioFile audioPath: URL) -> [String:String] {
-    var transcriptionData: [String:String] = ["":""]
+func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([String:Any]?, Error?) -> Void) {
+  
+    // URL
+    let url = URL(string: "https://rev-ai.p.rapidapi.com/jobs")
+    guard url != nil else {
+        print("Error creating URL object.")
+        return
+    }
     
-    //  Insert code to transcribe audio
-    print("We made it to this point! Audio URL is \(audioPath)")
+    // URL Request
+    var request = URLRequest(url: url!)
     
-    return transcriptionData
+    // Specify the header
+    let headers = [
+        "x-rapidapi-host": "rev-ai.p.rapidapi.com",
+        "x-rapidapi-key": "378f1cde96mshdf2795f0e8ff706p12ee5bjsne932a0f04d18",
+        "content-type": "application/json",
+        "accept": "application/json"
+    ]
+    request.allHTTPHeaderFields = headers
+    
+    // Specify the body
+    let jsonObject: [String:String] = [
+        "media_url": String(describing: audioPath),
+        "metadata": "Optional metadata associated with the job",
+        "callback_url": "https://www.example.com/callback"
+    ]
+    do {
+        let requestBody = try JSONSerialization.data(withJSONObject: jsonObject, options: .fragmentsAllowed)
+        request.httpBody = requestBody
+    } catch {
+        print("Error creating the data object from the JSON object.")
+    }
+    
+    // Set the request type
+    request.httpMethod = "POST"
+    
+    // Get the URLSession
+    let session = URLSession.shared
+    
+    // Create the data task
+    let dataTask = session.dataTask(with: request) { (data, response, error) in
+        
+        // Check for errors
+        if error == nil && data != nil {
+            
+            // Try to parse out the data
+            do {
+                let dictionary = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? [String:Any]
+                print(dictionary)
+            } catch {
+                print("Error parsing response data.")
+            }
+        }
+        
+    }
+    
+    // Fire off the data task
+    dataTask.resume()
+    
+    return
 }
 
 func formCaptions(fromData transcriptionData: [String:String]) -> [Caption] {
     var captionData: [Caption] = []
-    //  Insert code to form captions from a JSON structured API response
+    // Insert code to form captions from a JSON structured API response
     
     return captionData
 }
