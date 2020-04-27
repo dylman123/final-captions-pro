@@ -8,6 +8,7 @@
 
 import Cocoa
 import SwiftUI
+import Firebase
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -27,6 +28,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.setFrameAutosaveName("Main Window")
         window.contentView = NSHostingView(rootView: contentView)
         window.makeKeyAndOrderFront(nil)
+        
+        // Configure Firebase
+        FirebaseApp.configure()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
