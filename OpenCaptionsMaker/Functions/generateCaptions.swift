@@ -8,6 +8,7 @@
 //
 import Foundation
 import AVFoundation
+import Firebase
 
 // generateCaptions() is the top level function which is called upon video file import.
 //   - Input: Video filepath URL
@@ -20,9 +21,12 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
             print("Extracted audio file has URL path: \(audioURL!)")
             
             // Transcribe audio using a Speech to Text API and asynchronously return result in a closure
-            transcribeAudio(ofAudioFile: audioURL!) { transcriptionData, error in
+            //transcribeAudio(ofAudioFile: audioURL!) { transcriptionData, error in
+            
+            // Upload audio to cloud
+            uploadAudioToCloud(withURL: audioURL!)
                 
-            }
+            //}
         }
         else if error != nil {
             print(error!)
@@ -72,6 +76,27 @@ func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (UR
         }
     }
     return
+}
+
+func uploadAudioToCloud(withURL audioURL: URL) {
+    
+    // Assign a random identifier to be used in the bucket and reference the file in the bucket
+    let randomID = UUID.init().uuidString
+    let uploadRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-audio/\(randomID).m4a")
+    
+    // Create file metadata
+    let uploadMetadata = StorageMetadata.init()
+    uploadMetadata.contentType = "audio/m4a"
+    
+    // Do a PUT request to upload the file and check for errors
+    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
+        if let error = error {
+            print("Error uploading audio file! \(error.localizedDescription)")
+            return
+        }
+        print("PUT is complete. Successful response from server is: \(downloadMetadata)")
+    }
+    
 }
 
 func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([String:Any]?, Error?) -> Void) {
