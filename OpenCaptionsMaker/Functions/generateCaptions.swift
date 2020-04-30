@@ -15,16 +15,29 @@ import Firebase
 //   - Output: Array of Caption objects, returned as captionData
 func generateCaptions(forFile videoURL: URL) -> [Caption] {
     
+    // Check format conversion compatibility (to m4a)
+    let videoAsset = AVURLAsset(url: videoURL)
+    AVAssetExportSession.determineCompatibility(ofExportPreset: AVAssetExportPresetPassthrough, with: videoAsset, outputFileType: AVFileType.m4a, completionHandler: { result in
+        guard result else {
+            print("Video file cannot be converted to .m4a format.")
+            return
+        }
+    })
+    
     // Extract audio from video file and asynchronously return result in a closure
-    extractAudio(fromVideoFile: videoURL) { audioURL, error in
-        if audioURL != nil {
-            print("Extracted audio file has URL path: \(audioURL!)")
+    extractAudio(fromVideoFile: videoURL) { m4aURL, error in
+        if m4aURL != nil {
+            print("Extracted audio file has URL path: \(m4aURL!)")
             
             // Transcribe audio using a Speech to Text API and asynchronously return result in a closure
             //transcribeAudio(ofAudioFile: audioURL!) { transcriptionData, error in
             
+            let wavURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
+            convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
+            print("WAV audio located at: \(wavURL)")
+            
             // Upload audio to cloud
-            uploadAudioToCloud(withURL: audioURL!)
+            uploadAudioToCloud(withURL: wavURL)
                 
             //}
         }
@@ -78,15 +91,101 @@ func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (UR
     return
 }
 
+func convertM4AToWAV(inputURL: URL, outputURL: URL) {
+    var error : OSStatus = noErr
+    var destinationFile: ExtAudioFileRef? = nil
+    var sourceFile : ExtAudioFileRef? = nil
+
+    var srcFormat : AudioStreamBasicDescription = AudioStreamBasicDescription()
+    var dstFormat : AudioStreamBasicDescription = AudioStreamBasicDescription()
+
+    ExtAudioFileOpenURL(inputURL as CFURL, &sourceFile)
+
+    var thePropertySize: UInt32 = UInt32(MemoryLayout.stride(ofValue: srcFormat))
+
+    ExtAudioFileGetProperty(sourceFile!,
+                            kExtAudioFileProperty_FileDataFormat,
+                            &thePropertySize, &srcFormat)
+
+    dstFormat.mSampleRate = 44100  //Set sample rate
+    dstFormat.mFormatID = kAudioFormatLinearPCM
+    dstFormat.mChannelsPerFrame = 1
+    dstFormat.mBitsPerChannel = 16
+    dstFormat.mBytesPerPacket = 2 * dstFormat.mChannelsPerFrame
+    dstFormat.mBytesPerFrame = 2 * dstFormat.mChannelsPerFrame
+    dstFormat.mFramesPerPacket = 1
+    dstFormat.mFormatFlags = kLinearPCMFormatFlagIsPacked |
+    kAudioFormatFlagIsSignedInteger
+
+    // Create destination file
+    error = ExtAudioFileCreateWithURL(
+        outputURL as CFURL,
+        kAudioFileWAVEType,
+        &dstFormat,
+        nil,
+        AudioFileFlags.eraseFile.rawValue,
+        &destinationFile)
+    print("Error 1 in convertAudio: \(error.description)")
+
+    error = ExtAudioFileSetProperty(sourceFile!,
+                                    kExtAudioFileProperty_ClientDataFormat,
+                                    thePropertySize,
+                                    &dstFormat)
+    print("Error 2 in convertAudio: \(error.description)")
+
+    error = ExtAudioFileSetProperty(destinationFile!,
+                                    kExtAudioFileProperty_ClientDataFormat,
+                                    thePropertySize,
+                                    &dstFormat)
+    print("Error 3 in convertAudio: \(error.description)")
+
+    let bufferByteSize : UInt32 = 32768
+    var srcBuffer = [UInt8](repeating: 0, count: 32768)
+    var sourceFrameOffset : ULONG = 0
+
+    while(true){
+        var fillBufList = AudioBufferList(
+            mNumberBuffers: 1,
+            mBuffers: AudioBuffer(
+                mNumberChannels: 2,
+                mDataByteSize: UInt32(srcBuffer.count),
+                mData: &srcBuffer
+            )
+        )
+        var numFrames : UInt32 = 0
+
+        if(dstFormat.mBytesPerFrame > 0){
+            numFrames = bufferByteSize / dstFormat.mBytesPerFrame
+        }
+
+        error = ExtAudioFileRead(sourceFile!, &numFrames, &fillBufList)
+        print("Error 4 in convertAudio: \(error.description)")
+
+        if(numFrames == 0){
+            error = noErr;
+            break;
+        }
+
+        sourceFrameOffset += numFrames
+        error = ExtAudioFileWrite(destinationFile!, numFrames, &fillBufList)
+        print("Error 5 in convertAudio: \(error.description)")
+    }
+
+    error = ExtAudioFileDispose(destinationFile!)
+    print("Error 6 in convertAudio: \(error.description)")
+    error = ExtAudioFileDispose(sourceFile!)
+    print("Error 7 in convertAudio: \(error.description)")
+}
+
 func uploadAudioToCloud(withURL audioURL: URL) {
     
     // Assign a random identifier to be used in the bucket and reference the file in the bucket
     let randomID = UUID.init().uuidString
-    let uploadRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-audio/\(randomID).m4a")
+    let uploadRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-audio/\(randomID).wav")
     
     // Create file metadata
     let uploadMetadata = StorageMetadata.init()
-    uploadMetadata.contentType = "audio/m4a"
+    uploadMetadata.contentType = "audio/wav"
     
     // Do a PUT request to upload the file and check for errors
     uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
@@ -94,7 +193,7 @@ func uploadAudioToCloud(withURL audioURL: URL) {
             print("Error uploading audio file! \(error.localizedDescription)")
             return
         }
-        print("PUT is complete. Successful response from server is: \(downloadMetadata)")
+        print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
     }
     
 }
