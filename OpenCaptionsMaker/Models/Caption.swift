@@ -16,6 +16,12 @@ struct Caption: Hashable, Codable, Identifiable {
     var end: Float
     var duration: Float
     var text: String
-    var speakerTag: Int
+    var speaker: Int
+    
+}
+
+struct JSONResult: Codable {
+    
+    var captions: [Caption] = []
     
 }

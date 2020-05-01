@@ -215,19 +215,28 @@ func uploadAudioToCloud(withURL audioURL: URL, completionHandler: @escaping (Str
 }
 
 func downloadCaptions(withFileID fileID: String, completionHandler: @escaping ([Caption]?, Error?) -> Void) {
-    var captions: [Caption]
     
     // Do a GET request to download the captions file and check for errors
     let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
     storageRef.getData(maxSize: 1024 * 1024, completion: { (data, error) in
+        
+        // If there is an error in downloading the file
         if let error = error {
             print("Error downloading captions file! \(error.localizedDescription)")
             completionHandler(nil, error)
         }
         else {
-            print(data!)
-            //completionHandler(captions, nil)
-            completionHandler(nil, nil)
+            print("Captions file succesfully downloaded.")
+            let decoder = JSONDecoder()
+            do {
+                // Parse downloaded response as JSON
+                let result = try decoder.decode(JSONResult.self, from: data!)
+                let captions = result.captions
+                print("Successfully parsed JSON: \(captions)")
+                completionHandler(captions, nil)
+            } catch {
+                print("Error in JSON parsing.")
+            }
         }
     })
 }
