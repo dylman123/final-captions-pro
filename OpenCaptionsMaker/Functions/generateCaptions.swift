@@ -26,27 +26,35 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
     
     // Extract audio from video file and asynchronously return result in a closure
     extractAudio(fromVideoFile: videoURL) { m4aURL, error in
+        
         if m4aURL != nil {
-            print("Extracted audio file has URL path: \(m4aURL!)")
-            
-            // Transcribe audio using a Speech to Text API and asynchronously return result in a closure
-            //transcribeAudio(ofAudioFile: audioURL!) { transcriptionData, error in
-            
+
+            // Convert .m4a file to .wav format
             let wavURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
             convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
             print("WAV audio located at: \(wavURL)")
             
-            // Upload audio to cloud
-            uploadAudioToCloud(withURL: wavURL)
+            // Upload audio to Google Cloud Storage
+            uploadAudioToCloud(withURL: wavURL) { fileID, error in
+                
+                if fileID != nil {
+                    
+                    // Download captions file from Google Cloud Storage
+                    do { sleep(10) }
+                    downloadCaptions(withFileID: fileID!) { captions, error in
+                        
+                    }
+                }
+            }
+            
+            // Create a longpolling request to be asynchronously notified when JSON file is ready for download
+            //let longPollDelegate: LongPollingDelegate = LongPollingDelegate()
+            //let request = LongPollingRequest(delegate: longPollDelegate)
+            
                 
             //}
         }
-        else if error != nil {
-            print(error!)
-        }
     }
-    
-
     
     // Form captions from the transcribed data
     //var captionData: [Caption]
@@ -55,6 +63,7 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
     return captionData
 }
 
+// Extract audio from video file and asynchronously return result in a closure
 func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (URL?, Error?) -> Void) {
     // Create a composition
     let composition = AVMutableComposition()
@@ -65,6 +74,7 @@ func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (UR
         guard let audioCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) else { return }
         try audioCompositionTrack.insertTimeRange(audioAssetTrack.timeRange, of: audioAssetTrack, at: CMTime.zero)
     } catch {
+        print("Error extracting audio from video file: \(error.localizedDescription)")
         completionHandler(nil, error)
     }
 
@@ -85,12 +95,14 @@ func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (UR
 
         DispatchQueue.main.async {
             guard let outputURL = exportSession.outputURL else { return }
+            print("Extracted audio file has URL path: \(outputURL)")
             completionHandler(outputURL, nil)
         }
     }
     return
 }
 
+// Convert .m4a file to .wav format
 func convertM4AToWAV(inputURL: URL, outputURL: URL) {
     var error : OSStatus = noErr
     var destinationFile: ExtAudioFileRef? = nil
@@ -177,7 +189,8 @@ func convertM4AToWAV(inputURL: URL, outputURL: URL) {
     print("Error 7 in convertAudio: \(error.description)")
 }
 
-func uploadAudioToCloud(withURL audioURL: URL) {
+// Upload audio to Google Cloud Storage
+func uploadAudioToCloud(withURL audioURL: URL, completionHandler: @escaping (String?, Error?) -> Void) {
     
     // Assign a random identifier to be used in the bucket and reference the file in the bucket
     let randomID = UUID.init().uuidString
@@ -191,11 +204,32 @@ func uploadAudioToCloud(withURL audioURL: URL) {
     uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
         if let error = error {
             print("Error uploading audio file! \(error.localizedDescription)")
-            return
+            completionHandler(nil, error)
         }
-        print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
+        else {
+            print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
+            completionHandler(randomID, nil)
+        }
     }
     
+}
+
+func downloadCaptions(withFileID fileID: String, completionHandler: @escaping ([Caption]?, Error?) -> Void) {
+    var captions: [Caption]
+    
+    // Do a GET request to download the captions file and check for errors
+    let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
+    storageRef.getData(maxSize: 1024 * 1024, completion: { (data, error) in
+        if let error = error {
+            print("Error downloading captions file! \(error.localizedDescription)")
+            completionHandler(nil, error)
+        }
+        else {
+            print(data!)
+            //completionHandler(captions, nil)
+            completionHandler(nil, nil)
+        }
+    })
 }
 
 func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([String:Any]?, Error?) -> Void) {
@@ -262,7 +296,7 @@ func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([
 }
 
 func formCaptions(fromData transcriptionData: [String:String]) -> [Caption] {
-    var captionData: [Caption] = []
+    let captionData: [Caption] = []
     // Insert code to form captions from a JSON structured API response
     
     return captionData

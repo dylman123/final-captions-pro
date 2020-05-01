@@ -17,6 +17,5 @@ struct Caption: Hashable, Codable, Identifiable {
     var duration: Float
     var text: String
     var speakerTag: Int
-    var speakerName: String
     
 }
