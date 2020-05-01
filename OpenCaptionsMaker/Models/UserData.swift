@@ -18,12 +18,13 @@ class UserData: ObservableObject {
     @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
-    @Published var captions: [Caption] = captionData
+    @Published var captions: [Caption] = captionSampleData
     //@Published var captions: [Caption] = generateCaptions() // when function is set up
     
     // Generates captions by using a transcription service
     func _generateCaptions(forFile videoPath: URL) {
-        self.captions = generateCaptions(forFile: videoPath)
+        self.captions = generateCaptions(forFile: videoPath) ?? []
+        //print(self.captions)
     }
     
     // Adds a blank caption into the row above the selected cell

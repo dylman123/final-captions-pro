@@ -13,7 +13,7 @@ import Firebase
 // generateCaptions() is the top level function which is called upon video file import.
 //   - Input: Video filepath URL
 //   - Output: Array of Caption objects, returned as captionData
-func generateCaptions(forFile videoURL: URL) -> [Caption] {
+func generateCaptions(forFile videoURL: URL) -> [Caption]? {
     
     // Check format conversion compatibility (to m4a)
     let videoAsset = AVURLAsset(url: videoURL)
@@ -26,7 +26,6 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
     
     // Extract audio from video file and asynchronously return result in a closure
     extractAudio(fromVideoFile: videoURL) { m4aURL, error in
-        
         if m4aURL != nil {
 
             // Convert .m4a file to .wav format
@@ -36,30 +35,20 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
             
             // Upload audio to Google Cloud Storage
             uploadAudioToCloud(withURL: wavURL) { fileID, error in
-                
                 if fileID != nil {
                     
-                    // Download captions file from Google Cloud Storage
-                    do { sleep(10) }
-                    downloadCaptions(withFileID: fileID!) { captions, error in
-                        
+                    // Download captions file from Google Cloud Storage by short polling the server
+                    do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
+                    downloadCaptions(withFileID: fileID!) { captionData, error in
+                        if captionData != nil {
+                            print(captionData!)
+                        } else { }
                     }
                 }
             }
-            
-            // Create a longpolling request to be asynchronously notified when JSON file is ready for download
-            //let longPollDelegate: LongPollingDelegate = LongPollingDelegate()
-            //let request = LongPollingRequest(delegate: longPollDelegate)
-            
-                
-            //}
         }
     }
-    
-    // Form captions from the transcribed data
-    //var captionData: [Caption]
-    //captionData = formCaptions(fromData: transcriptionData)
-    
+    let captionData: [Caption]? = nil
     return captionData
 }
 
@@ -214,11 +203,12 @@ func uploadAudioToCloud(withURL audioURL: URL, completionHandler: @escaping (Str
     
 }
 
+// Download captions file from Google Cloud Storage
 func downloadCaptions(withFileID fileID: String, completionHandler: @escaping ([Caption]?, Error?) -> Void) {
     
     // Do a GET request to download the captions file and check for errors
     let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
-    storageRef.getData(maxSize: 1024 * 1024, completion: { (data, error) in
+    storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
         
         // If there is an error in downloading the file
         if let error = error {
@@ -232,13 +222,13 @@ func downloadCaptions(withFileID fileID: String, completionHandler: @escaping ([
                 // Parse downloaded response as JSON
                 let result = try decoder.decode(JSONResult.self, from: data!)
                 let captions = result.captions
-                print("Successfully parsed JSON: \(captions)")
+                print("Successfully parsed JSON.")
                 completionHandler(captions, nil)
             } catch {
                 print("Error in JSON parsing.")
             }
         }
-    })
+    }
 }
 
 func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([String:Any]?, Error?) -> Void) {

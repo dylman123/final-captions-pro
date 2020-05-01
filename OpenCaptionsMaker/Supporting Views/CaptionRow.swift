@@ -90,7 +90,7 @@ struct CaptionRow: View {
 
 struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionRow(caption: captionData[0])
+        CaptionRow(caption: captionSampleData[0])
             .frame(height: 100)
             .environmentObject(UserData())
     }
