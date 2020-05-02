@@ -10,28 +10,15 @@ import Foundation
 import SwiftUI
 import Combine
 
-class UserData: ObservableObject {
+class UserData: NSObject, ObservableObject, XMLParserDelegate {
     
     // Boolean values to handle the logic of showing the task pane
-    @Published var showTaskPane: Bool = true
+    @Published var showTaskPane: Bool = false
     @Published var showFileInput: Bool = true
     @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
     @Published var captions: [Caption] = []
-    
-    // Adds a blank caption into the row above the selected cell
-    // The new caption's end time will match the caller caption's start time
-    func _addCaption(beforeIndex id: Int, atTime end: Float) {
-        self.captions = addCaption(toArray: self.captions, beforeIndex: id, atTime: end)
-        print(self.captions)
-    }
-    
-    // Deletes the selected cell
-    func _deleteCaption(atIndex id: Int) {
-        self.captions = deleteCaption(fromArray: self.captions, atIndex: id)
-        print(self.captions)
-    }
     
     // Generates captions by using a transcription service
     func _generateCaptions(forFile videoURL: URL) -> Void {
@@ -62,4 +49,31 @@ class UserData: ObservableObject {
             }
         }
     }
+    
+    // Adds a blank caption into the row above the selected cell. The new caption's end time will match the caller caption's start time
+    func _addCaption(beforeIndex id: Int, atTime end: Float) -> Void {
+        self.captions = addCaption(toArray: self.captions, beforeIndex: id, atTime: end)
+        print(self.captions)
+    }
+    
+    // Deletes the selected cell
+    func _deleteCaption(atIndex id: Int) -> Void {
+        self.captions = deleteCaption(fromArray: self.captions, atIndex: id)
+        print(self.captions)
+    }
+    
+    // Finishes the caption review and opens .fcpxml file
+    func _finishReview(andSaveFileAs xmlPath: String) -> Void {
+               
+        //  Create XML document structure
+        let xmlTree: XMLDocument = createXML(from: self.captions)
+        
+        //  Save XML document to disk
+        saveXML(of: xmlTree, as: xmlPath)
+        
+        //  Open newly saved XML document in FCP X
+        openXML(at: xmlPath)
+        
+    }
+    
 }

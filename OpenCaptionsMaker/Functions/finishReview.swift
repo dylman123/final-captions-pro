@@ -8,29 +8,32 @@
 
 import Foundation
 
-//  finishReview() is the top level function which is called upon user finishing their review of the captions list.
-//    - Input: Array of Caption objects
-//    - Output: Void (function saves XML file to disk and opens it in Final Cut Pro X)
-
-func finishReview(of captionData: [Caption], andSaveAs xmlPath: String) -> Void {
+func createXML(from captionData: [Caption]) -> XMLDocument {
     
-    //  Create XML document
-    var rootElement: XMLNode
-    rootElement = createXML(from: captionData)
+    // Set up document scaffolding
+    let root: XMLElement = XMLElement(name: "root")
+    let fcpxml: XMLDocument = XMLDocument(rootElement: root)
     
-    //  Save XML document to disk
-    saveXML(of: rootElement, as: xmlPath)
+    // Read blank.fcpxml from Resources directory as a string
+    var blank: String?
+    if let blankURL = Bundle.main.url(forResource: "blank", withExtension: "fcpxml") {
+        do {
+            blank = try String(contentsOf: blankURL, encoding: .utf8)
+        } catch {
+            print("Error reading blank.fcpxml.")
+        }
+    }
     
-    //  Open newly saved XML document in FCP X
-    openXML(at: xmlPath)
-}
-
-func createXML(from captionData: [Caption]) -> XMLNode {
-    var rootElement: XMLNode = XMLNode()
+    // Parse blank.fcpxml as XMLElement
+    do {
+        try root.addChild(XMLElement(xmlString: blank!))
+    } catch {
+        print("Error parsing blank XML file.")
+    }
     
-    //  Insert code to create a XML document from the captionData
+    print(fcpxml.xmlString)
     
-    return rootElement
+    return fcpxml
 }
 
 func saveXML(of rootElement: XMLNode, as xmlPath: String) -> Void {

@@ -37,8 +37,10 @@ struct ContentView: View {
                 HStack {
                     
                     Spacer()
-                    Button(action: {},
-                           label: {
+                    Button(action: {
+                        self.userData._finishReview(andSaveFileAs: "test")
+                    },
+                    label: {
                         IconView("NSGoForwardTemplate")
                     })
                     .offset(y: 20)
