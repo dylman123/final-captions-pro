@@ -8,7 +8,7 @@
 
 import Foundation
 
-var captionSampleData: [Caption] = load("captionData.json")
+var sampleCaptionData: [Caption] = load("captionData.json")
 
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data

@@ -30,7 +30,7 @@ struct CaptionList: View {
 
 struct CaptionList_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionList(selectedCaption: .constant(captionSampleData[0]))
+        CaptionList(selectedCaption: .constant(sampleCaptionData[0]))
             .environmentObject(UserData())
     }
 }

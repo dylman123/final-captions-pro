@@ -18,23 +18,48 @@ class UserData: ObservableObject {
     @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
-    @Published var captions: [Caption] = captionSampleData
-    //@Published var captions: [Caption] = generateCaptions() // when function is set up
-    
-    // Generates captions by using a transcription service
-    func _generateCaptions(forFile videoPath: URL) {
-        self.captions = generateCaptions(forFile: videoPath) ?? []
-        //print(self.captions)
-    }
+    @Published var captions: [Caption] = sampleCaptionData
     
     // Adds a blank caption into the row above the selected cell
     // The new caption's end time will match the caller caption's start time
     func _addCaption(beforeIndex id: Int, atTime end: Float) {
         self.captions = addCaption(toArray: self.captions, beforeIndex: id, atTime: end)
+        print(self.captions)
     }
     
     // Deletes the selected cell
     func _deleteCaption(atIndex id: Int) {
         self.captions = deleteCaption(fromArray: self.captions, atIndex: id)
+        print(self.captions)
+    }
+    
+    // Generates captions by using a transcription service
+    func _generateCaptions(forFile videoURL: URL) -> Void {
+        
+        // Extract audio from video file and asynchronously return result in a closure
+        extractAudio(fromVideoFile: videoURL) { m4aURL, error in
+            if m4aURL != nil {
+
+                // Convert .m4a file to .wav format
+                let wavURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
+                convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
+                
+                // Upload audio to Google Cloud Storage
+                uploadAudio(withURL: wavURL) { fileID, error in
+                    if fileID != nil {
+                        
+                        // Download captions file from Google Cloud Storage by short polling the server
+                        do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
+                        downloadCaptions(withFileID: fileID!) { captionData, error in
+                            //DispatchQueue.main.async { //[ weak self ] in
+                                if captionData != nil {
+                                    self.captions = captionData! 
+                                } else { self.captions = [] }
+                            //}
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -55,6 +55,7 @@ struct CaptionRow: View {
                 }
             }
             .frame(width: 80.0)
+            
             Spacer()
             
             // Display caption text
@@ -63,16 +64,18 @@ struct CaptionRow: View {
                 .lineLimit(2)
                 .frame(width: 300)
                 .offset(x: -30)
+            
             Spacer()
             
             // Display insert plus icon
             VStack {
-                Button(action: {self.userData._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)}) {
+                Button(action: {
+                    self.userData._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
+                }) {
                     IconView("NSAddTemplate")
                         .frame(width: 12, height: 12)
                 }
 
-                
                 Button(action: {
                     self.userData._deleteCaption(atIndex: self.captionIndex)
                 }) {
@@ -90,7 +93,7 @@ struct CaptionRow: View {
 
 struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionRow(caption: captionSampleData[0])
+        CaptionRow(caption: sampleCaptionData[0])
             .frame(height: 100)
             .environmentObject(UserData())
     }
