@@ -3,22 +3,26 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A36655BB24497BA7002FA173 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655BA24497BA7002FA173 /* Utility.swift */; };
-		A36655C22449C0BC002FA173 /* EditTopLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE25F42446A9B40000F42A /* EditTopLevel.swift */; };
-		A36655C32449C0BF002FA173 /* CaptionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13D2446C46800CD1C15 /* CaptionsList.swift */; };
+		27CA6E2BB3E88326F9130E02 /* Pods_OpenCaptionsMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */; };
+		A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13D2446C46800CD1C15 /* CaptionList.swift */; };
 		A36655C5244A8F1D002FA173 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655C4244A8F1D002FA173 /* UserData.swift */; };
+		A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1542448788100CD1C15 /* VideoPlayer.swift */; };
+		A36655D2244DC0DA002FA173 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A36655D1244DC0DA002FA173 /* MainMenu.xib */; };
+		A36655D5244EDC29002FA173 /* AppKitElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655BC24499293002FA173 /* AppKitElements.swift */; };
+		A36655D624505239002FA173 /* FileInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655CD244D7E95002FA173 /* FileInput.swift */; };
+		A36655DE24540409002FA173 /* generateCaptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655D72452DC0F002FA173 /* generateCaptions.swift */; };
+		A36655E024540A49002FA173 /* finishReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655D92452DFD1002FA173 /* finishReview.swift */; };
+		A36655E224540CDA002FA173 /* editCaptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655E124540CDA002FA173 /* editCaptions.swift */; };
 		A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */; };
-		A37FD1402446C66700CD1C15 /* CaptionsListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13F2446C66700CD1C15 /* CaptionsListRow.swift */; };
-		A37FD1432446C99D00CD1C15 /* CaptionsListTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1422446C99D00CD1C15 /* CaptionsListTitle.swift */; };
+		A37FD1402446C66700CD1C15 /* CaptionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13F2446C66700CD1C15 /* CaptionRow.swift */; };
+		A37FD1432446C99D00CD1C15 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1422446C99D00CD1C15 /* Headers.swift */; };
 		A37FD148244722D700CD1C15 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD147244722D700CD1C15 /* Data.swift */; };
 		A37FD14A244722F000CD1C15 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD149244722F000CD1C15 /* Caption.swift */; };
 		A37FD14E2447254400CD1C15 /* captionData.json in Resources */ = {isa = PBXBuildFile; fileRef = A37FD14D2447254400CD1C15 /* captionData.json */; };
-		A37FD1552448788100CD1C15 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1542448788100CD1C15 /* VideoView.swift */; };
-		A3AE25F72446AB440000F42A /* ImportTopLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE25F62446AB440000F42A /* ImportTopLevel.swift */; };
 		A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48A92445A1D10077E555 /* AppDelegate.swift */; };
 		A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48AB2445A1D10077E555 /* ContentView.swift */; };
 		A3EB48AE2445A1D90077E555 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3EB48AD2445A1D90077E555 /* Assets.xcassets */; };
@@ -26,6 +30,9 @@
 		A3EB48B42445A1D90077E555 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EB48B22445A1D90077E555 /* Main.storyboard */; };
 		A3EB48C02445A1D90077E555 /* OpenCaptionsMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48BF2445A1D90077E555 /* OpenCaptionsMakerTests.swift */; };
 		A3EB48CB2445A1D90077E555 /* OpenCaptionsMakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48CA2445A1D90077E555 /* OpenCaptionsMakerUITests.swift */; };
+		A3F346812456EF790055858D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3F346802456EF790055858D /* GoogleService-Info.plist */; };
+		B1115A07077872F99A757CC7 /* Pods_OpenCaptionsMakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */; };
+		F5A4513DCD167E3BC7761514 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,20 +53,29 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A36655BA24497BA7002FA173 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
-		A36655BC24499293002FA173 /* MySVGView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySVGView.swift; sourceTree = "<group>"; };
-		A36655BE244993A0002FA173 /* Plus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plus.swift; sourceTree = "<group>"; };
+		03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.debug.xcconfig"; sourceTree = "<group>"; };
+		07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.release.xcconfig"; sourceTree = "<group>"; };
+		55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMakerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A36655BC24499293002FA173 /* AppKitElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitElements.swift; sourceTree = "<group>"; };
 		A36655C4244A8F1D002FA173 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		A36655CD244D7E95002FA173 /* FileInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInput.swift; sourceTree = "<group>"; };
+		A36655D1244DC0DA002FA173 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		A36655D72452DC0F002FA173 /* generateCaptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = generateCaptions.swift; sourceTree = "<group>"; };
+		A36655D92452DFD1002FA173 /* finishReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = finishReview.swift; sourceTree = "<group>"; };
+		A36655E124540CDA002FA173 /* editCaptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editCaptions.swift; sourceTree = "<group>"; };
 		A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeVideoExample.swift; sourceTree = "<group>"; };
-		A37FD13D2446C46800CD1C15 /* CaptionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsList.swift; sourceTree = "<group>"; };
-		A37FD13F2446C66700CD1C15 /* CaptionsListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsListRow.swift; sourceTree = "<group>"; };
-		A37FD1422446C99D00CD1C15 /* CaptionsListTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsListTitle.swift; sourceTree = "<group>"; };
+		A37FD13D2446C46800CD1C15 /* CaptionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionList.swift; sourceTree = "<group>"; };
+		A37FD13F2446C66700CD1C15 /* CaptionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionRow.swift; sourceTree = "<group>"; };
+		A37FD1422446C99D00CD1C15 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
 		A37FD147244722D700CD1C15 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		A37FD149244722F000CD1C15 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
 		A37FD14D2447254400CD1C15 /* captionData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = captionData.json; sourceTree = "<group>"; };
-		A37FD1542448788100CD1C15 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
-		A3AE25F42446A9B40000F42A /* EditTopLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTopLevel.swift; sourceTree = "<group>"; };
-		A3AE25F62446AB440000F42A /* ImportTopLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTopLevel.swift; sourceTree = "<group>"; };
+		A37FD1542448788100CD1C15 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
+		A3E9B887245BCAF8006265C9 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A3EB48A62445A1D10077E555 /* OpenCaptionsMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenCaptionsMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3EB48A92445A1D10077E555 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3EB48AB2445A1D10077E555 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -74,6 +90,9 @@
 		A3EB48C62445A1D90077E555 /* OpenCaptionsMakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenCaptionsMakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3EB48CA2445A1D90077E555 /* OpenCaptionsMakerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenCaptionsMakerUITests.swift; sourceTree = "<group>"; };
 		A3EB48CC2445A1D90077E555 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3F346802456EF790055858D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.release.xcconfig"; sourceTree = "<group>"; };
+		D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27CA6E2BB3E88326F9130E02 /* Pods_OpenCaptionsMaker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1115A07077872F99A757CC7 /* Pods_OpenCaptionsMakerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,31 +116,41 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5A4513DCD167E3BC7761514 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A37FD14424471E6C00CD1C15 /* Edit View */ = {
+		47EF76770BDEB6677740BA35 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A3AE25F42446A9B40000F42A /* EditTopLevel.swift */,
-				A37FD13D2446C46800CD1C15 /* CaptionsList.swift */,
-				A37FD13F2446C66700CD1C15 /* CaptionsListRow.swift */,
-				A37FD1422446C99D00CD1C15 /* CaptionsListTitle.swift */,
-				A37FD1542448788100CD1C15 /* VideoView.swift */,
-				A36655BA24497BA7002FA173 /* Utility.swift */,
+				03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */,
+				D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */,
+				603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */,
+				D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */,
+				07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */,
+				23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */,
 			);
-			path = "Edit View";
+			path = Pods;
 			sourceTree = "<group>";
 		};
-		A37FD14524471E7C00CD1C15 /* Import View */ = {
+		75EBD76382B840B5787E2B1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A3AE25F62446AB440000F42A /* ImportTopLevel.swift */,
+				6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */,
+				64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */,
+				55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */,
 			);
-			path = "Import View";
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A36655C9244C63CB002FA173 /* Inputs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Inputs;
 			sourceTree = "<group>";
 		};
 		A37FD146244722B500CD1C15 /* Models */ = {
@@ -132,29 +163,36 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		A37FD14B2447243400CD1C15 /* Transcription */ = {
+		A37FD14B2447243400CD1C15 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
-				A37FD14D2447254400CD1C15 /* captionData.json */,
+				A36655D72452DC0F002FA173 /* generateCaptions.swift */,
+				A36655E124540CDA002FA173 /* editCaptions.swift */,
+				A36655D92452DFD1002FA173 /* finishReview.swift */,
+				A3E9B887245BCAF8006265C9 /* Networking.swift */,
 			);
-			path = Transcription;
+			path = Functions;
 			sourceTree = "<group>";
 		};
-		A37FD14C2447247200CD1C15 /* Views */ = {
+		A37FD14C2447247200CD1C15 /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
-				A37FD14524471E7C00CD1C15 /* Import View */,
-				A37FD14424471E6C00CD1C15 /* Edit View */,
+				A36655BC24499293002FA173 /* AppKitElements.swift */,
+				A37FD13D2446C46800CD1C15 /* CaptionList.swift */,
+				A37FD13F2446C66700CD1C15 /* CaptionRow.swift */,
+				A37FD1422446C99D00CD1C15 /* Headers.swift */,
+				A37FD1542448788100CD1C15 /* VideoPlayer.swift */,
+				A36655CD244D7E95002FA173 /* FileInput.swift */,
+				A36655D1244DC0DA002FA173 /* MainMenu.xib */,
 			);
-			path = Views;
+			path = "Supporting Views";
 			sourceTree = "<group>";
 		};
 		A37FD151244804D300CD1C15 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A36655BC24499293002FA173 /* MySVGView.swift */,
-				A36655BE244993A0002FA173 /* Plus.swift */,
 				A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */,
+				A37FD14D2447254400CD1C15 /* captionData.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -166,6 +204,8 @@
 				A3EB48BE2445A1D90077E555 /* OpenCaptionsMakerTests */,
 				A3EB48C92445A1D90077E555 /* OpenCaptionsMakerUITests */,
 				A3EB48A72445A1D10077E555 /* Products */,
+				47EF76770BDEB6677740BA35 /* Pods */,
+				75EBD76382B840B5787E2B1D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -182,15 +222,17 @@
 		A3EB48A82445A1D10077E555 /* OpenCaptionsMaker */ = {
 			isa = PBXGroup;
 			children = (
+				A36655C9244C63CB002FA173 /* Inputs */,
 				A37FD151244804D300CD1C15 /* Resources */,
-				A37FD14C2447247200CD1C15 /* Views */,
-				A37FD14B2447243400CD1C15 /* Transcription */,
+				A37FD14C2447247200CD1C15 /* Supporting Views */,
+				A37FD14B2447243400CD1C15 /* Functions */,
 				A37FD146244722B500CD1C15 /* Models */,
 				A3EB48A92445A1D10077E555 /* AppDelegate.swift */,
 				A3EB48AB2445A1D10077E555 /* ContentView.swift */,
 				A3EB48AD2445A1D90077E555 /* Assets.xcassets */,
 				A3EB48B22445A1D90077E555 /* Main.storyboard */,
 				A3EB48B52445A1D90077E555 /* Info.plist */,
+				A3F346802456EF790055858D /* GoogleService-Info.plist */,
 				A3EB48B62445A1D90077E555 /* OpenCaptionsMaker.entitlements */,
 				A3EB48AF2445A1D90077E555 /* Preview Content */,
 			);
@@ -230,9 +272,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48CF2445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMaker" */;
 			buildPhases = (
+				34E862B999E4FF4E113F3B72 /* [CP] Check Pods Manifest.lock */,
 				A3EB48A22445A1D10077E555 /* Sources */,
 				A3EB48A32445A1D10077E555 /* Frameworks */,
 				A3EB48A42445A1D10077E555 /* Resources */,
+				F8A070DE093097970C18A6FD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -247,6 +291,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48D22445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMakerTests" */;
 			buildPhases = (
+				C59AFB05DBFDD3EEE48589B7 /* [CP] Check Pods Manifest.lock */,
 				A3EB48B72445A1D90077E555 /* Sources */,
 				A3EB48B82445A1D90077E555 /* Frameworks */,
 				A3EB48B92445A1D90077E555 /* Resources */,
@@ -265,9 +310,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48D52445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMakerUITests" */;
 			buildPhases = (
+				801C6D1E45B452FF3AA2147E /* [CP] Check Pods Manifest.lock */,
 				A3EB48C22445A1D90077E555 /* Sources */,
 				A3EB48C32445A1D90077E555 /* Frameworks */,
 				A3EB48C42445A1D90077E555 /* Resources */,
+				4D3E9AAA9A3B289107F1974F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -328,9 +375,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A37FD14E2447254400CD1C15 /* captionData.json in Resources */,
+				A36655D2244DC0DA002FA173 /* MainMenu.xib in Resources */,
 				A3EB48B42445A1D90077E555 /* Main.storyboard in Resources */,
 				A3EB48B12445A1D90077E555 /* Preview Assets.xcassets in Resources */,
 				A3EB48AE2445A1D90077E555 /* Assets.xcassets in Resources */,
+				A3F346812456EF790055858D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,24 +399,129 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		34E862B999E4FF4E113F3B72 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenCaptionsMaker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4D3E9AAA9A3B289107F1974F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		801C6D1E45B452FF3AA2147E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C59AFB05DBFDD3EEE48589B7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenCaptionsMakerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8A070DE093097970C18A6FD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A3EB48A22445A1D10077E555 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A36655E224540CDA002FA173 /* editCaptions.swift in Sources */,
 				A36655C5244A8F1D002FA173 /* UserData.swift in Sources */,
-				A36655C22449C0BC002FA173 /* EditTopLevel.swift in Sources */,
-				A37FD1432446C99D00CD1C15 /* CaptionsListTitle.swift in Sources */,
-				A37FD1402446C66700CD1C15 /* CaptionsListRow.swift in Sources */,
-				A3AE25F72446AB440000F42A /* ImportTopLevel.swift in Sources */,
+				A37FD1432446C99D00CD1C15 /* Headers.swift in Sources */,
+				A37FD1402446C66700CD1C15 /* CaptionRow.swift in Sources */,
 				A37FD14A244722F000CD1C15 /* Caption.swift in Sources */,
 				A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */,
-				A36655BB24497BA7002FA173 /* Utility.swift in Sources */,
+				A36655E024540A49002FA173 /* finishReview.swift in Sources */,
 				A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */,
+				A36655D624505239002FA173 /* FileInput.swift in Sources */,
 				A37FD148244722D700CD1C15 /* Data.swift in Sources */,
+				A36655DE24540409002FA173 /* generateCaptions.swift in Sources */,
 				A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */,
-				A36655C32449C0BF002FA173 /* CaptionsList.swift in Sources */,
-				A37FD1552448788100CD1C15 /* VideoView.swift in Sources */,
+				A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */,
+				A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */,
+				A36655D5244EDC29002FA173 /* AppKitElements.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +683,7 @@
 		};
 		A3EB48D02445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OpenCaptionsMaker/OpenCaptionsMaker.entitlements;
@@ -550,6 +705,7 @@
 		};
 		A3EB48D12445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OpenCaptionsMaker/OpenCaptionsMaker.entitlements;
@@ -571,6 +727,7 @@
 		};
 		A3EB48D32445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -592,6 +749,7 @@
 		};
 		A3EB48D42445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -613,6 +771,7 @@
 		};
 		A3EB48D62445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -632,6 +791,7 @@
 		};
 		A3EB48D72445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

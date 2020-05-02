@@ -5,7 +5,7 @@
         "end": 1.5,
         "duration": 1.5,
         "text": "I'm fucking competitive",
-        "speakerTag": 1,
+        "speaker": 1,
         "speakerName": "Mel"
     },
     {
@@ -14,7 +14,7 @@
         "end": 2.0,
         "duration": 0.4,
         "text": "okay",
-        "speakerTag": 1,
+        "speaker": 1,
         "speakerName": "Mel"
     },
     {
@@ -23,7 +23,7 @@
         "end": 2.8,
         "duration": 0.8,
         "text": "don't get me started",
-        "speakerTag": 2,
+        "speaker": 2,
         "speakerName": "Darren"
     }
 ]
