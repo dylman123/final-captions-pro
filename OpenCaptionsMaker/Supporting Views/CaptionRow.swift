@@ -20,13 +20,12 @@ struct CaptionRow: View {
     
     // To index the current caption
     var captionIndex: Int {
-        return userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return self.userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
-        let captionIndex = userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
-        return $userData.captions[captionIndex]
+        return $userData.captions[self.captionIndex]
     }
     
     // To format the time values in text

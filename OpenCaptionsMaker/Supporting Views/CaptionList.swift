@@ -20,9 +20,11 @@ struct CaptionList: View {
         
         // Dynamically read the list from userData
         List(selection: $selectedCaption) {
-            ForEach(userData.captions) { caption in
-                    CaptionRow(caption: caption).tag(caption)
+            ForEach(self.userData.captions) { caption in
+                    CaptionRow(caption: caption)
+                        .tag(caption)
                         .padding(.vertical, 10)
+                        .environmentObject(self.userData)
             }
         }
     }

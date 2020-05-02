@@ -18,7 +18,7 @@ class UserData: ObservableObject {
     @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
-    @Published var captions: [Caption] = sampleCaptionData
+    @Published var captions: [Caption] = []
     
     // Adds a blank caption into the row above the selected cell
     // The new caption's end time will match the caller caption's start time
@@ -51,11 +51,11 @@ class UserData: ObservableObject {
                         // Download captions file from Google Cloud Storage by short polling the server
                         do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
                         downloadCaptions(withFileID: fileID!) { captionData, error in
-                            //DispatchQueue.main.async { //[ weak self ] in
-                                if captionData != nil {
-                                    self.captions = captionData! 
-                                } else { self.captions = [] }
-                            //}
+                            if captionData != nil {
+                                self.captions = captionData!
+                            } else { self.captions = [] }
+                            print(self.captions)
+                            return
                         }
                     }
                 }

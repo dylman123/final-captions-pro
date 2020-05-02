@@ -37,7 +37,7 @@ struct ContentView: View {
             VStack {
                 Headers()
                 CaptionList(selectedCaption: $selectedCaption)
-                .environmentObject(UserData())
+                .environmentObject(self.userData)
             }
             .frame(width: self.windowWidth/3, height: self.windowHeight*0.8)
             .padding(.horizontal, 25)
@@ -46,7 +46,7 @@ struct ContentView: View {
         .sheet(isPresented: $userData.showTaskPane, content: {
             if self.userData.showFileInput {
                 FileInput()
-                    .environmentObject(UserData())
+                    .environmentObject(self.userData)
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
             }
