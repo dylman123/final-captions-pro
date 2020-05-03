@@ -38,7 +38,7 @@ struct ContentView: View {
                     
                     Spacer()
                     Button(action: {
-                        self.userData._finishReview(andSaveFileAs: "test")
+                        self.userData._finishReview(andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
                         IconView("NSGoForwardTemplate")

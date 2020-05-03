@@ -81,23 +81,27 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
             root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"].addChild(newTitle)
         }
         
-        print(root.xml)
+        return root
         
     } catch {
         print("\(error.localizedDescription)")
+        return AEXMLDocument()
     }
-    
-    return AEXMLDocument()
 }
 
-func saveXML(of rootElement: XMLNode, as xmlPath: String) -> Void {
-    
-    //  Insert code to save XML document to disk
+func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
+
+    do {
+        try rootElement.xml.write(to: xmlPath, atomically: true, encoding: String.Encoding.utf8)
+    } catch {
+        // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+        print("Error saving .fcpxml file to disk: \(error.localizedDescription)")
+    }
     
     return
 }
 
-func openXML(at xmlPath: String) -> Void {
+func openXML(at xmlPath: URL) -> Void {
     
     //  Insert code to open XML file in Final Cut Pro X
     
