@@ -48,7 +48,7 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
             
             ts += 1
             let textStyleDef = AEXMLElement(name: "text-style-def", attributes: ["id": "ts\(ts)"])
-            let captionText = AEXMLElement(name: "text-style", value: caption.text, attributes: ["ref": "ts\(ts)"])
+            let captionText = AEXMLElement(name: "text-style", value: caption.text, attributes: ["ref": "ts\(ts)"])  // FIXME: apostrophes are not handled well in caption.text field
             
             let text = AEXMLElement(name: "text")
             
@@ -78,7 +78,7 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
             newTitle.addChild(textStyleDef).addChild(textStyle)
             
             // Add the title into the root element
-            root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"].addChild(newTitle)
+            root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"].addChild(newTitle)  // FIXME: Need to move <audio-channel-source> to the end of the <asset-clip>
         }
         
         return root
@@ -89,10 +89,20 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
     }
 }
 
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+}
+
 func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
 
+    let filename = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
+    
+    // Insert code to do DTD validation
+    
     do {
-        try rootElement.xml.write(to: xmlPath, atomically: true, encoding: String.Encoding.utf8)
+        try rootElement.xml.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+        print("Successfully saved .fcpxml file as: \(filename)")
     } catch {
         // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
         print("Error saving .fcpxml file to disk: \(error.localizedDescription)")
