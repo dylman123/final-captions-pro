@@ -33,47 +33,39 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
             // Make an instance of a title and modify its template
             //let newTitle = AEXMLElement( title.xml.copy()
             
-            for child in titleRoot.children {
+            // Edit attributes in the <title> tag
+            titleRoot["title"].attributes = [
+                "name": "Hello World",
+                "lane": "1",
+                "offset": "1001s",
+                "ref": "r4",
+                "duration": "1.2"
+            ]
                 
-                // Edit attributes in the <title> tag
-                if child.name == "title" {
-                    child.attributes = ["name": "Hello World", "lane": "1", "offset": "1001", "ref": "r4", "duration": "1.2"]
-                }
-                for grandchild in child.children {
-                    
-                    // Edit positional coordinate values
-                    if grandchild.attributes["name"] == "Position" {
-                        grandchild.attributes["value"] = "1.0 -2.0"
-                    }
-                    
-                    // Edit caption values in the <text><text-style> tag
-                    if grandchild.name == "text" {
-                        for greatgrandchild in grandchild.children {
-                            if greatgrandchild.name == "text-style" {
-                                greatgrandchild.attributes["ref"] = "ts1"
-                                greatgrandchild.value = "Hello World"
-                            }
-                        }
-                    }
-                    
-                    // Edit font values in the <text-style-def><text-style> tag
-                    if grandchild.name == "text-style-def" {
-                        grandchild.attributes["id"] = "ts1"
-                        for greatgrandchild in grandchild.children {
-                            greatgrandchild.attributes = [
-                                "font": "Futura",
-                                "fontSize": "60",
-                                "fontFace": "Condensed ExtraBold",
-                                "fontColor": "1 1 1 1",
-                                "bold": "1",
-                                "strokeColor": "0 0 0 1",
-                                "strokeWidth": "3",
-                                "alignment": "center"
-                            ]
-                        }
-                    }
+            // Edit positional coordinate values
+            for param in titleRoot["title"].children {
+                if param.attributes["name"] == "Position" {
+                    param.attributes["value"] = "1.0 -2.0"
                 }
             }
+                
+            // Edit caption values in the <text><text-style> tag
+            titleRoot["title"]["text"]["text-style"].attributes["ref"] = "ts1"
+            titleRoot["title"]["text"]["text-style"].value = "Hello 2 World"
+                
+            // Edit font values in the <text-style-def><text-style> tag
+            titleRoot["title"]["text-style-def"].attributes["id"] = "ts1"
+            titleRoot["title"]["text-style-def"]["text-style"].attributes = [
+                "font": "Futura",
+                "fontSize": "60",
+                "fontFace": "Condensed ExtraBold",
+                "fontColor": "1 1 1 1",
+                "bold": "1",
+                "strokeColor": "0 0 0 1",
+                "strokeWidth": "3",
+                "alignment": "center" ]
+            
+            print(titleRoot.xml)
             
         root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"].addChild(titleRoot)
 
@@ -81,7 +73,7 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
             print("\(error.localizedDescription)")
         }
         
-        print(root.xml)
+        //print(root.xml)
         
     } catch {
         print("\(error.localizedDescription)")
