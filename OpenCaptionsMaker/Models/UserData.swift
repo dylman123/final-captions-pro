@@ -18,7 +18,8 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
     @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
-    @Published var captions: [Caption] = []
+    //@Published var captions: [Caption] = []
+    @Published var captions: [Caption] = sampleCaptionData
     
     // Generates captions by using a transcription service
     func _generateCaptions(forFile videoURL: URL) -> Void {

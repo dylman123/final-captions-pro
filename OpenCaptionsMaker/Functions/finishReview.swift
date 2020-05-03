@@ -30,50 +30,54 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
         do {
             let titleRoot = try AEXMLDocument(xml: titleData)
             
-            // Make an instance of a title and modify its template
-            //let newTitle = AEXMLElement( title.xml.copy()
-            
-            // Edit attributes in the <title> tag
-            titleRoot["title"].attributes = [
-                "name": "Hello World",
-                "lane": "1",
-                "offset": "1001s",
-                "ref": "r4",
-                "duration": "1.2"
-            ]
-                
-            // Edit positional coordinate values
-            for param in titleRoot["title"].children {
-                if param.attributes["name"] == "Position" {
-                    param.attributes["value"] = "1.0 -2.0"
+            // Iterate through the list of captions
+            for caption in captionData {
+
+                // Make an instance of a title and modify its template
+                //let newTitle = titleRoot.copy() as! AEXMLDocument
+                let newTitle = try AEXMLDocument(xml: titleRoot.xml)
+                        
+                // Edit attributes in the <title> tag
+                newTitle["title"].attributes = [
+                    "name": caption.text,
+                    "lane": "1",
+                    "offset": String(caption.start) + "s",
+                    "ref": "r4",
+                    "duration": String(caption.duration) + "s"
+                ]
+                    
+                // Edit positional coordinate values
+                for param in newTitle["title"].children {
+                    if param.attributes["name"] == "Position" {
+                        param.attributes["value"] = "-355.0 -268.0"
+                    }
                 }
+                    
+                // Edit caption values in the <text><text-style> tag
+                newTitle["title"]["text"]["text-style"].attributes["ref"] = "ts1"
+                newTitle["title"]["text"]["text-style"].value = caption.text
+                    
+                // Edit font values in the <text-style-def><text-style> tag
+                newTitle["title"]["text-style-def"].attributes["id"] = "ts1"
+                newTitle["title"]["text-style-def"]["text-style"].attributes = [
+                    "font": "Futura",
+                    "fontSize": "60",
+                    "fontFace": "Condensed ExtraBold",
+                    "fontColor": "1 1 1 1",
+                    "bold": "1",
+                    "strokeColor": "0 0 0 1",
+                    "strokeWidth": "3",
+                    "alignment": "center" ]
+                
+                root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"].addChild(newTitle)
+                
             }
-                
-            // Edit caption values in the <text><text-style> tag
-            titleRoot["title"]["text"]["text-style"].attributes["ref"] = "ts1"
-            titleRoot["title"]["text"]["text-style"].value = "Hello 2 World"
-                
-            // Edit font values in the <text-style-def><text-style> tag
-            titleRoot["title"]["text-style-def"].attributes["id"] = "ts1"
-            titleRoot["title"]["text-style-def"]["text-style"].attributes = [
-                "font": "Futura",
-                "fontSize": "60",
-                "fontFace": "Condensed ExtraBold",
-                "fontColor": "1 1 1 1",
-                "bold": "1",
-                "strokeColor": "0 0 0 1",
-                "strokeWidth": "3",
-                "alignment": "center" ]
-            
-            print(titleRoot.xml)
-            
-        root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"].addChild(titleRoot)
 
         } catch {
             print("\(error.localizedDescription)")
         }
         
-        //print(root.xml)
+        print(root.xml)
         
     } catch {
         print("\(error.localizedDescription)")
