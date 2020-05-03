@@ -20,10 +20,12 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
     
     do {
         let root = try AEXMLDocument(xml: templateData)
-            
+        
+        var ts: Int = 0  // Text style id
+        
         // Iterate through the list of captions
         for caption in captionData {
-
+            
             // Make an instance of a title and modify its template according to the caption
             let newTitle = AEXMLElement(name: "title", attributes: [
                 "name": caption.text,
@@ -44,9 +46,9 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
                 "alignment": "center"
             ])
             
-            let textStyleDef = AEXMLElement(name: "text-style-def", attributes: ["id": "ts1"])
-            
-            let captionText = AEXMLElement(name: "text-style", value: caption.text, attributes: ["ref": "ts1"])
+            ts += 1
+            let textStyleDef = AEXMLElement(name: "text-style-def", attributes: ["id": "ts\(ts)"])
+            let captionText = AEXMLElement(name: "text-style", value: caption.text, attributes: ["ref": "ts\(ts)"])
             
             let text = AEXMLElement(name: "text")
             
