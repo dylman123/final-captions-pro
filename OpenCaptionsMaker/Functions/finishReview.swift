@@ -11,57 +11,7 @@ import AEXML
 
 func createXML(from captionData: [Caption]) -> AEXMLDocument {
     
-//    // Set up document scaffolding
-//    let root: XMLElement = XMLElement(name: "root")
-//    //let fcpxml: XMLDocument = XMLDocument(rootElement: root)
-//    let fcpxml: XMLDocument = XMLDocument(rootElement: root)
-//
-//    // Read blank.fcpxml from Resources directory as a string
-//    var blank: String?
-//    if let blankURL = Bundle.main.url(forResource: "blank", withExtension: "fcpxml") {
-//        do {
-//            blank = try String(contentsOf: blankURL, encoding: .utf8)
-//        } catch {
-//            print("Error reading blank.fcpxml.")
-//        }
-//    }
-//
-//    // Parse blank.fcpxml as XMLElement
-//    do {
-//        try root.addChild(XMLElement(xmlString: blank!))
-//    } catch {
-//        print("Error parsing blank.fcpxml.")
-//    }
-    
-    /*// Read titleTemplate.fcpxml from Resources directory as a string
-    var template: String?
-    if let templateURL = Bundle.main.url(forResource: "titleTemplate", withExtension: "fcpxml") {
-        do {
-            template = try String(contentsOf: templateURL, encoding: .utf8)
-        } catch {
-            print("Error reading titleTemplate.fcpxml")
-        }
-    }
-    
-    // Parse titleTemplate.fcpxml as XMLElement
-    var title: XMLElement?
-    do {
-        title = try XMLElement(xmlString: template!)
-    } catch {
-        print("Error parsing titleTemplate.fcpxml.")
-    }
-    
-    // Make an instance of a title and modify its template
-    guard let newTitle = title?.copy() else {
-        return fcpxml
-    }
-    print("newTitle: \(newTitle)")
-    
-    //let testAttr = ["key1": "val1", "key2": "val2", "key3": "val3"]
-    //let testChild = fcpxml.addChild(name: "Child1", value: "100", attributes: testAttr)
-    
-    print(fcpxml.xmlString)*/
-    
+    // Set up document scaffolding
     // Parse blank.fcpxml as AEXMLDocument
     guard
         let blankURL = Bundle.main.url(forResource: "blank", withExtension: "fcpxml"),
@@ -69,7 +19,7 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
     else { return AEXMLDocument() }
     
     do {
-        let blankRoot = try AEXMLDocument(xml: blankData)
+        let root = try AEXMLDocument(xml: blankData)
         
         // Parse titleTemplate.fcpxml as AEXMLDocument
         guard
@@ -124,17 +74,14 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
                     }
                 }
             }
-        let testElement = try AEXMLElement(name: "test", value: "dylan")
-        blankRoot.addChild(testElement)
-        print(blankRoot.xml)
-        
+            
+        root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"].addChild(titleRoot)
+
         } catch {
             print("\(error.localizedDescription)")
         }
-    
-        //try root.addChild(XMLElement(xmlString: titleRoot.xml))
         
-        //print(fcpxml)
+        print(root.xml)
         
     } catch {
         print("\(error.localizedDescription)")
