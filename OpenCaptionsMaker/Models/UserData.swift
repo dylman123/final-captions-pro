@@ -66,13 +66,13 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
     func _finishReview(andSaveFileAs xmlPath: String) -> Void {
                
         //  Create XML document structure
-        let xmlTree: XMLDocument = createXML(from: self.captions)
+        let xmlTree = createXML(from: self.captions)
         
         //  Save XML document to disk
-        saveXML(of: xmlTree, as: xmlPath)
+        //saveXML(of: xmlTree, as: xmlPath)
         
         //  Open newly saved XML document in FCP X
-        openXML(at: xmlPath)
+        //openXML(at: xmlPath)
         
     }
     
