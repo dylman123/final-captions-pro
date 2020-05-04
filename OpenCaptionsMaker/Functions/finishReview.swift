@@ -109,10 +109,9 @@ func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
     guard let dtdURL = Bundle.main.url(forResource: "fcpxml-v1.8", withExtension: "dtd") else {
         return
     }
-    let result: String = shell("xmllint --noout --dtdvalid \(dtdURL) \(xmlPath)")
-    print(result)
+    let result: String? = shell("xmllint --noout --dtdvalid \(dtdURL) \(xmlPath)")
     if result != nil {  // DTD validation has failed
-         print("Error in DTD validation. \(result)")
+         print("Error in DTD validation. \(result!)")
         // TODO: delete the .fcpxml file
     }
     else {  // DTD validation has passed
