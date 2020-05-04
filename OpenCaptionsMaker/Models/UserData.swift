@@ -79,13 +79,12 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
         let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
                
         //  Create XML document structure
-        print(self.videoURL)
         let xmlTree = createXML(forVideo: self.videoURL, withCaptions: self.captions)
-        
+
         //  Save XML document to disk
         saveXML(of: xmlTree, as: testPath)
         
-        //  Open newly saved XML document in FCP X
+        //  Open newly saved XML document in Final Cut Pro X
         openXML(at: testPath)
         
     }

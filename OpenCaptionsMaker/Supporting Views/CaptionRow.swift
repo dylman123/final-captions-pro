@@ -46,6 +46,7 @@ struct CaptionRow: View {
             
             // Display caption timings
             VStack {
+                // FIXME: TextField values are not writing back to self.userData.captions!
                 Stepper(value: self.captionBinding.start, step: -0.1) {
                     TextField("", value: self.captionBinding.start, formatter: timeFormatter)
                 }

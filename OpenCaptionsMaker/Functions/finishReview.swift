@@ -30,6 +30,8 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
         var ts: Int = 0  // Text style id
         for caption in captionData {
             
+            // TODO: Fix timing attributes. Make sure they fall on edit frame boundaries!
+            
             // Make an instance of a title and modify its template according to the caption
             let newTitle = AEXMLElement(name: "title", attributes: [
                 "name": caption.text,
@@ -52,7 +54,7 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
             
             ts += 1
             let textStyleDef = AEXMLElement(name: "text-style-def", attributes: ["id": "ts\(ts)"])
-            let captionText = AEXMLElement(name: "text-style", value: caption.text, attributes: ["ref": "ts\(ts)"])  // FIXME: apostrophes are not handled well in caption.text field
+            let captionText = AEXMLElement(name: "text-style", value: caption.text, attributes: ["ref": "ts\(ts)"])
             
             let text = AEXMLElement(name: "text")
             
@@ -87,10 +89,8 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
         
         // Reorder elements of the <asset-clip> (in order to pass DTD validation)
         let audioChannelSource: AEXMLElement = assetClip["audio-channel-source"]
-        
         assetClip.firstDescendant(where: { element in
             element.name == "audio-channel-source"})?.removeFromParent()
-        
         assetClip.addChild(audioChannelSource)
         
         return root
