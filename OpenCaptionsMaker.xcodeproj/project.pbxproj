@@ -23,6 +23,7 @@
 		A37FD148244722D700CD1C15 /* sampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD147244722D700CD1C15 /* sampleData.swift */; };
 		A37FD14A244722F000CD1C15 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD149244722F000CD1C15 /* Caption.swift */; };
 		A37FD14E2447254400CD1C15 /* captionData.json in Resources */ = {isa = PBXBuildFile; fileRef = A37FD14D2447254400CD1C15 /* captionData.json */; };
+		A3E6632524602FA90013450E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E6632424602FA90013450E /* Utilities.swift */; };
 		A3E9B88D245D8692006265C9 /* title.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E9B88A245D8690006265C9 /* title.fcpxml */; };
 		A3E9B88E245D8692006265C9 /* fcpxml-v1.8.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A3E9B88B245D8691006265C9 /* fcpxml-v1.8.dtd */; };
 		A3E9B88F245D8692006265C9 /* template.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E9B88C245D8692006265C9 /* template.fcpxml */; };
@@ -78,6 +79,7 @@
 		A37FD149244722F000CD1C15 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
 		A37FD14D2447254400CD1C15 /* captionData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = captionData.json; sourceTree = "<group>"; };
 		A37FD1542448788100CD1C15 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
+		A3E6632424602FA90013450E /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		A3E9B887245BCAF8006265C9 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A3E9B88A245D8690006265C9 /* title.fcpxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = title.fcpxml; sourceTree = "<group>"; };
 		A3E9B88B245D8691006265C9 /* fcpxml-v1.8.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "fcpxml-v1.8.dtd"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				A36655E124540CDA002FA173 /* editCaptions.swift */,
 				A36655D92452DFD1002FA173 /* finishReview.swift */,
 				A3E9B887245BCAF8006265C9 /* Networking.swift */,
+				A3E6632424602FA90013450E /* Utilities.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				A37FD1402446C66700CD1C15 /* CaptionRow.swift in Sources */,
 				A37FD14A244722F000CD1C15 /* Caption.swift in Sources */,
 				A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */,
+				A3E6632524602FA90013450E /* Utilities.swift in Sources */,
 				A36655E024540A49002FA173 /* finishReview.swift in Sources */,
 				A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */,
 				A36655D624505239002FA173 /* FileInput.swift in Sources */,

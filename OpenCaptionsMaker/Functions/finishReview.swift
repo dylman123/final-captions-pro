@@ -96,24 +96,35 @@ func getDocumentsDirectory() -> URL {
 
 func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
 
-    let filename = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
-    
-    // Insert code to do DTD validation
-    
+    // Save the .fcpxml file to disk
     do {
-        try rootElement.xml.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-        print("Successfully saved .fcpxml file as: \(filename)")
+        try rootElement.xml.write(to: xmlPath, atomically: true, encoding: String.Encoding.utf8)
+        print("Successfully saved .fcpxml file as: \(xmlPath)")
     } catch {
         // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
         print("Error saving .fcpxml file to disk: \(error.localizedDescription)")
     }
     
-    return
+    // Validate the saved .fcpxml file against its DTD schema
+    guard let dtdURL = Bundle.main.url(forResource: "fcpxml-v1.8", withExtension: "dtd") else {
+        return
+    }
+    let result: String = shell("xmllint --noout --dtdvalid \(dtdURL) \(xmlPath)")
+    print(result)
+    if result != nil {  // DTD validation has failed
+         print("Error in DTD validation. \(result)")
+        // TODO: delete the .fcpxml file
+    }
+    else {  // DTD validation has passed
+        print("Successfully passed DTD validation.")
+        return
+    }
 }
 
 func openXML(at xmlPath: URL) -> Void {
     
-    //  Insert code to open XML file in Final Cut Pro X
+    // Open the .fcpxml in its native application (Final Cut Pro X)
+    let _ = shell("open \(xmlPath)")
     
     return
 }

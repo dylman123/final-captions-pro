@@ -65,15 +65,18 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
     
     // Finishes the caption review and opens .fcpxml file
     func _finishReview(andSaveFileAs xmlPath: URL) -> Void {
+        
+        // Set the path of the file to be saved - TODO: Change this to a user selected URL
+        let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
                
         //  Create XML document structure
         let xmlTree = createXML(from: self.captions)
         
         //  Save XML document to disk
-        saveXML(of: xmlTree, as: xmlPath)
+        saveXML(of: xmlTree, as: testPath)
         
         //  Open newly saved XML document in FCP X
-        //openXML(at: xmlPath)
+        openXML(at: testPath)
         
     }
     
