@@ -23,3 +23,10 @@ func shell(_ command: String) -> String {
 
     return output
 }
+
+// Get the local project's documents directory
+// This is a directory where the project has permissions to save files
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+}

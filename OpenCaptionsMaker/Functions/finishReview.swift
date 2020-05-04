@@ -89,11 +89,6 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
     }
 }
 
-func getDocumentsDirectory() -> URL {
-    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    return paths[0]
-}
-
 func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
 
     // Save the .fcpxml file to disk
@@ -123,7 +118,7 @@ func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
 func openXML(at xmlPath: URL) -> Void {
     
     // Open the .fcpxml in its native application (Final Cut Pro X)
-    let _ = shell("open \(xmlPath)")
+    let _ = shell("open -a 'Final Cut Pro' \(xmlPath)")
     
     return
 }
