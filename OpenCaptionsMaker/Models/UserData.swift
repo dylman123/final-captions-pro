@@ -13,13 +13,22 @@ import Combine
 class UserData: NSObject, ObservableObject, XMLParserDelegate {
     
     // Boolean values to handle the logic of showing the task pane
-    @Published var showTaskPane: Bool = false
+    @Published var showTaskPane: Bool = true
     @Published var showFileInput: Bool = true
     @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
     //@Published var captions: [Caption] = []
     @Published var captions: [Caption] = sampleCaptionData
+    
+    // A store of the imported video's URL
+    private var videoURL: URL = URL(fileURLWithPath: "")
+    
+    // Stores the videoURL and calls _generateCaptions() function
+    func _import(videoFile videoURL: URL) -> Void {
+        self.videoURL = videoURL
+        _generateCaptions(forFile: videoURL)
+    }
     
     // Generates captions by using a transcription service
     func _generateCaptions(forFile videoURL: URL) -> Void {
@@ -70,7 +79,8 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
         let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
                
         //  Create XML document structure
-        let xmlTree = createXML(from: self.captions)
+        print(self.videoURL)
+        let xmlTree = createXML(forVideo: self.videoURL, withCaptions: self.captions)
         
         //  Save XML document to disk
         saveXML(of: xmlTree, as: testPath)

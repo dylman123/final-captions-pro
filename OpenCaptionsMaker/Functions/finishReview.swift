@@ -9,21 +9,25 @@
 import Foundation
 import AEXML
 
-func createXML(from captionData: [Caption]) -> AEXMLDocument {
+func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> AEXMLDocument {
     
-    // Set up document scaffolding
-    // Parse template.fcpxml as AEXMLDocument
+    // Set up document scaffolding, parse template.fcpxml as AEXMLDocument
     guard
         let templateURL = Bundle.main.url(forResource: "template", withExtension: "fcpxml"),
         let templateData = try? Data(contentsOf: templateURL)
     else { return AEXMLDocument() }
     
     do {
+        // Define important AEXMLElements
         let root = try AEXMLDocument(xml: templateData)
+        let asset: AEXMLElement = root["fcpxml"]["resources"]["asset"]
+        let assetClip: AEXMLElement = root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"]
         
-        var ts: Int = 0  // Text style id
+        // Write video filename into the appropriate field (in order to pass DTD validation)
+        asset.attributes["src"] = String(describing: videoURL)
         
         // Iterate through the list of captions
+        var ts: Int = 0  // Text style id
         for caption in captionData {
             
             // Make an instance of a title and modify its template according to the caption
@@ -78,8 +82,16 @@ func createXML(from captionData: [Caption]) -> AEXMLDocument {
             newTitle.addChild(textStyleDef).addChild(textStyle)
             
             // Add the title into the root element
-            root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"].addChild(newTitle)  // FIXME: Need to move <audio-channel-source> to the end of the <asset-clip>
+            assetClip.addChild(newTitle)
         }
+        
+        // Reorder elements of the <asset-clip> (in order to pass DTD validation)
+        let audioChannelSource: AEXMLElement = assetClip["audio-channel-source"]
+        
+        assetClip.firstDescendant(where: { element in
+            element.name == "audio-channel-source"})?.removeFromParent()
+        
+        assetClip.addChild(audioChannelSource)
         
         return root
         
@@ -105,7 +117,7 @@ func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
         return
     }
     let result: String? = shell("xmllint --noout --dtdvalid \(dtdURL) \(xmlPath)")
-    if result != nil {  // DTD validation has failed
+    if result != "" {  // DTD validation has failed
          print("Error in DTD validation. \(result!)")
         // TODO: delete the .fcpxml file
     }

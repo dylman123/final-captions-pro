@@ -43,17 +43,17 @@ struct FileInput: View {
         
         Button(action: {
             
-            let videoPath: URL? = self.openFileDialog()
+            let video: URL? = self.openFileDialog()
             
-            if videoPath != nil {
-                print("Selected video file has URL path: \(String(describing: videoPath!))")
+            if video != nil {
+                print("Selected video file has URL path: \(String(describing: video!))")
                 
                 // Close the FileInput view
                 self.userData.showFileInput.toggle()
                 self.presentationMode.wrappedValue.dismiss()
                 
-                // Proceed to caption generation step
-                self.userData._generateCaptions(forFile: videoPath!)
+                // Callback to UserData class
+                self.userData._import(videoFile: video!)
             }
             else {
                 print("No file was selected.")
