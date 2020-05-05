@@ -46,7 +46,7 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
                     if fileID != nil {
                         
                         // Download captions file from Google Cloud Storage by short polling the server
-                        do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
+                        do { sleep(15) }  // TODO: Make this a websockets callback to the Firebase DB
                         downloadCaptions(withFileID: fileID!) { captionData, error in
                             if captionData != nil {
                                 self.captions = captionData!

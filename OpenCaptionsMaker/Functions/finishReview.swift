@@ -23,8 +23,9 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
         let asset: AEXMLElement = root["fcpxml"]["resources"]["asset"]
         let assetClip: AEXMLElement = root["fcpxml"]["library"]["event"]["project"]["sequence"]["spine"]["asset-clip"]
         
-        // Write video filename into the appropriate field (in order to pass DTD validation)
+        // Write video filename into the appropriate fields (in order to pass DTD validation)
         asset.attributes["src"] = String(describing: videoURL)
+        assetClip.attributes["name"] = videoURL.lastPathComponent
         
         // Returns the frame duration as an array of Ints
         func getFrameDuration(_ formatName: String) -> [Int]? {

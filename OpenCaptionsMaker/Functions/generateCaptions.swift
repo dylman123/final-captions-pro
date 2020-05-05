@@ -163,6 +163,7 @@ func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (String?, E
     uploadMetadata.contentType = "audio/wav"
     
     // Do a PUT request to upload the file and check for errors
+    print("Uploading audio to the cloud...")
     uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
         if let error = error {
             print("Error uploading audio file! \(error.localizedDescription)")
