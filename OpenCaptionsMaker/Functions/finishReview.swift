@@ -170,8 +170,10 @@ func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
     }
     let result: String? = shell("xmllint --noout --dtdvalid \(dtdURL) \(xmlPath)")
     if result != "" {  // DTD validation has failed
-         print("Error in DTD validation. \(result!)")
-        // TODO: delete the .fcpxml file
+        print("Error in DTD validation. \(result!)")
+        // Open the .fcpxml file in a text editor for debugging purposes
+        let _ = shell("open -a 'TextEdit' \(xmlPath)")
+        return
     }
     else {  // DTD validation has passed
         print("Successfully passed DTD validation.")
