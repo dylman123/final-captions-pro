@@ -26,19 +26,71 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
         // Write video filename into the appropriate field (in order to pass DTD validation)
         asset.attributes["src"] = String(describing: videoURL)
         
+        // Returns the frame duration as an array of Ints
+        func getFrameDuration(_ formatName: String) -> [Int]? {
+            for child in root["fcpxml"]["resources"].children {
+                if (child.name == "format") && (child.attributes["name"] == formatName) {
+                    let fd: String = child.attributes["frameDuration"]!
+                    var fdStrings: [Substring] = fd.split(separator: "/")
+                    fdStrings[1] = fdStrings[1].split(separator: "s")[0]
+                    var fdArray: [Int] = []
+                    fdArray.append(Int(String(fdStrings[0]))!)
+                    fdArray.append(Int(String(fdStrings[1]))!)
+                    return fdArray
+                }
+            }
+            return nil
+        }
+        
+        // Get frame duration values (note: they must exist in template.fcpxml in order to use them!)
+        var frameDuration30: [Int]? {
+            return getFrameDuration("FFVideoFormat1080p30")
+        }
+        var frameDuration2997: [Int]? {
+            return getFrameDuration("FFVideoFormat1080p2997")
+        }
+        /* DOES NOT CURRENTLY EXIST IN template.fcpxml
+        var frameDuration5994: [Int]? {
+            return getFrameDuration("FFVideoFormat1080p5994")
+        }*/
+        
+        /* Converts a timestamp value (float in secs) into a string of format:
+        {numerator}/{denomenator}s" to satisfy FCPX timing attribute requirements.
+        This silences warnings that timing values do not lie on edit frame boundaries,
+        and makes sure that any shorter clips are not discarded by FCPX. */
+        func formatTimestamp(val time: Float, fd fdArray: [Int]) -> String {
+            // Extract frame duration values
+            let num: Int = fdArray[0]
+            let den: Int = fdArray[1]
+            let fd: Float = Float(num) / Float(den)
+            
+            // Do calculation on time value
+            let quotient: Float = time / fd
+            let rounded: Int = Int(roundf(quotient))
+            let timeNum: Int64 =  Int64(rounded * num)
+            
+            // Check that the time numerator is a whole multiple of the fd numerator
+            let remainder = Float(timeNum).remainder(dividingBy: Float(num))
+            if  remainder != 0 {
+                print("Remainder is \(remainder)")
+                print("Warning, \(timeNum) is not a whole multple of \(num)!")
+            }
+            
+            let formattedTimestamp = "\(timeNum)/\(den)s"
+            return formattedTimestamp
+        }
+        
         // Iterate through the list of captions
         var ts: Int = 0  // Text style id
         for caption in captionData {
-            
-            // TODO: Fix timing attributes. Make sure they fall on edit frame boundaries!
-            
+                        
             // Make an instance of a title and modify its template according to the caption
             let newTitle = AEXMLElement(name: "title", attributes: [
                 "name": caption.text,
                 "lane": "1",
-                "offset": String(caption.start) + "s",
+                "offset": formatTimestamp(val: caption.start, fd: frameDuration2997!),
                 "ref": "r4",
-                "duration": String(caption.duration) + "s"
+                "duration": formatTimestamp(val: caption.duration, fd: frameDuration30!)
             ])
             
             let textStyle = AEXMLElement(name: "text-style", attributes: [
