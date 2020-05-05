@@ -42,16 +42,18 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
                 convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
                 
                 // Upload audio to Google Cloud Storage
-                uploadAudio(withURL: wavURL) { fileID, error in
+                uploadAudio(withURL: wavURL) { audioRef, fileID, error in
                     if fileID != nil {
                         
                         // Download captions file from Google Cloud Storage by short polling the server
-                        do { sleep(15) }  // TODO: Make this a websockets callback to the Firebase DB
+                        do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
                         downloadCaptions(withFileID: fileID!) { captionData, error in
                             if captionData != nil {
                                 self.captions = captionData!
+                                print(self.captions)
+                                //deleteAudio(withStorageRef: audioRef!) //FIXME: This is messing up the upload step (multithread issue!)
                             } else { self.captions = [] }
-                            print(self.captions)
+                            
                             return
                         }
                     }

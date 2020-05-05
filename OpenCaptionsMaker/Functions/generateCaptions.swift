@@ -152,7 +152,7 @@ func convertM4AToWAV(inputURL: URL, outputURL: URL) {
 }
 
 // Upload audio to Google Cloud Storage where a Firebase transcription function will be triggered
-func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (String?, Error?) -> Void) {
+func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (StorageReference?, String?, Error?) -> Void) {
     
     // Assign a random identifier to be used in the bucket and reference the file in the bucket
     let randomID = UUID.init().uuidString
@@ -167,11 +167,11 @@ func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (String?, E
     uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
         if let error = error {
             print("Error uploading audio file! \(error.localizedDescription)")
-            completionHandler(nil, error)
+            completionHandler(nil, nil, error)
         }
         else {
             print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
-            completionHandler(randomID, nil)
+            completionHandler(uploadRef, randomID, nil)
         }
     }
     
@@ -201,6 +201,18 @@ func downloadCaptions(withFileID fileID: String, completionHandler: @escaping ([
             } catch {
                 print("Error in JSON parsing.")
             }
+        }
+    }
+}
+
+// Delete temporary audio file from bucket in Google Cloud Storage
+func deleteAudio(withStorageRef storageRef: StorageReference) -> Void {
+    
+    storageRef.delete { error in
+        if let error = error {
+            print("Error deleting audio file from Google Cloud Storage: \(error.localizedDescription)")
+        } else {
+            print("Successfully deleted audio file from Google Cloud Storage.")
         }
     }
 }
