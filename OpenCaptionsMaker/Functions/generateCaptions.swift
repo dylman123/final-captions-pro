@@ -11,6 +11,73 @@ import AVFoundation
 import Firebase
 import SwiftUI
 
+enum GenerateCaptionsError: Error {
+    case url
+    case formatConversion
+    case extractAudio
+    case deleteAudio
+}
+
+// AsyncAwait version of extractAudio
+func extractAudioAsyncAwait(fromVideoFile sourceURL: URL?) throws -> URL? {
+    
+    guard let url = sourceURL else {
+        throw GenerateCaptionsError.url
+    }
+    
+    // Check format conversion compatibility (to m4a)
+    let videoAsset = AVURLAsset(url: url)
+    var isCompatibleWithM4A: Bool?
+    AVAssetExportSession.determineCompatibility(ofExportPreset: AVAssetExportPresetPassthrough, with: videoAsset, outputFileType: AVFileType.m4a, completionHandler:
+        { result in isCompatibleWithM4A = result })
+    guard isCompatibleWithM4A == true else { throw GenerateCaptionsError.extractAudio }
+    
+    // Create a composition
+    let composition = AVMutableComposition()
+    do {
+        // Creat an AVAsset from the video's sourceURL
+        let asset = AVURLAsset(url: url)
+        guard let audioAssetTrack = asset.tracks(withMediaType: AVMediaType.audio).first else
+        { throw GenerateCaptionsError.extractAudio }
+        
+        guard let audioCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) else
+        { throw GenerateCaptionsError.extractAudio }
+        
+        try audioCompositionTrack.insertTimeRange(audioAssetTrack.timeRange, of: audioAssetTrack, at: CMTime.zero)
+    } catch {
+        print("Error extracting audio from video file: \(error.localizedDescription)")
+        throw GenerateCaptionsError.extractAudio
+    }
+    
+    // Get URL for output
+    let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "extracted-audio.m4a")
+    if FileManager.default.fileExists(atPath: outputURL.path) {
+        try? FileManager.default.removeItem(atPath: outputURL.path)
+    }
+    
+    // Create an export session
+    let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!
+    exportSession.outputFileType = AVFileType.m4a
+    exportSession.outputURL = outputURL
+    
+    // Semaphore for asynchronous export
+    let semaphore = DispatchSemaphore(value: 0)
+    
+    // Export file
+    exportSession.exportAsynchronously {
+        guard case exportSession.status = AVAssetExportSession.Status.completed else { return }
+
+        DispatchQueue.main.async {
+            guard let outputURL = exportSession.outputURL else { return }
+            print("Extracted audio file has URL path: \(outputURL)")
+            semaphore.signal()
+        }
+    }
+    
+    _ = semaphore.wait(timeout: .distantFuture)
+    return outputURL
+}
+
 // Extract audio from video file and asynchronously return result in a closure
 func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (URL?, Error?) -> Void) {
     
