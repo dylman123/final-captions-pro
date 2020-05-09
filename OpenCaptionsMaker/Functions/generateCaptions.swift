@@ -11,42 +11,50 @@ import AVFoundation
 import Firebase
 import SwiftUI
 
-enum GenerateCaptionsError: Error {
-    case url
-    case formatConversion
-    case extractAudio
-    case deleteAudio
-}
-
-// AsyncAwait version of extractAudio
-func extractAudioAsyncAwait(fromVideoFile sourceURL: URL?) throws -> URL? {
+// Extract audio from video file
+func extractAudio(fromVideoFile sourceURL: URL?) throws -> URL? {
+    
+    enum ExtractAudioError: Error {
+        case url
+        case format
+        case AVAsset
+        case composition
+    }
+    
+    // Semaphore for asynchronous tasks
+    let semaphore = DispatchSemaphore(value: 0)
     
     guard let url = sourceURL else {
-        throw GenerateCaptionsError.url
+        throw ExtractAudioError.url
     }
     
     // Check format conversion compatibility (to m4a)
     let videoAsset = AVURLAsset(url: url)
     var isCompatibleWithM4A: Bool?
     AVAssetExportSession.determineCompatibility(ofExportPreset: AVAssetExportPresetPassthrough, with: videoAsset, outputFileType: AVFileType.m4a, completionHandler:
-        { result in isCompatibleWithM4A = result })
-    guard isCompatibleWithM4A == true else { throw GenerateCaptionsError.extractAudio }
+    { result in
+        isCompatibleWithM4A = result
+        semaphore.signal()
+    })
+    _ = semaphore.wait(timeout: .distantFuture)
+    
+    guard isCompatibleWithM4A == true else {
+        throw ExtractAudioError.format
+    }
+    
+    // Creat an AVAsset from the video's sourceURL
+    let asset = AVURLAsset(url: url)
+    guard let audioAssetTrack = asset.tracks(withMediaType: AVMediaType.audio).first else
+    { throw ExtractAudioError.AVAsset }
     
     // Create a composition
     let composition = AVMutableComposition()
+    guard let audioCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) else
+    { throw ExtractAudioError.composition }
     do {
-        // Creat an AVAsset from the video's sourceURL
-        let asset = AVURLAsset(url: url)
-        guard let audioAssetTrack = asset.tracks(withMediaType: AVMediaType.audio).first else
-        { throw GenerateCaptionsError.extractAudio }
-        
-        guard let audioCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) else
-        { throw GenerateCaptionsError.extractAudio }
-        
         try audioCompositionTrack.insertTimeRange(audioAssetTrack.timeRange, of: audioAssetTrack, at: CMTime.zero)
     } catch {
-        print("Error extracting audio from video file: \(error.localizedDescription)")
-        throw GenerateCaptionsError.extractAudio
+        throw ExtractAudioError.composition
     }
     
     // Get URL for output
@@ -60,25 +68,19 @@ func extractAudioAsyncAwait(fromVideoFile sourceURL: URL?) throws -> URL? {
     exportSession.outputFileType = AVFileType.m4a
     exportSession.outputURL = outputURL
     
-    // Semaphore for asynchronous export
-    let semaphore = DispatchSemaphore(value: 0)
-    
     // Export file
     exportSession.exportAsynchronously {
         guard case exportSession.status = AVAssetExportSession.Status.completed else { return }
-
-        DispatchQueue.main.async {
-            guard let outputURL = exportSession.outputURL else { return }
-            print("Extracted audio file has URL path: \(outputURL)")
-            semaphore.signal()
-        }
+        guard let outputURL = exportSession.outputURL else { return }
+        print("Extracted audio file has URL path: \(outputURL)")
+        semaphore.signal()
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
     return outputURL
 }
 
-// Extract audio from video file and asynchronously return result in a closure
+/*// Extract audio from video file and asynchronously return result in a closure
 func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (URL?, Error?) -> Void) {
     
     // Check format conversion compatibility (to m4a)
@@ -125,7 +127,7 @@ func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (UR
         }
     }
     return
-}
+}*/
 
 // Convert .m4a file to .wav format
 func convertM4AToWAV(inputURL: URL, outputURL: URL) {
@@ -219,6 +221,34 @@ func convertM4AToWAV(inputURL: URL, outputURL: URL) {
 }
 
 // Upload audio to Google Cloud Storage where a Firebase transcription function will be triggered
+func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
+    
+    // Assign a random identifier to be used in the bucket and reference the file in the bucket
+    let randomID = UUID.init().uuidString
+    let uploadRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-audio/\(randomID).wav")
+    
+    // Create file metadata
+    let uploadMetadata = StorageMetadata.init()
+    uploadMetadata.contentType = "audio/wav"
+    
+    // Do a PUT request to upload the file and check for errors
+    print("Uploading audio to the cloud...")
+    var downloadMetadata: StorageMetadata?
+    var error: Error?
+    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in
+        if let err = err { error = err }
+        else { downloadMetadata = md }
+    }
+    if error != nil {
+        print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
+        return (uploadRef, randomID)
+    }
+    else {
+        throw error!
+    }
+}
+
+/*// Upload audio to Google Cloud Storage where a Firebase transcription function will be triggered
 func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (StorageReference?, String?, Error?) -> Void) {
     
     // Assign a random identifier to be used in the bucket and reference the file in the bucket
@@ -242,9 +272,42 @@ func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (StorageRef
         }
     }
     
-}
+}*/
 
 // Download captions file from Google Cloud Storage
+func downloadCaptions(withFileID fileID: String) throws -> [Caption]? {
+    
+    var captionsArray: [Caption]?
+
+    // Do a GET request to download the captions file and check for errors
+    let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
+    var responseData: Data?
+    var downloadError: Error?
+    storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
+        if let error = error {
+            downloadError = error
+        }
+        else {
+            print("Captions file succesfully downloaded.")
+            responseData = data!
+        }
+    }
+    guard downloadError != nil else { throw downloadError! }
+    
+    // Parse downloaded response as JSON
+    let decoder = JSONDecoder()
+    do {
+        let result = try decoder.decode(JSONResult.self, from: responseData!)
+        captionsArray = result.captions
+        print("Successfully parsed JSON: \(captionsArray!)")
+        return captionsArray
+    } catch {
+        let JSONParseError: Error = error
+        throw JSONParseError
+    }
+}
+
+/*// Download captions file from Google Cloud Storage
 func downloadCaptions(withFileID fileID: String, completionHandler: @escaping ([Caption]?, Error?) -> Void) {
     
     // Do a GET request to download the captions file and check for errors
@@ -270,18 +333,20 @@ func downloadCaptions(withFileID fileID: String, completionHandler: @escaping ([
             }
         }
     }
-}
+}*/
 
 // Delete temporary audio file from bucket in Google Cloud Storage
-func deleteAudio(withStorageRef storageRef: StorageReference) -> Void {
+func deleteAudio(withStorageRef storageRef: StorageReference) throws -> Void {
     
+    var deleteError: Error?
     storageRef.delete { error in
         if let error = error {
-            print("Error deleting audio file from Google Cloud Storage: \(error.localizedDescription)")
+            deleteError = error
         } else {
             print("Successfully deleted audio file from Google Cloud Storage.")
         }
     }
+    guard deleteError != nil else { throw deleteError! }
 }
 
 //func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([String:Any]?, Error?) -> Void) {

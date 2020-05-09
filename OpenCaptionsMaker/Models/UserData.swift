@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import Firebase
 
 class UserData: NSObject, ObservableObject, XMLParserDelegate {
     
@@ -33,8 +34,56 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
     // Generates captions by using a transcription service
     func _generateCaptions(forFile videoURL: URL) -> Void {
         
+        // Extract audio from video file
+        var m4aURL: URL?
+        do {
+            m4aURL = try extractAudio(fromVideoFile: videoURL)
+        } catch {
+            print("Error extracting audio from video file: \(error): \(error.localizedDescription)")
+            return
+        }
+                
+        // Convert .m4a file to .wav format
+        guard m4aURL != nil else { return }
+        let wavURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
+        convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
+        
+        // Upload audio to Google Cloud Storage
+        var audioRef: StorageReference?
+        var fileID: String?
+        do {
+            (audioRef, fileID) = try uploadAudio(withURL: wavURL)
+        } catch {
+            print("Error uploading audio file! \(error.localizedDescription)")
+            return
+        }
+        
+        // Download captions file from Google Cloud Storage
+        do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
+        var captionData: [Caption]?
+        do {
+            captionData = try downloadCaptions(withFileID: fileID!)
+        } catch {
+            print("Error downloading captions file! \(error.localizedDescription)")
+            return
+        }
+        
+        // Delete temporary audio file from bucket in Google Cloud Storage
+        do {
+            try deleteAudio(withStorageRef: audioRef!)
+        } catch {
+            print("Error deleting audio file from Google Cloud Storage:  \(error.localizedDescription)")
+        }
+        
+        // Set self.captions variable
+        if captionData != nil {
+            self.captions = captionData!
+        } else {
+            self.captions = []
+        }
+        
         // Extract audio from video file and asynchronously return result in a closure
-        extractAudio(fromVideoFile: videoURL) { m4aURL, error in
+        /*extractAudio(fromVideoFile: videoURL) { m4aURL, error in
             if m4aURL != nil {
 
                 // Convert .m4a file to .wav format
@@ -59,7 +108,7 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
                     }
                 }
             }
-        }
+        }*/
     }
     
     // Adds a blank caption into the row above the selected cell. The new caption's end time will match the caller caption's start time
