@@ -34,81 +34,79 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
     // Generates captions by using a transcription service
     func _generateCaptions(forFile videoURL: URL) -> Void {
         
-        // Extract audio from video file
-        var m4aURL: URL?
-        do {
-            m4aURL = try extractAudio(fromVideoFile: videoURL)
-        } catch {
-            print("Error extracting audio from video file: \(error): \(error.localizedDescription)")
-            return
-        }
-                
-        // Convert .m4a file to .wav format
-        guard m4aURL != nil else { return }
-        let wavURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
-        convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
-        
-        // Upload audio to Google Cloud Storage
-        var audioRef: StorageReference?
-        var fileID: String?
-        do {
-            (audioRef, fileID) = try uploadAudio(withURL: wavURL)
-        } catch {
-            print("Error uploading audio file! \(error.localizedDescription)")
-            return
-        }
-        
-        // Download captions file from Google Cloud Storage
-        do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
         var captionData: [Caption]?
-        do {
-            captionData = try downloadCaptions(withFileID: fileID!)
-        } catch {
-            print("Error downloading captions file! \(error.localizedDescription)")
-            return
-        }
         
-        // Delete temporary audio file from bucket in Google Cloud Storage
-        do {
-            try deleteAudio(withStorageRef: audioRef!)
-        } catch {
-            print("Error deleting audio file from Google Cloud Storage:  \(error.localizedDescription)")
-        }
+        // Semaphore for asynchronous tasks
+        let semaphore = DispatchSemaphore(value: 0)
         
-        // Set self.captions variable
-        if captionData != nil {
-            self.captions = captionData!
-        } else {
-            self.captions = []
-        }
+        // Run on a background thread
+        DispatchQueue.global().async {
+            
+            // Extract audio from video file
+            var m4aURL: URL?
+            do {
+                m4aURL = try extractAudio(fromVideoFile: videoURL)
+                semaphore.signal()
+            } catch {
+                print("Error extracting audio from video file: \(error): \(error.localizedDescription)")
+                return
+            }
+            
+            _ = semaphore.wait(timeout: .distantFuture)
+            
+            // Convert .m4a file to .wav format
+            var wavURL: URL?
+            do {
+                wavURL = try convertM4AToWAV(inputURL: m4aURL!)
+                semaphore.signal()
+            } catch {
+                print("Error converting .m4a to .wav format: \(error.localizedDescription)")
+                return
+            }
+            
+            _ = semaphore.wait(timeout: .distantFuture)
+            
+            // Upload audio to Google Cloud Storage
+            var audioRef: StorageReference?
+            var fileID: String?
+            do {
+                (audioRef, fileID) = try uploadAudio(withURL: wavURL!)
+                semaphore.signal()
+            } catch {
+                print("Error uploading audio file: \(error.localizedDescription)")
+                return
+            }
+            
+            _ = semaphore.wait(timeout: .distantFuture)
+            
+            // Download captions file from Google Cloud Storage
+            do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
+            do {
+                captionData = try downloadCaptions(withFileID: fileID!)
+                semaphore.signal()
+            } catch {
+                print("Error downloading captions file: \(error.localizedDescription)")
+                return
+            }
+            
+            _ = semaphore.wait(timeout: .distantFuture)
+            
+            // Delete temporary audio file from bucket in Google Cloud Storage
+            do {
+                try deleteAudio(withStorageRef: audioRef!)
+            } catch {
+                print("Error deleting audio file from Google Cloud Storage:  \(error.localizedDescription)")
+            }
         
-        // Extract audio from video file and asynchronously return result in a closure
-        /*extractAudio(fromVideoFile: videoURL) { m4aURL, error in
-            if m4aURL != nil {
-
-                // Convert .m4a file to .wav format
-                let wavURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
-                convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
-                
-                // Upload audio to Google Cloud Storage
-                uploadAudio(withURL: wavURL) { audioRef, fileID, error in
-                    if fileID != nil {
-                        
-                        // Download captions file from Google Cloud Storage by short polling the server
-                        do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
-                        downloadCaptions(withFileID: fileID!) { captionData, error in
-                            if captionData != nil {
-                                self.captions = captionData!
-                                print(self.captions)
-                                //deleteAudio(withStorageRef: audioRef!) //FIXME: This is messing up the upload step (multithread issue!)
-                            } else { self.captions = [] }
-                            
-                            return
-                        }
-                    }
+            // Update views with new data
+            DispatchQueue.main.async {
+                if captionData != nil {
+                    self.captions = captionData!
+                } else {
+                    self.captions = initialCaptionsList
                 }
             }
-        }*/
+        }
     }
     
     // Adds a blank caption into the row above the selected cell. The new caption's end time will match the caller caption's start time

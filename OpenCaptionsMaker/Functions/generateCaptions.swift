@@ -31,13 +31,14 @@ func extractAudio(fromVideoFile sourceURL: URL?) throws -> URL? {
     // Check format conversion compatibility (to m4a)
     let videoAsset = AVURLAsset(url: url)
     var isCompatibleWithM4A: Bool?
-    AVAssetExportSession.determineCompatibility(ofExportPreset: AVAssetExportPresetPassthrough, with: videoAsset, outputFileType: AVFileType.m4a, completionHandler:
-    { result in
-        isCompatibleWithM4A = result
-        semaphore.signal()
-    })
+    AVAssetExportSession.determineCompatibility(ofExportPreset: AVAssetExportPresetPassthrough, with: videoAsset, outputFileType: AVFileType.m4a, completionHandler: { result in
+            DispatchQueue.main.async {
+                isCompatibleWithM4A = result
+                semaphore.signal()
+            }
+        })
+
     _ = semaphore.wait(timeout: .distantFuture)
-    
     guard isCompatibleWithM4A == true else {
         throw ExtractAudioError.format
     }
@@ -80,57 +81,11 @@ func extractAudio(fromVideoFile sourceURL: URL?) throws -> URL? {
     return outputURL
 }
 
-/*// Extract audio from video file and asynchronously return result in a closure
-func extractAudio(fromVideoFile sourceURL: URL, completionHandler: @escaping (URL?, Error?) -> Void) {
-    
-    // Check format conversion compatibility (to m4a)
-    let videoAsset = AVURLAsset(url: sourceURL)
-    AVAssetExportSession.determineCompatibility(ofExportPreset: AVAssetExportPresetPassthrough, with: videoAsset, outputFileType: AVFileType.m4a, completionHandler: { result in
-        guard result else {
-            print("Video file cannot be converted to .m4a format.")
-            return
-        }
-    })
-    
-    // Create a composition
-    let composition = AVMutableComposition()
-    do {
-        // Creat an AVAsset from the video's sourceURL
-        let asset = AVURLAsset(url: sourceURL)
-        guard let audioAssetTrack = asset.tracks(withMediaType: AVMediaType.audio).first else { return }
-        guard let audioCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) else { return }
-        try audioCompositionTrack.insertTimeRange(audioAssetTrack.timeRange, of: audioAssetTrack, at: CMTime.zero)
-    } catch {
-        print("Error extracting audio from video file: \(error.localizedDescription)")
-        completionHandler(nil, error)
-    }
-
-    // Get URL for output
-    let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "extracted-audio.m4a")
-    if FileManager.default.fileExists(atPath: outputURL.path) {
-        try? FileManager.default.removeItem(atPath: outputURL.path)
-    }
-
-    // Create an export session
-    let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!
-    exportSession.outputFileType = AVFileType.m4a
-    exportSession.outputURL = outputURL
-
-    // Export file
-    exportSession.exportAsynchronously {
-        guard case exportSession.status = AVAssetExportSession.Status.completed else { return }
-
-        DispatchQueue.main.async {
-            guard let outputURL = exportSession.outputURL else { return }
-            print("Extracted audio file has URL path: \(outputURL)")
-            completionHandler(outputURL, nil)
-        }
-    }
-    return
-}*/
-
 // Convert .m4a file to .wav format
-func convertM4AToWAV(inputURL: URL, outputURL: URL) {
+func convertM4AToWAV(inputURL: URL) throws -> URL? {
+    enum convertError: Error {
+        case convert
+    }
     var error : OSStatus = noErr
     var destinationFile: ExtAudioFileRef? = nil
     var sourceFile : ExtAudioFileRef? = nil
@@ -157,6 +112,7 @@ func convertM4AToWAV(inputURL: URL, outputURL: URL) {
     kAudioFormatFlagIsSignedInteger
 
     // Create destination file
+    let outputURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
     error = ExtAudioFileCreateWithURL(
         outputURL as CFURL,
         kAudioFileWAVEType,
@@ -217,11 +173,17 @@ func convertM4AToWAV(inputURL: URL, outputURL: URL) {
     
     if error == 0 {
         print("Succcessfully saved .wav audio as: \(outputURL)")
+        return outputURL
+    } else {
+        throw convertError.convert
     }
 }
 
 // Upload audio to Google Cloud Storage where a Firebase transcription function will be triggered
 func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
+    
+    // Semaphore for asynchronous tasks
+    let semaphore = DispatchSemaphore(value: 0)
     
     // Assign a random identifier to be used in the bucket and reference the file in the bucket
     let randomID = UUID.init().uuidString
@@ -235,11 +197,14 @@ func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
     print("Uploading audio to the cloud...")
     var downloadMetadata: StorageMetadata?
     var error: Error?
+    
     uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in
         if let err = err { error = err }
         else { downloadMetadata = md }
+        semaphore.signal()
     }
-    if error != nil {
+    _ = semaphore.wait(timeout: .distantFuture)
+    if downloadMetadata != nil {
         print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
         return (uploadRef, randomID)
     }
@@ -248,51 +213,27 @@ func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
     }
 }
 
-/*// Upload audio to Google Cloud Storage where a Firebase transcription function will be triggered
-func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (StorageReference?, String?, Error?) -> Void) {
-    
-    // Assign a random identifier to be used in the bucket and reference the file in the bucket
-    let randomID = UUID.init().uuidString
-    let uploadRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-audio/\(randomID).wav")
-    
-    // Create file metadata
-    let uploadMetadata = StorageMetadata.init()
-    uploadMetadata.contentType = "audio/wav"
-    
-    // Do a PUT request to upload the file and check for errors
-    print("Uploading audio to the cloud...")
-    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
-        if let error = error {
-            print("Error uploading audio file! \(error.localizedDescription)")
-            completionHandler(nil, nil, error)
-        }
-        else {
-            print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
-            completionHandler(uploadRef, randomID, nil)
-        }
-    }
-    
-}*/
-
 // Download captions file from Google Cloud Storage
 func downloadCaptions(withFileID fileID: String) throws -> [Caption]? {
     
     var captionsArray: [Caption]?
+    
+    // Semaphore for asynchronous tasks
+    let semaphore = DispatchSemaphore(value: 0)
 
     // Do a GET request to download the captions file and check for errors
     let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
     var responseData: Data?
     var downloadError: Error?
     storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
-        if let error = error {
-            downloadError = error
-        }
-        else {
-            print("Captions file succesfully downloaded.")
-            responseData = data!
-        }
+        if let error = error { downloadError = error }
+        else { responseData = data! }
+        semaphore.signal()
     }
-    guard downloadError != nil else { throw downloadError! }
+    _ = semaphore.wait(timeout: .distantFuture)
+    if responseData != nil {
+        print("Captions file succesfully downloaded.")
+    } else { throw downloadError! }
     
     // Parse downloaded response as JSON
     let decoder = JSONDecoder()
@@ -307,114 +248,19 @@ func downloadCaptions(withFileID fileID: String) throws -> [Caption]? {
     }
 }
 
-/*// Download captions file from Google Cloud Storage
-func downloadCaptions(withFileID fileID: String, completionHandler: @escaping ([Caption]?, Error?) -> Void) {
-    
-    // Do a GET request to download the captions file and check for errors
-    let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
-    storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
-        
-        // If there is an error in downloading the file
-        if let error = error {
-            print("Error downloading captions file! \(error.localizedDescription)")
-            completionHandler(nil, error)
-        }
-        else {
-            print("Captions file succesfully downloaded.")
-            let decoder = JSONDecoder()
-            do {
-                // Parse downloaded response as JSON
-                let result = try decoder.decode(JSONResult.self, from: data!)
-                let captions = result.captions
-                print("Successfully parsed JSON.")
-                completionHandler(captions, nil)
-            } catch {
-                print("Error in JSON parsing.")
-            }
-        }
-    }
-}*/
-
 // Delete temporary audio file from bucket in Google Cloud Storage
 func deleteAudio(withStorageRef storageRef: StorageReference) throws -> Void {
     
+    // Semaphore for asynchronous tasks
+    let semaphore = DispatchSemaphore(value: 0)
+    
     var deleteError: Error?
     storageRef.delete { error in
-        if let error = error {
-            deleteError = error
-        } else {
-            print("Successfully deleted audio file from Google Cloud Storage.")
-        }
+        if let error = error { deleteError = error }
+        semaphore.signal()
     }
-    guard deleteError != nil else { throw deleteError! }
+    _ = semaphore.wait(timeout: .distantFuture)
+    if deleteError == nil {
+        print("Successfully deleted audio file from Google Cloud Storage.")
+    } else { throw deleteError! }
 }
-
-//func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([String:Any]?, Error?) -> Void) {
-//
-//    // URL
-//    let url = URL(string: "https://rev-ai.p.rapidapi.com/jobs")
-//    guard url != nil else {
-//        print("Error creating URL object.")
-//        return
-//    }
-//
-//    // URL Request
-//    var request = URLRequest(url: url!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30.0)
-//
-//    // Specify the header
-//    let headers = [
-//        "x-rapidapi-host": "rev-ai.p.rapidapi.com",
-//        "x-rapidapi-key": "378f1cde96mshdf2795f0e8ff706p12ee5bjsne932a0f04d18",
-//        "content-type": "application/json",
-//        "accept": "application/json"
-//    ]
-//    request.allHTTPHeaderFields = headers
-//
-//    // Specify the body
-//    let parameters: [String:Any] = [
-//        "media_url": "https://support.rev.com/hc/en-us/article_attachments/200043975/FTC_Sample_1_-_Single.mp3",
-//        "metadata": "Optional metadata associated with the job",
-//        "callback_url": "https://www.example.com/callback"
-//    ]
-//    do {
-//        let requestBody = try JSONSerialization.data(withJSONObject: parameters, options: .fragmentsAllowed)
-//        request.httpBody = requestBody
-//    } catch {
-//        print("Error creating the data object from the JSON object.")
-//    }
-//
-//    // Set the request type
-//    request.httpMethod = "POST"
-//
-//    // Get the URLSession
-//    let session = URLSession.shared
-//
-//    // Create the data task
-//    let dataTask = session.dataTask(with: request) { (data, response, error) in
-//
-//        // Check for errors
-//        if error == nil && data != nil {
-//
-//            // Try to parse out the data
-//            do {
-//                let dictionary = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? [String:Any]
-//                print(dictionary!)
-//            } catch {
-//                print("Error parsing response data.")
-//            }
-//        }
-//
-//    }
-//
-//    // Fire off the data task
-//    dataTask.resume()
-//
-//    return
-//}
-//
-//func formCaptions(fromData transcriptionData: [String:String]) -> [Caption] {
-//    let captionData: [Caption] = []
-//    // Insert code to form captions from a JSON structured API response
-//
-//    return captionData
-//}
