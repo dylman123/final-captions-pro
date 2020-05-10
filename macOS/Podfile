@@ -1,0 +1,23 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'OpenCaptionsMaker' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for OpenCaptionsMaker
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Functions'
+  pod 'AEXML'
+
+  target 'OpenCaptionsMakerTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'OpenCaptionsMakerUITests' do
+    # Pods for testing
+  end
+
+end
