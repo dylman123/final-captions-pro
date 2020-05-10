@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		27CA6E2BB3E88326F9130E02 /* Pods_OpenCaptionsMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */; };
+		264FD3A7FBC743072200B543 /* Pods_OpenCaptionsMakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644BD4A83EFE869E42807A08 /* Pods_OpenCaptionsMakerTests.framework */; };
+		4A1FE56172CF09DEEA8DCD02 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C7C072B6A10EB72876F138 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */; };
 		A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13D2446C46800CD1C15 /* CaptionList.swift */; };
 		A36655C5244A8F1D002FA173 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655C4244A8F1D002FA173 /* UserData.swift */; };
 		A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1542448788100CD1C15 /* VideoPlayer.swift */; };
@@ -27,6 +28,7 @@
 		A3E6632B2467CE740013450E /* fcpxml-v1.8.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A3E663282467CE740013450E /* fcpxml-v1.8.dtd */; };
 		A3E6632C2467CE740013450E /* title.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E663292467CE740013450E /* title.fcpxml */; };
 		A3E6632D2467CE740013450E /* template.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E6632A2467CE740013450E /* template.fcpxml */; };
+		A3E6633324680BF00013450E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3E6633224680BF00013450E /* GoogleService-Info.plist */; };
 		A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48A92445A1D10077E555 /* AppDelegate.swift */; };
 		A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48AB2445A1D10077E555 /* ContentView.swift */; };
 		A3EB48AE2445A1D90077E555 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3EB48AD2445A1D90077E555 /* Assets.xcassets */; };
@@ -34,9 +36,7 @@
 		A3EB48B42445A1D90077E555 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EB48B22445A1D90077E555 /* Main.storyboard */; };
 		A3EB48C02445A1D90077E555 /* OpenCaptionsMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48BF2445A1D90077E555 /* OpenCaptionsMakerTests.swift */; };
 		A3EB48CB2445A1D90077E555 /* OpenCaptionsMakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48CA2445A1D90077E555 /* OpenCaptionsMakerUITests.swift */; };
-		A3F346812456EF790055858D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3F346802456EF790055858D /* GoogleService-Info.plist */; };
-		B1115A07077872F99A757CC7 /* Pods_OpenCaptionsMakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */; };
-		F5A4513DCD167E3BC7761514 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */; };
+		C8FB55CC2521ACED137850B5 /* Pods_OpenCaptionsMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFB086FC66B8C8E75B4745F /* Pods_OpenCaptionsMaker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,13 +57,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.debug.xcconfig"; sourceTree = "<group>"; };
-		07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.release.xcconfig"; sourceTree = "<group>"; };
-		55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMakerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		020C45A7FEF7C0FE43D02E88 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		45C7C072B6A10EB72876F138 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		644BD4A83EFE869E42807A08 /* Pods_OpenCaptionsMakerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMakerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77735B8D0252038923034451 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		7CFB086FC66B8C8E75B4745F /* Pods_OpenCaptionsMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CB7CF36067F29642BD75C14 /* Pods-OpenCaptionsMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.release.xcconfig"; sourceTree = "<group>"; };
+		996BFB98D007FBE9E952A18B /* Pods-OpenCaptionsMakerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.release.xcconfig"; sourceTree = "<group>"; };
 		A36655BC24499293002FA173 /* AppKitElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitElements.swift; sourceTree = "<group>"; };
 		A36655C4244A8F1D002FA173 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		A36655CD244D7E95002FA173 /* FileInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInput.swift; sourceTree = "<group>"; };
@@ -83,6 +83,7 @@
 		A3E663282467CE740013450E /* fcpxml-v1.8.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "fcpxml-v1.8.dtd"; sourceTree = "<group>"; };
 		A3E663292467CE740013450E /* title.fcpxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = title.fcpxml; sourceTree = "<group>"; };
 		A3E6632A2467CE740013450E /* template.fcpxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = template.fcpxml; sourceTree = "<group>"; };
+		A3E6633224680BF00013450E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A3E9B887245BCAF8006265C9 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A3EB48A62445A1D10077E555 /* OpenCaptionsMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenCaptionsMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3EB48A92445A1D10077E555 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,9 +99,8 @@
 		A3EB48C62445A1D90077E555 /* OpenCaptionsMakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenCaptionsMakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3EB48CA2445A1D90077E555 /* OpenCaptionsMakerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenCaptionsMakerUITests.swift; sourceTree = "<group>"; };
 		A3EB48CC2445A1D90077E555 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A3F346802456EF790055858D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.release.xcconfig"; sourceTree = "<group>"; };
-		D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D6B53AE35E0B6FFD1D9C4A67 /* Pods-OpenCaptionsMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.debug.xcconfig"; sourceTree = "<group>"; };
+		F4404DB89A03718D738BC39F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27CA6E2BB3E88326F9130E02 /* Pods_OpenCaptionsMaker.framework in Frameworks */,
+				C8FB55CC2521ACED137850B5 /* Pods_OpenCaptionsMaker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1115A07077872F99A757CC7 /* Pods_OpenCaptionsMakerTests.framework in Frameworks */,
+				264FD3A7FBC743072200B543 /* Pods_OpenCaptionsMakerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5A4513DCD167E3BC7761514 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */,
+				4A1FE56172CF09DEEA8DCD02 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,22 +134,22 @@
 		47EF76770BDEB6677740BA35 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */,
-				D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */,
-				603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */,
-				D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */,
-				07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */,
-				23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */,
+				D6B53AE35E0B6FFD1D9C4A67 /* Pods-OpenCaptionsMaker.debug.xcconfig */,
+				8CB7CF36067F29642BD75C14 /* Pods-OpenCaptionsMaker.release.xcconfig */,
+				020C45A7FEF7C0FE43D02E88 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */,
+				77735B8D0252038923034451 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */,
+				F4404DB89A03718D738BC39F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */,
+				996BFB98D007FBE9E952A18B /* Pods-OpenCaptionsMakerTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		75EBD76382B840B5787E2B1D /* Frameworks */ = {
+		79BCD84F0FE1A9767E7D96C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */,
-				64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */,
-				55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */,
+				7CFB086FC66B8C8E75B4745F /* Pods_OpenCaptionsMaker.framework */,
+				45C7C072B6A10EB72876F138 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */,
+				644BD4A83EFE869E42807A08 /* Pods_OpenCaptionsMakerTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -217,7 +217,7 @@
 				A3EB48C92445A1D90077E555 /* OpenCaptionsMakerUITests */,
 				A3EB48A72445A1D10077E555 /* Products */,
 				47EF76770BDEB6677740BA35 /* Pods */,
-				75EBD76382B840B5787E2B1D /* Frameworks */,
+				79BCD84F0FE1A9767E7D96C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -244,7 +244,7 @@
 				A3EB48AD2445A1D90077E555 /* Assets.xcassets */,
 				A3EB48B22445A1D90077E555 /* Main.storyboard */,
 				A3EB48B52445A1D90077E555 /* Info.plist */,
-				A3F346802456EF790055858D /* GoogleService-Info.plist */,
+				A3E6633224680BF00013450E /* GoogleService-Info.plist */,
 				A3EB48B62445A1D90077E555 /* OpenCaptionsMaker.entitlements */,
 				A3EB48AF2445A1D90077E555 /* Preview Content */,
 			);
@@ -284,11 +284,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48CF2445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMaker" */;
 			buildPhases = (
-				34E862B999E4FF4E113F3B72 /* [CP] Check Pods Manifest.lock */,
+				FD9D458E2F7600F9E827A8AD /* [CP] Check Pods Manifest.lock */,
 				A3EB48A22445A1D10077E555 /* Sources */,
 				A3EB48A32445A1D10077E555 /* Frameworks */,
 				A3EB48A42445A1D10077E555 /* Resources */,
-				F8A070DE093097970C18A6FD /* [CP] Embed Pods Frameworks */,
+				E6B69B3FAD3CC5B6EAAB40F6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -303,7 +303,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48D22445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMakerTests" */;
 			buildPhases = (
-				C59AFB05DBFDD3EEE48589B7 /* [CP] Check Pods Manifest.lock */,
+				1431AD4D7CAC06138863D07E /* [CP] Check Pods Manifest.lock */,
 				A3EB48B72445A1D90077E555 /* Sources */,
 				A3EB48B82445A1D90077E555 /* Frameworks */,
 				A3EB48B92445A1D90077E555 /* Resources */,
@@ -322,11 +322,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48D52445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMakerUITests" */;
 			buildPhases = (
-				801C6D1E45B452FF3AA2147E /* [CP] Check Pods Manifest.lock */,
+				66B235D6CCAC5663790F9209 /* [CP] Check Pods Manifest.lock */,
 				A3EB48C22445A1D90077E555 /* Sources */,
 				A3EB48C32445A1D90077E555 /* Frameworks */,
 				A3EB48C42445A1D90077E555 /* Resources */,
-				4D3E9AAA9A3B289107F1974F /* [CP] Embed Pods Frameworks */,
+				46542EA470993D141BF91B62 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -388,10 +388,10 @@
 			files = (
 				A37FD14E2447254400CD1C15 /* captionData.json in Resources */,
 				A36655D2244DC0DA002FA173 /* MainMenu.xib in Resources */,
+				A3E6633324680BF00013450E /* GoogleService-Info.plist in Resources */,
 				A3EB48B42445A1D90077E555 /* Main.storyboard in Resources */,
 				A3EB48B12445A1D90077E555 /* Preview Assets.xcassets in Resources */,
 				A3EB48AE2445A1D90077E555 /* Assets.xcassets in Resources */,
-				A3F346812456EF790055858D /* GoogleService-Info.plist in Resources */,
 				A3E6632C2467CE740013450E /* title.fcpxml in Resources */,
 				A3E6632B2467CE740013450E /* fcpxml-v1.8.dtd in Resources */,
 				A3E6632D2467CE740013450E /* template.fcpxml in Resources */,
@@ -415,68 +415,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		34E862B999E4FF4E113F3B72 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-OpenCaptionsMaker-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4D3E9AAA9A3B289107F1974F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		801C6D1E45B452FF3AA2147E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C59AFB05DBFDD3EEE48589B7 /* [CP] Check Pods Manifest.lock */ = {
+		1431AD4D7CAC06138863D07E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -498,7 +437,46 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F8A070DE093097970C18A6FD /* [CP] Embed Pods Frameworks */ = {
+		46542EA470993D141BF91B62 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66B235D6CCAC5663790F9209 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E6B69B3FAD3CC5B6EAAB40F6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -513,6 +491,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD9D458E2F7600F9E827A8AD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenCaptionsMaker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -699,13 +699,16 @@
 		};
 		A3EB48D02445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */;
+			baseConfigurationReference = D6B53AE35E0B6FFD1D9C4A67 /* Pods-OpenCaptionsMaker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OpenCaptionsMaker/OpenCaptionsMaker.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"OpenCaptionsMaker/Preview Content\"";
+				DEVELOPMENT_TEAM = GF4GWD5VS6;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = OpenCaptionsMaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -713,21 +716,70 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AEXML\"",
+					"-framework",
+					"\"AppKit\"",
+					"-framework",
+					"\"CoreServices\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseFunctions\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleDataTransportCCTSupport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"protobuf\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dylan.OpenCaptionsMaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		A3EB48D12445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */;
+			baseConfigurationReference = 8CB7CF36067F29642BD75C14 /* Pods-OpenCaptionsMaker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OpenCaptionsMaker/OpenCaptionsMaker.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"OpenCaptionsMaker/Preview Content\"";
+				DEVELOPMENT_TEAM = GF4GWD5VS6;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = OpenCaptionsMaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -735,15 +787,61 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AEXML\"",
+					"-framework",
+					"\"AppKit\"",
+					"-framework",
+					"\"CoreServices\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseFunctions\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleDataTransportCCTSupport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"protobuf\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dylan.OpenCaptionsMaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		A3EB48D32445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */;
+			baseConfigurationReference = F4404DB89A03718D738BC39F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -765,7 +863,7 @@
 		};
 		A3EB48D42445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */;
+			baseConfigurationReference = 996BFB98D007FBE9E952A18B /* Pods-OpenCaptionsMakerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -787,7 +885,7 @@
 		};
 		A3EB48D62445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */;
+			baseConfigurationReference = 020C45A7FEF7C0FE43D02E88 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -807,7 +905,7 @@
 		};
 		A3EB48D72445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */;
+			baseConfigurationReference = 77735B8D0252038923034451 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

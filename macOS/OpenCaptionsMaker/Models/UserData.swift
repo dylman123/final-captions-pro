@@ -78,14 +78,26 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
             
             _ = semaphore.wait(timeout: .distantFuture)
             
-            // Download captions file from Google Cloud Storage
-            do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
+            // Short poll the remote server to download captions JSON from Google Cloud Storage
+            let timeout: Int = 60  // in secs
+            let pollPeriod: Int = 10  // in secs
+            var secondsElapsed: Int = 0
             var jsonRef: StorageReference?
-            do {
-                (jsonRef, captionData) = try downloadCaptions(withFileID: fileID!)
-                semaphore.signal()
-            } catch {
-                print("Error downloading captions file: \(error.localizedDescription)")
+            var downloadError: Error?
+            repeat {
+                do {
+                    sleep(UInt32(pollPeriod))
+                    secondsElapsed += pollPeriod
+                    (jsonRef, captionData) = try downloadCaptions(withFileID: fileID!)
+                    semaphore.signal()
+                } catch {
+                    downloadError = error
+                    print("seconds elapsed: \(secondsElapsed). Will poll server again in \(pollPeriod) seconds...")
+                }
+            } while ( jsonRef == nil && secondsElapsed < timeout )
+            // Error handling
+            guard jsonRef != nil else {
+                print("Error downloading captions file: \(downloadError!.localizedDescription)")
                 return
             }
             
