@@ -37,7 +37,6 @@ class UserData: ObservableObject {
     // Generates captions by using a transcription service
     func _generateCaptions(forFile videoURL: URL) -> Void {
         
-<<<<<<< HEAD:OpenCaptionsMaker/Models/UserData.swift
         var captionData: [Caption]?
         
         // Semaphore for asynchronous tasks
@@ -101,38 +100,14 @@ class UserData: ObservableObject {
             } catch {
                 print("Error deleting audio file from Google Cloud Storage:  \(error.localizedDescription)")
             }
+        }
         
-            // Update views with new data
-            DispatchQueue.main.async {
-                if captionData != nil {
-                    self.captions = captionData!
-                } else {
-                    self.captions = initialCaptionsList
-=======
-        // Extract audio from video file and asynchronously return result in a closure
-        extractAudio(fromVideoFile: videoURL) { m4aURL, error in
-            if m4aURL != nil {
-
-                // Convert .m4a file to .wav format
-                let wavURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
-                convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
-                
-                // Upload audio to Google Cloud Storage
-                uploadAudio(withURL: wavURL) { fileID, error in
-                    if fileID != nil {
-                        
-                        // Download captions file from Google Cloud Storage by short polling the server
-                        do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
-                        downloadCaptions(withFileID: fileID!) { captionData, error in
-                            if captionData != nil {
-                                self.captions = captionData!
-                            } else { self.captions = [] }
-                            print(self.captions)
-                            return
-                        }
-                    }
->>>>>>> 14390de562f1ac531c24b2e985ce068aa789de6d:macOS/OpenCaptionsMaker/Models/UserData.swift
-                }
+        // Update views with new data
+        DispatchQueue.main.async {
+            if captionData != nil {
+                self.captions = captionData!
+            } else {
+                self.captions = initialCaptionsList
             }
         }
     }

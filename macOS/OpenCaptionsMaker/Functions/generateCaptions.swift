@@ -180,14 +180,10 @@ func convertM4AToWAV(inputURL: URL) throws -> URL? {
 }
 
 // Upload audio to Google Cloud Storage where a Firebase transcription function will be triggered
-<<<<<<< HEAD:OpenCaptionsMaker/Functions/generateCaptions.swift
 func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
     
     // Semaphore for asynchronous tasks
     let semaphore = DispatchSemaphore(value: 0)
-=======
-func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (String?, Error?) -> Void) {
->>>>>>> 14390de562f1ac531c24b2e985ce068aa789de6d:macOS/OpenCaptionsMaker/Functions/generateCaptions.swift
     
     // Assign a random identifier to be used in the bucket and reference the file in the bucket
     let randomID = UUID.init().uuidString
@@ -198,22 +194,9 @@ func uploadAudio(withURL audioURL: URL, completionHandler: @escaping (String?, E
     uploadMetadata.contentType = "audio/wav"
     
     // Do a PUT request to upload the file and check for errors
-<<<<<<< HEAD:OpenCaptionsMaker/Functions/generateCaptions.swift
     print("Uploading audio to the cloud...")
     var downloadMetadata: StorageMetadata?
     var error: Error?
-=======
-    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
-        if let error = error {
-            print("Error uploading audio file! \(error.localizedDescription)")
-            completionHandler(nil, error)
-        }
-        else {
-            print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
-            completionHandler(randomID, nil)
-        }
-    }
->>>>>>> 14390de562f1ac531c24b2e985ce068aa789de6d:macOS/OpenCaptionsMaker/Functions/generateCaptions.swift
     
     uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in
         if let err = err { error = err }
@@ -265,7 +248,6 @@ func downloadCaptions(withFileID fileID: String) throws -> [Caption]? {
     }
 }
 
-<<<<<<< HEAD:OpenCaptionsMaker/Functions/generateCaptions.swift
 // Delete temporary audio file from bucket in Google Cloud Storage
 func deleteAudio(withStorageRef storageRef: StorageReference) throws -> Void {
     
@@ -282,74 +264,3 @@ func deleteAudio(withStorageRef storageRef: StorageReference) throws -> Void {
         print("Successfully deleted audio file from Google Cloud Storage.")
     } else { throw deleteError! }
 }
-=======
-//func transcribeAudio(ofAudioFile audioPath: URL, completionHandler: @escaping ([String:Any]?, Error?) -> Void) {
-//
-//    // URL
-//    let url = URL(string: "https://rev-ai.p.rapidapi.com/jobs")
-//    guard url != nil else {
-//        print("Error creating URL object.")
-//        return
-//    }
-//
-//    // URL Request
-//    var request = URLRequest(url: url!, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30.0)
-//
-//    // Specify the header
-//    let headers = [
-//        "x-rapidapi-host": "rev-ai.p.rapidapi.com",
-//        "x-rapidapi-key": "378f1cde96mshdf2795f0e8ff706p12ee5bjsne932a0f04d18",
-//        "content-type": "application/json",
-//        "accept": "application/json"
-//    ]
-//    request.allHTTPHeaderFields = headers
-//
-//    // Specify the body
-//    let parameters: [String:Any] = [
-//        "media_url": "https://support.rev.com/hc/en-us/article_attachments/200043975/FTC_Sample_1_-_Single.mp3",
-//        "metadata": "Optional metadata associated with the job",
-//        "callback_url": "https://www.example.com/callback"
-//    ]
-//    do {
-//        let requestBody = try JSONSerialization.data(withJSONObject: parameters, options: .fragmentsAllowed)
-//        request.httpBody = requestBody
-//    } catch {
-//        print("Error creating the data object from the JSON object.")
-//    }
-//
-//    // Set the request type
-//    request.httpMethod = "POST"
-//
-//    // Get the URLSession
-//    let session = URLSession.shared
-//
-//    // Create the data task
-//    let dataTask = session.dataTask(with: request) { (data, response, error) in
-//
-//        // Check for errors
-//        if error == nil && data != nil {
-//
-//            // Try to parse out the data
-//            do {
-//                let dictionary = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? [String:Any]
-//                print(dictionary!)
-//            } catch {
-//                print("Error parsing response data.")
-//            }
-//        }
-//
-//    }
-//
-//    // Fire off the data task
-//    dataTask.resume()
-//
-//    return
-//}
-//
-//func formCaptions(fromData transcriptionData: [String:String]) -> [Caption] {
-//    let captionData: [Caption] = []
-//    // Insert code to form captions from a JSON structured API response
-//
-//    return captionData
-//}
->>>>>>> 14390de562f1ac531c24b2e985ce068aa789de6d:macOS/OpenCaptionsMaker/Functions/generateCaptions.swift
