@@ -199,8 +199,8 @@ func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
     var downloadMetadata: StorageMetadata?
     var error: Error?
     
-    DispatchQueue.global(qos: .default).async {
-        uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in
+    DispatchQueue.global().async {
+        uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in  //FIXME: Sometimes never executes because of the semaphore.wait()
         if let err = err { error = err }
         else { downloadMetadata = md }
         semaphore.signal()
