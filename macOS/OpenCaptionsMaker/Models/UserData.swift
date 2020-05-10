@@ -80,8 +80,9 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
             
             // Download captions file from Google Cloud Storage
             do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
+            var jsonRef: StorageReference?
             do {
-                captionData = try downloadCaptions(withFileID: fileID!)
+                (jsonRef, captionData) = try downloadCaptions(withFileID: fileID!)
                 semaphore.signal()
             } catch {
                 print("Error downloading captions file: \(error.localizedDescription)")
@@ -92,9 +93,9 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
             
             // Delete temporary audio file from bucket in Google Cloud Storage
             do {
-                try deleteAudio(withStorageRef: audioRef!)
+                try deleteTempFiles(audio: audioRef!, captions: jsonRef!)
             } catch {
-                print("Error deleting audio file from Google Cloud Storage:  \(error.localizedDescription)")
+                print("Error deleting temp file(s) from Google Cloud Storage:  \(error.localizedDescription)")
             }
         
             // Update views with new data
