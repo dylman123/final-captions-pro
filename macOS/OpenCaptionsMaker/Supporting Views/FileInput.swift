@@ -5,7 +5,6 @@
 //  Created by Dylan Klein on 20/4/20.
 //  Copyright © 2020 Dylan Klein. All rights reserved.
 //
-
 import SwiftUI
 import Combine
 import AppKit
@@ -31,7 +30,7 @@ struct FileInput: View {
             let result = dialog.url  // Pathname of the file
             if (result != nil) {
                 let path: URL = result!.absoluteURL
-                return path// path contains the file path e.g
+                return path  // path contains the file path e.g
             }
         } else {
             return nil  // User clicked on "Cancel"
@@ -43,17 +42,17 @@ struct FileInput: View {
         
         Button(action: {
             
-            let videoPath: URL? = self.openFileDialog()
+            let video: URL? = self.openFileDialog()
             
-            if videoPath != nil {
-                print("Selected video file has URL path: \(String(describing: videoPath!))")
+            if video != nil {
+                print("Selected video file has URL path: \(String(describing: video!))")
                 
                 // Close the FileInput view
                 self.userData.showFileInput.toggle()
                 self.presentationMode.wrappedValue.dismiss()
                 
-                // Proceed to caption generation step
-                self.userData._generateCaptions(forFile: videoPath!)
+                // Callback to UserData class
+                self.userData._import(videoFile: video!)
             }
             else {
                 print("No file was selected.")

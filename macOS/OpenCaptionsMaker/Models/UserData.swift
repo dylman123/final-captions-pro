@@ -5,13 +5,12 @@
 //  Created by Dylan Klein on 18/4/20.
 //  Copyright © 2020 Dylan Klein. All rights reserved.
 //
-
 import Foundation
 import SwiftUI
 import Combine
 import Firebase
 
-class UserData: ObservableObject {
+class UserData: NSObject, ObservableObject, XMLParserDelegate {
     
     // Boolean values to handle the logic of showing the task pane
     @Published var showTaskPane: Bool = true
@@ -19,19 +18,16 @@ class UserData: ObservableObject {
     @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
-    @Published var captions: [Caption] = []
+    //@Published var captions: [Caption] = []
+    @Published var captions: [Caption] = sampleCaptionData
     
-    // Adds a blank caption into the row above the selected cell
-    // The new caption's end time will match the caller caption's start time
-    func _addCaption(beforeIndex id: Int, atTime end: Float) {
-        self.captions = addCaption(toArray: self.captions, beforeIndex: id, atTime: end)
-        print(self.captions)
-    }
+    // A store of the imported video's URL
+    private var videoURL: URL = URL(fileURLWithPath: "")
     
-    // Deletes the selected cell
-    func _deleteCaption(atIndex id: Int) {
-        self.captions = deleteCaption(fromArray: self.captions, atIndex: id)
-        print(self.captions)
+    // Stores the videoURL and calls _generateCaptions() function
+    func _import(videoFile videoURL: URL) -> Void {
+        self.videoURL = videoURL
+        _generateCaptions(forFile: videoURL)
     }
     
     // Generates captions by using a transcription service
@@ -100,15 +96,45 @@ class UserData: ObservableObject {
             } catch {
                 print("Error deleting audio file from Google Cloud Storage:  \(error.localizedDescription)")
             }
-        }
         
-        // Update views with new data
-        DispatchQueue.main.async {
-            if captionData != nil {
-                self.captions = captionData!
-            } else {
-                self.captions = initialCaptionsList
+            // Update views with new data
+            DispatchQueue.main.async {
+                if captionData != nil {
+                    self.captions = captionData!
+                } else {
+                    self.captions = initialCaptionsList
+                }
             }
         }
     }
+    
+    // Adds a blank caption into the row above the selected cell. The new caption's end time will match the caller caption's start time
+    func _addCaption(beforeIndex id: Int, atTime end: Float) -> Void {
+        self.captions = addCaption(toArray: self.captions, beforeIndex: id, atTime: end)
+        print(self.captions)
+    }
+    
+    // Deletes the selected cell
+    func _deleteCaption(atIndex id: Int) -> Void {
+        self.captions = deleteCaption(fromArray: self.captions, atIndex: id)
+        print(self.captions)
+    }
+    
+    // Finishes the caption review and opens .fcpxml file
+    func _finishReview(andSaveFileAs xmlPath: URL) -> Void {
+        
+        // Set the path of the file to be saved - TODO: Change this to a user selected URL
+        let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
+               
+        //  Create XML document structure
+        let xmlTree = createXML(forVideo: self.videoURL, withCaptions: self.captions)
+
+        //  Save XML document to disk
+        saveXML(of: xmlTree, as: testPath)
+        
+        //  Open newly saved XML document in Final Cut Pro X
+        openXML(at: testPath)
+        
+    }
+    
 }

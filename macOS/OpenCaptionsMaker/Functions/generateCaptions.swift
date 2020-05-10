@@ -198,11 +198,14 @@ func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
     var downloadMetadata: StorageMetadata?
     var error: Error?
     
-    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in
+    DispatchQueue.main.async {
+        uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in
         if let err = err { error = err }
         else { downloadMetadata = md }
         semaphore.signal()
+        }
     }
+    
     _ = semaphore.wait(timeout: .distantFuture)
     if downloadMetadata != nil {
         print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
