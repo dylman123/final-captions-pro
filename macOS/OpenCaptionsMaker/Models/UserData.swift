@@ -13,7 +13,7 @@ import Firebase
 class UserData: NSObject, ObservableObject, XMLParserDelegate {
     
     // Boolean values to handle the logic of showing the task pane
-    @Published var showTaskPane: Bool = true
+    @Published var showTaskPane: Bool = false
     @Published var showFileInput: Bool = true
     @Published var showProgressBar: Bool = false
 
