@@ -13,7 +13,7 @@ import Firebase
 class UserData: NSObject, ObservableObject, XMLParserDelegate {
     
     // Boolean values to handle the logic of showing the task pane
-    @Published var showTaskPane: Bool = false
+    @Published var showTaskPane: Bool = true
     @Published var showFileInput: Bool = true
     @Published var showProgressBar: Bool = false
 
@@ -102,13 +102,6 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
             
             _ = semaphore.wait(timeout: .distantFuture)
             
-            // Delete temporary audio file from bucket in Google Cloud Storage
-            do {
-                try deleteTempFiles(audio: audioRef!, captions: jsonRef!)
-            } catch {
-                print("Error deleting temp file(s) from Google Cloud Storage:  \(error.localizedDescription)")
-            }
-        
             // Update views with new data
             DispatchQueue.main.async {
                 if captionData != nil {
@@ -116,6 +109,16 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
                 } else {
                     self.captions = initialCaptionsList
                 }
+                semaphore.signal()
+            }
+            
+            _ = semaphore.wait(timeout: .distantFuture)
+            
+            // Delete temporary audio file from bucket in Google Cloud Storage
+            do {
+                try deleteTempFiles(audio: audioRef!, captions: jsonRef!)
+            } catch {
+                print("Error deleting temp file(s) from Google Cloud Storage:  \(error.localizedDescription)")
             }
         }
     }

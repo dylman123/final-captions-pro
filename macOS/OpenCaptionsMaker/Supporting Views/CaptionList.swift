@@ -18,13 +18,14 @@ struct CaptionList: View {
     
     var body: some View {
         
-        // Dynamically read the list from userData
-        List(selection: $selectedCaption) {
-            ForEach(self.userData.captions) { caption in
-                    CaptionRow(caption: caption)
-                        .tag(caption)
-                        .padding(.vertical, 10)
-                        .environmentObject(self.userData)
+        ScrollView(.vertical) {
+            VStack {
+                ForEach(self.userData.captions) { caption in
+                CaptionRow(caption: caption)
+                    .tag(caption)
+                    .padding(.vertical, 10)
+                    .environmentObject(self.userData)
+                }
             }
         }
     }

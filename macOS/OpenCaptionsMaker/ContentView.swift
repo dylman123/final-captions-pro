@@ -61,7 +61,6 @@ struct ContentView: View {
         .frame(width: self.windowWidth, height: self.windowHeight)
         .sheet(isPresented: $userData.showTaskPane, content: {
             if self.userData.showFileInput {
-                
                 // Shows file dialog button
                 FileInput()
                     .environmentObject(self.userData)

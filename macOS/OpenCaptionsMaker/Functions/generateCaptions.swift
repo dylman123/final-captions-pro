@@ -19,6 +19,7 @@ func extractAudio(fromVideoFile sourceURL: URL?) throws -> URL? {
         case format
         case AVAsset
         case composition
+        case export
     }
     
     // Semaphore for asynchronous tasks
@@ -199,12 +200,10 @@ func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
     var downloadMetadata: StorageMetadata?
     var error: Error?
     
-    DispatchQueue.global().async {
-        uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in  //FIXME: Sometimes never executes because of the semaphore.wait()
+    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in  //FIXME: Sometimes never executes because of the semaphore.wait()
         if let err = err { error = err }
         else { downloadMetadata = md }
         semaphore.signal()
-        }
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
