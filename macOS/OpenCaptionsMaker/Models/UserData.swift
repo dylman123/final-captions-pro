@@ -10,15 +10,15 @@ import SwiftUI
 import Combine
 import Firebase
 
-class UserData: NSObject, ObservableObject, XMLParserDelegate {
+class UserData: ObservableObject {
     
     // Boolean values to handle the logic of showing the task pane
-    @Published var showTaskPane: Bool = true
+    @Published var showTaskPane: Bool = false
     @Published var showFileInput: Bool = true
     @Published var showProgressBar: Bool = false
 
     // The global array which is to be generated via transcription API and edited by the user
-    @Published var captions: [Caption] = []
+    @Published var captions: [Caption] = sampleCaptionData
     
     // A store of the imported video's URL
     private var videoURL: URL = URL(fileURLWithPath: "")
@@ -126,13 +126,11 @@ class UserData: NSObject, ObservableObject, XMLParserDelegate {
     // Adds a blank caption into the row above the selected cell. The new caption's end time will match the caller caption's start time
     func _addCaption(beforeIndex id: Int, atTime end: Float) -> Void {
         self.captions = addCaption(toArray: self.captions, beforeIndex: id, atTime: end)
-        print(self.captions)
     }
     
     // Deletes the selected cell
     func _deleteCaption(atIndex id: Int) -> Void {
         self.captions = deleteCaption(fromArray: self.captions, atIndex: id)
-        print(self.captions)
     }
     
     // Finishes the caption review and opens .fcpxml file

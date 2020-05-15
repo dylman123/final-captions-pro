@@ -11,7 +11,7 @@ import SwiftUI
 struct CaptionList: View {
     
     // Read/write data back to model
-    @EnvironmentObject var userData: UserData
+    //@EnvironmentObject var userData: UserData
     
     // Track the the selected caption
     @Binding var selectedCaption: Caption?
@@ -20,11 +20,12 @@ struct CaptionList: View {
         
         ScrollView(.vertical) {
             VStack {
-                ForEach(self.userData.captions) { caption in
+                ForEach(userDataNew.captions) { caption in
                 CaptionRow(caption: caption)
                     .tag(caption)
                     .padding(.vertical, 10)
-                    .environmentObject(self.userData)
+                    .environmentObject(userDataNew)
+                Divider()
                 }
             }
         }
@@ -34,6 +35,6 @@ struct CaptionList: View {
 struct CaptionList_Previews: PreviewProvider {
     static var previews: some View {
         CaptionList(selectedCaption: .constant(sampleCaptionData[0]))
-            .environmentObject(UserData())
+            .environmentObject(userDataNew)
     }
 }

@@ -20,12 +20,12 @@ struct CaptionRow: View {
     
     // To index the current caption
     var captionIndex: Int {
-        return self.userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return userDataNew.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
-        return $userData.captions[self.captionIndex]
+        return $userData.captions[captionIndex]
     }
     
     // To format the time values in text
@@ -47,11 +47,11 @@ struct CaptionRow: View {
             // Display caption timings
             VStack {
                 // FIXME: TextField values are not writing back to self.userData.captions!
-                Stepper(value: self.captionBinding.start, step: -0.1) {
-                    TextField("", value: self.captionBinding.start, formatter: timeFormatter)
+                Stepper(value: captionBinding.start, step: -0.1) {
+                    TextField("", value: captionBinding.start, formatter: timeFormatter)
                 }
-                Stepper(value: self.captionBinding.end, step: -0.1) {
-                    TextField("", value: self.captionBinding.end, formatter: timeFormatter)
+                Stepper(value: captionBinding.end, step: -0.1) {
+                    TextField("", value: captionBinding.end, formatter: timeFormatter)
                 }
             }
             .frame(width: 80.0)
@@ -59,7 +59,7 @@ struct CaptionRow: View {
             Spacer()
             
             // Display caption text
-            TextField("", text: self.captionBinding.text)
+            TextField("", text: captionBinding.text)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .frame(width: 300)
@@ -69,17 +69,17 @@ struct CaptionRow: View {
             
             // Display insert plus icon
             VStack {
-                Button(action: {
-                    self.userData._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
+                Button(action: { [weak userDataNew] in
+                    userDataNew?._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
                 }) {
                     IconView("NSAddTemplate")
                         .frame(width: 12, height: 12)
                 }
 
-                Button(action: {
-                    self.userData._deleteCaption(atIndex: self.captionIndex)
+                Button(action: { [weak userDataNew] in
+                    userDataNew?._deleteCaption(atIndex: self.captionIndex)
                 }) {
-                    if self.userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
+                    if userDataNew.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
                         IconView("NSRemoveTemplate")
                         .frame(width: 12, height: 12)
                     }
@@ -95,6 +95,6 @@ struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
         CaptionRow(caption: sampleCaptionData[0])
             .frame(height: 100)
-            .environmentObject(UserData())
+            .environmentObject(userDataNew)
     }
 }

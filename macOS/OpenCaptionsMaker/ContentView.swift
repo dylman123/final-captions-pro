@@ -36,8 +36,8 @@ struct ContentView: View {
                 HStack {
                     
                     Spacer()
-                    Button(action: {
-                        self.userData._finishReview(andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
+                    Button(action: { [weak userDataNew] in
+                       userDataNew?._finishReview(andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
                         IconView("NSGoForwardTemplate")
@@ -50,7 +50,7 @@ struct ContentView: View {
                 // Captions list
                 Headers()
                 CaptionList(selectedCaption: $selectedCaption)
-                .environmentObject(self.userData)
+                //.environmentObject(self.userData)
                 .frame(height: self.windowHeight*0.8)
                 
                 Spacer()
@@ -60,14 +60,14 @@ struct ContentView: View {
         }
         .frame(width: self.windowWidth, height: self.windowHeight)
         .sheet(isPresented: $userData.showTaskPane, content: {
-            if self.userData.showFileInput {
+            if userDataNew.showFileInput {
                 // Shows file dialog button
                 FileInput()
                     .environmentObject(self.userData)
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
             }
-            else if self.userData.showProgressBar {
+            else if userDataNew.showProgressBar {
                 
                 // Progress bar whilst tasks are loading
                 ProgressView()
@@ -80,6 +80,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(UserData())
+        ContentView().environmentObject(userDataNew)
     }
 }
