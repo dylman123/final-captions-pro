@@ -14,19 +14,19 @@ struct CaptionRow: View {
     
     // Write data back to model
     @EnvironmentObject var userData: UserData
-       
+    
     // The current caption object
     var caption: Caption
     
     // To index the current caption
     var captionIndex: Int {
-        return userDataNew.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
         return $userData.captions[captionIndex]
-    }
+        }
     
     // To format the time values in text
     var timeFormatter: NumberFormatter {
@@ -46,7 +46,6 @@ struct CaptionRow: View {
             
             // Display caption timings
             VStack {
-                // FIXME: TextField values are not writing back to self.userData.captions!
                 Stepper(value: captionBinding.start, step: -0.1) {
                     TextField("", value: captionBinding.start, formatter: timeFormatter)
                 }
@@ -69,17 +68,17 @@ struct CaptionRow: View {
             
             // Display insert plus icon
             VStack {
-                Button(action: { [weak userDataNew] in
-                    userDataNew?._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
+                Button(action: {
+                    addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
                 }) {
                     IconView("NSAddTemplate")
                         .frame(width: 12, height: 12)
                 }
 
-                Button(action: { [weak userDataNew] in
-                    userDataNew?._deleteCaption(atIndex: self.captionIndex)
+                Button(action: {
+                    deleteCaption(atIndex: self.captionIndex)
                 }) {
-                    if userDataNew.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
+                    if userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
                         IconView("NSRemoveTemplate")
                         .frame(width: 12, height: 12)
                     }
@@ -95,6 +94,5 @@ struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
         CaptionRow(caption: sampleCaptionData[0])
             .frame(height: 100)
-            .environmentObject(userDataNew)
     }
 }

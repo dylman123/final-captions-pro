@@ -8,6 +8,23 @@
 import Foundation
 import AEXML
 
+// Finishes the caption review and opens .fcpxml file
+func finishReview(andSaveFileAs xmlPath: URL) -> Void {
+    
+    // Set the path of the file to be saved - TODO: Change this to a user selected URL
+    let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
+           
+    //  Create XML document structure
+    let xmlTree = createXML(forVideo: userData.videoURL, withCaptions: userData.captions)
+
+    //  Save XML document to disk
+    saveXML(of: xmlTree, as: testPath)
+    
+    //  Open newly saved XML document in Final Cut Pro X
+    openXML(at: testPath)
+    
+}
+
 func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> AEXMLDocument {
     
     // Set up document scaffolding, parse template.fcpxml as AEXMLDocument

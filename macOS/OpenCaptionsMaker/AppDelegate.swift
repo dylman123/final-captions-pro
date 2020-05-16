@@ -10,7 +10,7 @@ import Cocoa
 import SwiftUI
 import Firebase
 
-var userDataNew = UserData()
+var userData = UserData()  // Declared in the global scope
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -20,7 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
-            .environmentObject(userDataNew)
+            .environmentObject(userData)
             .background(KeyEventHandling())
 
         // Create the window and set the content view. 

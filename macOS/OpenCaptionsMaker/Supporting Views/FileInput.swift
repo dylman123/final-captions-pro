@@ -13,6 +13,7 @@ struct FileInput: View {
     
     // Write data back to model
     //@EnvironmentObject var userData: UserData
+    @State var showFileInput: Bool
     
     // To show/hide the FileInput view
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -40,7 +41,7 @@ struct FileInput: View {
     
     var body: some View {
         
-        Button(action: { [weak userDataNew] in
+        Button(action: {
             
             let video: URL? = self.openFileDialog()
             
@@ -48,11 +49,12 @@ struct FileInput: View {
                 print("Selected video file has URL path: \(String(describing: video!))")
                 
                 // Close the FileInput view
-                userDataNew?.showFileInput.toggle()
+                self.showFileInput.toggle()
                 self.presentationMode.wrappedValue.dismiss()
                 
-                // Callback to UserData class
-                userDataNew?._import(videoFile: video!)
+                // Generate captions
+                generateCaptions(forFile: video!)
+                //self.userData._import(videoFile: video!)
             }
             else {
                 print("No file was selected.")
@@ -67,6 +69,6 @@ struct FileInput: View {
 struct FileInput_Previews: PreviewProvider {
     
     static var previews: some View {
-        FileInput().environmentObject(userDataNew)
+        FileInput(showFileInput: true)
     }
 }
