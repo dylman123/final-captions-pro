@@ -12,7 +12,6 @@ import AppKit
 struct FileInput: View {
     
     // Write data back to model
-    //@EnvironmentObject var userData: UserData
     @State var showFileInput: Bool
     
     // To show/hide the FileInput view
@@ -54,7 +53,6 @@ struct FileInput: View {
                 
                 // Generate captions
                 generateCaptions(forFile: video!)
-                //self.userData._import(videoFile: video!)
             }
             else {
                 print("No file was selected.")
