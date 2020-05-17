@@ -15,8 +15,9 @@ struct ContentView: View {
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
-    @EnvironmentObject var userData: UserData
-    @State private var selectedCaption: Caption?  //  To track the selected row
+    @State private var selectedCaption: Caption?
+    @State private var showFileInput: Bool = false
+    @State private var showProgressBar: Bool = false
     
     var body: some View {
         
@@ -37,7 +38,7 @@ struct ContentView: View {
                     
                     Spacer()
                     Button(action: {
-                        self.userData._finishReview(andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
+                        finishReview(andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
                         IconView("NSGoForwardTemplate")
@@ -49,9 +50,9 @@ struct ContentView: View {
                 
                 // Captions list
                 Headers()
-                CaptionList(selectedCaption: $selectedCaption)
-                .environmentObject(self.userData)
-                .frame(height: self.windowHeight*0.8)
+                //CaptionList(selectedCaption: $selectedCaption)
+                CaptionList()
+                    .frame(height: self.windowHeight*0.8)
                 
                 Spacer()
             }
@@ -59,27 +60,37 @@ struct ContentView: View {
             .padding(.horizontal, 25)
         }
         .frame(width: self.windowWidth, height: self.windowHeight)
-        .sheet(isPresented: $userData.showTaskPane, content: {
-            if self.userData.showFileInput {
+        .sheet(isPresented: $showFileInput, content: {
+            if self.showFileInput {
                 // Shows file dialog button
-                FileInput()
-                    .environmentObject(self.userData)
+                FileInput(showFileInput: self.showFileInput)
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
             }
-            else if self.userData.showProgressBar {
-                
+            else if self.showProgressBar {
                 // Progress bar whilst tasks are loading
                 ProgressView()
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
             }
         })
+        /*.onReceive(NotificationCenter.default.publisher(for: .addCaption)) { _ in
+            addCaption(beforeIndex: 0, atTime: 0.0)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
+            if userData.captions.count > 1 {  // Don't delete when only 1 caption is in list
+                deleteCaption(atIndex: 0)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
+            guard notification.object != nil else { return }
+            print(notification.object!)
+        }*/
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(UserData())
+        ContentView()
     }
 }
