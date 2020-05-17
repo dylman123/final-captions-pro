@@ -11,12 +11,15 @@ import SwiftUI
 struct Headers: View {
     var body: some View {
 
-        ZStack {
-            Text("Caption")
-            HStack {
-                Text("Timings")
-                Spacer()
+        VStack {
+            ZStack {
+                Text("Caption")
+                HStack {
+                    Text("Timings")
+                    Spacer()
+                }
             }
+            Divider()
         }
     }
 }

@@ -11,6 +11,98 @@ import AVFoundation
 import Firebase
 import SwiftUI
 
+// Generates captions by using a transcription service
+func generateCaptions(forFile videoURL: URL) -> Void {
+    
+    var captionData: [Caption]?
+    
+    // Save video URL
+    userData.videoURL = videoURL
+    
+    // Semaphore for asynchronous tasks
+    let semaphore = DispatchSemaphore(value: 0)
+    
+    // Run on a background thread
+    DispatchQueue.global().async {
+        
+        // Extract audio from video file
+        var m4aURL: URL?
+        do {
+            m4aURL = try extractAudio(fromVideoFile: videoURL)
+            semaphore.signal()
+        } catch {
+            print("Error extracting audio from video file: \(error): \(error.localizedDescription)")
+            return
+        }
+        
+        _ = semaphore.wait(timeout: .distantFuture)
+        
+        // Convert .m4a file to .wav format
+        var wavURL: URL?
+        do {
+            wavURL = try convertM4AToWAV(inputURL: m4aURL!)
+            semaphore.signal()
+        } catch {
+            print("Error converting .m4a to .wav format: \(error.localizedDescription)")
+            return
+        }
+        
+        _ = semaphore.wait(timeout: .distantFuture)
+        
+        // Upload audio to Google Cloud Storage
+        var audioRef: StorageReference?
+        var fileID: String?
+        do {
+            (audioRef, fileID) = try uploadAudio(withURL: wavURL!)
+            semaphore.signal()
+        } catch {
+            print("Error uploading audio file: \(error.localizedDescription)")
+            return
+        }
+        
+        _ = semaphore.wait(timeout: .distantFuture)
+        
+        // Short poll the remote server to download captions JSON from Google Cloud Storage
+        let timeout: Int = 60  // in secs
+        let pollPeriod: Int = 10  // in secs
+        var secondsElapsed: Int = 0
+        var jsonRef: StorageReference?
+        var downloadError: Error?
+        repeat {
+            do {
+                sleep(UInt32(pollPeriod))
+                secondsElapsed += pollPeriod
+                (jsonRef, captionData) = try downloadCaptions(withFileID: fileID!)
+                semaphore.signal()
+            } catch {
+                downloadError = error
+                print("seconds elapsed: \(secondsElapsed). Will poll server again in \(pollPeriod) seconds...")
+            }
+        } while ( jsonRef == nil && secondsElapsed < timeout )
+        // Error handling
+        guard jsonRef != nil else {
+            print("Error downloading captions file: \(downloadError!.localizedDescription)")
+            return
+        }
+        
+        _ = semaphore.wait(timeout: .distantFuture)
+        
+        // Delete temporary audio file from bucket in Google Cloud Storage
+        do {
+            try deleteTempFiles(audio: audioRef!, captions: jsonRef!)
+        } catch {
+            print("Error deleting temp file(s) from Google Cloud Storage:  \(error.localizedDescription)")
+        }
+        
+        // Update views with new data
+        if captionData != nil {
+            userData.captions = captionData!
+        } else {
+            userData.captions = initialCaptionsList
+        }
+    }
+}
+
 // Extract audio from video file
 func extractAudio(fromVideoFile sourceURL: URL?) throws -> URL? {
     
@@ -19,6 +111,7 @@ func extractAudio(fromVideoFile sourceURL: URL?) throws -> URL? {
         case format
         case AVAsset
         case composition
+        case export
     }
     
     // Semaphore for asynchronous tasks
@@ -171,6 +264,7 @@ func convertM4AToWAV(inputURL: URL) throws -> URL? {
     error = ExtAudioFileDispose(sourceFile!)
     print("Status 7 in convertAudio: \(error.description)")
     
+    // Handle the result / error
     if error == 0 {
         print("Succcessfully saved .wav audio as: \(outputURL)")
         return outputURL
@@ -198,15 +292,15 @@ func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
     var downloadMetadata: StorageMetadata?
     var error: Error?
     
-    DispatchQueue.main.async {
-        uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in
+    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in  //FIXME: Sometimes never executes because of the semaphore.wait()
         if let err = err { error = err }
         else { downloadMetadata = md }
         semaphore.signal()
-        }
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
+    
+    // Handle the result / error
     if downloadMetadata != nil {
         print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
         return (uploadRef, randomID)
@@ -217,7 +311,7 @@ func uploadAudio(withURL audioURL: URL) throws -> (StorageReference?, String?) {
 }
 
 // Download captions file from Google Cloud Storage
-func downloadCaptions(withFileID fileID: String) throws -> [Caption]? {
+func downloadCaptions(withFileID fileID: String) throws -> (StorageReference? , [Caption]?) {
     
     var captionsArray: [Caption]?
     
@@ -233,7 +327,10 @@ func downloadCaptions(withFileID fileID: String) throws -> [Caption]? {
         else { responseData = data! }
         semaphore.signal()
     }
+    
     _ = semaphore.wait(timeout: .distantFuture)
+    
+    // Handle the result / error
     if responseData != nil {
         print("Captions file succesfully downloaded.")
     } else { throw downloadError! }
@@ -244,7 +341,7 @@ func downloadCaptions(withFileID fileID: String) throws -> [Caption]? {
         let result = try decoder.decode(JSONResult.self, from: responseData!)
         captionsArray = result.captions
         print("Successfully parsed JSON: \(captionsArray!)")
-        return captionsArray
+        return (storageRef, captionsArray)
     } catch {
         let JSONParseError: Error = error
         throw JSONParseError
@@ -252,18 +349,48 @@ func downloadCaptions(withFileID fileID: String) throws -> [Caption]? {
 }
 
 // Delete temporary audio file from bucket in Google Cloud Storage
-func deleteAudio(withStorageRef storageRef: StorageReference) throws -> Void {
+func deleteTempFiles(audio audioRef: StorageReference, captions jsonRef: StorageReference) throws -> Void {
+    
+    enum deleteError: Error {
+        case audio
+        case json
+        case both
+    }
+    
+    var audioError: Error?
+    var jsonError: Error?
     
     // Semaphore for asynchronous tasks
-    let semaphore = DispatchSemaphore(value: 0)
+    let audioSem = DispatchSemaphore(value: 0)
+    let jsonSem = DispatchSemaphore(value: 0)
     
-    var deleteError: Error?
-    storageRef.delete { error in
-        if let error = error { deleteError = error }
-        semaphore.signal()
+    // Delete audio file
+    audioRef.delete { error in
+        if let error = error { audioError = error }
+        audioSem.signal()
     }
-    _ = semaphore.wait(timeout: .distantFuture)
-    if deleteError == nil {
-        print("Successfully deleted audio file from Google Cloud Storage.")
-    } else { throw deleteError! }
+
+    // Delete JSON file
+    jsonRef.delete { error in
+        if let error = error { jsonError = error }
+        jsonSem.signal()
+    }
+    
+    // Make synchronous
+    _ = audioSem.wait(timeout: .distantFuture)
+    _ = jsonSem.wait(timeout: .distantFuture)
+    
+    // Handle the result / error
+    if (audioError == nil) && (jsonError == nil) {
+        print("Successfully deleted temporary files from Google Cloud Storage.")
+    }
+    else if (audioError != nil) && (jsonError == nil) {
+        throw deleteError.audio
+    }
+    else if (audioError == nil) && (jsonError != nil) {
+        throw deleteError.json
+    }
+    else if (audioError != nil) && (jsonError != nil) {
+        throw deleteError.both
+    }
 }

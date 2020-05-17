@@ -12,20 +12,35 @@ import AppKit
 
 struct CaptionRow: View {
     
-    // Write data back to model
-    @EnvironmentObject var userData: UserData
-       
+    // To refresh the UI when userData changes
+    @EnvironmentObject var userDataEnvObj: UserData
+    
+    // The current caption binding
+    var captionBinding: Binding<Caption> {
+        return $userDataEnvObj.captions[captionIndex]
+    }
+    
+    // Highlight caption if selected
+    var selectedCaption: Int
+    var isSelected: Bool {
+        if selectedCaption == captionIndex {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    var rowColor: Color {
+        if isSelected { return Color.yellow.opacity(0.5) }
+        else { return Color.black.opacity(0.5) }
+    }
+    
     // The current caption object
     var caption: Caption
     
     // To index the current caption
     var captionIndex: Int {
-        return self.userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
-    }
-    
-    // The current caption binding
-    var captionBinding: Binding<Caption> {
-        return $userData.captions[self.captionIndex]
+        return userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // To format the time values in text
@@ -40,61 +55,80 @@ struct CaptionRow: View {
     var buttonStyle = BorderlessButtonStyle()
     
     var body: some View {
-                   
-        // Contents of the row
-        HStack(alignment: .center) {
+        
+        ZStack {
             
-            // Display caption timings
-            VStack {
-                // FIXME: TextField values are not writing back to self.userData.captions!
-                Stepper(value: self.captionBinding.start, step: -0.1) {
-                    TextField("", value: self.captionBinding.start, formatter: timeFormatter)
-                }
-                Stepper(value: self.captionBinding.end, step: -0.1) {
-                    TextField("", value: self.captionBinding.end, formatter: timeFormatter)
-                }
-            }
-            .frame(width: 80.0)
+            // Row background
+            RoundedRectangle(cornerRadius: 10).fill(rowColor)
             
-            Spacer()
-            
-            // Display caption text
-            TextField("", text: self.captionBinding.text)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .frame(width: 300)
-                .offset(x: -30)
-            
-            Spacer()
-            
-            // Display insert plus icon
-            VStack {
-                Button(action: {
-                    self.userData._addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
-                }) {
-                    IconView("NSAddTemplate")
-                        .frame(width: 12, height: 12)
-                }
-
-                Button(action: {
-                    self.userData._deleteCaption(atIndex: self.captionIndex)
-                }) {
-                    if self.userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
-                        IconView("NSRemoveTemplate")
-                        .frame(width: 12, height: 12)
+            // Caption contents
+            HStack(alignment: .center) {
+                
+                // Display caption timings
+                VStack {
+                    Stepper(value: captionBinding.start, step: -0.1) {
+                        TextField("", value: captionBinding.start, formatter: timeFormatter)
+                    }
+                    Stepper(value: captionBinding.end, step: -0.1) {
+                        TextField("", value: captionBinding.end, formatter: timeFormatter)
                     }
                 }
+                .frame(width: 80.0)
+                
+                Spacer()
+                
+                // Display caption text
+                TextField("", text: captionBinding.text)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .frame(width: 300)
+                    .offset(x: -30)
+                
+                Spacer()
+                
+                // Display insert plus and minus icons
+                VStack {
+                    Button(action: {
+                        addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
+                    }) {
+                        IconView("NSAddTemplate")
+                            .frame(width: 12, height: 12)
+                    }
+
+                    Button(action: {
+                        deleteCaption(atIndex: self.captionIndex)
+                    }) {
+                        if userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
+                            IconView("NSRemoveTemplate")
+                            .frame(width: 12, height: 12)
+                        }
+                    }
+                }
+                .buttonStyle(buttonStyle)
+                .padding(.trailing)
             }
-            .buttonStyle(buttonStyle)
         }
         .frame(height: 30)
+        .onReceive(NotificationCenter.default.publisher(for: .addCaption)) { _ in
+            if self.isSelected {
+                addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
+            if (self.isSelected) && (userData.captions.count > 1) {  // Don't delete when only 1 caption is in list
+                deleteCaption(atIndex: self.captionIndex)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
+            guard notification.object != nil else { return }
+            print(notification.object!)
+        }
     }
 }
 
 struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionRow(caption: sampleCaptionData[0])
+        CaptionRow(selectedCaption: 0, caption: userData.captions[0])
             .frame(height: 100)
-            .environmentObject(UserData())
     }
 }

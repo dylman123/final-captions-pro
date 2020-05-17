@@ -17,13 +17,11 @@ struct Caption: Hashable, Codable, Identifiable {
     var duration: Float
     var text: String
     var speaker: Int
-    
 }
 
 struct JSONResult: Codable {
     
     var captions: [Caption] = []
-    
 }
 
 // Set the initial captions list

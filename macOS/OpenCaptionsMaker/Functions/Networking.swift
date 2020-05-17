@@ -8,6 +8,7 @@
 
 import Foundation
 
+/*
 enum LongPollError:ErrorType{
     case IncorrectlyFormattedUrl
     case HttpError
@@ -62,3 +63,4 @@ public class LongPollingRequest: NSObject {
         }
     }
 }
+*/

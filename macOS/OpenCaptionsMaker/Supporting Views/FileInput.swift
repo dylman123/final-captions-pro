@@ -12,7 +12,7 @@ import AppKit
 struct FileInput: View {
     
     // Write data back to model
-    @EnvironmentObject var userData: UserData
+    @State var showFileInput: Bool
     
     // To show/hide the FileInput view
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -48,11 +48,11 @@ struct FileInput: View {
                 print("Selected video file has URL path: \(String(describing: video!))")
                 
                 // Close the FileInput view
-                self.userData.showFileInput.toggle()
+                self.showFileInput.toggle()
                 self.presentationMode.wrappedValue.dismiss()
                 
-                // Callback to UserData class
-                self.userData._import(videoFile: video!)
+                // Generate captions
+                generateCaptions(forFile: video!)
             }
             else {
                 print("No file was selected.")
@@ -67,6 +67,6 @@ struct FileInput: View {
 struct FileInput_Previews: PreviewProvider {
     
     static var previews: some View {
-        FileInput().environmentObject(UserData())
+        FileInput(showFileInput: true)
     }
 }

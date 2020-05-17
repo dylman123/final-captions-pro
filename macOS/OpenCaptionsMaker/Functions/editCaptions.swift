@@ -10,8 +10,8 @@ import Foundation
 
 // Adds a blank caption into the row above the selected cell.
 // The new caption's end time will match the caller caption's start time.
-func addCaption(toArray captions: [Caption], beforeIndex id: Int, atTime end: Float) -> [Caption] {
-    var captions: [Caption] = captions
+func addCaption(beforeIndex id: Int, atTime end: Float) -> Void {
+    var captions: [Caption] = userData.captions
     
     // Increment all subsequent captions' ids
     for idx in 0..<captions.count {
@@ -48,12 +48,12 @@ func addCaption(toArray captions: [Caption], beforeIndex id: Int, atTime end: Fl
     // Insert new Caption object
     captions.insert(newCaption, at: id)
     
-    return captions
+    userData.captions = captions
 }
  
 // Deletes the selected cell
-func deleteCaption(fromArray captions: [Caption], atIndex id: Int) -> [Caption] {
-    var captions: [Caption] = captions
+func deleteCaption(atIndex id: Int) -> Void {
+    var captions: [Caption] = userData.captions
     
     // Remove current Caption object from captions list
     captions.remove(at: id)
@@ -65,5 +65,5 @@ func deleteCaption(fromArray captions: [Caption], atIndex id: Int) -> [Caption] 
         }
     }
     
-    return captions
+    userData.captions = captions
 }
