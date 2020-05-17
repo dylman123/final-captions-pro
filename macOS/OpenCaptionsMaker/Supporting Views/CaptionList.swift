@@ -11,28 +11,37 @@ import SwiftUI
 struct CaptionList: View {
     
     // Read/write data back to model
-    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var userDataWriteable: UserData
     
     // Track the the selected caption
-    @Binding var selectedCaption: Caption?  //TODO: Use this to highlight caption
+    //@Binding var selectedCaption: Caption?  //TODO: Use this to highlight caption
+    @State private var selectedCaption = 0
     
     var body: some View {
         
         ScrollView(.vertical) {
             VStack {
-                ForEach(userData.captions) { caption in
-                    CaptionRow(caption: caption)
+                ForEach(userDataWriteable.captions) { caption in
+                    CaptionRow(selectedCaption: self.selectedCaption, caption: caption)
                     .tag(caption)
                     .padding(.vertical, 10)
-                Divider()
                 }
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .moveDown)) { _ in
+            guard self.selectedCaption < userData.captions.count-1 else { return }
+            self.selectedCaption += 1
+            }
+        .onReceive(NotificationCenter.default.publisher(for: .moveUp)) { _ in
+            guard self.selectedCaption > 0 else { return }
+            self.selectedCaption -= 1
+            }
     }
 }
 
 struct CaptionList_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionList(selectedCaption: .constant(sampleCaptionData[0]))
+        //CaptionList(selectedCaption: .constant(sampleCaptionData[0]))
+        CaptionList()
     }
 }

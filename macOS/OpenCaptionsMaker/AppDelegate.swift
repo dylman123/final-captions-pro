@@ -10,7 +10,7 @@ import Cocoa
 import SwiftUI
 import Firebase
 
-var userData = UserData()  // Declared in the global scope
+var userData = UserData()  // Declared in global scope
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -21,10 +21,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
             .environmentObject(userData)
-            .background(KeyEventHandling())
+            //.background(KeyEventHandling())
 
         // Create the window and set the content view. 
-        window = NSWindow(
+        window = TypingWindow(
             contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered, defer: false)

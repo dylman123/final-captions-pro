@@ -50,7 +50,8 @@ struct ContentView: View {
                 
                 // Captions list
                 Headers()
-                CaptionList(selectedCaption: $selectedCaption)
+                //CaptionList(selectedCaption: $selectedCaption)
+                CaptionList()
                     .frame(height: self.windowHeight*0.8)
                 
                 Spacer()
@@ -73,6 +74,18 @@ struct ContentView: View {
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
             }
         })
+        /*.onReceive(NotificationCenter.default.publisher(for: .addCaption)) { _ in
+            addCaption(beforeIndex: 0, atTime: 0.0)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
+            if userData.captions.count > 1 {  // Don't delete when only 1 caption is in list
+                deleteCaption(atIndex: 0)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
+            guard notification.object != nil else { return }
+            print(notification.object!)
+        }*/
     }
 }
 
