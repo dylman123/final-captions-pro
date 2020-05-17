@@ -9,7 +9,6 @@
 import Foundation
 import AVFoundation
 import Firebase
-import SwiftUI
 
 // Generates captions by using a transcription service
 func generateCaptions(forFile videoURL: URL) -> Void {

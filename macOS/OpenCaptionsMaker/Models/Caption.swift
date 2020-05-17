@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 struct Caption: Hashable, Codable, Identifiable {
     

@@ -6,7 +6,6 @@
 //  Copyright © 2020 Dylan Klein. All rights reserved.
 //
 import SwiftUI
-import Combine
 import AppKit
 
 struct FileInput: View {

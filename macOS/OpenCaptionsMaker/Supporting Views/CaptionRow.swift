@@ -7,8 +7,6 @@
 //
 
 import SwiftUI
-import Combine
-import AppKit
 
 struct CaptionRow: View {
     
