@@ -64,7 +64,7 @@ func generateCaptions(forFile videoURL: URL) -> Void {
         
         // Short poll the remote server to download captions JSON from Google Cloud Storage
         let timeout: Int = 60  // in secs
-        let pollPeriod: Int = 10  // in secs
+        let pollPeriod: Int = 5  // in secs
         var secondsElapsed: Int = 0
         var jsonRef: StorageReference?
         var downloadError: Error?
@@ -95,10 +95,12 @@ func generateCaptions(forFile videoURL: URL) -> Void {
         }
         
         // Update views with new data
-        if captionData != nil {
-            userData.captions = captionData!
-        } else {
-            userData.captions = initialCaptionsList
+        DispatchQueue.main.async {
+            if captionData != nil {
+                userData.captions = captionData!
+            } else {
+                userData.captions = initialCaptionsList
+            }
         }
     }
 }
