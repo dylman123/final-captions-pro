@@ -12,7 +12,15 @@ import AppKit
 
 struct CaptionRow: View {
     
-    // Highlight if selected
+    // To refresh the UI when userData changes
+    @EnvironmentObject var userDataEnvObj: UserData
+    
+    // The current caption binding
+    var captionBinding: Binding<Caption> {
+        return $userDataEnvObj.captions[captionIndex]
+    }
+    
+    // Highlight caption if selected
     var selectedCaption: Int
     var isSelected: Bool {
         if selectedCaption == captionIndex {
@@ -25,14 +33,6 @@ struct CaptionRow: View {
     var rowColor: Color {
         if isSelected { return Color.yellow.opacity(0.5) }
         else { return Color.black.opacity(0.5) }
-    }
-
-    // Write data back to model
-    @EnvironmentObject var userDataWriteable: UserData
-    
-    // The current caption binding
-    var captionBinding: Binding<Caption> {
-        return $userDataWriteable.captions[captionIndex]
     }
     
     // The current caption object

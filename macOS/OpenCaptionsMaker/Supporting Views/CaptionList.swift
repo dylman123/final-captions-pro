@@ -10,8 +10,8 @@ import SwiftUI
 
 struct CaptionList: View {
     
-    // Read/write data back to model
-    @EnvironmentObject var userDataWriteable: UserData
+    // To refresh the UI when userData changes
+    @EnvironmentObject var userDataEnvObj: UserData
     
     // Track the the selected caption
     @State private var selectedCaption = 0
@@ -20,7 +20,7 @@ struct CaptionList: View {
         
         ScrollView(.vertical) {
             VStack {
-                ForEach(userDataWriteable.captions) { caption in
+                ForEach(userDataEnvObj.captions) { caption in
                     CaptionRow(selectedCaption: self.selectedCaption, caption: caption)
                     .tag(caption)
                     .padding(.vertical, 10)
@@ -35,12 +35,15 @@ struct CaptionList: View {
             guard self.selectedCaption > 0 else { return }
             self.selectedCaption -= 1
             }
+        .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
+            guard (self.selectedCaption == userData.captions.count-1)  else { return }
+            self.selectedCaption -= 1
+        }
     }
 }
 
 struct CaptionList_Previews: PreviewProvider {
     static var previews: some View {
-        //CaptionList(selectedCaption: .constant(sampleCaptionData[0]))
         CaptionList()
     }
 }
