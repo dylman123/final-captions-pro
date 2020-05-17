@@ -21,7 +21,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
             .environmentObject(userData)
-            //.background(KeyEventHandling())
 
         // Create the window and set the content view. 
         window = TypingWindow(

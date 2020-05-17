@@ -33,7 +33,7 @@ struct CaptionRow: View {
     // The current caption binding
     var captionBinding: Binding<Caption> {
         return $userDataWriteable.captions[captionIndex]
-        }
+    }
     
     // The current caption object
     var caption: Caption

@@ -14,7 +14,6 @@ struct CaptionList: View {
     @EnvironmentObject var userDataWriteable: UserData
     
     // Track the the selected caption
-    //@Binding var selectedCaption: Caption?  //TODO: Use this to highlight caption
     @State private var selectedCaption = 0
     
     var body: some View {
