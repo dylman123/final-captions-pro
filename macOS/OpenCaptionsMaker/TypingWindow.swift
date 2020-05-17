@@ -13,6 +13,7 @@ extension Notification.Name {
     static let deleteCaption = Notification.Name("deleteCaption")
     static let moveDown = Notification.Name("moveDown")
     static let moveUp = Notification.Name("moveUp")
+    static let toggleEdit = Notification.Name("toggleEdit")
     static let enterCharacter = Notification.Name("enterCharacter")
 }
 
@@ -26,10 +27,13 @@ class TypingWindow: NSWindow {
             NotificationCenter.default.post(name: .deleteCaption, object: nil)
         }
         else if event.keyCode == 125 {  // down arrow
-                NotificationCenter.default.post(name: .moveDown, object: nil)
+            NotificationCenter.default.post(name: .moveDown, object: nil)
         }
         else if event.keyCode == 126 {  // up arrow
-                    NotificationCenter.default.post(name: .moveUp, object: nil)
+            NotificationCenter.default.post(name: .moveUp, object: nil)
+        }
+        else if event.keyCode == 36 {  // return
+            NotificationCenter.default.post(name: .toggleEdit, object: nil)
         }
         else {
             guard let characters = event.characters else { return }

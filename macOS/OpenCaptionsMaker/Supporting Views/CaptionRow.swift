@@ -20,19 +20,28 @@ struct CaptionRow: View {
         return $userDataEnvObj.captions[captionIndex]
     }
     
-    // Highlight caption if selected
+    // Track selected caption
     var selectedCaption: Int
+    
+    // Logic to select caption
     var isSelected: Bool {
-        if selectedCaption == captionIndex {
-            return true
+        if selectedCaption == captionIndex { return true }
+        else { return false }
+    }
+    
+    // Logic to edit caption
+    var isEdited: Bool
+        
+    // Display caption color
+    var rowColor: Color {
+        if isSelected {
+            if isEdited {
+                return Color.green.opacity(0.5)
+            } else { return Color.yellow.opacity(0.5) }
         }
         else {
-            return false
+            return Color.black.opacity(0.5)
         }
-    }
-    var rowColor: Color {
-        if isSelected { return Color.yellow.opacity(0.5) }
-        else { return Color.black.opacity(0.5) }
     }
     
     // The current caption object
@@ -59,7 +68,7 @@ struct CaptionRow: View {
         ZStack {
             
             // Row background
-            RoundedRectangle(cornerRadius: 10).fill(rowColor)
+            RoundedRectangle(cornerRadius: 20).fill(rowColor)
             
             // Caption contents
             HStack(alignment: .center) {
@@ -128,7 +137,7 @@ struct CaptionRow: View {
 
 struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionRow(selectedCaption: 0, caption: userData.captions[0])
+        CaptionRow(selectedCaption: 0, isEdited: false, caption: userData.captions[0])
             .frame(height: 100)
     }
 }

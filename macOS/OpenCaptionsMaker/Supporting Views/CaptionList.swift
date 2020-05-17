@@ -16,12 +16,15 @@ struct CaptionList: View {
     // Track the the selected caption
     @State private var selectedCaption = 0
     
+    // Track the mode (select or edit mode)
+    @State private var isInEditMode = false
+    
     var body: some View {
         
         ScrollView(.vertical) {
             VStack {
                 ForEach(userDataEnvObj.captions) { caption in
-                    CaptionRow(selectedCaption: self.selectedCaption, caption: caption)
+                    CaptionRow(selectedCaption: self.selectedCaption, isEdited: self.isInEditMode, caption: caption)
                     .tag(caption)
                     .padding(.vertical, 10)
                 }
@@ -38,6 +41,9 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
             guard (self.selectedCaption == userData.captions.count-1)  else { return }
             self.selectedCaption -= 1
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .toggleEdit)) { _ in
+            self.isInEditMode.toggle()
         }
     }
 }
