@@ -51,11 +51,15 @@ struct CaptionList: View {
             }
             // If the last row is deleted, decrement selection
             if self.selectedCaption-1 == userData.captions.count-1 {
-                self.selectedCaption -= 1
+                NotificationCenter.default.post(name: .moveUp, object: nil)
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .toggleEdit)) { _ in
-            self.isInEditMode.toggle()
+        .onReceive(NotificationCenter.default.publisher(for: .returnKey)) { _ in
+            if self.isInEditMode {
+                NotificationCenter.default.post(name: .moveDown, object: nil)
+            } else {
+                self.isInEditMode.toggle()
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
             guard notification.object != nil else { return }
@@ -66,6 +70,18 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .backspace)) { _ in
             if self.isInEditMode {
                 _ = userData.captions[self.selectedCaption].text.popLast()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
+            if self.isInEditMode {
+                userData.captions[self.selectedCaption].text += " "
+            } else {
+                self.isInEditMode.toggle()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .escape)) { _ in
+            if self.isInEditMode {
+                self.isInEditMode.toggle()
             }
         }
     }
