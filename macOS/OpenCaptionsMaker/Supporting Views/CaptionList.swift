@@ -30,6 +30,7 @@ struct CaptionList: View {
                 }
             }
         }
+        // Keyboard press logic
         .onReceive(NotificationCenter.default.publisher(for: .moveDown)) { _ in
             guard self.selectedCaption < userData.captions.count-1 else { return }
             self.selectedCaption += 1
@@ -38,12 +39,34 @@ struct CaptionList: View {
             guard self.selectedCaption > 0 else { return }
             self.selectedCaption -= 1
             }
+        .onReceive(NotificationCenter.default.publisher(for: .addCaption)) { _ in
+            if !self.isInEditMode {
+                addCaption(beforeIndex: self.selectedCaption, atTime: userData.captions[self.selectedCaption].start)
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
-            guard (self.selectedCaption == userData.captions.count-1)  else { return }
-            self.selectedCaption -= 1
+            guard userData.captions.count > 1 else { return }
+            if !self.isInEditMode {
+                deleteCaption(atIndex: self.selectedCaption)
+            }
+            // If the last row is deleted, decrement selection
+            if self.selectedCaption-1 == userData.captions.count-1 {
+                self.selectedCaption -= 1
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .toggleEdit)) { _ in
             self.isInEditMode.toggle()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
+            guard notification.object != nil else { return }
+            if self.isInEditMode {
+                userData.captions[self.selectedCaption].text += String(describing:  notification.object!)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .backspace)) { _ in
+            if self.isInEditMode {
+                _ = userData.captions[self.selectedCaption].text.popLast()
+            }
         }
     }
 }

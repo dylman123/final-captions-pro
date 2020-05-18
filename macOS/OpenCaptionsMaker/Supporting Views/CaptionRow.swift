@@ -66,26 +66,31 @@ struct CaptionRow: View {
         ZStack {
             
             // Row background
-            RoundedRectangle(cornerRadius: 20).fill(rowColor)
+            RoundedRectangle(cornerRadius: 10).fill(rowColor)
             
             // Caption contents
             HStack(alignment: .center) {
                 
                 // Display caption timings
                 VStack {
-                    Stepper(value: captionBinding.start, step: -0.1) {
-                        TextField("", value: captionBinding.start, formatter: timeFormatter)
-                    }
-                    Stepper(value: captionBinding.end, step: -0.1) {
-                        TextField("", value: captionBinding.end, formatter: timeFormatter)
+                    if isEdited && isSelected {
+                        Stepper(value: captionBinding.start, step: -0.1) {
+                            TextField("", value: captionBinding.start, formatter: timeFormatter)
+                        }
+                        Stepper(value: captionBinding.end, step: -0.1) {
+                            TextField("", value: captionBinding.end, formatter: timeFormatter)
+                        }
+                    } else {
+                        Text(String(caption.start))
+                        Spacer()
+                        Text(String(caption.end))
                     }
                 }
                 .frame(width: 80.0)
                 
                 Spacer()
                 
-                // Display caption text
-                TextField("", text: captionBinding.text)
+                Text(caption.text)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .frame(width: 300)
@@ -95,20 +100,25 @@ struct CaptionRow: View {
                 
                 // Display insert plus and minus icons
                 VStack {
-                    Button(action: {
-                        addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
-                    }) {
-                        IconView("NSAddTemplate")
-                            .frame(width: 12, height: 12)
-                    }
-
-                    Button(action: {
-                        deleteCaption(atIndex: self.captionIndex)
-                    }) {
-                        if userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
-                            IconView("NSRemoveTemplate")
-                            .frame(width: 12, height: 12)
+                    
+                    if isEdited {
+                        Button(action: {
+                            addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
+                        }) {
+                            IconView("NSAddTemplate")
+                                .frame(width: 12, height: 12)
                         }
+
+                        Button(action: {
+                            deleteCaption(atIndex: self.captionIndex)
+                        }) {
+                            if userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
+                                IconView("NSRemoveTemplate")
+                                .frame(width: 12, height: 12)
+                            }
+                        }
+                    } else {
+                        Spacer()
                     }
                 }
                 .buttonStyle(buttonStyle)
@@ -116,20 +126,6 @@ struct CaptionRow: View {
             }
         }
         .frame(height: 30)
-        .onReceive(NotificationCenter.default.publisher(for: .addCaption)) { _ in
-            if self.isSelected {
-                addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
-            if (self.isSelected) && (userData.captions.count > 1) {  // Don't delete when only 1 caption is in list
-                deleteCaption(atIndex: self.captionIndex)
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
-            guard notification.object != nil else { return }
-            print(notification.object!)
-        }
     }
 }
 

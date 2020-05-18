@@ -14,6 +14,7 @@ extension Notification.Name {
     static let moveDown = Notification.Name("moveDown")
     static let moveUp = Notification.Name("moveUp")
     static let toggleEdit = Notification.Name("toggleEdit")
+    static let backspace = Notification.Name("backspace")
     static let enterCharacter = Notification.Name("enterCharacter")
 }
 
@@ -34,6 +35,9 @@ class TypingWindow: NSWindow {
         }
         else if event.keyCode == 36 {  // return
             NotificationCenter.default.post(name: .toggleEdit, object: nil)
+        }
+        else if event.keyCode == 51 {  // delete
+            NotificationCenter.default.post(name: .backspace, object: nil)
         }
         else {
             guard let characters = event.characters else { return }
