@@ -30,7 +30,7 @@ struct CaptionRow: View {
     // Display caption color
     var rowColor: Color {
         if isSelected {
-            if state.mode == .edit {
+            if state.mode == .edit || state.mode == .editStartTime || state.mode == .editEndTime {
                 return Color.green.opacity(0.5)
             } else { return Color.yellow.opacity(0.5) }
         }
@@ -64,23 +64,45 @@ struct CaptionRow: View {
             
             // Row background
             RoundedRectangle(cornerRadius: 10).fill(rowColor)
+            .onTapGesture {
+                self.state.selectionIndex = self.captionIndex
+                switch self.state.mode {
+                case .play: self.state.mode = .pause
+                case .pause: self.state.mode = .edit
+                case .edit: self.state.mode = .pause
+                case .editStartTime: self.state.mode = .edit
+                case .editEndTime: self.state.mode = .edit
+                print("Row sets state to \(self.state.mode)")
+                }
+            }
             
             // Caption contents
             HStack(alignment: .center) {
                 
                 // Display caption timings
                 VStack {
-                    if state.mode == .edit && isSelected {
-                        Stepper(value: captionBinding.start, step: -0.1) {
-                            TextField("", value: captionBinding.start, formatter: timeFormatter)
+                    if (state.mode == .edit || state.mode == .editStartTime || state.mode == .editEndTime) && isSelected {
+                        Stepper(value: captionBinding.startTime, step: -0.1) {
+                            //TextField("", value: captionBinding.startTime, formatter: timeFormatter)
+                            Text(String(caption.startTime))
+                            .onTapGesture {
+                                self.state.mode = .editStartTime
+                                print("Time sets state to \(self.state.mode)")
+                            }
                         }
-                        Stepper(value: captionBinding.end, step: -0.1) {
-                            TextField("", value: captionBinding.end, formatter: timeFormatter)
+                        Spacer()
+                        Stepper(value: captionBinding.endTime, step: -0.1) {
+                            //TextField("", value: captionBinding.endTime, formatter: timeFormatter)
+                            Text(String(caption.endTime))
+                            .onTapGesture {
+                                self.state.mode = .editEndTime
+                                print("Time sets state to \(self.state.mode)")
+                            }
                         }
                     } else {
-                        Text(String(caption.start))
+                        Text(String(caption.startTime))
                         Spacer()
-                        Text(String(caption.end))
+                        Text(String(caption.endTime))
                     }
                 }
                 .frame(width: 80.0)
@@ -100,7 +122,7 @@ struct CaptionRow: View {
                     
                     if isSelected {
                         Button(action: {
-                            addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
+                            addCaption(beforeIndex: self.captionIndex, atTime: self.caption.startTime)
                         }) {
                             IconView("NSAddTemplate")
                                 .frame(width: 12, height: 12)
@@ -123,15 +145,6 @@ struct CaptionRow: View {
             }
         }
         .frame(height: 30)
-        // Mouse click logic
-        .onTapGesture {
-            self.state.selectionIndex = self.captionIndex
-            switch self.state.mode {
-            case .playback: self.state.mode = .select
-            case .select: self.state.mode = .edit
-            case .edit: ()
-            }
-        }
     }
 }
 

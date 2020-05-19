@@ -22,7 +22,7 @@ func addCaption(beforeIndex id: Int, atTime end: Float) -> Void {
      
     // Compute timing values
     var prev_end: Float? {
-        if id != 0 { return captions[id-1].end }
+        if id != 0 { return captions[id-1].endTime }
         else { return nil }
     }
     let buffer: Float = 1.0 // seconds before previous caption's start
@@ -39,8 +39,8 @@ func addCaption(beforeIndex id: Int, atTime end: Float) -> Void {
      
     let newCaption = Caption(
         id: id,
-        start: start,
-        end: end,
+        startTime: start,
+        endTime: end,
         duration: duration,
         text: "",
         speaker: 0)
