@@ -13,27 +13,24 @@ struct CaptionRow: View {
     // To refresh the UI when userData changes
     @EnvironmentObject var userDataEnvObj: UserData
     
+    // To manage Mode state
+    @EnvironmentObject var state: CaptionListState
+    
     // The current caption binding
     var captionBinding: Binding<Caption> {
         return $userDataEnvObj.captions[captionIndex]
     }
     
-    // Track selected caption
-    var selectedCaption: Int
-    
     // Logic to select caption
     var isSelected: Bool {
-        if selectedCaption == captionIndex { return true }
+        if state.selectionIndex == captionIndex { return true }
         else { return false }
     }
-    
-    // Logic to edit caption
-    var isEdited: Bool
         
     // Display caption color
     var rowColor: Color {
         if isSelected {
-            if isEdited {
+            if state.mode == .edit {
                 return Color.green.opacity(0.5)
             } else { return Color.yellow.opacity(0.5) }
         }
@@ -73,7 +70,7 @@ struct CaptionRow: View {
                 
                 // Display caption timings
                 VStack {
-                    if isEdited && isSelected {
+                    if state.mode == .edit && isSelected {
                         Stepper(value: captionBinding.start, step: -0.1) {
                             TextField("", value: captionBinding.start, formatter: timeFormatter)
                         }
@@ -101,7 +98,7 @@ struct CaptionRow: View {
                 // Display insert plus and minus icons
                 VStack {
                     
-                    if isEdited {
+                    if isSelected {
                         Button(action: {
                             addCaption(beforeIndex: self.captionIndex, atTime: self.caption.start)
                         }) {
@@ -126,12 +123,21 @@ struct CaptionRow: View {
             }
         }
         .frame(height: 30)
+        // Mouse click logic
+        .onTapGesture {
+            self.state.selectionIndex = self.captionIndex
+            switch self.state.mode {
+            case .playback: self.state.mode = .select
+            case .select: self.state.mode = .edit
+            case .edit: ()
+            }
+        }
     }
 }
 
 struct CaptionRow_Previews: PreviewProvider {
     static var previews: some View {
-        CaptionRow(selectedCaption: 0, isEdited: false, caption: userData.captions[0])
+        CaptionRow(caption: userData.captions[0])
             .frame(height: 100)
     }
 }

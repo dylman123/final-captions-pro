@@ -8,80 +8,106 @@
 
 import SwiftUI
 
+enum Mode {
+    case playback, select, edit
+}
+
+class CaptionListState: ObservableObject {
+    @Published var mode = Mode.select
+    @Published var selectionIndex = 0
+}
+
 struct CaptionList: View {
     
     // To refresh the UI when userData changes
     @EnvironmentObject var userDataEnvObj: UserData
     
-    // Track the the selected caption
-    @State private var selectedCaption = 0
-    
-    // Track the mode (select or edit mode)
-    @State private var isInEditMode = false
+    // Track the state of the CaptionList view
+    @State var state = CaptionListState()
     
     var body: some View {
         
         ScrollView(.vertical) {
             VStack {
                 ForEach(userDataEnvObj.captions) { caption in
-                    CaptionRow(selectedCaption: self.selectedCaption, isEdited: self.isInEditMode, caption: caption)
-                    .tag(caption)
-                    .padding(.vertical, 10)
+                    CaptionRow(caption: caption)
+                        .environmentObject(self.state)
+                        .tag(caption)
+                        .padding(.vertical, 10)
                 }
             }
         }
         // Keyboard press logic
-        .onReceive(NotificationCenter.default.publisher(for: .moveDown)) { _ in
-            guard self.selectedCaption < userData.captions.count-1 else { return }
-            self.selectedCaption += 1
-            }
-        .onReceive(NotificationCenter.default.publisher(for: .moveUp)) { _ in
-            guard self.selectedCaption > 0 else { return }
-            self.selectedCaption -= 1
-            }
-        .onReceive(NotificationCenter.default.publisher(for: .addCaption)) { _ in
-            if !self.isInEditMode {
-                addCaption(beforeIndex: self.selectedCaption, atTime: userData.captions[self.selectedCaption].start)
+        .onReceive(NotificationCenter.default.publisher(for: .character)) { notification in
+            guard notification.object != nil else { return }
+            switch self.state.mode {
+            case .playback: self.state.mode = .select
+            case .select: ()  // TODO: if a letter, the caption
+            case .edit: userData.captions[self.state.selectionIndex].text += String(describing:  notification.object!)
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
-            guard userData.captions.count > 1 else { return }
-            if !self.isInEditMode {
-                deleteCaption(atIndex: self.selectedCaption)
+        .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
+            guard self.state.selectionIndex < userData.captions.count-1 else { return }
+            switch self.state.mode {
+            case .playback: self.state.mode = .select
+            case .select: self.state.selectionIndex += 1
+            case .edit: self.state.selectionIndex += 1
             }
-            // If the last row is deleted, decrement selection
-            if self.selectedCaption-1 == userData.captions.count-1 {
-                NotificationCenter.default.post(name: .moveUp, object: nil)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
+            guard self.state.selectionIndex > 0 else { return }
+            switch self.state.mode {
+            case .playback: self.state.mode = .select
+            case .select: self.state.selectionIndex -= 1
+            case .edit: self.state.selectionIndex -= 1
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .plus)) { notification in
+            switch self.state.mode {
+            case .playback: ()
+            case .select: addCaption(beforeIndex: self.state.selectionIndex, atTime: userData.captions[self.state.selectionIndex].start)
+            case .edit: userData.captions[self.state.selectionIndex].text += String(describing:  notification.object!)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .minus)) { notification in
+            guard userData.captions.count > 1 else { return }
+            switch self.state.mode {
+            case .playback: ()
+            case .select:
+                deleteCaption(atIndex: self.state.selectionIndex)
+                // If the last row is deleted, decrement selection
+                if self.state.selectionIndex-1 == userData.captions.count-1 {
+                    NotificationCenter.default.post(name: .upArrow, object: nil)
+                }
+            case .edit: userData.captions[self.state.selectionIndex].text += String(describing:  notification.object!)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .returnKey)) { _ in
-            if self.isInEditMode {
-                NotificationCenter.default.post(name: .moveDown, object: nil)
-            } else {
-                self.isInEditMode.toggle()
+            switch self.state.mode {
+            case .playback: ()
+            case .select: self.state.mode = .edit
+            case .edit: NotificationCenter.default.post(name: .downArrow, object: nil)
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
-            guard notification.object != nil else { return }
-            if self.isInEditMode {
-                userData.captions[self.selectedCaption].text += String(describing:  notification.object!)
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .backspace)) { _ in
-            if self.isInEditMode {
-                _ = userData.captions[self.selectedCaption].text.popLast()
+        .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
+            switch self.state.mode {
+            case .playback: ()
+            case .select: ()
+            case .edit: _ = userData.captions[self.state.selectionIndex].text.popLast()
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
-            if self.isInEditMode {
-                userData.captions[self.selectedCaption].text += " "
-            } else {
-                self.isInEditMode.toggle()
+            switch self.state.mode {
+            case .playback: self.state.mode = .select
+            case .select: self.state.mode = .playback
+            case .edit: userData.captions[self.state.selectionIndex].text += " "
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .escape)) { _ in
-            if self.isInEditMode {
-                self.isInEditMode.toggle()
+            switch self.state.mode {
+            case .playback: ()
+            case .select: ()
+            case .edit: self.state.mode = .select
             }
         }
     }
