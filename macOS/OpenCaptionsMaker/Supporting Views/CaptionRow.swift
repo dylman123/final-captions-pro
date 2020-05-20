@@ -31,7 +31,7 @@ struct CaptionRow: View {
     var rowColor: Color {
         if isSelected {
             if state.mode == .edit || state.mode == .editStartTime || state.mode == .editEndTime {
-                return Color.green.opacity(0.5)
+                return Color.gray.opacity(0.5)
             } else { return Color.yellow.opacity(0.5) }
         }
         else {
@@ -58,23 +58,56 @@ struct CaptionRow: View {
     // To format the plus button
     var buttonStyle = BorderlessButtonStyle()
     
+    enum CaptionElement {
+        case row, text, startTime, endTime
+    }
+    
+    func setStateOnTap(fromView view: CaptionElement) -> Void {
+        switch view {
+        case .row:
+            switch state.mode {
+                case .play: self.state.mode = .pause
+                case .pause: if isSelected { self.state.mode = .edit }
+                case .edit: self.state.mode = .pause
+                case .editStartTime: self.state.mode = .pause
+                case .editEndTime: self.state.mode = .pause
+            }
+        case .text:
+            switch state.mode {
+                case .play: self.state.mode = .pause
+                case .pause: if isSelected { self.state.mode = .edit }
+                case .edit: self.state.mode = .pause
+                case .editStartTime: self.state.mode = .edit
+                case .editEndTime: self.state.mode = .edit
+            }
+        case .startTime:
+            switch state.mode {
+                case .play: self.state.mode = .pause
+                case .pause: if isSelected { self.state.mode = .edit }
+                case .edit: self.state.mode = .editStartTime
+                case .editStartTime: ()
+                case .editEndTime: self.state.mode = .editStartTime
+            }
+        case .endTime:
+            switch state.mode {
+                case .play: self.state.mode = .pause
+                case .pause: if isSelected { self.state.mode = .edit }
+                case .edit: self.state.mode = .editEndTime
+                case .editStartTime: self.state.mode = .editEndTime
+                case .editEndTime: ()
+            }
+        }
+        self.state.selectionIndex = self.captionIndex
+    }
+    
     var body: some View {
         
         ZStack {
             
             // Row background
             RoundedRectangle(cornerRadius: 10).fill(rowColor)
-            .onTapGesture {
-                self.state.selectionIndex = self.captionIndex
-                switch self.state.mode {
-                case .play: self.state.mode = .pause
-                case .pause: self.state.mode = .edit
-                case .edit: self.state.mode = .pause
-                case .editStartTime: self.state.mode = .edit
-                case .editEndTime: self.state.mode = .edit
-                print("Row sets state to \(self.state.mode)")
-                }
-            }
+                .frame(height: 40)
+                .onTapGesture { self.setStateOnTap(fromView: .row) }
             
             // Caption contents
             HStack(alignment: .center) {
@@ -83,37 +116,71 @@ struct CaptionRow: View {
                 VStack {
                     if (state.mode == .edit || state.mode == .editStartTime || state.mode == .editEndTime) && isSelected {
                         Stepper(value: captionBinding.startTime, step: -0.1) {
-                            //TextField("", value: captionBinding.startTime, formatter: timeFormatter)
-                            Text(String(caption.startTime))
-                            .onTapGesture {
-                                self.state.mode = .editStartTime
-                                print("Time sets state to \(self.state.mode)")
+                            ZStack {
+                                Text(String(format: "%.1f", caption.startTime))
+                                    .onTapGesture { self.setStateOnTap(fromView: .startTime) }
+                                if state.mode == .editStartTime {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .fill(Color.clear)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .strokeBorder(Color.white, lineWidth: 2)
+                                    )
+                                }
                             }
+                            .padding(.leading)
                         }
                         Spacer()
                         Stepper(value: captionBinding.endTime, step: -0.1) {
-                            //TextField("", value: captionBinding.endTime, formatter: timeFormatter)
-                            Text(String(caption.endTime))
-                            .onTapGesture {
-                                self.state.mode = .editEndTime
-                                print("Time sets state to \(self.state.mode)")
+                            ZStack {
+                                Text(String(format: "%.1f", caption.endTime))
+                                    .onTapGesture { self.setStateOnTap(fromView: .endTime) }
+                                if state.mode == .editEndTime {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .fill(Color.clear)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .strokeBorder(Color.white, lineWidth: 2)
+                                    )
+                                }
                             }
+                            .padding(.leading)
                         }
                     } else {
-                        Text(String(caption.startTime))
+                        Text(String(format: "%.1f", caption.startTime))
+                            .onTapGesture {
+                                self.setStateOnTap(fromView: .startTime)
+                            }
                         Spacer()
-                        Text(String(caption.endTime))
+                        Text(String(format: "%.1f", caption.endTime))
+                            .onTapGesture {
+                                self.setStateOnTap(fromView: .endTime)
+                            }
                     }
                 }
                 .frame(width: 80.0)
                 
                 Spacer()
                 
-                Text(caption.text)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .frame(width: 300)
-                    .offset(x: -30)
+                ZStack {
+                    Text(caption.text)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .frame(width: 300)
+                        .offset(x: -30)
+                        .onTapGesture {
+                            self.setStateOnTap(fromView: .text)
+                        }
+                    if state.mode == .edit && isSelected {
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(Color.clear)
+                            .frame(width: 300, height: 20)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .strokeBorder(Color.white, lineWidth: 2)
+                        )
+                    }
+                }
                 
                 Spacer()
                 

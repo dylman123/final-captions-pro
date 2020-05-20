@@ -112,14 +112,14 @@ struct CaptionList: View {
             case .play: ()
             case .pause: ()
             case .edit: _ = userData.captions[self.state.selectionIndex].text.popLast()
-            case .editStartTime:
-                var strVal = String(userData.captions[self.state.selectionIndex].startTime)
-                _ = strVal.popLast()
-                userData.captions[self.state.selectionIndex].startTime = (strVal as NSString).floatValue
-            case .editEndTime:
-                var strVal = String(userData.captions[self.state.selectionIndex].endTime)
-                _ = strVal.popLast()
-                userData.captions[self.state.selectionIndex].endTime = (strVal as NSString).floatValue
+            case .editStartTime: ()
+                //var strVal = String(format: "%.1f", userData.captions[self.state.selectionIndex].startTime)
+                //_ = strVal.popLast()
+                //userData.captions[self.state.selectionIndex].startTime = (strVal as NSString).floatValue
+            case .editEndTime: ()
+                //var strVal = String(format: "%.1f", userData.captions[self.state.selectionIndex].endTime)
+                //_ = strVal.popLast()
+                //userData.captions[self.state.selectionIndex].endTime = (strVal as NSString).floatValue
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
