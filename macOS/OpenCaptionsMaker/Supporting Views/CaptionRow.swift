@@ -140,6 +140,7 @@ struct CaptionRow: View {
                 if isSelected {
                     // Display caption timings
                     VStack {
+                        // Start Time
                         if self.state.mode == .editStartTime {
                             Stepper(value: captionBinding.startTime, step: -0.1) {
                                 ZStack {
@@ -154,6 +155,7 @@ struct CaptionRow: View {
                                 .onTapGesture { self.setStateOnTap(fromView: .startTime) }
                         }
                         Spacer()
+                        // End Time
                         if self.state.mode == .editEndTime {
                             Stepper(value: captionBinding.endTime, step: -0.1) {
                                 ZStack {
@@ -172,12 +174,14 @@ struct CaptionRow: View {
                     Spacer()
                     // Display caption text
                     ZStack {
-                        Text(caption.text)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .onTapGesture { self.setStateOnTap(fromView: .text) }
-                        if self.state.mode == .edit { SelectionBox() }
+                        if self.state.mode == .edit {
+                            Text(caption.text + "|")  // TODO: Make cursor blink
+                            SelectionBox()
+                        } else { Text(caption.text) }
                     }
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .onTapGesture { self.setStateOnTap(fromView: .text) }
                     .offset(x: textOffset + deltaOffset)
                     .frame(width: textWidth)
                     Spacer()
