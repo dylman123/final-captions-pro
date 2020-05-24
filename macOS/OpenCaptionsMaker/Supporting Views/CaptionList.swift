@@ -86,7 +86,7 @@ struct CaptionList: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .plus)) { notification in
             switch self.state.mode {
-            case .play: ()
+            case .play: self.state.mode = .pause
             case .pause: addCaption(beforeIndex: self.state.selectionIndex, atTime: userData.captions[self.state.selectionIndex].startTime)
             case .edit: userData.captions[self.state.selectionIndex].text += String(describing:  notification.object!)
             case .editStartTime: userData.captions[self.state.selectionIndex].startTime += 0.1
@@ -96,7 +96,7 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .minus)) { notification in
             guard userData.captions.count > 1 else { return }
             switch self.state.mode {
-            case .play: ()
+            case .play: self.state.mode = .pause
             case .pause:
                 deleteCaption(atIndex: self.state.selectionIndex)
                 // If the last row is deleted, decrement selection
@@ -110,26 +110,29 @@ struct CaptionList: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .returnKey)) { _ in
             switch self.state.mode {
-            case .play: ()
+            case .play: self.state.mode = .pause
             case .pause: self.state.mode = .edit
             case .edit: NotificationCenter.default.post(name: .downArrow, object: nil)
             case .editStartTime: self.state.mode = .edit
             case .editEndTime: self.state.mode = .edit
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .tab)) { _ in
+            switch self.state.mode {
+            case .play: self.state.mode = .pause
+            case .pause: ()
+            case .edit: self.state.mode = .editStartTime
+            case .editStartTime: self.state.mode = .editEndTime
+            case .editEndTime: self.state.mode = .edit
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
             switch self.state.mode {
-            case .play: ()
+            case .play: self.state.mode = .pause
             case .pause: ()
             case .edit: _ = userData.captions[self.state.selectionIndex].text.popLast()
             case .editStartTime: ()
-                //var strVal = String(format: "%.1f", userData.captions[self.state.selectionIndex].startTime)
-                //_ = strVal.popLast()
-                //userData.captions[self.state.selectionIndex].startTime = (strVal as NSString).floatValue
             case .editEndTime: ()
-                //var strVal = String(format: "%.1f", userData.captions[self.state.selectionIndex].endTime)
-                //_ = strVal.popLast()
-                //userData.captions[self.state.selectionIndex].endTime = (strVal as NSString).floatValue
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
@@ -143,7 +146,7 @@ struct CaptionList: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .escape)) { _ in
             switch self.state.mode {
-            case .play: ()
+            case .play: self.state.mode = .pause
             case .pause: ()
             case .edit: self.state.mode = .pause
             case .editStartTime: self.state.mode = .edit

@@ -14,6 +14,7 @@ extension Notification.Name {
     static let downArrow = Notification.Name("downArrow")
     static let upArrow = Notification.Name("upArrow")
     static let returnKey = Notification.Name("returnKey")
+    static let tab = Notification.Name("tab")
     static let spacebar = Notification.Name("spacebar")
     static let delete = Notification.Name("delete")
     static let escape = Notification.Name("escape")
@@ -31,6 +32,7 @@ class TypingWindow: NSWindow {
         case 125: notification = .downArrow
         case 126: notification = .upArrow
         case 36: notification = .returnKey
+        case 48: notification = .tab
         case 49: notification = .spacebar
         case 51: notification = .delete
         case 53: notification = .escape
