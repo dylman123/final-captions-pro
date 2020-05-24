@@ -31,11 +31,11 @@ struct CaptionRow: View {
     var rowColor: Color {
         if isSelected {
             switch state.mode {
-            case .play: return Color.yellow.opacity(0.5)
-            case .pause: return Color.yellow.opacity(0.5)
-            case .edit: return Color.gray.opacity(0.5)
-            case .editStartTime: return Color.gray.opacity(0.5)
-            case .editEndTime: return Color.gray.opacity(0.5)
+            case .play: return Color.gray.opacity(0.5)
+            case .pause: return Color.gray.opacity(0.5)
+            case .edit: return Color.yellow.opacity(0.5)
+            case .editStartTime: return Color.yellow.opacity(0.5)
+            case .editEndTime: return Color.yellow.opacity(0.5)
             }
         }
         else {

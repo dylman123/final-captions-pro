@@ -40,7 +40,7 @@ struct CaptionList: View {
                         .environmentObject(self.state)
                         .tag(caption)
                         .padding(.vertical, 10)
-                        .offset(y: -50 * CGFloat(self.state.selectionIndex))  // FIXME: Why doesn't this refresh the UI in realtime?
+                        //.offset(y: -50 * CGFloat(self.state.selectionIndex))  // FIXME: Why doesn't this refresh the UI in realtime?
                 }
             }
         }

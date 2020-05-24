@@ -150,6 +150,9 @@ struct VideoPlayerControlsView : View {
         }
         .padding(.leading, 10)
         .padding(.trailing, 10)
+        .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
+            //self.togglePlayPause()
+        }
     }
     
     private func togglePlayPause() {
@@ -251,5 +254,39 @@ struct TestVideoView: NSViewRepresentable {
 struct VideoPlayer_Previews: PreviewProvider {
     static var previews: some View {
         TestVideoView()
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+struct PlayerView: NSViewRepresentable {
+    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<PlayerView>) {
+
+    }
+    func makeNSView(context: Context) -> NSView {
+        return PlayerNSView(frame: .zero)
+    }
+}
+
+class PlayerNSView: NSView{
+    private let playerLayer = AVPlayerLayer()
+
+    override init(frame:CGRect){
+        super.init(frame: frame)
+        let urlVideo = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
+        let player = AVPlayer(url: urlVideo)
+        player.play()
+        playerLayer.player = player
+        if layer == nil{
+            layer = CALayer()
+        }
+        layer?.addSublayer(playerLayer)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    override func layout() {
+        super.layout()
+        playerLayer.frame = bounds
     }
 }
