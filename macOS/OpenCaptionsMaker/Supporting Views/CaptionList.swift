@@ -55,23 +55,33 @@ struct CaptionList: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
-            guard self.state.selectionIndex < userData.captions.count-1 else { return }
+            switch self.state.mode {
+            case .editStartTime: userData.captions[self.state.selectionIndex].startTime += 0.1
+            case .editEndTime: userData.captions[self.state.selectionIndex].endTime += 0.1
+            default: ()
+            }
+            
+            guard self.state.selectionIndex < userData.captions.count-1 else { return } // Guard against when last caption is selected
             switch self.state.mode {
             case .play: self.state.mode = .pause
             case .pause: self.state.selectionIndex += 1
             case .edit: self.state.selectionIndex += 1
-            case .editStartTime: userData.captions[self.state.selectionIndex].startTime += 0.1
-            case .editEndTime: userData.captions[self.state.selectionIndex].endTime += 0.1
+            default: ()
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
-            guard self.state.selectionIndex > 0 else { return }
+            switch self.state.mode {
+            case .editStartTime: userData.captions[self.state.selectionIndex].startTime -= 0.1
+            case .editEndTime: userData.captions[self.state.selectionIndex].endTime -= 0.1
+            default: ()
+            }
+            
+            guard self.state.selectionIndex > 0 else { return } // Guard against when first caption is selected
             switch self.state.mode {
             case .play: self.state.mode = .pause
             case .pause: self.state.selectionIndex -= 1
             case .edit: self.state.selectionIndex -= 1
-            case .editStartTime: userData.captions[self.state.selectionIndex].startTime -= 0.1
-            case .editEndTime: userData.captions[self.state.selectionIndex].endTime -= 0.1
+            default: ()
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .plus)) { notification in

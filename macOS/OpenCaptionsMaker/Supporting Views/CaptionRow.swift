@@ -226,13 +226,12 @@ struct CaptionRow: View {
     }
 }
 
-var test = CaptionListState()
-
+//var test = CaptionListState()
 struct CaptionRow_Previews: PreviewProvider {
 
     static var previews: some View {
         CaptionRow(caption: userData.captions[0])
             .frame(height: 100)
-            .environmentObject(test)
+            //.environmentObject(test)
     }
 }
