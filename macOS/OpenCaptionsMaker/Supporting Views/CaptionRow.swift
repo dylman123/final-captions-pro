@@ -30,9 +30,13 @@ struct CaptionRow: View {
     // Display caption color
     var rowColor: Color {
         if isSelected {
-            if state.mode == .edit || state.mode == .editStartTime || state.mode == .editEndTime {
-                return Color.gray.opacity(0.5)
-            } else { return Color.yellow.opacity(0.5) }
+            switch state.mode {
+            case .play: return Color.yellow.opacity(0.5)
+            case .pause: return Color.yellow.opacity(0.5)
+            case .edit: return Color.gray.opacity(0.5)
+            case .editStartTime: return Color.gray.opacity(0.5)
+            case .editEndTime: return Color.gray.opacity(0.5)
+            }
         }
         else {
             return Color.black.opacity(0.5)

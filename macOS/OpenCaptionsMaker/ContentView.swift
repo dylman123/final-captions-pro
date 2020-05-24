@@ -15,7 +15,6 @@ struct ContentView: View {
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
-    @State private var selectedCaption: Caption?
     @State private var showFileInput: Bool = false
     @State private var showProgressBar: Bool = false
     
@@ -26,10 +25,11 @@ struct ContentView: View {
 
             //Video player
             //FakeVideoExample()
-            //VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-            TestVideoView()
+            VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
+            //TestVideoView()
                 .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
                 .padding(.horizontal, 25)
+                .buttonStyle(BorderlessButtonStyle())
 
             VStack {
                 
@@ -50,7 +50,6 @@ struct ContentView: View {
                 
                 // Captions list
                 Headers()
-                //CaptionList(selectedCaption: $selectedCaption)
                 CaptionList()
                     .frame(height: self.windowHeight*0.8)
                 
@@ -74,18 +73,6 @@ struct ContentView: View {
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
             }
         })
-        /*.onReceive(NotificationCenter.default.publisher(for: .addCaption)) { _ in
-            addCaption(beforeIndex: 0, atTime: 0.0)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
-            if userData.captions.count > 1 {  // Don't delete when only 1 caption is in list
-                deleteCaption(atIndex: 0)
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
-            guard notification.object != nil else { return }
-            print(notification.object!)
-        }*/
     }
 }
 
