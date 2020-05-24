@@ -25,6 +25,12 @@ struct CaptionList: View {
     // Track the state of the CaptionList view
     @State var state = CaptionListState()
     
+    //init() {
+    //    _ = state.objectWillChange.sink { [unowned state] in
+    //        state.objectWillChange.send()
+    //    }
+    //}
+    
     var body: some View {
         
         ScrollView(.vertical) {
