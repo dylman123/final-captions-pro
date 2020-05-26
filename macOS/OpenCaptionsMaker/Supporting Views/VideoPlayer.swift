@@ -132,7 +132,7 @@ struct VideoPlayerControlsView : View {
     
     let player: AVPlayer
     
-    @State private var playerPaused = true
+    @State private var playerPaused: Bool = true
     
     var body: some View {
         HStack {
@@ -153,7 +153,13 @@ struct VideoPlayerControlsView : View {
         .padding(.leading, 10)
         .padding(.trailing, 10)
         .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
-            //self.togglePlayPause()
+            self.togglePlayPause()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
+            // TODO: scrub video
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
+            // TODO: scrub video
         }
     }
     

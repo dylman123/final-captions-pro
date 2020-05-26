@@ -13,6 +13,8 @@ extension Notification.Name {
     static let minus = Notification.Name("minus")
     static let downArrow = Notification.Name("downArrow")
     static let upArrow = Notification.Name("upArrow")
+    static let leftArrow = Notification.Name("leftArrow")
+    static let rightArrow = Notification.Name("rightArrow")
     static let returnKey = Notification.Name("returnKey")
     static let tab = Notification.Name("tab")
     static let spacebar = Notification.Name("spacebar")
@@ -31,6 +33,8 @@ class TypingWindow: NSWindow {
         case 27: notification = .minus
         case 125: notification = .downArrow
         case 126: notification = .upArrow
+        case 123: notification = .leftArrow
+        case 124: notification = .rightArrow
         case 36: notification = .returnKey
         case 48: notification = .tab
         case 49: notification = .spacebar
