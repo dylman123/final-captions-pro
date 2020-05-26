@@ -234,7 +234,8 @@ struct VideoPlayer: View {
         }
     }
     var body: some View {
-        VideoPlayerContainerView(url: URL(string: (self.url)!)!)
+        //VideoPlayerContainerView(url: URL(string: (self.url)!)!)
+        VideoPlayerContainerView(url: Bundle.main.url(forResource: "RAW-long", withExtension: "m4v")!)  //Hardcoded URL for testing
     }
 }
 
@@ -257,7 +258,9 @@ struct VideoPlayer_Previews: PreviewProvider {
     }
 }
 
+// ^^ THERE ARE CONTROLS BUT ONLY AUDIO PLAYS
 //////////////////////////////////////////////////////////////////////////////////////////
+// vv VIDEO AND AUDIO PLAYS BUT THERE ARE NO CONTROLS
 
 struct PlayerView: NSViewRepresentable {
     func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<PlayerView>) {
@@ -273,8 +276,20 @@ class PlayerNSView: NSView{
 
     override init(frame:CGRect){
         super.init(frame: frame)
-        let urlVideo = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
+        
+        // Test video
+        guard let testVideo = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") else { print("Couldn't load test video"); return }
+        print("Test videoURL is: \(testVideo)")
+        let urlVideo = testVideo
+        
         let player = AVPlayer(url: urlVideo)
+        
+        print("Is playable? \(String(describing: player.currentItem?.asset.isPlayable))")
+        print("Is readable? \(String(describing: player.currentItem?.asset.isReadable))")
+        print("Is composable? \(String(describing: player.currentItem?.asset.isComposable))")
+        print("Is exportable? \(String(describing: player.currentItem?.asset.isExportable))")
+        print("Is compatible with AirPlay video? \(String(describing: player.currentItem?.asset.isCompatibleWithAirPlayVideo))")
+        
         player.play()
         playerLayer.player = player
         if layer == nil{

@@ -17,3 +17,5 @@ class UserData: ObservableObject {
     var videoURL: URL = URL(fileURLWithPath: "")
     
 }
+
+var sampleCaptionData: [Caption] = load("captionDataLong")

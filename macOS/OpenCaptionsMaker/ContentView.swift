@@ -26,9 +26,10 @@ struct ContentView: View {
             //Video player
             //FakeVideoExample()
             //VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-            VideoPlayer(url: "file:///Users/dylanklein/Documents/MyProjects/SubtitleGenerator/Git/automatic-subtitle-generator/inputs/RAW-long.m4v")
+            //VideoPlayer(url: "file:///Users/dylanklein/Documents/MyProjects/SubtitleGenerator/Git/automatic-subtitle-generator/inputs/RAW-long.m4v")
             //TestVideoView()
             //PlayerView()
+            VideoPlayer(url: "dummyURL")
                 .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
                 .padding(.horizontal, 25)
                 .buttonStyle(BorderlessButtonStyle())

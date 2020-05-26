@@ -20,11 +20,12 @@
 		A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */; };
 		A37FD1402446C66700CD1C15 /* CaptionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13F2446C66700CD1C15 /* CaptionRow.swift */; };
 		A37FD1432446C99D00CD1C15 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1422446C99D00CD1C15 /* Headers.swift */; };
-		A37FD148244722D700CD1C15 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD147244722D700CD1C15 /* Data.swift */; };
 		A37FD14A244722F000CD1C15 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD149244722F000CD1C15 /* Caption.swift */; };
 		A37FD14E2447254400CD1C15 /* captionDataShort.json in Resources */ = {isa = PBXBuildFile; fileRef = A37FD14D2447254400CD1C15 /* captionDataShort.json */; };
 		A3E4CB77246FD6A20046A1BA /* captionDataLong.json in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB76246FD6A20046A1BA /* captionDataLong.json */; };
 		A3E4CB79247103850046A1BA /* TypingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB78247103850046A1BA /* TypingWindow.swift */; };
+		A3E4CB81247CEEB40046A1BA /* RAW-short.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB7E247CEDD80046A1BA /* RAW-short.mp4 */; };
+		A3E4CB82247CF0F50046A1BA /* RAW-long.m4v in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB7F247CEDD80046A1BA /* RAW-long.m4v */; };
 		A3E663272467C4080013450E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E663262467C4080013450E /* Utilities.swift */; };
 		A3E6632B2467CE740013450E /* fcpxml-v1.8.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A3E663282467CE740013450E /* fcpxml-v1.8.dtd */; };
 		A3E6632C2467CE740013450E /* title.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E663292467CE740013450E /* title.fcpxml */; };
@@ -75,12 +76,13 @@
 		A37FD13D2446C46800CD1C15 /* CaptionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionList.swift; sourceTree = "<group>"; };
 		A37FD13F2446C66700CD1C15 /* CaptionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionRow.swift; sourceTree = "<group>"; };
 		A37FD1422446C99D00CD1C15 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
-		A37FD147244722D700CD1C15 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		A37FD149244722F000CD1C15 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
 		A37FD14D2447254400CD1C15 /* captionDataShort.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = captionDataShort.json; sourceTree = "<group>"; };
 		A37FD1542448788100CD1C15 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		A3E4CB76246FD6A20046A1BA /* captionDataLong.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = captionDataLong.json; sourceTree = "<group>"; };
 		A3E4CB78247103850046A1BA /* TypingWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingWindow.swift; sourceTree = "<group>"; };
+		A3E4CB7E247CEDD80046A1BA /* RAW-short.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-short.mp4"; sourceTree = "<group>"; };
+		A3E4CB7F247CEDD80046A1BA /* RAW-long.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-long.m4v"; sourceTree = "<group>"; };
 		A3E663262467C4080013450E /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		A3E663282467CE740013450E /* fcpxml-v1.8.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "fcpxml-v1.8.dtd"; sourceTree = "<group>"; };
 		A3E663292467CE740013450E /* title.fcpxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = title.fcpxml; sourceTree = "<group>"; };
@@ -160,6 +162,8 @@
 		A36655C9244C63CB002FA173 /* Inputs */ = {
 			isa = PBXGroup;
 			children = (
+				A3E4CB7F247CEDD80046A1BA /* RAW-long.m4v */,
+				A3E4CB7E247CEDD80046A1BA /* RAW-short.mp4 */,
 			);
 			path = Inputs;
 			sourceTree = "<group>";
@@ -167,7 +171,6 @@
 		A37FD146244722B500CD1C15 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A37FD147244722D700CD1C15 /* Data.swift */,
 				A37FD149244722F000CD1C15 /* Caption.swift */,
 				A36655C4244A8F1D002FA173 /* UserData.swift */,
 			);
@@ -244,13 +247,13 @@
 				A37FD146244722B500CD1C15 /* Models */,
 				A3EB48A92445A1D10077E555 /* AppDelegate.swift */,
 				A3EB48AB2445A1D10077E555 /* ContentView.swift */,
+				A3E4CB78247103850046A1BA /* TypingWindow.swift */,
 				A3EB48AD2445A1D90077E555 /* Assets.xcassets */,
 				A3EB48B22445A1D90077E555 /* Main.storyboard */,
 				A3EB48B52445A1D90077E555 /* Info.plist */,
 				A3E6633224680BF00013450E /* GoogleService-Info.plist */,
 				A3EB48B62445A1D90077E555 /* OpenCaptionsMaker.entitlements */,
 				A3EB48AF2445A1D90077E555 /* Preview Content */,
-				A3E4CB78247103850046A1BA /* TypingWindow.swift */,
 			);
 			path = OpenCaptionsMaker;
 			sourceTree = "<group>";
@@ -393,6 +396,8 @@
 				A37FD14E2447254400CD1C15 /* captionDataShort.json in Resources */,
 				A36655D2244DC0DA002FA173 /* MainMenu.xib in Resources */,
 				A3E4CB77246FD6A20046A1BA /* captionDataLong.json in Resources */,
+				A3E4CB81247CEEB40046A1BA /* RAW-short.mp4 in Resources */,
+				A3E4CB82247CF0F50046A1BA /* RAW-long.m4v in Resources */,
 				A3E6633324680BF00013450E /* GoogleService-Info.plist in Resources */,
 				A3EB48B42445A1D90077E555 /* Main.storyboard in Resources */,
 				A3EB48B12445A1D90077E555 /* Preview Assets.xcassets in Resources */,
@@ -538,7 +543,6 @@
 				A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */,
 				A36655D624505239002FA173 /* FileInput.swift in Sources */,
 				A3E4CB79247103850046A1BA /* TypingWindow.swift in Sources */,
-				A37FD148244722D700CD1C15 /* Data.swift in Sources */,
 				A36655DE24540409002FA173 /* generateCaptions.swift in Sources */,
 				A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */,
 				A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */,
