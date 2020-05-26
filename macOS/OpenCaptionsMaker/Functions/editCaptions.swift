@@ -11,7 +11,7 @@ import Foundation
 // Adds a blank caption into the row above the selected cell.
 // The new caption's end time will match the caller caption's start time.
 func addCaption(beforeIndex id: Int, atTime end: Float) -> Void {
-    var captions: [Caption] = userData.captions
+    var captions: [Caption] = state.captions
     
     // Increment all subsequent captions' ids
     for idx in 0..<captions.count {
@@ -48,12 +48,12 @@ func addCaption(beforeIndex id: Int, atTime end: Float) -> Void {
     // Insert new Caption object
     captions.insert(newCaption, at: id)
     
-    userData.captions = captions
+    state.captions = captions
 }
  
 // Deletes the selected cell
 func deleteCaption(atIndex id: Int) -> Void {
-    var captions: [Caption] = userData.captions
+    var captions: [Caption] = state.captions
     
     // Remove current Caption object from captions list
     captions.remove(at: id)
@@ -65,5 +65,5 @@ func deleteCaption(atIndex id: Int) -> Void {
         }
     }
     
-    userData.captions = captions
+    state.captions = captions
 }

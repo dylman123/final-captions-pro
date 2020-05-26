@@ -11,14 +11,11 @@ import SwiftUI
 struct CaptionRow: View {
     
     // To refresh the UI when userData changes
-    @EnvironmentObject var userDataEnvObj: UserData
-    
-    // To manage Mode state
-    @EnvironmentObject var state: CaptionListState
+    @EnvironmentObject var stateEnvObj: AppState
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
-        return $userDataEnvObj.captions[captionIndex]
+        return $stateEnvObj.captions[captionIndex]
     }
     
     // Logic to select caption
@@ -31,7 +28,7 @@ struct CaptionRow: View {
     var rowColor: Color {
         if isSelected {
             switch state.mode {
-            case .play: return Color.gray.opacity(0.5)
+            case .play: return Color.blue.opacity(0.5)
             case .pause: return Color.gray.opacity(0.5)
             case .edit: return Color.yellow.opacity(0.5)
             case .editStartTime: return Color.yellow.opacity(0.5)
@@ -48,7 +45,7 @@ struct CaptionRow: View {
     
     // To index the current caption
     var captionIndex: Int {
-        return userData.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return stateEnvObj.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // To format the time values in text
@@ -71,38 +68,38 @@ struct CaptionRow: View {
         switch view {
         case .row:
             switch state.mode {
-                case .play: self.state.mode = .pause
-                case .pause: if isSelected { self.state.mode = .edit }
-                case .edit: self.state.mode = .pause
-                case .editStartTime: self.state.mode = .pause
-                case .editEndTime: self.state.mode = .pause
+                case .play: state.mode = .pause
+                case .pause: if isSelected { state.mode = .edit }
+                case .edit: state.mode = .pause
+                case .editStartTime: state.mode = .pause
+                case .editEndTime: state.mode = .pause
             }
         case .text:
             switch state.mode {
-                case .play: self.state.mode = .pause
-                case .pause: if isSelected { self.state.mode = .edit }
-                case .edit: self.state.mode = .pause
-                case .editStartTime: self.state.mode = .edit
-                case .editEndTime: self.state.mode = .edit
+                case .play: state.mode = .pause
+                case .pause: if isSelected { state.mode = .edit }
+                case .edit: state.mode = .pause
+                case .editStartTime: state.mode = .edit
+                case .editEndTime: state.mode = .edit
             }
         case .startTime:
             switch state.mode {
-                case .play: self.state.mode = .pause
-                case .pause: if isSelected { self.state.mode = .editStartTime }
-                case .edit: self.state.mode = .editStartTime
+                case .play: state.mode = .pause
+                case .pause: if isSelected { state.mode = .editStartTime }
+                case .edit: state.mode = .editStartTime
                 case .editStartTime: ()
-                case .editEndTime: self.state.mode = .editStartTime
+                case .editEndTime: state.mode = .editStartTime
             }
         case .endTime:
             switch state.mode {
-                case .play: self.state.mode = .pause
-                case .pause: if isSelected { self.state.mode = .editEndTime }
-                case .edit: self.state.mode = .editEndTime
-                case .editStartTime: self.state.mode = .editEndTime
+                case .play: state.mode = .pause
+                case .pause: if isSelected { state.mode = .editEndTime }
+                case .edit: state.mode = .editEndTime
+                case .editStartTime: state.mode = .editEndTime
                 case .editEndTime: ()
             }
         }
-        self.state.selectionIndex = self.captionIndex
+        state.selectionIndex = self.captionIndex
     }
     
     // Draw a box when element is selected
@@ -145,7 +142,7 @@ struct CaptionRow: View {
                     // Display caption timings
                     VStack {
                         // Start Time
-                        if self.state.mode == .editStartTime {
+                        if state.mode == .editStartTime {
                             Stepper(value: captionBinding.startTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.startTime))
@@ -160,7 +157,7 @@ struct CaptionRow: View {
                         }
                         Spacer()
                         // End Time
-                        if self.state.mode == .editEndTime {
+                        if state.mode == .editEndTime {
                             Stepper(value: captionBinding.endTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.endTime))
@@ -178,7 +175,7 @@ struct CaptionRow: View {
                     Spacer()
                     // Display caption text
                     ZStack {
-                        if self.state.mode == .edit {
+                        if state.mode == .edit {
                             Text(caption.text + "|")  // TODO: Make cursor blink
                             SelectionBox()
                         } else { Text(caption.text) }
@@ -199,7 +196,7 @@ struct CaptionRow: View {
                         Button(action: {
                             deleteCaption(atIndex: self.captionIndex)
                         }) {
-                            if userData.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
+                            if state.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
                                 IconView("NSRemoveTemplate")
                                 .frame(width: 12, height: 12)
                             }
@@ -238,7 +235,7 @@ struct CaptionRow: View {
 struct CaptionRow_Previews: PreviewProvider {
 
     static var previews: some View {
-        CaptionRow(caption: userData.captions[0])
+        CaptionRow(caption: state.captions[0])
             .frame(height: 100)
             //.environmentObject(test)
     }

@@ -16,7 +16,7 @@ func generateCaptions(forFile videoURL: URL) -> Void {
     var captionData: [Caption]?
     
     // Save video URL
-    userData.videoURL = videoURL
+    state.videoURL = videoURL
     
     // Semaphore for asynchronous tasks
     let semaphore = DispatchSemaphore(value: 0)
@@ -96,9 +96,9 @@ func generateCaptions(forFile videoURL: URL) -> Void {
         // Update views with new data
         DispatchQueue.main.async {
             if captionData != nil {
-                userData.captions = captionData!
+                state.captions = captionData!
             } else {
-                userData.captions = initialCaptionsList
+                state.captions = initialCaptionsList
             }
         }
     }

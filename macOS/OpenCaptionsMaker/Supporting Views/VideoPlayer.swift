@@ -171,9 +171,11 @@ struct VideoPlayerControlsView : View {
         playerPaused = pause
         if playerPaused {
             player.pause()
+            state.mode = .pause
         }
         else {
             player.play()
+            state.mode = .play
         }
     }
     
