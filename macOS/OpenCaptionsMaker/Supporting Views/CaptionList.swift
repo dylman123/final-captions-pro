@@ -13,6 +13,36 @@ struct CaptionList: View {
     // To refresh the UI when state changes
     @EnvironmentObject var stateEnvObj: AppState
     
+    // Scroll logic
+    @State private var scrollOffset: CGFloat = 0.0
+    let scrollAmount: CGFloat = 45.0
+    let scrollTrigger: Int = 10
+    
+    private var isAtPageEnd: Bool {
+        let index = stateEnvObj.selectionIndex
+        guard index > 0 else { return false }
+        if index % (scrollTrigger - 1) == 0 { return true }
+        else { return false }
+    }
+    
+    private var isAtPageStart: Bool {
+        let index = stateEnvObj.selectionIndex
+        guard index > 0 else { return false }
+        if index % (scrollTrigger) == 0 { return true }
+        else { return false }
+    }
+
+    func animateOnCondition(_ condition: Bool, indexOperation: () -> (), scrollOperation: () -> ()) {
+        if condition {
+            withAnimation {
+                indexOperation()
+                scrollOperation()
+            }
+        } else {
+            indexOperation()
+        }
+    }
+    
     var body: some View {
         
         ScrollView(.vertical) {
@@ -20,8 +50,8 @@ struct CaptionList: View {
                 ForEach(stateEnvObj.captions) { caption in
                     CaptionRow(caption: caption)
                         .tag(caption)
-                        .padding(.vertical, 10)
-                        .offset(y: -50 * CGFloat(self.stateEnvObj.selectionIndex)) //FIXME: Corect the scrolling logic
+                        .padding(.vertical, 5)
+                        .offset(y: self.scrollOffset) //FIXME: Corect the scrolling logic
                 }
             }
         }
@@ -50,11 +80,17 @@ struct CaptionList: View {
             default: ()
             }
             
-            guard state.selectionIndex < state.captions.count-1 else { return } // Guard against when last caption is selected
+            guard state.selectionIndex < state.captions.count - 1 else { return } // Guard against when last caption is selected
             switch state.mode {
             case .play: state.mode = .pause
-            case .pause: state.selectionIndex += 1
-            case .edit: state.selectionIndex += 1
+            case .pause:
+                self.animateOnCondition(self.isAtPageEnd,
+                indexOperation: { state.selectionIndex += 1 },
+                scrollOperation: { self.scrollOffset -= self.scrollAmount * CGFloat(self.scrollTrigger) })
+            case .edit:
+                self.animateOnCondition(self.isAtPageEnd,
+                indexOperation: { state.selectionIndex += 1 },
+                scrollOperation: { self.scrollOffset -= self.scrollAmount * CGFloat(self.scrollTrigger) })
             default: ()
             }
         }
@@ -68,8 +104,14 @@ struct CaptionList: View {
             guard state.selectionIndex > 0 else { return } // Guard against when first caption is selected
             switch state.mode {
             case .play: state.mode = .pause
-            case .pause: state.selectionIndex -= 1
-            case .edit: state.selectionIndex -= 1
+            case .pause:
+                self.animateOnCondition(self.isAtPageStart,
+                indexOperation: { state.selectionIndex -= 1 },
+                scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
+            case .edit:
+                self.animateOnCondition(self.isAtPageStart,
+                indexOperation: { state.selectionIndex -= 1 },
+                scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
             default: ()
             }
         }
