@@ -28,8 +28,10 @@ class VideoPlayerNSView: NSView {
         
         super.init(frame: .zero)
         _ = NSView.BackgroundStyle(rawValue: 0)
-        //backgroundColor = .lightGray
         playerLayer.player = player
+        if layer == nil {
+            layer = CALayer()
+        }
         layer?.addSublayer(playerLayer)
         
         // Observe the duration of the player's item so we can display it
@@ -225,83 +227,19 @@ struct VideoPlayerContainerView : View {
 
 // This is the main SwiftUI view for this app, containing a single PlayerContainerView
 struct VideoPlayer: View {
-    var url: String?
+    var url: URL?
     
-    init(url: String) {
-        self.url = url
-        guard self.url != nil else {
-            return
-        }
+    init(url: URL?) {
+        guard url != nil else { return }
+        self.url = url!
     }
     var body: some View {
-        //VideoPlayerContainerView(url: URL(string: (self.url)!)!)
-        VideoPlayerContainerView(url: Bundle.main.url(forResource: "RAW-long", withExtension: "m4v")!)  //Hardcoded URL for testing
-    }
-}
-
-struct TestVideoView: NSViewRepresentable {
-    
-    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<TestVideoView>) {
-        // This function gets called if the bindings change, which could be useful if
-        // you need to respond to external changes, but we don't in this example
-    }
-    
-    func makeNSView(context: NSViewRepresentableContext<TestVideoView>) -> NSView {
-        let nsView = AVPlayerView()
-        return nsView
+        VideoPlayerContainerView(url: self.url!)
     }
 }
 
 struct VideoPlayer_Previews: PreviewProvider {
     static var previews: some View {
-        TestVideoView()
-    }
-}
-
-// ^^ THERE ARE CONTROLS BUT ONLY AUDIO PLAYS
-//////////////////////////////////////////////////////////////////////////////////////////
-// vv VIDEO AND AUDIO PLAYS BUT THERE ARE NO CONTROLS
-
-struct PlayerView: NSViewRepresentable {
-    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<PlayerView>) {
-
-    }
-    func makeNSView(context: Context) -> NSView {
-        return PlayerNSView(frame: .zero)
-    }
-}
-
-class PlayerNSView: NSView{
-    private let playerLayer = AVPlayerLayer()
-
-    override init(frame:CGRect){
-        super.init(frame: frame)
-        
-        // Test video
-        guard let testVideo = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") else { print("Couldn't load test video"); return }
-        print("Test videoURL is: \(testVideo)")
-        let urlVideo = testVideo
-        
-        let player = AVPlayer(url: urlVideo)
-        
-        print("Is playable? \(String(describing: player.currentItem?.asset.isPlayable))")
-        print("Is readable? \(String(describing: player.currentItem?.asset.isReadable))")
-        print("Is composable? \(String(describing: player.currentItem?.asset.isComposable))")
-        print("Is exportable? \(String(describing: player.currentItem?.asset.isExportable))")
-        print("Is compatible with AirPlay video? \(String(describing: player.currentItem?.asset.isCompatibleWithAirPlayVideo))")
-        
-        player.play()
-        playerLayer.player = player
-        if layer == nil{
-            layer = CALayer()
-        }
-        layer?.addSublayer(playerLayer)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    override func layout() {
-        super.layout()
-        playerLayer.frame = bounds
+        VideoPlayer(url: URL(string: ""))
     }
 }

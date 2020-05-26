@@ -6,30 +6,32 @@
 //  Copyright © 2020 Dylan Klein. All rights reserved.
 //
 import SwiftUI
-//import AVFoundation
-import AVKit
 
 struct ContentView: View {
     
-    //Set window sizes
+    // Set window sizes
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
     @State private var showFileInput: Bool = false
     @State private var showProgressBar: Bool = false
     
+    // Test video
+    var testVideo: URL? {
+        guard let url = Bundle.main.url(forResource: "RAW-short", withExtension: "mp4") else { print("Couldn't load test video")
+            return nil
+        }
+        print("testVideoURL is: \(url)")
+        return url
+    }
+    
     var body: some View {
         
         // Window view for edit screen
         HStack {
-
-            //Video player
-            //FakeVideoExample()
-            //VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-            //VideoPlayer(url: "file:///Users/dylanklein/Documents/MyProjects/SubtitleGenerator/Git/automatic-subtitle-generator/inputs/RAW-long.m4v")
-            //TestVideoView()
-            //PlayerView()
-            VideoPlayer(url: "dummyURL")
+            
+            // Video player
+            VideoPlayer(url: testVideo)
                 .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
                 .padding(.horizontal, 25)
                 .buttonStyle(BorderlessButtonStyle())
