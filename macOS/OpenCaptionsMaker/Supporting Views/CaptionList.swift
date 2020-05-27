@@ -15,8 +15,9 @@ struct CaptionList: View {
     
     // Scroll logic
     @State private var scrollOffset: CGFloat = 0.0
+    @State private var scrollBinding: Binding<CGPoint> = .constant(.zero)
     let scrollAmount: CGFloat = 45.0
-    let scrollTrigger: Int = 10
+    let scrollTrigger: Int = 11
     
     private var isAtPageEnd: Bool {
         let index = stateEnvObj.selectionIndex
@@ -30,18 +31,24 @@ struct CaptionList: View {
         else { indexOperation() }
     }
     
+    //init() {
+    //    scrollBinding = scrollOffset as Binding<CGPoint>
+    //}
+    
     var body: some View {
         
+        //OffsetScrollView(.vertical, offset: self.scrollBinding)
         ScrollView(.vertical) {
             VStack {
                 ForEach(stateEnvObj.captions) { caption in
                     CaptionRow(caption: caption)
                         .tag(caption)
                         .padding(.vertical, 5)
-                        .offset(y: self.scrollOffset) //FIXME: Corect the scrolling logic
                 }
             }
+            .offset(y: self.scrollOffset)
         }
+        //.content.offset(y: self.scrollOffset)
         
         // Keyboard press logic
         .onReceive(NotificationCenter.default.publisher(for: .character)) { notification in

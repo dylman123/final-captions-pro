@@ -25,7 +25,7 @@ struct CaptionRow: View {
     }
         
     // Display caption color
-    var rowColor: Color {
+    @State var rowColor = Color.gray.opacity(0.5)/*{
         if isSelected {
             switch state.mode {
             case .play: return Color.blue.opacity(0.5)
@@ -38,7 +38,8 @@ struct CaptionRow: View {
         else {
             return Color.black.opacity(0.5)
         }
-    }
+    }*/
+    // TODO: Create a notification using Combine to edit this variable
     
     // The current caption object
     var caption: Caption

@@ -177,6 +177,7 @@ struct VideoPlayerControlsView : View {
             player.play()
             state.mode = .play
         }
+        print(state.mode)
     }
     
     private func sliderEditingChanged(editingStarted: Bool) {

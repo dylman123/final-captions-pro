@@ -26,6 +26,7 @@
 		A3E4CB79247103850046A1BA /* TypingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB78247103850046A1BA /* TypingWindow.swift */; };
 		A3E4CB81247CEEB40046A1BA /* RAW-short.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB7E247CEDD80046A1BA /* RAW-short.mp4 */; };
 		A3E4CB82247CF0F50046A1BA /* RAW-long.m4v in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB7F247CEDD80046A1BA /* RAW-long.m4v */; };
+		A3E4CB84247E421E0046A1BA /* OffsetScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB83247E421E0046A1BA /* OffsetScrollView.swift */; };
 		A3E663272467C4080013450E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E663262467C4080013450E /* Utilities.swift */; };
 		A3E6632B2467CE740013450E /* fcpxml-v1.8.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A3E663282467CE740013450E /* fcpxml-v1.8.dtd */; };
 		A3E6632C2467CE740013450E /* title.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E663292467CE740013450E /* title.fcpxml */; };
@@ -83,6 +84,7 @@
 		A3E4CB78247103850046A1BA /* TypingWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingWindow.swift; sourceTree = "<group>"; };
 		A3E4CB7E247CEDD80046A1BA /* RAW-short.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-short.mp4"; sourceTree = "<group>"; };
 		A3E4CB7F247CEDD80046A1BA /* RAW-long.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-long.m4v"; sourceTree = "<group>"; };
+		A3E4CB83247E421E0046A1BA /* OffsetScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetScrollView.swift; sourceTree = "<group>"; };
 		A3E663262467C4080013450E /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		A3E663282467CE740013450E /* fcpxml-v1.8.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "fcpxml-v1.8.dtd"; sourceTree = "<group>"; };
 		A3E663292467CE740013450E /* title.fcpxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = title.fcpxml; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				A37FD1542448788100CD1C15 /* VideoPlayer.swift */,
 				A36655CD244D7E95002FA173 /* FileInput.swift */,
 				A36655D1244DC0DA002FA173 /* MainMenu.xib */,
+				A3E4CB83247E421E0046A1BA /* OffsetScrollView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -534,6 +537,7 @@
 			files = (
 				A36655E224540CDA002FA173 /* editCaptions.swift in Sources */,
 				A36655C5244A8F1D002FA173 /* AppState.swift in Sources */,
+				A3E4CB84247E421E0046A1BA /* OffsetScrollView.swift in Sources */,
 				A37FD1432446C99D00CD1C15 /* Headers.swift in Sources */,
 				A37FD1402446C66700CD1C15 /* CaptionRow.swift in Sources */,
 				A37FD14A244722F000CD1C15 /* Caption.swift in Sources */,
