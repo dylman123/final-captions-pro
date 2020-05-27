@@ -172,12 +172,14 @@ struct VideoPlayerControlsView : View {
         if playerPaused {
             player.pause()
             state.mode = .pause
+            //NotificationCenter.default.post(name: .pause, object: nil)
         }
         else {
             player.play()
             state.mode = .play
+            //state.mode = .play
+            //NotificationCenter.default.post(name: .play, object: nil)
         }
-        print(state.mode)
     }
     
     private func sliderEditingChanged(editingStarted: Bool) {

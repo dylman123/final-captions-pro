@@ -25,7 +25,7 @@ struct CaptionRow: View {
     }
         
     // Display caption color
-    @State var rowColor = Color.gray.opacity(0.5)/*{
+    var rowColor: Color {
         if isSelected {
             switch state.mode {
             case .play: return Color.blue.opacity(0.5)
@@ -38,8 +38,7 @@ struct CaptionRow: View {
         else {
             return Color.black.opacity(0.5)
         }
-    }*/
-    // TODO: Create a notification using Combine to edit this variable
+    }
     
     // The current caption object
     var caption: Caption
@@ -64,8 +63,8 @@ struct CaptionRow: View {
         case row, text, startTime, endTime
     }
     
-    // Handle mouse clicks
-    func setStateOnTap(fromView view: CaptionElement) -> Void {
+    // Set state on mouse click event
+    func setState(fromView view: CaptionElement) -> Void {
         switch view {
         case .row:
             switch state.mode {
@@ -100,7 +99,7 @@ struct CaptionRow: View {
                 case .editEndTime: ()
             }
         }
-        state.selectionIndex = self.captionIndex
+        state.selectionIndex = captionIndex  // Calling caption becomes selected
     }
     
     // Draw a box when element is selected
@@ -134,7 +133,16 @@ struct CaptionRow: View {
             // Row background
             RoundedRectangle(cornerRadius: 10).fill(rowColor)
                 .frame(height: 40)
-                .onTapGesture { self.setStateOnTap(fromView: .row) }
+                .onTapGesture { self.setState(fromView: .row) }
+                .onReceive(NotificationCenter.default.publisher(for: .pause)) { _ in
+                    state.mode = .pause
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
+                    state.mode = .play;
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .edit)) { _ in
+                    state.mode = .edit;
+                }
                 
             // Caption contents
             HStack(alignment: .center) {
@@ -147,14 +155,14 @@ struct CaptionRow: View {
                             Stepper(value: captionBinding.startTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.startTime))
-                                        .onTapGesture { self.setStateOnTap(fromView: .startTime) }
+                                        .onTapGesture { self.setState(fromView: .startTime) }
                                     SelectionBox()
                                 }
                             }
                             .padding(.leading, timePadding)
                         } else {
                             Text(String(format: "%.1f", caption.startTime))
-                                .onTapGesture { self.setStateOnTap(fromView: .startTime) }
+                                .onTapGesture { self.setState(fromView: .startTime) }
                         }
                         Spacer()
                         // End Time
@@ -162,14 +170,14 @@ struct CaptionRow: View {
                             Stepper(value: captionBinding.endTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.endTime))
-                                        .onTapGesture { self.setStateOnTap(fromView: .endTime) }
+                                        .onTapGesture { self.setState(fromView: .endTime) }
                                     SelectionBox()
                                 }
                             }
                             .padding(.leading, timePadding)
                         } else {
                             Text(String(format: "%.1f", caption.endTime))
-                                .onTapGesture { self.setStateOnTap(fromView: .endTime) }
+                                .onTapGesture { self.setState(fromView: .endTime) }
                         }
                     }
                     .frame(width: timeWidth)
@@ -183,7 +191,7 @@ struct CaptionRow: View {
                     }
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                    .onTapGesture { self.setStateOnTap(fromView: .text) }
+                    .onTapGesture { self.setState(fromView: .text) }
                     .offset(x: textOffset + deltaOffset)
                     .frame(width: textWidth)
                     Spacer()
@@ -209,10 +217,10 @@ struct CaptionRow: View {
                     // Display caption timings
                     VStack {
                         Text(String(format: "%.1f", caption.startTime))
-                            .onTapGesture { self.setStateOnTap(fromView: .startTime) }
+                            .onTapGesture { self.setState(fromView: .startTime) }
                         Spacer()
                         Text(String(format: "%.1f", caption.endTime))
-                           .onTapGesture { self.setStateOnTap(fromView: .endTime) }
+                           .onTapGesture { self.setState(fromView: .endTime) }
                     }
                     .frame(width: timeWidth)
                     Spacer()
@@ -222,7 +230,7 @@ struct CaptionRow: View {
                         .lineLimit(2)
                         .frame(width: textWidth)
                         .offset(x: textOffset)
-                        .onTapGesture { self.setStateOnTap(fromView: .text) }
+                        .onTapGesture { self.setState(fromView: .text) }
                     Spacer()
                 }
             }

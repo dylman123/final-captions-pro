@@ -21,6 +21,9 @@ extension Notification.Name {
     static let delete = Notification.Name("delete")
     static let escape = Notification.Name("escape")
     static let character = Notification.Name("character")
+    static let play = Notification.Name("play")
+    static let pause = Notification.Name("pause")
+    static let edit = Notification.Name("edit")
 }
 
 class TypingWindow: NSWindow {
