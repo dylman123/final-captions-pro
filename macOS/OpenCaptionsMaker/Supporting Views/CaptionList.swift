@@ -21,26 +21,13 @@ struct CaptionList: View {
     private var isAtPageEnd: Bool {
         let index = stateEnvObj.selectionIndex
         guard index > 0 else { return false }
-        if index % (scrollTrigger - 1) == 0 { return true }
-        else { return false }
-    }
-    
-    private var isAtPageStart: Bool {
-        let index = stateEnvObj.selectionIndex
-        guard index > 0 else { return false }
-        if index % (scrollTrigger) == 0 { return true }
+        if index % scrollTrigger == 0 { return true }
         else { return false }
     }
 
     func animateOnCondition(_ condition: Bool, indexOperation: () -> (), scrollOperation: () -> ()) {
-        if condition {
-            withAnimation {
-                indexOperation()
-                scrollOperation()
-            }
-        } else {
-            indexOperation()
-        }
+        if condition { withAnimation { indexOperation(); scrollOperation() } }
+        else { indexOperation() }
     }
     
     var body: some View {
@@ -105,11 +92,11 @@ struct CaptionList: View {
             switch state.mode {
             case .play: state.mode = .pause
             case .pause:
-                self.animateOnCondition(self.isAtPageStart,
+                self.animateOnCondition(self.isAtPageEnd,
                 indexOperation: { state.selectionIndex -= 1 },
                 scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
             case .edit:
-                self.animateOnCondition(self.isAtPageStart,
+                self.animateOnCondition(self.isAtPageEnd,
                 indexOperation: { state.selectionIndex -= 1 },
                 scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
             default: ()
