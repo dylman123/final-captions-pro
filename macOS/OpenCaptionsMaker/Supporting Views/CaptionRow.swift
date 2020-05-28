@@ -12,11 +12,6 @@ struct CaptionRow: View {
     
     // Handle state
     @EnvironmentObject var state: AppState
-    func setState(to newState: Mode) -> Void {
-        state.mode = newState
-        let notification = NSNotification.Name(String(describing: newState))
-        NotificationCenter.default.post(name: notification, object: nil)
-    }
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
@@ -73,34 +68,34 @@ struct CaptionRow: View {
         switch view {
         case .row:
             switch state.mode {
-            case .play: setState(to: .pause)
-            case .pause: if isSelected { setState(to: .edit) }
-            case .edit: setState(to: .pause)
-            case .editStartTime: setState(to: .pause)
-            case .editEndTime: setState(to: .pause)
+            case .play: state.transition(to: .pause)
+            case .pause: if isSelected { state.transition(to: .edit) }
+            case .edit: state.transition(to: .pause)
+            case .editStartTime: state.transition(to: .pause)
+            case .editEndTime: state.transition(to: .pause)
             }
         case .text:
             switch state.mode {
-            case .play: setState(to: .pause)
-            case .pause: if isSelected { setState(to: .edit) }
-            case .edit: setState(to: .pause)
-            case .editStartTime: setState(to: .edit)
-            case .editEndTime: setState(to: .edit)
+            case .play: state.transition(to: .pause)
+            case .pause: if isSelected { state.transition(to: .edit) }
+            case .edit: state.transition(to: .pause)
+            case .editStartTime: state.transition(to: .edit)
+            case .editEndTime: state.transition(to: .edit)
             }
         case .startTime:
             switch state.mode {
-            case .play: setState(to: .pause)
-            case .pause: if isSelected { setState(to: .editStartTime) }
-            case .edit: setState(to: .editStartTime)
+            case .play: state.transition(to: .pause)
+            case .pause: if isSelected { state.transition(to: .editStartTime) }
+            case .edit: state.transition(to: .editStartTime)
             case .editStartTime: ()
-            case .editEndTime: setState(to: .editStartTime)
+            case .editEndTime: state.transition(to: .editStartTime)
             }
         case .endTime:
             switch state.mode {
-            case .play: setState(to: .pause)
-            case .pause: if isSelected { setState(to: .editEndTime) }
-            case .edit: setState(to: .editEndTime)
-            case .editStartTime: setState(to: .editEndTime)
+            case .play: state.transition(to: .pause)
+            case .pause: if isSelected { state.transition(to: .editEndTime) }
+            case .edit: state.transition(to: .editEndTime)
+            case .editStartTime: state.transition(to: .editEndTime)
             case .editEndTime: ()
             }
         }

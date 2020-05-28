@@ -129,12 +129,9 @@ struct VideoPlayerControlsView : View {
     
     // Handle state
     @EnvironmentObject var state: AppState
-    func setState(to newState: Mode) -> Void {
-        state.mode = newState
-        let notification = NSNotification.Name(String(describing: newState))
-        NotificationCenter.default.post(name: notification, object: nil)
-    }
     
+    // The progress through the video, as a Double (in seconds)
+    @State private var videoTime: Double = 0
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
@@ -167,19 +164,26 @@ struct VideoPlayerControlsView : View {
         .onReceive(NotificationCenter.default.publisher(for: .pause)) { _ in
             self.pausePlayer(true)
         }
-        /*.onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
-            // TODO: scrub video
+        .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
+            self.seek(bySeconds: -15.0)
         }
         .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
-            // TODO: scrub video
-        }*/
+            self.seek(bySeconds: 15.0)
+        }
+    }
+    
+    private func seek(bySeconds delta: Double) -> Void {
+        sliderEditingChanged(editingStarted: true)
+        videoTime += delta
+        videoPos += (delta / videoDuration)
+        sliderEditingChanged(editingStarted: false)
     }
     
     private func togglePlayPause() {
         if playerPaused {
-            setState(to: .play)
+            state.transition(to: .play)
         } else {
-            setState(to: .pause)
+            state.transition(to: .pause)
         }
     }
     
@@ -197,17 +201,16 @@ struct VideoPlayerControlsView : View {
             // Set a flag stating that we're seeking so the slider doesn't
             // get updated by the periodic time observer on the player
             seeking = true
-            pausePlayer(true)
+            state.transition(to: .pause)
         }
         
         // Do the seek if we're finished
         if !editingStarted {
-            let targetTime = CMTime(seconds: videoPos * videoDuration,
-                                    preferredTimescale: 600)
+            let targetTime = CMTime(seconds: videoPos * videoDuration, preferredTimescale: 600)
             player.seek(to: targetTime) { _ in
                 // Now the seek is finished, resume normal operation
                 self.seeking = false
-                self.pausePlayer(false)
+                //state.transition(to: .play)
             }
         }
     }

@@ -26,6 +26,13 @@ class AppState: ObservableObject {
     // URL of the imported video
     var videoURL: URL = URL(fileURLWithPath: "")
     
+    // Set state within the application
+    func transition(to newState: Mode) -> Void {
+        mode = newState
+        let notification = NSNotification.Name(String(describing: newState))
+        NotificationCenter.default.post(name: notification, object: nil)
+    }
+    
     init(captionArray captions: [Caption] = sampleCaptionData, mode: Mode = .pause, selectionIndex: Int = 0) {
         self.captions = captions
         self.mode = mode
