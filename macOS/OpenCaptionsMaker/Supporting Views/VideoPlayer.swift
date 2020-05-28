@@ -155,6 +155,12 @@ struct VideoPlayerControlsView : View {
         .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
             self.togglePlayPause()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
+            self.pausePlayer(true)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
+            self.pausePlayer(true)
+        }
         .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
             // TODO: scrub video
         }
@@ -171,13 +177,10 @@ struct VideoPlayerControlsView : View {
         playerPaused = pause
         if playerPaused {
             player.pause()
-            state.mode = .pause
             //NotificationCenter.default.post(name: .pause, object: nil)
         }
         else {
             player.play()
-            state.mode = .play
-            //state.mode = .play
             //NotificationCenter.default.post(name: .play, object: nil)
         }
     }

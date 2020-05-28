@@ -13,6 +13,7 @@ struct ContentView: View {
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
+    @EnvironmentObject var state: AppState
     @State private var showFileInput: Bool = false
     @State private var showProgressBar: Bool = false
     
@@ -43,7 +44,7 @@ struct ContentView: View {
                     
                     Spacer()
                     Button(action: {
-                        finishReview(andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
+                        finishReview(inAppState: self.state, andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
                         IconView("NSGoForwardTemplate")

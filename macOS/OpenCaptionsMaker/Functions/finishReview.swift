@@ -9,7 +9,7 @@ import Foundation
 import AEXML
 
 // Finishes the caption review and opens .fcpxml file
-func finishReview(andSaveFileAs xmlPath: URL) -> Void {
+func finishReview(inAppState state: AppState, andSaveFileAs xmlPath: URL) -> Void {
     
     // Set the path of the file to be saved - TODO: Change this to a user selected URL
     let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")

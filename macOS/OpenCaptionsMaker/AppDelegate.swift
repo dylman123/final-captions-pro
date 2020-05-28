@@ -10,8 +10,6 @@ import Cocoa
 import SwiftUI
 import Firebase
 
-var state = AppState()  // Declared in global scope
-
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -20,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
-            .environmentObject(state)
+            .environmentObject(AppState())
 
         // Create the window and set the content view. 
         window = TypingWindow(

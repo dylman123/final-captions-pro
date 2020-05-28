@@ -10,12 +10,12 @@ import SwiftUI
 
 struct CaptionRow: View {
     
-    // To refresh the UI when userData changes
-    @EnvironmentObject var stateEnvObj: AppState
+    // To refresh the UI when AppState changes
+    @EnvironmentObject var state: AppState
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
-        return $stateEnvObj.captions[captionIndex]
+        return $state.captions[captionIndex]
     }
     
     // Logic to select caption
@@ -45,7 +45,7 @@ struct CaptionRow: View {
     
     // To index the current caption
     var captionIndex: Int {
-        return stateEnvObj.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return state.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // To format the time values in text
@@ -134,15 +134,6 @@ struct CaptionRow: View {
             RoundedRectangle(cornerRadius: 10).fill(rowColor)
                 .frame(height: 40)
                 .onTapGesture { self.setState(fromView: .row) }
-                .onReceive(NotificationCenter.default.publisher(for: .pause)) { _ in
-                    state.mode = .pause
-                }
-                .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
-                    state.mode = .play;
-                }
-                .onReceive(NotificationCenter.default.publisher(for: .edit)) { _ in
-                    state.mode = .edit;
-                }
                 
             // Caption contents
             HStack(alignment: .center) {
@@ -197,13 +188,13 @@ struct CaptionRow: View {
                     Spacer()
                     VStack {
                         Button(action: {
-                            addCaption(beforeIndex: self.captionIndex, atTime: self.caption.startTime)
+                            self.state.captions = addCaption(toArray: self.state.captions, beforeIndex: self.captionIndex, atTime: self.caption.startTime)
                         }) {
                             IconView("NSAddTemplate")
                                 .frame(width: 12, height: 12)
                         }
                         Button(action: {
-                            deleteCaption(atIndex: self.captionIndex)
+                            self.state.captions = deleteCaption(fromArray: self.state.captions, atIndex: self.captionIndex)
                         }) {
                             if state.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
                                 IconView("NSRemoveTemplate")
@@ -244,7 +235,7 @@ struct CaptionRow: View {
 struct CaptionRow_Previews: PreviewProvider {
 
     static var previews: some View {
-        CaptionRow(caption: state.captions[0])
+        CaptionRow(caption: AppState().captions[0])
             .frame(height: 100)
             //.environmentObject(test)
     }
