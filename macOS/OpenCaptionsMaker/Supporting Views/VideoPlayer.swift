@@ -153,21 +153,18 @@ struct VideoPlayerControlsView : View {
         }
         .padding(.leading, 10)
         .padding(.trailing, 10)
-        .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
-            self.togglePlayPause()
+        .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
+            self.pausePlayer(false)
         }
-        .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
+        .onReceive(NotificationCenter.default.publisher(for: .pause)) { _ in
             self.pausePlayer(true)
         }
-        .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
-            self.pausePlayer(true)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
+        /*.onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
             // TODO: scrub video
         }
         .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
             // TODO: scrub video
-        }
+        }*/
     }
     
     private func togglePlayPause() {

@@ -31,6 +31,11 @@ struct CaptionList: View {
         else { indexOperation() }
     }
     
+    func setState(to newState: Mode) -> Void {
+        state.mode = newState
+        let notification = NSNotification.Name(String(describing: newState))
+        NotificationCenter.default.post(name: notification, object: nil)
+    }
     //init() {
     //    scrollBinding = scrollOffset as Binding<CGPoint>
     //}
@@ -97,8 +102,8 @@ struct CaptionList: View {
             
             guard self.state.selectionIndex > 0 else { return } // Guard against when first caption is selected
             switch self.state.mode {
-            case .play: self.state.mode = .pause
-            case .pause:
+            case .play: self.setState(to: .pause)//self.state.mode = .pause
+            case .pause: ()
                 self.animateOnCondition(self.isAtPageEnd,
                 indexOperation: { self.state.selectionIndex -= 1 },
                 scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
@@ -162,8 +167,10 @@ struct CaptionList: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
             switch self.state.mode {
-            case .play: ()//self.state.mode = .pause
-            case .pause: ()//self.state.mode = .play
+            case .play:
+                self.state.mode = .pause
+                NotificationCenter.default.post(name: .pause, object: nil)
+            case .pause: self.state.mode = .play
             case .edit: self.state.captions[self.state.selectionIndex].text += " "
             case .editStartTime: ()
             case .editEndTime: ()
