@@ -162,8 +162,8 @@ struct CaptionList: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
             switch self.state.mode {
-            case .play: self.state.mode = .pause
-            case .pause: self.state.mode = .play
+            case .play: ()//self.state.mode = .pause
+            case .pause: ()//self.state.mode = .play
             case .edit: self.state.captions[self.state.selectionIndex].text += " "
             case .editStartTime: ()
             case .editEndTime: ()

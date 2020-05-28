@@ -27,16 +27,31 @@ struct ContentView: View {
         return url
     }
     
+    var stateLabel: String {
+        switch state.mode {
+        case .play: return "Play"
+        case .pause: return "Pause"
+        case .edit: return "Edit"
+        case .editStartTime: return "Edit Start Time"
+        case .editEndTime: return "Edit End Time"
+        }
+    }
+    
     var body: some View {
         
         // Window view for edit screen
         HStack {
             
-            // Video player
-            VideoPlayer(url: testVideo)
-                .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
-                .padding(.horizontal, 25)
-                .buttonStyle(BorderlessButtonStyle())
+            VStack {
+                Text("State: \(stateLabel)")
+                
+                // Video player
+                VideoPlayer(url: testVideo)
+                    .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
+                    .padding(.horizontal, 25)
+                    .buttonStyle(BorderlessButtonStyle())
+            }
+
             
             VStack {
                 
