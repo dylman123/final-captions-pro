@@ -126,6 +126,7 @@ class Utility: NSObject {
 
 // This is the SwiftUI view that contains the controls for the player
 struct VideoPlayerControlsView : View {
+    @EnvironmentObject var state: AppState
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
@@ -138,8 +139,8 @@ struct VideoPlayerControlsView : View {
         HStack {
             // Play/pause button
             Button(action: togglePlayPause) {
-                //Image(playerPaused ? "play" : "pause")
-                IconView(playerPaused ? "NSTouchBarPlayTemplate" : "NSTouchBarPauseTemplate")
+                if playerPaused { IconView("NSTouchBarPlayTemplate") }
+                else { IconView("NSTouchBarPauseTemplate") }
             }
 
             // Current video time
@@ -177,11 +178,11 @@ struct VideoPlayerControlsView : View {
         playerPaused = pause
         if playerPaused {
             player.pause()
-            //NotificationCenter.default.post(name: .pause, object: nil)
+            state.mode = .pause
         }
         else {
             player.play()
-            //NotificationCenter.default.post(name: .play, object: nil)
+            state.mode = .play
         }
     }
     

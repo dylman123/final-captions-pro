@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CaptionRow: View {
     
-    // To refresh the UI when AppState changes
+    // To refresh the UI when state changes
     @EnvironmentObject var state: AppState
     
     // The current caption binding

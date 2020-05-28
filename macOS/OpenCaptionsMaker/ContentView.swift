@@ -13,6 +13,7 @@ struct ContentView: View {
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
+    // To refresh the UI when state changes
     @EnvironmentObject var state: AppState
     @State private var showFileInput: Bool = false
     @State private var showProgressBar: Bool = false
