@@ -134,7 +134,7 @@ struct CaptionList: View {
             switch self.state.mode {
             case .play: self.setState(to: .pause)
             case .pause: self._addCaption()
-            case .edit: self.insertCharacter("+")
+            case .edit: self.insertCharacter(notification.object as! String)
             case .editStartTime: self.modifyStartTime(byStepSize: 0.1)
             case .editEndTime: self.modifyEndTime(byStepSize: 0.1)
             }
@@ -144,7 +144,7 @@ struct CaptionList: View {
             switch self.state.mode {
             case .play: self.setState(to: .pause)
             case .pause: self._deleteCaption()
-            case .edit: self.insertCharacter("-")
+            case .edit: self.insertCharacter(notification.object as! String)
             case .editStartTime: self.modifyStartTime(byStepSize: -0.1)
             case .editEndTime: self.modifyEndTime(byStepSize: -0.1)
             }

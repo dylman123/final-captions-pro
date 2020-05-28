@@ -23,7 +23,6 @@ struct ContentView: View {
         guard let url = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") else { print("Couldn't load test video")
             return nil
         }
-        print("testVideoURL is: \(url)")
         return url
     }
     
