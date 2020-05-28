@@ -126,7 +126,15 @@ class Utility: NSObject {
 
 // This is the SwiftUI view that contains the controls for the player
 struct VideoPlayerControlsView : View {
+    
+    // Handle state
     @EnvironmentObject var state: AppState
+    func setState(to newState: Mode) -> Void {
+        state.mode = newState
+        let notification = NSNotification.Name(String(describing: newState))
+        NotificationCenter.default.post(name: notification, object: nil)
+    }
+    
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
@@ -168,18 +176,19 @@ struct VideoPlayerControlsView : View {
     }
     
     private func togglePlayPause() {
-        pausePlayer(!playerPaused)
+        if playerPaused {
+            setState(to: .play)
+        } else {
+            setState(to: .pause)
+        }
     }
     
     private func pausePlayer(_ pause: Bool) {
         playerPaused = pause
         if playerPaused {
             player.pause()
-            state.mode = .pause
-        }
-        else {
+        } else {
             player.play()
-            state.mode = .play
         }
     }
     
