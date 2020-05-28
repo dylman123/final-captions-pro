@@ -15,16 +15,22 @@ enum Mode {
 class AppState: ObservableObject {
     
     // The global array which is to be generated via transcription API and edited by the user
-    @Published var captions: [Caption] = sampleCaptionData
+    @Published var captions: [Caption]
     
     // The mode of the app when editing captions
-    @Published var mode: Mode = .pause
+    @Published var mode: Mode
     
     // An index which represents the selected caption
-    @Published var selectionIndex = 0
+    @Published var selectionIndex: Int
     
     // URL of the imported video
     var videoURL: URL = URL(fileURLWithPath: "")
+    
+    init(captionArray captions: [Caption] = sampleCaptionData, mode: Mode = .pause, selectionIndex: Int = 0) {
+        self.captions = captions
+        self.mode = mode
+        self.selectionIndex = selectionIndex
+    }
     
 }
 

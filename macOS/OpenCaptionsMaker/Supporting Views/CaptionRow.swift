@@ -146,6 +146,7 @@ struct CaptionRow: View {
                 if isSelected {
                     // Display caption timings
                     VStack {
+                        
                         // Start Time
                         if state.mode == .editStartTime {
                             Stepper(value: captionBinding.startTime, step: -0.1) {
@@ -161,6 +162,7 @@ struct CaptionRow: View {
                                 .onTapGesture { self.click(fromView: .startTime) }
                         }
                         Spacer()
+                        
                         // End Time
                         if state.mode == .editEndTime {
                             Stepper(value: captionBinding.endTime, step: -0.1) {
@@ -178,10 +180,13 @@ struct CaptionRow: View {
                     }
                     .frame(width: timeWidth)
                     Spacer()
-                    // Display caption text
+                    
+                    // Caption text
                     ZStack {
-                        if state.mode == .edit {
-                            Text(caption.text + "|")  // TODO: Make cursor blink
+                        if state.mode == .play {
+                            Text(caption.text).offset(x: -5)
+                        } else if state.mode == .edit {
+                            Text(caption.text + "|").offset(x: 2)  // TODO: Make cursor blink
                             SelectionBox()
                         } else { Text(caption.text) }
                     }
@@ -191,7 +196,9 @@ struct CaptionRow: View {
                     .offset(x: textOffset + deltaOffset)
                     .frame(width: textWidth)
                     Spacer()
+                    
                     VStack {
+                        // Plus button
                         Button(action: {
                             self.state.captions = addCaption(toArray: self.state.captions, beforeIndex: self.captionIndex, atTime: self.caption.startTime)
                         }) { if state.mode != .play {  // Don't show +- buttons in play mode
@@ -199,6 +206,8 @@ struct CaptionRow: View {
                                 .frame(width: 12, height: 12)
                             }
                         }
+                        
+                        // Minus button
                         Button(action: {
                             self.state.captions = deleteCaption(fromArray: self.state.captions, atIndex: self.captionIndex)
                         }) {
@@ -211,6 +220,7 @@ struct CaptionRow: View {
                     .buttonStyle(buttonStyle)
                     
                 } else if !isSelected {
+                    
                     // Display caption timings
                     VStack {
                         Text(String(format: "%.1f", caption.startTime))
@@ -221,6 +231,7 @@ struct CaptionRow: View {
                     }
                     .frame(width: timeWidth)
                     Spacer()
+                    
                     // Display caption text
                     Text(caption.text)
                         .multilineTextAlignment(.center)
@@ -237,12 +248,20 @@ struct CaptionRow: View {
     }
 }
 
-//var test = CaptionListState()
 struct CaptionRow_Previews: PreviewProvider {
-
+    
+    static var editState = AppState(mode: .edit)
+    static var pauseState = AppState(mode: .pause)
+    
     static var previews: some View {
-        CaptionRow(caption: AppState().captions[0])
-            .frame(height: 100)
-            //.environmentObject(test)
+        
+        VStack {
+            CaptionRow(caption: editState.captions[0])
+                .frame(height: 100)
+                .environmentObject(editState)
+            CaptionRow(caption: pauseState.captions[0])
+                .frame(height: 100)
+                .environmentObject(pauseState)
+        }
     }
 }
