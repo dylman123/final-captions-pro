@@ -10,8 +10,13 @@ import SwiftUI
 
 struct CaptionRow: View {
     
-    // To refresh the UI when state changes
+    // Handle state
     @EnvironmentObject var state: AppState
+    func setState(to newState: Mode) -> Void {
+        state.mode = newState
+        let notification = NSNotification.Name(String(describing: newState))
+        NotificationCenter.default.post(name: notification, object: nil)
+    }
     
     // The current caption binding
     var captionBinding: Binding<Caption> {
@@ -64,39 +69,39 @@ struct CaptionRow: View {
     }
     
     // Set state on mouse click event
-    func setState(fromView view: CaptionElement) -> Void {
+    func click(fromView view: CaptionElement) -> Void {
         switch view {
         case .row:
             switch state.mode {
-                case .play: state.mode = .pause
-                case .pause: if isSelected { state.mode = .edit }
-                case .edit: state.mode = .pause
-                case .editStartTime: state.mode = .pause
-                case .editEndTime: state.mode = .pause
+            case .play: setState(to: .pause)
+            case .pause: if isSelected { setState(to: .edit) }
+            case .edit: setState(to: .pause)
+            case .editStartTime: setState(to: .pause)
+            case .editEndTime: setState(to: .pause)
             }
         case .text:
             switch state.mode {
-                case .play: state.mode = .pause
-                case .pause: if isSelected { state.mode = .edit }
-                case .edit: state.mode = .pause
-                case .editStartTime: state.mode = .edit
-                case .editEndTime: state.mode = .edit
+            case .play: setState(to: .pause)
+            case .pause: if isSelected { setState(to: .edit) }
+            case .edit: setState(to: .pause)
+            case .editStartTime: setState(to: .edit)
+            case .editEndTime: setState(to: .edit)
             }
         case .startTime:
             switch state.mode {
-                case .play: state.mode = .pause
-                case .pause: if isSelected { state.mode = .editStartTime }
-                case .edit: state.mode = .editStartTime
-                case .editStartTime: ()
-                case .editEndTime: state.mode = .editStartTime
+            case .play: setState(to: .pause)
+            case .pause: if isSelected { setState(to: .editStartTime) }
+            case .edit: setState(to: .editStartTime)
+            case .editStartTime: ()
+            case .editEndTime: setState(to: .editStartTime)
             }
         case .endTime:
             switch state.mode {
-                case .play: state.mode = .pause
-                case .pause: if isSelected { state.mode = .editEndTime }
-                case .edit: state.mode = .editEndTime
-                case .editStartTime: state.mode = .editEndTime
-                case .editEndTime: ()
+            case .play: setState(to: .pause)
+            case .pause: if isSelected { setState(to: .editEndTime) }
+            case .edit: setState(to: .editEndTime)
+            case .editStartTime: setState(to: .editEndTime)
+            case .editEndTime: ()
             }
         }
         state.selectionIndex = captionIndex  // Calling caption becomes selected
@@ -133,7 +138,7 @@ struct CaptionRow: View {
             // Row background
             RoundedRectangle(cornerRadius: 10).fill(rowColor)
                 .frame(height: 40)
-                .onTapGesture { self.setState(fromView: .row) }
+                .onTapGesture { self.click(fromView: .row) }
                 
             // Caption contents
             HStack(alignment: .center) {
@@ -146,14 +151,14 @@ struct CaptionRow: View {
                             Stepper(value: captionBinding.startTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.startTime))
-                                        .onTapGesture { self.setState(fromView: .startTime) }
+                                        .onTapGesture { self.click(fromView: .startTime) }
                                     SelectionBox()
                                 }
                             }
                             .padding(.leading, timePadding)
                         } else {
                             Text(String(format: "%.1f", caption.startTime))
-                                .onTapGesture { self.setState(fromView: .startTime) }
+                                .onTapGesture { self.click(fromView: .startTime) }
                         }
                         Spacer()
                         // End Time
@@ -161,14 +166,14 @@ struct CaptionRow: View {
                             Stepper(value: captionBinding.endTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.endTime))
-                                        .onTapGesture { self.setState(fromView: .endTime) }
+                                        .onTapGesture { self.click(fromView: .endTime) }
                                     SelectionBox()
                                 }
                             }
                             .padding(.leading, timePadding)
                         } else {
                             Text(String(format: "%.1f", caption.endTime))
-                                .onTapGesture { self.setState(fromView: .endTime) }
+                                .onTapGesture { self.click(fromView: .endTime) }
                         }
                     }
                     .frame(width: timeWidth)
@@ -182,21 +187,22 @@ struct CaptionRow: View {
                     }
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                    .onTapGesture { self.setState(fromView: .text) }
+                    .onTapGesture { self.click(fromView: .text) }
                     .offset(x: textOffset + deltaOffset)
                     .frame(width: textWidth)
                     Spacer()
                     VStack {
                         Button(action: {
                             self.state.captions = addCaption(toArray: self.state.captions, beforeIndex: self.captionIndex, atTime: self.caption.startTime)
-                        }) {
+                        }) { if state.mode != .play {  // Don't show +- buttons in play mode
                             IconView("NSAddTemplate")
                                 .frame(width: 12, height: 12)
+                            }
                         }
                         Button(action: {
                             self.state.captions = deleteCaption(fromArray: self.state.captions, atIndex: self.captionIndex)
                         }) {
-                            if state.captions.count > 1 {  // Don't give option to delete when only 1 caption is in list
+                            if (state.mode != .play) && (state.captions.count > 1) {  // Don't give option to delete when only 1 caption is in list
                                 IconView("NSRemoveTemplate")
                                 .frame(width: 12, height: 12)
                             }
@@ -208,10 +214,10 @@ struct CaptionRow: View {
                     // Display caption timings
                     VStack {
                         Text(String(format: "%.1f", caption.startTime))
-                            .onTapGesture { self.setState(fromView: .startTime) }
+                            .onTapGesture { self.click(fromView: .startTime) }
                         Spacer()
                         Text(String(format: "%.1f", caption.endTime))
-                           .onTapGesture { self.setState(fromView: .endTime) }
+                           .onTapGesture { self.click(fromView: .endTime) }
                     }
                     .frame(width: timeWidth)
                     Spacer()
@@ -221,7 +227,7 @@ struct CaptionRow: View {
                         .lineLimit(2)
                         .frame(width: textWidth)
                         .offset(x: textOffset)
-                        .onTapGesture { self.setState(fromView: .text) }
+                        .onTapGesture { self.click(fromView: .text) }
                     Spacer()
                 }
             }
