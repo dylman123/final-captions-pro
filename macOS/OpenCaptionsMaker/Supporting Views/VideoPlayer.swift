@@ -147,14 +147,20 @@ struct VideoPlayerControlsView : View {
                 if playerPaused { IconView("NSTouchBarPlayTemplate") }
                 else { IconView("NSTouchBarPauseTemplate") }
             }
-
             // Current video time
             Text("\(Utility.formatSecondsToHMS(videoPos * videoDuration))")
             // Slider for seeking / showing video progress
             Slider(value: $videoPos, in: 0...1, onEditingChanged: sliderEditingChanged)
             // Video duration
             Text("\(Utility.formatSecondsToHMS(videoDuration))")
-
+            // Seek -15 seconds button
+            Button(action: seekBack15) {
+                IconView("NSTouchBarSkipBack15SecondsTemplate")
+            }
+            // Seek +15 seconds button
+            Button(action: seekAhead15) {
+                IconView("NSTouchBarSkipAhead15SecondsTemplate")
+            }
         }
         .padding(.leading, 10)
         .padding(.trailing, 10)
@@ -172,10 +178,29 @@ struct VideoPlayerControlsView : View {
         }
     }
     
+    private func seekBack15() -> Void {
+        seek(bySeconds: -15.0)
+    }
+    
+    private func seekAhead15() -> Void {
+        seek(bySeconds: 15.0)
+    }
+    
     private func seek(bySeconds delta: Double) -> Void {
         sliderEditingChanged(editingStarted: true)
-        videoTime += delta
-        videoPos += (delta / videoDuration)
+        let newPos = videoPos + (delta / videoDuration)
+        if newPos < 0 {
+            videoPos = 0
+            videoTime = 0
+        }
+        else if newPos > 1 {
+            videoPos = 1
+            videoTime = videoDuration
+        }
+        else {
+            videoPos = newPos
+            videoTime += delta
+        }
         sliderEditingChanged(editingStarted: false)
     }
     
