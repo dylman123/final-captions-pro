@@ -48,11 +48,13 @@ struct CaptionList: View {
     }
     
     func _deleteCaption() -> Void {
-        guard state.captions.count > 1 else { return }  // Guard against only 1 caption remaining
+        // Guard against only 1 caption remaining
+        guard state.captions.count > 1 else { return }
         state.captions = deleteCaption(fromArray: state.captions, atIndex: state.selectionIndex)
+        
         // If the last row is deleted, decrement selection
         if state.selectionIndex-1 == state.captions.count-1 {
-            NotificationCenter.default.post(name: .upArrow, object: nil)
+            decrementSelectionIndex()
         }
     }
     
