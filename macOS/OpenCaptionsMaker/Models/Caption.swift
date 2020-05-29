@@ -9,7 +9,6 @@
 import Foundation
 
 struct Caption: Hashable, Codable, Identifiable {
-    
     var id: Int
     var startTime: Float
     var endTime: Float
@@ -19,7 +18,6 @@ struct Caption: Hashable, Codable, Identifiable {
 }
 
 struct JSONResult: Codable {
-    
     var captions: [Caption] = []
 }
 

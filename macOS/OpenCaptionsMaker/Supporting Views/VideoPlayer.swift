@@ -131,7 +131,7 @@ struct VideoPlayerControlsView : View {
     @EnvironmentObject var state: AppState
     
     // The progress through the video, as a Double (in seconds)
-    @State private var videoTime: Double = 0
+    //@State private(set) var videoTime: Double = 0.0
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
@@ -139,6 +139,12 @@ struct VideoPlayerControlsView : View {
     let player: AVPlayer
     
     @State private var playerPaused: Bool = true
+    
+    //var videoTime: Double {
+    //    let captions = state.captions
+    //    let index = state.selectionIndex
+    //    return Double(captions[index].startTime)
+    //}
     
     var body: some View {
         HStack {
@@ -191,15 +197,15 @@ struct VideoPlayerControlsView : View {
         let newPos = videoPos + (delta / videoDuration)
         if newPos < 0 {
             videoPos = 0
-            videoTime = 0
+            //videoTime = 0
         }
         else if newPos > 1 {
             videoPos = 1
-            videoTime = videoDuration
+            //videoTime = videoDuration
         }
         else {
             videoPos = newPos
-            videoTime += delta
+            //videoTime += delta
         }
         sliderEditingChanged(editingStarted: false)
     }
@@ -255,7 +261,7 @@ struct VideoPlayerContainerView : View {
     init(url: URL) {
         player = AVPlayer(url: url)
     }
-  
+
     var body: some View {
         VStack {
             VideoPlayerPaneView(videoPos: $videoPos,

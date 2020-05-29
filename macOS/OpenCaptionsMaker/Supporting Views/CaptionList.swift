@@ -31,8 +31,12 @@ struct CaptionList: View {
         else { indexOperation() }
     }
     
-    func modifyStartTime(byStepSize delta: Float) -> Void {
-        self.state.captions[self.state.selectionIndex].startTime += delta
+    func modifyTimeVal(byStepSize delta: Float) -> Void {
+        if state.mode == .editStartTime {
+            state.captions[state.selectionIndex].startTime += delta
+        } else if state.mode == .editEndTime {
+            state.captions[state.selectionIndex].endTime += delta
+        }
     }
     
     func modifyEndTime(byStepSize delta: Float) -> Void {
@@ -44,6 +48,7 @@ struct CaptionList: View {
     }
     
     func _deleteCaption() -> Void {
+        guard state.captions.count > 1 else { return }  // Guard against only 1 caption remaining
         state.captions = deleteCaption(fromArray: state.captions, atIndex: state.selectionIndex)
         // If the last row is deleted, decrement selection
         if state.selectionIndex-1 == state.captions.count-1 {
@@ -53,6 +58,24 @@ struct CaptionList: View {
     
     func insertCharacter(_ char: String) -> Void {
         state.captions[state.selectionIndex].text += char
+    }
+    
+    func incrementSelectionIndex() -> Void {
+        // Guard against when last caption is selected
+        guard self.state.selectionIndex < self.state.captions.count - 1 else { return }
+        
+        self.animateOnCondition(self.isAtPageEnd,
+        indexOperation: { self.state.selectionIndex += 1 },
+        scrollOperation: { self.scrollOffset -= self.scrollAmount * CGFloat(self.scrollTrigger) })
+    }
+    
+    func decrementSelectionIndex() -> Void {
+        // Guard against when first caption is selected
+        guard self.state.selectionIndex > 0 else { return }
+        
+        self.animateOnCondition(self.isAtPageEnd,
+        indexOperation: { self.state.selectionIndex -= 1 },
+        scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
     }
     
     //init() {
@@ -93,36 +116,16 @@ struct CaptionList: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
             switch self.state.mode {
-            case .editStartTime: self.modifyStartTime(byStepSize: 0.1)
-            case .editEndTime: self.modifyEndTime(byStepSize: 0.1)
-            default: ()
-            }
-            
-            guard self.state.selectionIndex < self.state.captions.count - 1 else { return } // Guard against when last caption is selected
-            switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause, .edit:
-                self.animateOnCondition(self.isAtPageEnd,
-                indexOperation: { self.state.selectionIndex += 1 },
-                scrollOperation: { self.scrollOffset -= self.scrollAmount * CGFloat(self.scrollTrigger) })
-            default: ()
+            case .pause, .edit: self.incrementSelectionIndex()
+            case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
             switch self.state.mode {
-            case .editStartTime: self.modifyStartTime(byStepSize: -0.1)
-            case .editEndTime: self.modifyEndTime(byStepSize: -0.1)
-            default: ()
-            }
-            
-            guard self.state.selectionIndex > 0 else { return } // Guard against when first caption is selected
-            switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause, .edit:
-                self.animateOnCondition(self.isAtPageEnd,
-                indexOperation: { self.state.selectionIndex -= 1 },
-                scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
-            default: ()
+            case .pause, .edit: self.decrementSelectionIndex()
+            case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .plus)) { notification in
@@ -130,27 +133,22 @@ struct CaptionList: View {
             case .play: self.state.transition(to: .pause)
             case .pause: self._addCaption()
             case .edit: self.insertCharacter(notification.object as! String)
-            case .editStartTime: self.modifyStartTime(byStepSize: 0.1)
-            case .editEndTime: self.modifyEndTime(byStepSize: 0.1)
+            case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .minus)) { notification in
-            guard self.state.captions.count > 1 else { return }
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
             case .pause: self._deleteCaption()
             case .edit: self.insertCharacter(notification.object as! String)
-            case .editStartTime: self.modifyStartTime(byStepSize: -0.1)
-            case .editEndTime: self.modifyEndTime(byStepSize: -0.1)
+            case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .returnKey)) { _ in
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause: self.state.transition(to: .edit)
+            case .pause, .editStartTime, .editEndTime: self.state.transition(to: .edit)
             case .edit: NotificationCenter.default.post(name: .downArrow, object: nil)
-            case .editStartTime: self.state.transition(to: .edit)
-            case .editEndTime: self.state.transition(to: .edit)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .tab)) { _ in
@@ -182,11 +180,9 @@ struct CaptionList: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .escape)) { _ in
             switch self.state.mode {
-            case .play: self.state.transition(to: .pause)
+            case .play, .edit: self.state.transition(to: .pause)
             case .pause: ()
-            case .edit: self.state.transition(to: .pause)
-            case .editStartTime: self.state.transition(to: .edit)
-            case .editEndTime: self.state.transition(to: .edit)
+            case .editStartTime, .editEndTime: self.state.transition(to: .edit)
             }
         }
     }

@@ -20,6 +20,9 @@ class AppState: ObservableObject {
     // The mode of the app when editing captions
     @Published var mode: Mode
     
+    // Timestamp of the video's current playback position
+    //@Published var videoTime: Double
+    
     // An index which represents the selected caption
     @Published var selectionIndex: Int
     
@@ -33,9 +36,13 @@ class AppState: ObservableObject {
         NotificationCenter.default.post(name: notification, object: nil)
     }
     
-    init(captionArray captions: [Caption] = sampleCaptionData, mode: Mode = .pause, selectionIndex: Int = 0) {
+    init(captions: [Caption] = sampleCaptionData,
+         mode: Mode = .pause,
+         //videoTime: Double = 0.0,
+         selectionIndex: Int = 0) {
         self.captions = captions
         self.mode = mode
+        //self.videoTime = videoTime
         self.selectionIndex = selectionIndex
     }
     
