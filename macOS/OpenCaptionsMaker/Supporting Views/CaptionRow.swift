@@ -20,7 +20,7 @@ struct CaptionRow: View {
     
     // Logic to select caption
     var isSelected: Bool {
-        if state.selectionIndex == captionIndex { return true }
+        if state.selectedIndex == captionIndex { return true }
         else { return false }
     }
         
@@ -99,7 +99,7 @@ struct CaptionRow: View {
             case .editEndTime: ()
             }
         }
-        state.selectionIndex = captionIndex  // Calling caption becomes selected
+        state.selectedIndex = captionIndex  // Calling caption becomes selected
     }
     
     // Draw a box when element is selected
@@ -243,7 +243,7 @@ struct CaptionRow: View {
     }
 }
 
-struct CaptionRow_Previews: PreviewProvider {
+/*struct CaptionRow_Previews: PreviewProvider {
     
     static var editState = AppState(mode: .edit)
     static var pauseState = AppState(mode: .pause)
@@ -259,4 +259,4 @@ struct CaptionRow_Previews: PreviewProvider {
                 .environmentObject(pauseState)
         }
     }
-}
+}*/

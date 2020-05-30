@@ -7,6 +7,7 @@
 //
 import Foundation
 import Combine
+import SwiftUI
 
 enum Mode {
     case play, pause, edit, editStartTime, editEndTime
@@ -15,16 +16,18 @@ enum Mode {
 class AppState: ObservableObject {
     
     // The global array which is to be generated via transcription API and edited by the user
-    @Published var captions: [Caption]
+    @Published var captions: [Caption] = sampleCaptionData
     
     // The mode of the app when editing captions
-    @Published var mode: Mode
+    @Published var mode: Mode = .pause
     
-    // Timestamp of the video's current playback position
-    //@Published var videoTime: Double
+    // The video's current playback position (fraction between 0 to 1)
+    @Published var videoPos: Double = 0.0
+    @Published var videoDuration: Double = 0.0
+    @Published var videoTime: Double = 0.0
     
     // An index which represents the selected caption
-    @Published var selectionIndex: Int
+    @Published var selectedIndex: Int = 0
     
     // URL of the imported video
     var videoURL: URL = URL(fileURLWithPath: "")
@@ -36,15 +39,15 @@ class AppState: ObservableObject {
         NotificationCenter.default.post(name: notification, object: nil)
     }
     
-    init(captions: [Caption] = sampleCaptionData,
+    /*init(captions: [Caption] = sampleCaptionData,
          mode: Mode = .pause,
          //videoTime: Double = 0.0,
          selectionIndex: Int = 0) {
-        self.captions = captions
-        self.mode = mode
-        //self.videoTime = videoTime
-        self.selectionIndex = selectionIndex
-    }
+            self.captions = captions
+            self.mode = mode
+            //self.videoTime = videoTime
+            self.selectionIndex = selectionIndex
+    }*/
     
 }
 

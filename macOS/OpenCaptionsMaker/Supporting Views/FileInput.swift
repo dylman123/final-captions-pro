@@ -7,6 +7,7 @@
 //
 import SwiftUI
 import AppKit
+import Firebase
 
 struct FileInput: View {
     
@@ -38,6 +39,9 @@ struct FileInput: View {
         return nil
     }
     
+    @State var audioRef: StorageReference?
+    @State var fileID: String?
+    
     var body: some View {
         
         Button(action: {
@@ -46,14 +50,16 @@ struct FileInput: View {
             
             if video != nil {
                 print("Selected video file has URL path: \(String(describing: video!))")
-                
-                // Close the FileInput view
-                self.showFileInput.toggle()
-                self.presentationMode.wrappedValue.dismiss()
-                
+            
                 // Generate captions
                 self.state.videoURL = video!
                 self.state.captions = generateCaptions(forFile: video!)
+                    
+                // Close the FileInput view
+                DispatchQueue.main.async {
+                    self.showFileInput.toggle()
+                    self.presentationMode.wrappedValue.dismiss()
+                }
             }
             else {
                 print("No file was selected.")

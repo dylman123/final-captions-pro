@@ -130,21 +130,19 @@ struct VideoPlayerControlsView : View {
     // Handle state
     @EnvironmentObject var state: AppState
     
-    // The progress through the video, as a Double (in seconds)
-    //@State private(set) var videoTime: Double = 0.0
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
     
+    // Update state.videoTime
+    //var videoTime: Double {
+    //    state.$videoTime = $videoPos * videoDuration
+    //    print("VideoTime: \(state.videoTime)")
+    //}
+    
     let player: AVPlayer
     
     @State private var playerPaused: Bool = true
-    
-    //var videoTime: Double {
-    //    let captions = state.captions
-    //    let index = state.selectionIndex
-    //    return Double(captions[index].startTime)
-    //}
     
     var body: some View {
         HStack {
@@ -249,10 +247,12 @@ struct VideoPlayerControlsView : View {
 
 // This is the SwiftUI view which contains the player and its controls
 struct VideoPlayerContainerView : View {
+    
+    @EnvironmentObject var state: AppState
     // The progress through the video, as a percentage (from 0 to 1)
-    @State private var videoPos: Double = 0
+    //@State private var videoPos: Double = 0
     // The duration of the video in seconds
-    @State private var videoDuration: Double = 0
+    //@State private var videoDuration: Double = 0
     // Whether we're currently interacting with the seek bar or doing a seek
     @State private var seeking = false
     
@@ -264,12 +264,12 @@ struct VideoPlayerContainerView : View {
 
     var body: some View {
         VStack {
-            VideoPlayerPaneView(videoPos: $videoPos,
-                            videoDuration: $videoDuration,
+            VideoPlayerPaneView(videoPos: $state.videoPos,
+                            videoDuration: $state.videoDuration,
                             seeking: $seeking,
                             player: player)
-            VideoPlayerControlsView(videoPos: $videoPos,
-                                    videoDuration: $videoDuration,
+            VideoPlayerControlsView(videoPos: $state.videoPos,
+                                    videoDuration: $state.videoDuration,
                                     seeking: $seeking,
                                     player: player)
         }

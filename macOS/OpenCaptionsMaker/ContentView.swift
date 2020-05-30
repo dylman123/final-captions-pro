@@ -86,6 +86,7 @@ struct ContentView: View {
                 FileInput(showFileInput: self.showFileInput)
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
+                    .environmentObject(self.state)
             }
             else if self.showProgressBar {
                 // Progress bar whilst tasks are loading

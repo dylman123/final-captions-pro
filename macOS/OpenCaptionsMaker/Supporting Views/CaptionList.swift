@@ -13,6 +13,21 @@ struct CaptionList: View {
     // Handle state
     @EnvironmentObject var state: AppState
     
+    // Selected caption's index for the list
+    /*var state.selectedIndex: ObservableObject {
+        if state.mode == .play {
+            return findIndexFromTimestamp()
+        } else {
+            return state.selectedIndex
+        }
+    }*/
+    
+    func findIndexFromTimestamp() -> Int {
+        let timestamp = state.videoPos * state.videoDuration
+        let index = state.captions.firstIndex(where: { timestamp <= Double($0.endTime) }) ?? 0
+        return index
+    }
+    
     // Scroll logic
     @State private var scrollOffset: CGFloat = 0.0
     @State private var scrollBinding: Binding<CGPoint> = .constant(.zero)
@@ -20,7 +35,7 @@ struct CaptionList: View {
     let scrollTrigger: Int = 11
     
     private var isAtPageEnd: Bool {
-        let index = state.selectionIndex
+        let index = state.selectedIndex
         guard index > 0 else { return false }
         if index % scrollTrigger == 0 { return true }
         else { return false }
@@ -33,50 +48,50 @@ struct CaptionList: View {
     
     func modifyTimeVal(byStepSize delta: Float) -> Void {
         if state.mode == .editStartTime {
-            state.captions[state.selectionIndex].startTime += delta
+            state.captions[state.selectedIndex].startTime += delta
         } else if state.mode == .editEndTime {
-            state.captions[state.selectionIndex].endTime += delta
+            state.captions[state.selectedIndex].endTime += delta
         }
     }
     
     func modifyEndTime(byStepSize delta: Float) -> Void {
-        self.state.captions[self.state.selectionIndex].endTime += delta
+        self.state.captions[self.state.selectedIndex].endTime += delta
     }
     
     func _addCaption() -> Void {
-        state.captions = addCaption(toArray: state.captions, beforeIndex: state.selectionIndex, atTime: state.captions[state.selectionIndex].startTime)
+        state.captions = addCaption(toArray: state.captions, beforeIndex: state.selectedIndex, atTime: state.captions[state.selectedIndex].startTime)
     }
     
     func _deleteCaption() -> Void {
         // Guard against only 1 caption remaining
         guard state.captions.count > 1 else { return }
-        state.captions = deleteCaption(fromArray: state.captions, atIndex: state.selectionIndex)
+        state.captions = deleteCaption(fromArray: state.captions, atIndex: state.selectedIndex)
         
         // If the last row is deleted, decrement selection
-        if state.selectionIndex-1 == state.captions.count-1 {
+        if state.selectedIndex-1 == state.captions.count-1 {
             decrementSelectionIndex()
         }
     }
     
     func insertCharacter(_ char: String) -> Void {
-        state.captions[state.selectionIndex].text += char
+        state.captions[state.selectedIndex].text += char
     }
     
     func incrementSelectionIndex() -> Void {
         // Guard against when last caption is selected
-        guard self.state.selectionIndex < self.state.captions.count - 1 else { return }
+        guard self.state.selectedIndex < self.state.captions.count - 1 else { return }
         
         self.animateOnCondition(self.isAtPageEnd,
-        indexOperation: { self.state.selectionIndex += 1 },
+        indexOperation: { state.selectedIndex += 1 },
         scrollOperation: { self.scrollOffset -= self.scrollAmount * CGFloat(self.scrollTrigger) })
     }
     
     func decrementSelectionIndex() -> Void {
         // Guard against when first caption is selected
-        guard self.state.selectionIndex > 0 else { return }
+        guard self.state.selectedIndex > 0 else { return }
         
         self.animateOnCondition(self.isAtPageEnd,
-        indexOperation: { self.state.selectionIndex -= 1 },
+        indexOperation: { state.selectedIndex -= 1 },
         scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
     }
     
@@ -107,13 +122,13 @@ struct CaptionList: View {
             case .pause: ()  // TODO: if a letter, tag the caption
             case .edit: self.insertCharacter(notification.object as! String)
             case .editStartTime: ()  // TODO: Manipulate float as a string
-                //var strVal = String(self.state.captions[self.state.selectionIndex].startTime)
+                //var strVal = String(self.state.captions[self.state.selectedIndex].startTime)
                 //strVal += String(describing: notification.object!)
-                //self.state.captions[self.state.selectionIndex].startTime = (strVal as NSString).floatValue
+                //self.state.captions[self.state.selectedIndex].startTime = (strVal as NSString).floatValue
             case .editEndTime: ()  // TODO: Manipulate float as a string
-                //var strVal = String(self.state.captions[self.state.selectionIndex].endTime)
+                //var strVal = String(self.state.captions[self.state.selectedIndex].endTime)
                 //strVal += String(describing: notification.object!)
-                //self.state.captions[self.state.selectionIndex].endTime = (strVal as NSString).floatValue
+                //self.state.captions[self.state.selectedIndex].endTime = (strVal as NSString).floatValue
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
@@ -166,7 +181,7 @@ struct CaptionList: View {
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
             case .pause: self._deleteCaption()
-            case .edit: _ = self.state.captions[self.state.selectionIndex].text.popLast()
+            case .edit: _ = self.state.captions[self.state.selectedIndex].text.popLast()
             case .editStartTime: ()
             case .editEndTime: ()
             }
@@ -185,6 +200,15 @@ struct CaptionList: View {
             case .play, .edit: self.state.transition(to: .pause)
             case .pause: ()
             case .editStartTime, .editEndTime: self.state.transition(to: .edit)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
+            DispatchQueue.global(qos: .background).async {
+                while self.state.mode == .play {
+                    DispatchQueue.main.async {
+                        self.state.selectedIndex = self.findIndexFromTimestamp()
+                    }
+                }
             }
         }
     }
