@@ -21,10 +21,11 @@ class AppState: ObservableObject {
     // The mode of the app when editing captions
     @Published var mode: Mode = .pause
     
-    // The video's current playback position (fraction between 0 to 1)
+    // The progress through the video, as a percentage (from 0 to 1)
     @Published var videoPos: Double = 0.0
+    
+    // The duration of the video in seconds
     @Published var videoDuration: Double = 0.0
-    @Published var videoTime: Double = 0.0
     
     // An index which represents the selected caption
     @Published var selectedIndex: Int = 0
@@ -39,16 +40,21 @@ class AppState: ObservableObject {
         NotificationCenter.default.post(name: notification, object: nil)
     }
     
-    /*init(captions: [Caption] = sampleCaptionData,
-         mode: Mode = .pause,
-         //videoTime: Double = 0.0,
-         selectionIndex: Int = 0) {
-            self.captions = captions
-            self.mode = mode
-            //self.videoTime = videoTime
-            self.selectionIndex = selectionIndex
-    }*/
-    
+    // Sync video playback with list index
+    func syncVideoAndList(isListControlling: Bool) -> Void {
+        let timestamp = videoPos * videoDuration
+        let inferredVideoPos = Double(captions[selectedIndex].startTime) / videoDuration
+        let inferredIndex = captions.firstIndex(where: { timestamp <= Double($0.endTime) }) ?? 0
+        
+        DispatchQueue.main.async {
+            if isListControlling {
+                NotificationCenter.default.post(name: .seekVideo, object: inferredVideoPos)
+            }
+            else if !isListControlling {
+                NotificationCenter.default.post(name: .seekList, object: inferredIndex)
+            }
+        }
+    }
 }
 
 var sampleCaptionData: [Caption] = load("captionDataLong")

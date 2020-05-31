@@ -13,21 +13,6 @@ struct CaptionList: View {
     // Handle state
     @EnvironmentObject var state: AppState
     
-    // Selected caption's index for the list
-    /*var state.selectedIndex: ObservableObject {
-        if state.mode == .play {
-            return findIndexFromTimestamp()
-        } else {
-            return state.selectedIndex
-        }
-    }*/
-    
-    func findIndexFromTimestamp() -> Int {
-        let timestamp = state.videoPos * state.videoDuration
-        let index = state.captions.firstIndex(where: { timestamp <= Double($0.endTime) }) ?? 0
-        return index
-    }
-    
     // Scroll logic
     @State private var scrollOffset: CGFloat = 0.0
     @State private var scrollBinding: Binding<CGPoint> = .constant(.zero)
@@ -134,14 +119,14 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause, .edit: self.incrementSelectionIndex()
+            case .pause, .edit: self.incrementSelectionIndex(); self.state.syncVideoAndList(isListControlling: true)
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause, .edit: self.decrementSelectionIndex()
+            case .pause, .edit: self.decrementSelectionIndex(); self.state.syncVideoAndList(isListControlling: true)
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
@@ -205,10 +190,24 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
             DispatchQueue.global(qos: .background).async {
                 while self.state.mode == .play {
-                    DispatchQueue.main.async {
-                        self.state.selectedIndex = self.findIndexFromTimestamp()
-                    }
+                    self.state.syncVideoAndList(isListControlling: false)
                 }
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .seekList)) { notification in
+            let newIndex = notification.object as! Int
+            
+            // If the video playback has transitioned to the next caption
+            if newIndex == self.state.selectedIndex + 1 {
+                self.incrementSelectionIndex()
+            }
+                
+            // If the video playback has not transitioned to the next caption
+            else if newIndex == self.state.selectedIndex {}
+            
+            // If the video is seeking
+            else {
+                withAnimation { self.state.selectedIndex = newIndex }
             }
         }
     }

@@ -134,12 +134,6 @@ struct VideoPlayerControlsView : View {
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
     
-    // Update state.videoTime
-    //var videoTime: Double {
-    //    state.$videoTime = $videoPos * videoDuration
-    //    print("VideoTime: \(state.videoTime)")
-    //}
-    
     let player: AVPlayer
     
     @State private var playerPaused: Bool = true
@@ -175,37 +169,39 @@ struct VideoPlayerControlsView : View {
             self.pausePlayer(true)
         }
         .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
-            self.seek(bySeconds: -15.0)
+            self.seekBack15()
         }
         .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
-            self.seek(bySeconds: 15.0)
+            self.seekAhead15()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .seekVideo)) { newPos in
+            self.seek(to: newPos.object as! Double, isListControlling: true)
         }
     }
     
     private func seekBack15() -> Void {
-        seek(bySeconds: -15.0)
+        seek(to: videoPos - 15.0 / videoDuration, isListControlling: false)
     }
     
     private func seekAhead15() -> Void {
-        seek(bySeconds: 15.0)
+        seek(to: videoPos + 15.0 / videoDuration, isListControlling: false)
     }
     
-    private func seek(bySeconds delta: Double) -> Void {
-        sliderEditingChanged(editingStarted: true)
-        let newPos = videoPos + (delta / videoDuration)
-        if newPos < 0 {
-            videoPos = 0
-            //videoTime = 0
+    private func seek(to newPos: Double, isListControlling: Bool) -> Void {
+        switch isListControlling {
+        case true: ()
+        case false: sliderEditingChanged(editingStarted: true)
         }
-        else if newPos > 1 {
-            videoPos = 1
-            //videoTime = videoDuration
+        
+        if newPos < 0 { videoPos = 0 }
+        else if newPos > 1 { videoPos = 1 }
+        else { videoPos = newPos }
+        
+        switch isListControlling {
+        case true: listEditingChanged()
+        case false: sliderEditingChanged(editingStarted: false)
         }
-        else {
-            videoPos = newPos
-            //videoTime += delta
-        }
-        sliderEditingChanged(editingStarted: false)
+        
     }
     
     private func togglePlayPause() {
@@ -240,8 +236,16 @@ struct VideoPlayerControlsView : View {
                 // Now the seek is finished, resume normal operation
                 self.seeking = false
                 //state.transition(to: .play)
+                self.state.syncVideoAndList(isListControlling: false)
             }
         }
+    }
+    
+    private func listEditingChanged() {
+        // If the list is controlling the seek, we can assume that the
+        // state mode is .pause or .edit
+        let targetTime = CMTime(seconds: videoPos * videoDuration, preferredTimescale: 600)
+        player.seek(to: targetTime)
     }
 }
 
@@ -249,10 +253,7 @@ struct VideoPlayerControlsView : View {
 struct VideoPlayerContainerView : View {
     
     @EnvironmentObject var state: AppState
-    // The progress through the video, as a percentage (from 0 to 1)
-    //@State private var videoPos: Double = 0
-    // The duration of the video in seconds
-    //@State private var videoDuration: Double = 0
+    
     // Whether we're currently interacting with the seek bar or doing a seek
     @State private var seeking = false
     

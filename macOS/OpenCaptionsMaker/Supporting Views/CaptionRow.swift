@@ -100,6 +100,7 @@ struct CaptionRow: View {
             }
         }
         state.selectedIndex = captionIndex  // Calling caption becomes selected
+        state.syncVideoAndList(isListControlling: true)
     }
     
     // Draw a box when element is selected

@@ -24,6 +24,8 @@ extension Notification.Name {
     static let play = Notification.Name("play")
     static let pause = Notification.Name("pause")
     static let edit = Notification.Name("edit")
+    static let seekVideo = Notification.Name("seekVideo")
+    static let seekList = Notification.Name("seekList")
 }
 
 class TypingWindow: NSWindow {
