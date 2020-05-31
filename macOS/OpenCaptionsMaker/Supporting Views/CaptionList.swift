@@ -17,18 +17,48 @@ struct CaptionList: View {
     @State private var scrollOffset: CGFloat = 0.0
     @State private var scrollBinding: Binding<CGPoint> = .constant(.zero)
     let scrollAmount: CGFloat = 45.0
-    let scrollTrigger: Int = 11
-    
-    private var isAtPageEnd: Bool {
-        let index = state.selectedIndex
-        guard index > 0 else { return false }
-        if index % scrollTrigger == 0 { return true }
-        else { return false }
-    }
+    let numCaptionsOnPage: Int = 12
 
-    func animateOnCondition(_ condition: Bool, indexOperation: () -> (), scrollOperation: () -> ()) {
-        if condition { withAnimation { indexOperation(); scrollOperation() } }
-        else { indexOperation() }
+    func turnPages(quantity numPages: Int) -> Void {
+        scrollOffset -= scrollAmount * CGFloat(numCaptionsOnPage * numPages)
+    }
+    
+    func goToIndex(target: Int) {
+        // Check if the target index is on a new page
+        let distanceToNextPage = numCaptionsOnPage - (state.selectedIndex % numCaptionsOnPage)
+        let distanceToPrevPage = distanceToNextPage - numCaptionsOnPage
+        let delta = target - state.selectedIndex
+        let isOnFuturePage: Bool = (delta >= distanceToNextPage)
+        let isOnPrevPage: Bool = (delta < distanceToPrevPage)
+        
+        // Count the number of pages to turn
+        var numPagesToTurn: Int {
+            if delta > 0 && delta <= numCaptionsOnPage { return 1 }
+            else if delta > numCaptionsOnPage { return delta / numCaptionsOnPage }
+            else if delta < 0 && delta >= -numCaptionsOnPage { return -1 }
+            else if delta < -numCaptionsOnPage { return delta / numCaptionsOnPage }
+            else { return 0 }
+        }
+        
+        // If applicable, turn to the relevant page
+        if isOnFuturePage || isOnPrevPage {
+            withAnimation { turnPages(quantity: numPagesToTurn) }
+        }
+        
+        // Set the new selectedIndex
+        state.selectedIndex = target
+    }
+    
+    func incrementSelectedIndex() -> Void {
+        // Guard against when last caption is selected
+        guard state.selectedIndex < state.captions.count - 1 else { return }
+        goToIndex(target: state.selectedIndex + 1)
+    }
+    
+    func decrementSelectedIndex() -> Void {
+        // Guard against when first caption is selected
+        guard self.state.selectedIndex > 0 else { return }
+        goToIndex(target: state.selectedIndex - 1)
     }
     
     func modifyTimeVal(byStepSize delta: Float) -> Void {
@@ -54,30 +84,12 @@ struct CaptionList: View {
         
         // If the last row is deleted, decrement selection
         if state.selectedIndex-1 == state.captions.count-1 {
-            decrementSelectionIndex()
+            decrementSelectedIndex()
         }
     }
     
     func insertCharacter(_ char: String) -> Void {
         state.captions[state.selectedIndex].text += char
-    }
-    
-    func incrementSelectionIndex() -> Void {
-        // Guard against when last caption is selected
-        guard self.state.selectedIndex < self.state.captions.count - 1 else { return }
-        
-        self.animateOnCondition(self.isAtPageEnd,
-        indexOperation: { state.selectedIndex += 1 },
-        scrollOperation: { self.scrollOffset -= self.scrollAmount * CGFloat(self.scrollTrigger) })
-    }
-    
-    func decrementSelectionIndex() -> Void {
-        // Guard against when first caption is selected
-        guard self.state.selectedIndex > 0 else { return }
-        
-        self.animateOnCondition(self.isAtPageEnd,
-        indexOperation: { state.selectedIndex -= 1 },
-        scrollOperation: { self.scrollOffset += self.scrollAmount * CGFloat(self.scrollTrigger) })
     }
     
     //init() {
@@ -119,14 +131,14 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause, .edit: self.incrementSelectionIndex(); self.state.syncVideoAndList(isListControlling: true)
+            case .pause, .edit: self.incrementSelectedIndex(); self.state.syncVideoAndList(isListControlling: true)
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause, .edit: self.decrementSelectionIndex(); self.state.syncVideoAndList(isListControlling: true)
+            case .pause, .edit: self.decrementSelectedIndex(); self.state.syncVideoAndList(isListControlling: true)
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
@@ -199,7 +211,7 @@ struct CaptionList: View {
             
             // If the video playback has transitioned to the next caption
             if newIndex == self.state.selectedIndex + 1 {
-                self.incrementSelectionIndex()
+                self.incrementSelectedIndex()
             }
                 
             // If the video playback has not transitioned to the next caption
@@ -207,7 +219,7 @@ struct CaptionList: View {
             
             // If the video is seeking
             else {
-                withAnimation { self.state.selectedIndex = newIndex }
+                withAnimation { self.goToIndex(target: newIndex) }
             }
         }
     }

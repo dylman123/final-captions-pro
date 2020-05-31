@@ -58,5 +58,3 @@ class AppState: ObservableObject {
 }
 
 var sampleCaptionData: [Caption] = load("captionDataLong")
-
-
