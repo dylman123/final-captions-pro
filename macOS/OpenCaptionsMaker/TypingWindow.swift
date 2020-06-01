@@ -26,6 +26,8 @@ extension Notification.Name {
     static let edit = Notification.Name("edit")
     static let seekVideo = Notification.Name("seekVideo")
     static let seekList = Notification.Name("seekList")
+    static let nextPage = Notification.Name("nextPage")
+    static let prevPage = Notification.Name("prevPage")
 }
 
 class TypingWindow: NSWindow {

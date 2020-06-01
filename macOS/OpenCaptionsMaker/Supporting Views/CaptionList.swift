@@ -14,13 +14,13 @@ struct CaptionList: View {
     @EnvironmentObject var state: AppState
     
     // Scroll logic
-    @State private var scrollOffset: CGFloat = 0.0
+    @State private var scrollOffset = CGPoint(x: 0.0, y: 0.0)
     @State private var scrollBinding: Binding<CGPoint> = .constant(.zero)
     let scrollAmount: CGFloat = 45.0
     let numCaptionsOnPage: Int = 12
 
     func turnPages(quantity numPages: Int) -> Void {
-        scrollOffset -= scrollAmount * CGFloat(numCaptionsOnPage * numPages)
+        scrollOffset.y += scrollAmount * CGFloat(numCaptionsOnPage * numPages)
     }
     
     func goToIndex(target: Int) {
@@ -98,17 +98,18 @@ struct CaptionList: View {
     
     var body: some View {
         
-        //OffsetScrollView(.vertical, offset: self.scrollBinding)
-        ScrollView(.vertical) {
-            VStack {
-                ForEach(state.captions) { caption in
-                    CaptionRow(caption: caption)
-                        .tag(caption)
-                        .padding(.vertical, 5)
-                }
+        OffsetScrollView(.vertical, offset: $scrollOffset) {
+        //ScrollView(.vertical) {
+        //List {
+            ForEach(state.captions) { caption in
+                CaptionRow(caption: caption)
+                    .tag(caption)
+                    .padding(.vertical, 5)
+                    //.offset(y: self.scrollOffset)
             }
-            .offset(y: self.scrollOffset)
         }
+            
+        //}
         //.content.offset(y: self.scrollOffset)
         
         // Keyboard press logic

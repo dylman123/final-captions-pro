@@ -39,20 +39,31 @@ public struct OffsetScrollView<Content>: View where Content : View {
     
     public var body: some View {
         ScrollView(axes, showsIndicators: showsIndicators) {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 5) {
                 GeometryReader { geometry in
                     Run {
-                        let globalOrigin = geometry.frame(in: .global).origin
-                        self.initialOffset = self.initialOffset ?? globalOrigin
-                        let initialOffset = (self.initialOffset ?? .zero)
-                        let offset = CGPoint(x: globalOrigin.x - initialOffset.x, y: globalOrigin.y - initialOffset.y)
-                        self.$offset.wrappedValue = offset
+                        let offset = self.$offset.wrappedValue
+                        _ = geometry.frame(in: .global).offsetBy(dx: 0, dy: offset.y)
+//                        let globalOrigin = geometry.frame(in: .global).origin
+//                        self.initialOffset = self.initialOffset ?? globalOrigin
+//                        let initialOffset = (self.initialOffset ?? .zero)
+//                        let offset = CGPoint(x: globalOrigin.x - initialOffset.x, y: globalOrigin.y - initialOffset.y)
+//                        self.$offset.wrappedValue = offset
+                        
                     }
                 }.frame(width: 0, height: 0)
-
+                
                 content
             }
         }
+//        .onReceive(NotificationCenter.default.publisher(for: .nextPage)) { notification in
+//            print("before: ", self._offset)
+//            self._offset.y += notification.object as! Binding<CGFloat>
+//            print("after: ", self._offset)
+//        }
+//        .onReceive(NotificationCenter.default.publisher(for: .prevPage)) { notification in
+//
+//        }
     }
     
     struct Run: View {
