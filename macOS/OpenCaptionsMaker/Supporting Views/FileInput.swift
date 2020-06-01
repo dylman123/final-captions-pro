@@ -53,7 +53,7 @@ struct FileInput: View {
             
                 // Generate captions
                 self.state.videoURL = video!
-                self.state.captions = generateCaptions(forFile: video!)
+                generateCaptions(self.state)
                     
                 // Close the FileInput view
                 DispatchQueue.main.async {

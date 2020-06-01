@@ -11,7 +11,7 @@ import AVFoundation
 import Firebase
 
 // Generates captions by using a transcription service
-func generateCaptions(forFile videoURL: URL) -> [Caption] {
+func generateCaptions(_ state: AppState) -> Void {
     
     // Semaphore for asynchronous tasks
     let semaphore = DispatchSemaphore(value: 0)
@@ -23,11 +23,11 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
     var m4aURL: URL?
     do {
         print("Extracting audio from video file...")
-        m4aURL = try extractAudio(fromVideoFile: videoURL)
+        m4aURL = try extractAudio(fromVideoFile: state.videoURL)
         semaphore.signal()
     } catch {
         print("Error extracting audio from video file: \(error): \(error.localizedDescription)")
-        return initialCaptionsList
+        state.captions = initialCaptionsList
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
@@ -40,7 +40,7 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
         semaphore.signal()
     } catch {
         print("Error converting .m4a to .wav format: \(error.localizedDescription)")
-        return initialCaptionsList
+        state.captions = initialCaptionsList
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
@@ -58,55 +58,58 @@ func generateCaptions(forFile videoURL: URL) -> [Caption] {
     }
     
     _ = semaphore.wait(timeout: .distantFuture)*/
-    
+    var captionData: [Caption]?
     uploadAudio(withURL: wavURL!, completion: { (ref: StorageReference?, id: String?) -> Void in
         
         print("completed with ref: \(String(describing: ref)) and id: \(String(describing: id))")
         audioRef = ref
         fileID = id
         
-    }) // FIXME: Need to refactor the backend to handle async callbacks like this
-    
-    // Short poll the remote server to download captions JSON from Google Cloud Storage
-    let timeout: Int = 60  // in secs
-    let pollPeriod: Int = 5  // in secs
-    var secondsElapsed: Int = 0
-    var jsonRef: StorageReference?
-    var downloadError: Error?
-    var captionData: [Caption]?
-    repeat {
-        do {
+        // Short poll the remote server to download captions JSON from Google Cloud Storage
+        let timeout: Int = 60  // in secs
+        let pollPeriod: Int = 5  // in secs
+        var secondsElapsed: Int = 0
+        var jsonRef: StorageReference?
+        var downloadError: Error?
+        var captionData: [Caption]?
+        
+        //repeat {
             print("Attempting to download captions file...")
-            sleep(UInt32(pollPeriod))
+            sleep(UInt32(30)) //sleep(UInt32(pollPeriod))
             secondsElapsed += pollPeriod
-            (jsonRef, captionData) = try downloadCaptions(withFileID: fileID!)
-            semaphore.signal()
-        } catch {
-            downloadError = error
+            downloadCaptions(withFileID: fileID!, completion: { (ref: StorageReference?, data: [Caption]?) -> Void in
+                if data != nil {
+                    captionData = data!
+                    jsonRef = ref!
+                }
+                else {
+                    captionData = nil
+                    jsonRef = nil
+                }
+            })
+            sleep(UInt32(2))
             print("seconds elapsed: \(secondsElapsed). Will poll server again in \(pollPeriod) seconds...")
+            print("captionData: ", captionData, "jsonRef: ", jsonRef)
+        //} while ( captionData == nil && secondsElapsed < timeout )
+        
+        guard jsonRef != nil else { return }
+        
+        // Delete temporary audio file from bucket in Google Cloud Storage
+        do {
+            print("Deleting temp file(s) from Google Cloud Storage...")
+            try deleteTempFiles(audio: audioRef!, captions: jsonRef!)
+        } catch {
+            print("Error deleting temp file(s) from Google Cloud Storage:  \(error.localizedDescription)")
+            return
         }
-    } while ( jsonRef == nil && secondsElapsed < timeout )
-    // Error handling
-    guard jsonRef != nil else {
-        print("Error downloading captions file: \(downloadError!.localizedDescription)")
-        return initialCaptionsList
-    }
-    
-    _ = semaphore.wait(timeout: .distantFuture)
-    
-    // Delete temporary audio file from bucket in Google Cloud Storage
-    do {
-        print("Deleting temp file(s) from Google Cloud Storage...")
-        try deleteTempFiles(audio: audioRef!, captions: jsonRef!)
-    } catch {
-        print("Error deleting temp file(s) from Google Cloud Storage:  \(error.localizedDescription)")
-    }
-    
-    if captionData != nil {
-        return captionData!
-    } else {
-        return initialCaptionsList
-    }
+        
+        if captionData != nil {
+            state.captions = captionData!
+        } else {
+            state.captions = initialCaptionsList
+        }
+                
+    })
 
 }
 
@@ -298,10 +301,9 @@ func uploadAudio(withURL audioURL: URL, completion: @escaping (StorageReference?
     // Do a PUT request to upload the file and check for errors
     var downloadMetadata: StorageMetadata?
     var error: Error?
-    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in  //FIXME: Sometimes never executes because of the semaphore.wait()
+    uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (md, err) in
         if let err = err { error = err }
         else { downloadMetadata = md }
-        //semaphore.signal()
         
         // Handle the result / error
         if downloadMetadata != nil {
@@ -314,17 +316,12 @@ func uploadAudio(withURL audioURL: URL, completion: @escaping (StorageReference?
             completion(nil, nil)
         }
     }
-    
-    //_ = semaphore.wait(timeout: .distantFuture)
 }
 
 // Download captions file from Google Cloud Storage
-func downloadCaptions(withFileID fileID: String) throws -> (StorageReference? , [Caption]?) {
+func downloadCaptions(withFileID fileID: String, completion: @escaping (StorageReference?, [Caption]?) -> Void) {
     
     var captionsArray: [Caption]?
-    
-    // Semaphore for asynchronous tasks
-    let semaphore = DispatchSemaphore(value: 0)
 
     // Do a GET request to download the captions file and check for errors
     let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
@@ -333,26 +330,26 @@ func downloadCaptions(withFileID fileID: String) throws -> (StorageReference? , 
     storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
         if let error = error { downloadError = error }
         else { responseData = data! }
-        semaphore.signal()
-    }
-    
-    _ = semaphore.wait(timeout: .distantFuture)
-    
-    // Handle the result / error
-    if responseData != nil {
-        print("Captions file succesfully downloaded.")
-    } else { throw downloadError! }
-    
-    // Parse downloaded response as JSON
-    let decoder = JSONDecoder()
-    do {
-        let result = try decoder.decode(JSONResult.self, from: responseData!)
-        captionsArray = result.captions
-        print("Successfully parsed JSON: \(captionsArray!)")
-        return (storageRef, captionsArray)
-    } catch {
-        let JSONParseError: Error = error
-        throw JSONParseError
+
+        // Handle the result / error
+        if responseData != nil {
+            print("Captions file succesfully downloaded.")
+        } else {
+            completion(nil, nil)
+        }
+        
+        // Parse downloaded response as JSON
+        let decoder = JSONDecoder()
+        do {
+            let result = try decoder.decode(JSONResult.self, from: responseData!)
+            captionsArray = result.captions
+            print("Successfully parsed JSON: \(captionsArray!)")
+            completion(storageRef, captionsArray)
+        } catch {
+            print("Error parsing JSON")
+            let JSONParseError: Error = error
+            completion(nil, nil)
+        }
     }
 }
 
