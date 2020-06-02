@@ -70,7 +70,7 @@ struct CaptionList: View {
     }
     
     func modifyEndTime(byStepSize delta: Float) -> Void {
-        self.state.captions[self.state.selectedIndex].endTime += delta
+        state.captions[state.selectedIndex].endTime += delta
     }
     
     func _addCaption() -> Void {
@@ -117,7 +117,7 @@ struct CaptionList: View {
             guard notification.object != nil else { return }
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause: ()  // TODO: if a letter, tag the caption
+            case .pause: self.state.captions[self.state.selectedIndex].tag = notification.object as! String
             case .edit: self.insertCharacter(notification.object as! String)
             case .editStartTime: ()  // TODO: Manipulate float as a string
                 //var strVal = String(self.state.captions[self.state.selectedIndex].startTime)
@@ -178,7 +178,9 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause: self._deleteCaption()
+            case .pause:
+                if self.state.captions[self.state.selectedIndex].tag != "" { self.state.captions[self.state.selectedIndex].tag = "" }
+                else { self._deleteCaption() }
             case .edit: _ = self.state.captions[self.state.selectedIndex].text.popLast()
             case .editStartTime: ()
             case .editEndTime: ()

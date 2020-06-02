@@ -15,7 +15,7 @@ struct ContentView: View {
     
     // To refresh the UI when state changes
     @EnvironmentObject var state: AppState
-    @State private var showFileInput: Bool = true
+    @State private var showFileInput: Bool = false
     @State private var showProgressBar: Bool = false
     
     // Test video
@@ -45,7 +45,7 @@ struct ContentView: View {
                 Text("State: \(stateLabel)")
                 
                 // Video player
-                VideoPlayer(url: state.videoURL)
+                VideoPlayer(url: testVideo)
                     .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
                     .padding(.horizontal, 25)
                     .buttonStyle(BorderlessButtonStyle())

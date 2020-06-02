@@ -135,7 +135,13 @@ struct CaptionRow: View {
             RoundedRectangle(cornerRadius: 10).fill(rowColor)
                 .frame(height: 40)
                 .onTapGesture { self.click(fromView: .row) }
-                
+            
+            // Style tag
+            if caption.tag != "" || (isSelected && state.mode != .play) {
+                Tag(caption.tag)
+                    .offset(x: 180)
+            }
+            
             // Caption contents
             HStack(alignment: .center) {
                 
@@ -244,20 +250,26 @@ struct CaptionRow: View {
     }
 }
 
-/*struct CaptionRow_Previews: PreviewProvider {
+struct CaptionRow_Previews: PreviewProvider {
     
-    static var editState = AppState(mode: .edit)
+    static var playState = AppState(mode: .play)
     static var pauseState = AppState(mode: .pause)
-    
+    static var editState = AppState(mode: .edit)
+    static var index: Int = 0
+
     static var previews: some View {
         
-        VStack {
-            CaptionRow(caption: editState.captions[0])
-                .frame(height: 100)
-                .environmentObject(editState)
-            CaptionRow(caption: pauseState.captions[0])
-                .frame(height: 100)
+        VStack(spacing: 40) {
+            Spacer()
+            CaptionRow(caption: playState.captions[index])
+                .environmentObject(playState)
+            CaptionRow(caption: pauseState.captions[index])
                 .environmentObject(pauseState)
+            CaptionRow(caption: editState.captions[index])
+                .environmentObject(editState)
+            CaptionRow(caption: editState.captions[index+1])
+                .environmentObject(editState)
+            Spacer()
         }
     }
-}*/
+}

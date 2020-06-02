@@ -43,7 +43,8 @@ func addCaption(toArray arrayIn: [Caption], beforeIndex id: Int, atTime end: Flo
         endTime: end,
         duration: duration,
         text: "",
-        speaker: 0)
+        speaker: 0,
+        tag: "")
      
     // Insert new Caption object
     captions.insert(newCaption, at: id)

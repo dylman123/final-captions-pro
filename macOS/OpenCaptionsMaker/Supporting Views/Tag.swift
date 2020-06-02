@@ -10,7 +10,11 @@ import SwiftUI
 
 struct Tag: View {
     
-    @State var symbol: String
+    private var symbol: String
+    
+    init(_ symbol: String = "") {
+        self.symbol = symbol.uppercased()
+    }
     
     var body: some View {
         
@@ -24,6 +28,6 @@ struct Tag: View {
 
 struct Tag_Previews: PreviewProvider {
     static var previews: some View {
-        Tag(symbol: "A")
+        Tag("g")
     }
 }

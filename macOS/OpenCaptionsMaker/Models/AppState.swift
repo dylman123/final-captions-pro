@@ -17,7 +17,7 @@ class AppState: ObservableObject {
     
     // The global array which is to be generated via transcription API and edited by the user
     @Published var captions: [Caption] = sampleCaptionData
-    
+        
     // The mode of the app when editing captions
     @Published var mode: Mode = .pause
     
@@ -54,6 +54,10 @@ class AppState: ObservableObject {
                 NotificationCenter.default.post(name: .seekList, object: inferredIndex)
             }
         }
+    }
+    
+    init(mode: Mode = .pause) {
+        self.mode = mode
     }
 }
 

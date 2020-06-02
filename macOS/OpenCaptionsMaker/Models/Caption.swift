@@ -16,6 +16,7 @@ struct Caption: Hashable, Codable, Identifiable {
     var duration: Float
     var text: String
     var speaker: Int
+    var tag: String = ""
 }
 
 struct JSONResult: Codable {
@@ -33,6 +34,8 @@ struct Style: Identifiable {
     var alignment: TextAlignment
 }
 
+let tagSymbols: [String] = ["A","B","C","D","E","F","G"]
+
 // Set the initial captions list
 let blankCaption: Caption = Caption (
     id: 0,
@@ -40,5 +43,6 @@ let blankCaption: Caption = Caption (
     endTime: 0.0,
     duration: 0.0,
     text: "",
-    speaker: 0)
+    speaker: 0,
+    tag: "")
 let initialCaptionsList: [Caption] = [blankCaption]
