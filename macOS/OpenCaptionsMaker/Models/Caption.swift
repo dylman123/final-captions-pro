@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Caption: Hashable, Codable, Identifiable {
     var id: Int
@@ -19,6 +20,17 @@ struct Caption: Hashable, Codable, Identifiable {
 
 struct JSONResult: Codable {
     var captions: [Caption] = []
+}
+
+struct Style: Identifiable {
+    var id: Int
+    var symbol: String
+    var font: CGFont
+    //var size: Int
+    //var fontFace:
+    //var color: Color
+    var position: CGPoint
+    var alignment: TextAlignment
 }
 
 // Set the initial captions list
