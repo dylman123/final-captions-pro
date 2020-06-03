@@ -102,7 +102,7 @@ struct CaptionList: View {
         //ScrollView(.vertical) {
         //List {
             ForEach(state.captions) { caption in
-                CaptionRow(caption: caption)
+                CaptionRow(self.state, caption)
                     .tag(caption)
                     .padding(.vertical, 5)
                     //.offset(y: self.scrollOffset)

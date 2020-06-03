@@ -10,6 +10,27 @@ import SwiftUI
 
 struct Tag: View {
     
+    var state: AppState
+    var caption: Caption
+    var isSelected: Bool
+    
+    init(_ rowState: RowState) {
+        self.state = rowState.appState
+        self.caption = rowState.caption
+        self.isSelected = rowState.isSelected
+    }
+    
+    var body: some View {
+        if caption.tag != "" || (isSelected && state.mode != .play) {
+            return AnyView(TagView(caption.tag).offset(x: 180))
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+}
+
+struct TagView: View {
+    
     private var symbol: String
     
     init(_ symbol: String = "") {
@@ -29,6 +50,6 @@ struct Tag: View {
 
 struct Tag_Previews: PreviewProvider {
     static var previews: some View {
-        Tag("g")
+        TagView("g")
     }
 }

@@ -8,26 +8,33 @@
 
 import SwiftUI
 
-struct CaptionRow: View {
+enum CaptionElement {
+    case row, text, startTime, endTime
+}
+
+struct RowState {
     
-    // Handle state
-    @EnvironmentObject var state: AppState
-    
-    // The current caption binding
-    var captionBinding: Binding<Caption> {
-        return $state.captions[captionIndex]
+    // To index the current row
+    var index: Int {
+        return appState.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
     }
     
     // Logic to select caption
     var isSelected: Bool {
-        if state.selectedIndex == captionIndex { return true }
+        if appState.selectedIndex == index { return true }
         else { return false }
     }
-        
+    
+    // To track whether user can do a double click
+    var clickNumber: Int {
+        if isSelected { return 2 }
+        else { return 1 }
+    }
+    
     // Display caption color
-    var rowColor: Color {
+    var color: Color {
         if isSelected {
-            switch state.mode {
+            switch appState.mode {
             case .play: return Color.blue.opacity(0.5)
             case .pause: return Color.gray.opacity(0.5)
             case .edit: return Color.yellow.opacity(0.5)
@@ -40,12 +47,121 @@ struct CaptionRow: View {
         }
     }
     
-    // The current caption object
+    // App state
+    var appState: AppState
+    
+    // The caption object for the current row
     var caption: Caption
     
-    // To index the current caption
-    var captionIndex: Int {
-        return state.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+    init(_ appState: AppState, _ caption: Caption) {
+        self.appState = appState
+        self.caption = caption
+    }
+}
+
+// Set state on mouse click event
+func click(row: RowState, view: CaptionElement) -> Void {
+    let state = row.appState
+    let isSelected = row.isSelected
+    let captionIndex = row.index
+    switch view {
+    case .row:
+        switch state.mode {
+        case .play: state.transition(to: .pause)
+        case .pause: if isSelected { state.transition(to: .edit) }
+        case .edit: state.transition(to: .pause)
+        case .editStartTime: state.transition(to: .pause)
+        case .editEndTime: state.transition(to: .pause)
+        }
+    case .text:
+        switch state.mode {
+        case .play: state.transition(to: .pause)
+        case .pause: if isSelected { state.transition(to: .edit) }
+        case .edit: state.transition(to: .pause)
+        case .editStartTime: state.transition(to: .edit)
+        case .editEndTime: state.transition(to: .edit)
+        }
+    case .startTime:
+        switch state.mode {
+        case .play: state.transition(to: .pause)
+        case .pause: if isSelected { state.transition(to: .editStartTime) }
+        case .edit: state.transition(to: .editStartTime)
+        case .editStartTime: ()
+        case .editEndTime: state.transition(to: .editStartTime)
+        }
+    case .endTime:
+        switch state.mode {
+        case .play: state.transition(to: .pause)
+        case .pause: if isSelected { state.transition(to: .editEndTime) }
+        case .edit: state.transition(to: .editEndTime)
+        case .editStartTime: state.transition(to: .editEndTime)
+        case .editEndTime: ()
+        }
+    }
+    state.selectedIndex = captionIndex  // Calling caption becomes selected
+    state.syncVideoAndList(isListControlling: true)
+}
+
+// ViewModifier allows each subview to be clicked once or twice (when appropriate)
+struct Clickable: ViewModifier {
+    var row: RowState
+    var view: CaptionElement
+    
+    func body(content: Content) -> some View {
+        content
+        .onTapGesture(count: row.clickNumber) {
+                click(row: self.row, view: self.view)
+        }
+        .onTapGesture(count: 1) {
+            click(row: self.row, view: self.view)
+        }
+    }
+}
+
+// Custom modifier to make a subview clickable
+extension View {
+    func clickable(_ row: RowState, fromView view: CaptionElement) -> some View {
+        self.modifier(Clickable(row: row, view: view))
+    }
+}
+
+// Draw a box when element is selected
+struct SelectionBox: View {
+    
+    var body: some View {
+        RoundedRectangle(cornerRadius: 5)
+            .fill(Color.clear)
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .strokeBorder(Color.white, lineWidth: 2)
+            )
+    }
+}
+
+struct CaptionRow: View {
+    
+    // Handle state
+    @EnvironmentObject var appState: AppState
+    private var row: RowState  // An object to hold the state of the current row
+    private var caption: Caption  // The caption object in the current row
+    private var isSelected: Bool  // Is the current row selected?
+    private var index: Int  // The current row's index in the list
+    private var clickNumber: Int  // An integer to define clicking behaviour
+    private var color: Color  // The current row's colour
+
+    // The current caption binding
+    var binding: Binding<Caption> {
+        return $appState.captions[index]
+    }
+    
+    init(_ appState: AppState, _ caption: Caption) {
+        // RowState cannot inherent appState from the environment, needs to be passed in as an argument.
+        self.row = RowState(appState, caption)
+        self.caption = row.caption
+        self.isSelected = row.isSelected
+        self.index = row.index
+        self.clickNumber = row.clickNumber
+        self.color = row.color
     }
     
     // To format the time values in text
@@ -59,69 +175,6 @@ struct CaptionRow: View {
     // To format the plus button
     var buttonStyle = BorderlessButtonStyle()
     
-    enum CaptionElement {
-        case row, text, startTime, endTime
-    }
-    
-    // Select single or double click
-    var clickNumber: Int {
-        if isSelected { return 2 }
-        else { return 1 }
-    }
-    
-    // Set state on mouse click event
-    func click(fromView view: CaptionElement) -> Void {
-        switch view {
-        case .row:
-            switch state.mode {
-            case .play: state.transition(to: .pause)
-            case .pause: if isSelected { state.transition(to: .edit) }
-            case .edit: state.transition(to: .pause)
-            case .editStartTime: state.transition(to: .pause)
-            case .editEndTime: state.transition(to: .pause)
-            }
-        case .text:
-            switch state.mode {
-            case .play: state.transition(to: .pause)
-            case .pause: if isSelected { state.transition(to: .edit) }
-            case .edit: state.transition(to: .pause)
-            case .editStartTime: state.transition(to: .edit)
-            case .editEndTime: state.transition(to: .edit)
-            }
-        case .startTime:
-            switch state.mode {
-            case .play: state.transition(to: .pause)
-            case .pause: if isSelected { state.transition(to: .editStartTime) }
-            case .edit: state.transition(to: .editStartTime)
-            case .editStartTime: ()
-            case .editEndTime: state.transition(to: .editStartTime)
-            }
-        case .endTime:
-            switch state.mode {
-            case .play: state.transition(to: .pause)
-            case .pause: if isSelected { state.transition(to: .editEndTime) }
-            case .edit: state.transition(to: .editEndTime)
-            case .editStartTime: state.transition(to: .editEndTime)
-            case .editEndTime: ()
-            }
-        }
-        state.selectedIndex = captionIndex  // Calling caption becomes selected
-        state.syncVideoAndList(isListControlling: true)
-    }
-    
-    // Draw a box when element is selected
-    struct SelectionBox: View {
-        
-        var body: some View {
-            RoundedRectangle(cornerRadius: 5)
-                .fill(Color.clear)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 5)
-                        .strokeBorder(Color.white, lineWidth: 2)
-                )
-        }
-    }
-    
     // Geometric variables for even spacing
     // Caption timing values
     let timeWidth = CGFloat(100.0)
@@ -132,24 +185,18 @@ struct CaptionRow: View {
     let deltaOffset = CGFloat(6.0)
     // Scrollbar
     let scrollbarPadding = CGFloat(20.0)
-    
+        
     var body: some View {
         
         ZStack {
         
             // Row background
-            RoundedRectangle(cornerRadius: 10).fill(rowColor)
+            RoundedRectangle(cornerRadius: 10).fill(color)
                 .frame(height: 40)
-                .onTapGesture(count: self.clickNumber) { self.click(fromView: .row) }
-                .onTapGesture(count: 1) { self.click(fromView: .row) }
+                .clickable(row, fromView: .row)
             
             // Style tag
-            if caption.tag != "" || (isSelected && state.mode != .play) {
-                Tag(caption.tag)
-                    .offset(x: 180)
-                    .onTapGesture(count: self.clickNumber) { self.click(fromView: .row) }
-                    .onTapGesture(count: 1) { self.click(fromView: .row) }
-            }
+            Tag(row).clickable(row, fromView: .row)
             
             // Caption contents
             HStack(alignment: .center) {
@@ -159,38 +206,34 @@ struct CaptionRow: View {
                     VStack {
                         
                         // Start Time
-                        if state.mode == .editStartTime {
-                            Stepper(value: captionBinding.startTime, step: -0.1) {
+                        if appState.mode == .editStartTime {
+                            Stepper(value: binding.startTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.startTime))
-                                        .onTapGesture(count: self.clickNumber) { self.click(fromView: .startTime) }
-                                        .onTapGesture(count: 1) { self.click(fromView: .startTime) }
+                                        .clickable(row, fromView: .startTime)
                                     SelectionBox()
                                 }
                             }
                             .padding(.leading, timePadding)
                         } else {
                             Text(String(format: "%.1f", caption.startTime))
-                                .onTapGesture(count: self.clickNumber) { self.click(fromView: .startTime) }
-                                .onTapGesture(count: 1) { self.click(fromView: .startTime) }
+                                .clickable(row, fromView: .startTime)
                         }
                         Spacer()
                         
                         // End Time
-                        if state.mode == .editEndTime {
-                            Stepper(value: captionBinding.endTime, step: -0.1) {
+                        if appState.mode == .editEndTime {
+                            Stepper(value: binding.endTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.endTime))
-                                        .onTapGesture(count: self.clickNumber) { self.click(fromView: .endTime) }
-                                        .onTapGesture(count: 1) { self.click(fromView: .endTime) }
+                                        .clickable(row, fromView: .endTime)
                                     SelectionBox()
                                 }
                             }
                             .padding(.leading, timePadding)
                         } else {
                             Text(String(format: "%.1f", caption.endTime))
-                                .onTapGesture(count: self.clickNumber) { self.click(fromView: .endTime) }
-                                .onTapGesture(count: 1) { self.click(fromView: .endTime) }
+                                .clickable(row, fromView: .endTime)
                         }
                     }
                     .frame(width: timeWidth)
@@ -198,17 +241,16 @@ struct CaptionRow: View {
                     
                     // Caption text
                     ZStack {
-                        if state.mode == .play {
+                        if appState.mode == .play {
                             Text(caption.text).offset(x: -5)
-                        } else if state.mode == .edit {
+                        } else if appState.mode == .edit {
                             Text(caption.text + "|").offset(x: 2)  // TODO: Make cursor blink
                             SelectionBox()
                         } else { Text(caption.text) }
                     }
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                    .onTapGesture(count: self.clickNumber) { self.click(fromView: .text) }
-                    .onTapGesture(count: 1) { self.click(fromView: .text) }
+                    .clickable(row, fromView: .text)
                     .offset(x: textOffset + deltaOffset)
                     .frame(width: textWidth)
                     Spacer()
@@ -216,8 +258,8 @@ struct CaptionRow: View {
                     VStack {
                         // Plus button
                         Button(action: {
-                            self.state.captions = addCaption(toArray: self.state.captions, beforeIndex: self.captionIndex, atTime: self.caption.startTime)
-                        }) { if state.mode != .play {  // Don't show +- buttons in play mode
+                            self.appState.captions = addCaption(toArray: self.appState.captions, beforeIndex: self.index, atTime: self.caption.startTime)
+                        }) { if appState.mode != .play {  // Don't show +- buttons in play mode
                             IconView("NSAddTemplate")
                                 .frame(width: 12, height: 12)
                             }
@@ -225,9 +267,9 @@ struct CaptionRow: View {
                         
                         // Minus button
                         Button(action: {
-                            self.state.captions = deleteCaption(fromArray: self.state.captions, atIndex: self.captionIndex)
+                            self.appState.captions = deleteCaption(fromArray: self.appState.captions, atIndex: self.index)
                         }) {
-                            if (state.mode != .play) && (state.captions.count > 1) {  // Don't give option to delete when only 1 caption is in list
+                            if (appState.mode != .play) && (appState.captions.count > 1) {  // Don't give option to delete when only 1 caption is in list
                                 IconView("NSRemoveTemplate")
                                 .frame(width: 12, height: 12)
                             }
@@ -235,17 +277,15 @@ struct CaptionRow: View {
                     }
                     .buttonStyle(buttonStyle)
                     
-                } else if !isSelected {
+                } else if !row.isSelected {
                     
                     // Display caption timings
                     VStack {
                         Text(String(format: "%.1f", caption.startTime))
-                            .onTapGesture(count: self.clickNumber) { self.click(fromView: .startTime) }
-                            .onTapGesture(count: 1) { self.click(fromView: .startTime) }
+                            .clickable(row, fromView: .startTime)
                         Spacer()
                         Text(String(format: "%.1f", caption.endTime))
-                           .onTapGesture(count: self.clickNumber) { self.click(fromView: .endTime) }
-                            .onTapGesture(count: 1) { self.click(fromView: .endTime) }
+                           .clickable(row, fromView: .endTime)
                     }
                     .frame(width: timeWidth)
                     Spacer()
@@ -256,8 +296,7 @@ struct CaptionRow: View {
                         .lineLimit(2)
                         .frame(width: textWidth)
                         .offset(x: textOffset)
-                        .onTapGesture(count: self.clickNumber) { self.click(fromView: .text) }
-                        .onTapGesture(count: 1) { self.click(fromView: .text) }
+                        .clickable(row, fromView: .text)
                     Spacer()
                 }
             }
@@ -278,13 +317,13 @@ struct CaptionRow_Previews: PreviewProvider {
         
         VStack(spacing: 40) {
             Spacer()
-            CaptionRow(caption: playState.captions[index])
+            CaptionRow(playState, playState.captions[index])
                 .environmentObject(playState)
-            CaptionRow(caption: pauseState.captions[index])
+            CaptionRow(pauseState, pauseState.captions[index])
                 .environmentObject(pauseState)
-            CaptionRow(caption: editState.captions[index])
+            CaptionRow(editState, editState.captions[index])
                 .environmentObject(editState)
-            CaptionRow(caption: editState.captions[index+1])
+            CaptionRow(editState, editState.captions[index+1])
                 .environmentObject(editState)
             Spacer()
         }
