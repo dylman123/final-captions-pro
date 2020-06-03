@@ -10,18 +10,21 @@ import Foundation
 import SwiftUI
 
 struct Caption: Hashable, Codable, Identifiable {
-    var id: Int
-    var startTime: Float
-    var endTime: Float
-    var duration: Float
-    var text: String
-    var speaker: Int
+    var id: Int = 0
+    var startTime: Float = 0.0
+    var endTime: Float = 0.0
+    var duration: Float = 0.0
+    var text: String = ""
+    var speaker: Int = 0
     var tag: String = ""
 }
 
 struct JSONResult: Codable {
     var captions: [Caption] = []
 }
+
+// Set the initial captions list
+let initialCaptionsList: [Caption] = [Caption()]
 
 struct Style: Identifiable {
     var id: Int
@@ -33,16 +36,3 @@ struct Style: Identifiable {
     var position: CGPoint
     var alignment: TextAlignment
 }
-
-let tagSymbols: [String] = ["A","B","C","D","E","F","G"]
-
-// Set the initial captions list
-let blankCaption: Caption = Caption (
-    id: 0,
-    startTime: 0.0,
-    endTime: 0.0,
-    duration: 0.0,
-    text: "",
-    speaker: 0,
-    tag: "")
-let initialCaptionsList: [Caption] = [blankCaption]
