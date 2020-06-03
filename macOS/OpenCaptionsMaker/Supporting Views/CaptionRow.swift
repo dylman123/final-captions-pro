@@ -63,6 +63,12 @@ struct CaptionRow: View {
         case row, text, startTime, endTime
     }
     
+    // Select single or double click
+    var clickNumber: Int {
+        if isSelected { return 2 }
+        else { return 1 }
+    }
+    
     // Set state on mouse click event
     func click(fromView view: CaptionElement) -> Void {
         switch view {
@@ -134,12 +140,15 @@ struct CaptionRow: View {
             // Row background
             RoundedRectangle(cornerRadius: 10).fill(rowColor)
                 .frame(height: 40)
-                .onTapGesture { self.click(fromView: .row) }
+                .onTapGesture(count: self.clickNumber) { self.click(fromView: .row) }
+                .onTapGesture(count: 1) { self.click(fromView: .row) }
             
             // Style tag
             if caption.tag != "" || (isSelected && state.mode != .play) {
                 Tag(caption.tag)
                     .offset(x: 180)
+                    .onTapGesture(count: self.clickNumber) { self.click(fromView: .row) }
+                    .onTapGesture(count: 1) { self.click(fromView: .row) }
             }
             
             // Caption contents
@@ -154,14 +163,16 @@ struct CaptionRow: View {
                             Stepper(value: captionBinding.startTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.startTime))
-                                        .onTapGesture { self.click(fromView: .startTime) }
+                                        .onTapGesture(count: self.clickNumber) { self.click(fromView: .startTime) }
+                                        .onTapGesture(count: 1) { self.click(fromView: .startTime) }
                                     SelectionBox()
                                 }
                             }
                             .padding(.leading, timePadding)
                         } else {
                             Text(String(format: "%.1f", caption.startTime))
-                                .onTapGesture { self.click(fromView: .startTime) }
+                                .onTapGesture(count: self.clickNumber) { self.click(fromView: .startTime) }
+                                .onTapGesture(count: 1) { self.click(fromView: .startTime) }
                         }
                         Spacer()
                         
@@ -170,14 +181,16 @@ struct CaptionRow: View {
                             Stepper(value: captionBinding.endTime, step: -0.1) {
                                 ZStack {
                                     Text(String(format: "%.1f", caption.endTime))
-                                        .onTapGesture { self.click(fromView: .endTime) }
+                                        .onTapGesture(count: self.clickNumber) { self.click(fromView: .endTime) }
+                                        .onTapGesture(count: 1) { self.click(fromView: .endTime) }
                                     SelectionBox()
                                 }
                             }
                             .padding(.leading, timePadding)
                         } else {
                             Text(String(format: "%.1f", caption.endTime))
-                                .onTapGesture { self.click(fromView: .endTime) }
+                                .onTapGesture(count: self.clickNumber) { self.click(fromView: .endTime) }
+                                .onTapGesture(count: 1) { self.click(fromView: .endTime) }
                         }
                     }
                     .frame(width: timeWidth)
@@ -194,7 +207,8 @@ struct CaptionRow: View {
                     }
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                    .onTapGesture { self.click(fromView: .text) }
+                    .onTapGesture(count: self.clickNumber) { self.click(fromView: .text) }
+                    .onTapGesture(count: 1) { self.click(fromView: .text) }
                     .offset(x: textOffset + deltaOffset)
                     .frame(width: textWidth)
                     Spacer()
@@ -226,10 +240,12 @@ struct CaptionRow: View {
                     // Display caption timings
                     VStack {
                         Text(String(format: "%.1f", caption.startTime))
-                            .onTapGesture { self.click(fromView: .startTime) }
+                            .onTapGesture(count: self.clickNumber) { self.click(fromView: .startTime) }
+                            .onTapGesture(count: 1) { self.click(fromView: .startTime) }
                         Spacer()
                         Text(String(format: "%.1f", caption.endTime))
-                           .onTapGesture { self.click(fromView: .endTime) }
+                           .onTapGesture(count: self.clickNumber) { self.click(fromView: .endTime) }
+                            .onTapGesture(count: 1) { self.click(fromView: .endTime) }
                     }
                     .frame(width: timeWidth)
                     Spacer()
@@ -240,7 +256,8 @@ struct CaptionRow: View {
                         .lineLimit(2)
                         .frame(width: textWidth)
                         .offset(x: textOffset)
-                        .onTapGesture { self.click(fromView: .text) }
+                        .onTapGesture(count: self.clickNumber) { self.click(fromView: .text) }
+                        .onTapGesture(count: 1) { self.click(fromView: .text) }
                     Spacer()
                 }
             }

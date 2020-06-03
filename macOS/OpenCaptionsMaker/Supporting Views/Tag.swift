@@ -22,6 +22,7 @@ struct Tag: View {
             IconView("NSTouchBarTagIconTemplate")
             Text(symbol)
         }
+        .frame(width: 30, height: 20)
         
     }
 }
