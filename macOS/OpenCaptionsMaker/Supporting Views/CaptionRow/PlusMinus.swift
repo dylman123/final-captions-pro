@@ -61,5 +61,6 @@ struct PlusMinus: View {
 struct PlusMinus_Previews: PreviewProvider {
     static var previews: some View {
         PlusMinus(RowState(AppState(), Caption()))
+            .environmentObject(AppState())
     }
 }

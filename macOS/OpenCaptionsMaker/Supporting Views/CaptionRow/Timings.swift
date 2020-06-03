@@ -103,5 +103,6 @@ struct Timings: View {
 struct Timings_Previews: PreviewProvider {
     static var previews: some View {
         Timings(RowState(AppState(), Caption()))
+            .environmentObject(AppState())
     }
 }

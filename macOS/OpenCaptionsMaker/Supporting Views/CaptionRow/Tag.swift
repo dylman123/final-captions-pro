@@ -63,5 +63,6 @@ struct TagView: View {
 struct Tag_Previews: PreviewProvider {
     static var previews: some View {
         TagView("g")
+            .environmentObject(AppState())
     }
 }

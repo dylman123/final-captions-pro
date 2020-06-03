@@ -66,5 +66,6 @@ struct TextView: View {
 struct TextView_Previews: PreviewProvider {
     static var previews: some View {
         TextView(RowState(AppState(), Caption()))
+            .environmentObject(AppState())
     }
 }
