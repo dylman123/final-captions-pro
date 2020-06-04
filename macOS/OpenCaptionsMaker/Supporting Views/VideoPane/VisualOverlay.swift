@@ -18,6 +18,7 @@ struct VisualOverlay: View {
         return captions[index].text
     }
     
+    @State private var offset = CGSize.zero
     private var xPos: CGFloat = 0.0
     private var yPos: CGFloat = 200.0
     
@@ -28,8 +29,16 @@ struct VisualOverlay: View {
             Rectangle().fill(Color.blue.opacity(0.001))
             
             Text(text)
-            .offset(x: xPos, y: yPos)
-                .onDrag({ NSItemProvider()})  // this is currently crashing the app
+                .offset(x: offset.width, y: offset.height)
+                .gesture(
+                    DragGesture()
+                        .onChanged { gesture in
+                            self.offset = gesture.translation
+                        }
+
+                        .onEnded { _ in
+                        }
+                )
         }
     }
 }
