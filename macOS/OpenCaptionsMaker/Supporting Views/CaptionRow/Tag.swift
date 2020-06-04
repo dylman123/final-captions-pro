@@ -46,7 +46,7 @@ struct TagView: View {
     private var symbol: String
     
     init(_ symbol: String = "") {
-        self.symbol = symbol.uppercased()
+        self.symbol = symbol
     }
     
     var body: some View {

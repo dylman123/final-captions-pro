@@ -32,6 +32,7 @@
 		A3E4CB8C2487D8BC0046A1BA /* SelectionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB8B2487D8BC0046A1BA /* SelectionBox.swift */; };
 		A3E4CB902487DA2C0046A1BA /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB8F2487DA2C0046A1BA /* TextView.swift */; };
 		A3E4CB922487DE440046A1BA /* PlusMinus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB912487DE440046A1BA /* PlusMinus.swift */; };
+		A3E4CB952488A9840046A1BA /* VisualOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB942488A9840046A1BA /* VisualOverlay.swift */; };
 		A3E663272467C4080013450E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E663262467C4080013450E /* Utilities.swift */; };
 		A3E6632B2467CE740013450E /* fcpxml-v1.8.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A3E663282467CE740013450E /* fcpxml-v1.8.dtd */; };
 		A3E6632C2467CE740013450E /* title.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E663292467CE740013450E /* title.fcpxml */; };
@@ -96,6 +97,7 @@
 		A3E4CB8B2487D8BC0046A1BA /* SelectionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionBox.swift; sourceTree = "<group>"; };
 		A3E4CB8F2487DA2C0046A1BA /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		A3E4CB912487DE440046A1BA /* PlusMinus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMinus.swift; sourceTree = "<group>"; };
+		A3E4CB942488A9840046A1BA /* VisualOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualOverlay.swift; sourceTree = "<group>"; };
 		A3E663262467C4080013450E /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		A3E663282467CE740013450E /* fcpxml-v1.8.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "fcpxml-v1.8.dtd"; sourceTree = "<group>"; };
 		A3E663292467CE740013450E /* title.fcpxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = title.fcpxml; sourceTree = "<group>"; };
@@ -204,10 +206,10 @@
 		A37FD14C2447247200CD1C15 /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
+				A3E4CB932488A6FA0046A1BA /* VideoPane */,
 				A3E4CB8E2487D9F30046A1BA /* CaptionList */,
 				A3E4CB8D2487D92E0046A1BA /* CaptionRow */,
 				A36655BC24499293002FA173 /* AppKitElements.swift */,
-				A37FD1542448788100CD1C15 /* VideoPlayer.swift */,
 				A36655CD244D7E95002FA173 /* FileInput.swift */,
 				A36655D1244DC0DA002FA173 /* MainMenu.xib */,
 			);
@@ -249,6 +251,15 @@
 				A3E4CB852484E7630046A1BA /* CustomScrollView.swift */,
 			);
 			path = CaptionList;
+			sourceTree = "<group>";
+		};
+		A3E4CB932488A6FA0046A1BA /* VideoPane */ = {
+			isa = PBXGroup;
+			children = (
+				A37FD1542448788100CD1C15 /* VideoPlayer.swift */,
+				A3E4CB942488A9840046A1BA /* VisualOverlay.swift */,
+			);
+			path = VideoPane;
 			sourceTree = "<group>";
 		};
 		A3EB489D2445A1D10077E555 = {
@@ -569,6 +580,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A36655E224540CDA002FA173 /* editCaptions.swift in Sources */,
+				A3E4CB952488A9840046A1BA /* VisualOverlay.swift in Sources */,
 				A36655C5244A8F1D002FA173 /* AppState.swift in Sources */,
 				A3E4CB84247E421E0046A1BA /* OffsetScrollView.swift in Sources */,
 				A37FD1432446C99D00CD1C15 /* Headers.swift in Sources */,

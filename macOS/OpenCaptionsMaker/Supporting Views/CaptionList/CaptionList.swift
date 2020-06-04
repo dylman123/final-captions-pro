@@ -115,10 +115,11 @@ struct CaptionList: View {
         // Keyboard press logic
         .onReceive(NotificationCenter.default.publisher(for: .character)) { notification in
             guard notification.object != nil else { return }
+            let char = notification.object as! String
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause: self.state.captions[self.state.selectedIndex].tag = notification.object as! String
-            case .edit: self.insertCharacter(notification.object as! String)
+            case .pause: self.state.captions[self.state.selectedIndex].tag = char.uppercased()
+            case .edit: self.insertCharacter(char)
             case .editStartTime: ()  // TODO: Manipulate float as a string
                 //var strVal = String(self.state.captions[self.state.selectedIndex].startTime)
                 //strVal += String(describing: notification.object!)
