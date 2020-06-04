@@ -10,19 +10,19 @@ import Foundation
 
 // Adds a blank caption into the row above the selected cell.
 // The new caption's end time will match the caller caption's start time.
-func addCaption(toArray arrayIn: [Caption], beforeIndex id: Int, atTime end: Float) -> [Caption] {
+func addCaption(toArray arrayIn: [Caption], beforeIndex insertedIndex: Int, atTime end: Float) -> [Caption] {
     var captions = arrayIn
     
     // Increment all subsequent captions' ids
     for idx in 0..<captions.count {
-        if captions[idx].id >= id {
-            captions[idx].id += 1
+        if captions[idx].index >= insertedIndex {
+            captions[idx].index += 1
         }
     }
      
     // Compute timing values
     var prev_end: Float? {
-        if id != 0 { return captions[id-1].endTime }
+        if insertedIndex != 0 { return captions[insertedIndex-1].endTime }
         else { return nil }
     }
     let buffer: Float = 1.0 // seconds before previous caption's start
@@ -38,7 +38,7 @@ func addCaption(toArray arrayIn: [Caption], beforeIndex id: Int, atTime end: Flo
     let duration: Float = end - start
      
     let newCaption = Caption(
-        id: id,
+        index: insertedIndex,
         startTime: start,
         endTime: end,
         duration: duration,
@@ -47,22 +47,22 @@ func addCaption(toArray arrayIn: [Caption], beforeIndex id: Int, atTime end: Flo
         tag: "")
      
     // Insert new Caption object
-    captions.insert(newCaption, at: id)
+    captions.insert(newCaption, at: insertedIndex)
     
     return captions
 }
  
 // Deletes the selected cell
-func deleteCaption(fromArray arrayIn: [Caption], atIndex id: Int) -> [Caption] {
+func deleteCaption(fromArray arrayIn: [Caption], atIndex deletedIndex: Int) -> [Caption] {
     var captions = arrayIn
     
     // Remove current Caption object from captions list
-    captions.remove(at: id)
+    captions.remove(at: deletedIndex)
      
     // Decrement all subsequent captions' ids
     for idx in 0..<captions.count {
-        if captions[idx].id >= id {
-            captions[idx].id -= 1
+        if captions[idx].index >= deletedIndex {
+            captions[idx].index -= 1
         }
     }
     

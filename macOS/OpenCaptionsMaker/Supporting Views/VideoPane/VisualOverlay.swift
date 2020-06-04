@@ -37,6 +37,7 @@ struct VisualOverlay: View {
                         }
 
                         .onEnded { _ in
+                            self.offset = .zero
                         }
                 )
         }

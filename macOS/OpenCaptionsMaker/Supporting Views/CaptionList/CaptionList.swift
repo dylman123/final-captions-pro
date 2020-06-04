@@ -92,6 +92,23 @@ struct CaptionList: View {
         state.captions[state.selectedIndex].text += char
     }
     
+    func tag(withSymbol key: String) -> Void {
+        let char = Character(key)
+        
+        if char.isLetter == true {
+            self.state.captions[self.state.selectedIndex].tag = key.uppercased()
+            
+            // Check if style already exists
+            for style in state.styles {
+                if style.symbol == char { return }
+            }
+            
+            // If style does not exist, create a new style
+            let newStyle = Style(symbol: char, font: "Arial", position: CGPoint(), alignment: "Center")
+            self.state.styles.append(newStyle)
+        }
+    }
+    
     //init() {
     //    scrollBinding = scrollOffset as Binding<CGPoint>
     //}
@@ -115,11 +132,11 @@ struct CaptionList: View {
         // Keyboard press logic
         .onReceive(NotificationCenter.default.publisher(for: .character)) { notification in
             guard notification.object != nil else { return }
-            let char = notification.object as! String
+            let key = notification.object as! String
             switch self.state.mode {
             case .play: self.state.transition(to: .pause)
-            case .pause: self.state.captions[self.state.selectedIndex].tag = char.uppercased()
-            case .edit: self.insertCharacter(char)
+            case .pause: self.tag(withSymbol: key)
+            case .edit: self.insertCharacter(key)
             case .editStartTime: ()  // TODO: Manipulate float as a string
                 //var strVal = String(self.state.captions[self.state.selectedIndex].startTime)
                 //strVal += String(describing: notification.object!)
