@@ -265,10 +265,17 @@ struct VideoPlayerContainerView : View {
 
     var body: some View {
         VStack {
-            VideoPlayerPaneView(videoPos: $state.videoPos,
-                            videoDuration: $state.videoDuration,
-                            seeking: $seeking,
-                            player: player)
+            ZStack {
+                VideoPlayerPaneView(videoPos: $state.videoPos,
+                                videoDuration: $state.videoDuration,
+                                seeking: $seeking,
+                                player: player)
+                VisualOverlay()
+                .onTapGesture {
+                    if self.state.mode == .play { self.state.transition(to: .pause) }
+                    else { self.state.transition(to: .play) }
+                }
+            }
             VideoPlayerControlsView(videoPos: $state.videoPos,
                                     videoDuration: $state.videoDuration,
                                     seeking: $seeking,

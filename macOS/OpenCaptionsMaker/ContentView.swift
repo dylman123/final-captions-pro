@@ -43,12 +43,12 @@ struct ContentView: View {
             
             VStack {
                 Text("State: \(stateLabel)")
-                
+
                 // Video player
                 VideoPlayer(url: testVideo)
-                    .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
-                    .padding(.horizontal, 25)
-                    .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(BorderlessButtonStyle())
+                .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
+                .padding(.horizontal, 25)
             }
 
             
