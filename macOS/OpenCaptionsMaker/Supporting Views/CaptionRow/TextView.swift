@@ -16,34 +16,20 @@ struct TextView: View {
     let deltaOffset = CGFloat(6.0)
     
     // Variables
-    @EnvironmentObject var appState: AppState
-    private var row: RowState  // An object to hold the state of the current row
-    private var caption: Caption  // The caption object in the current row
-    private var isSelected: Bool  // Is the current row selected?
-    private var index: Int  // The current row's index in the list
-    private var clickNumber: Int  // An integer to define clicking behaviour
-    private var color: Color  // The current row's colour
-    
-    init(_ row: RowState) {
-        self.row = row
-        self.caption = row.caption
-        self.isSelected = row.isSelected
-        self.index = row.index
-        self.clickNumber = row.clickNumber
-        self.color = row.color
-    }
+    @EnvironmentObject var app: AppState
+    @EnvironmentObject var row: RowState
     
     var body: some View {
         
-        if isSelected {
+        if row.isSelected {
             // Caption text
             return AnyView(ZStack {
-                if appState.mode == .play {
-                    Text(caption.text).offset(x: -5)
-                } else if appState.mode == .edit {
-                    Text(caption.text + "|").offset(x: 2)  // TODO: Make cursor blink
+                if app.mode == .play {
+                    Text(row.data.caption.text).offset(x: -5)
+                } else if app.mode == .edit {
+                    Text(row.data.caption.text + "|").offset(x: 2)  // TODO: Make cursor blink
                     SelectionBox()
-                } else { Text(caption.text) }
+                } else { Text(row.data.caption.text) }
             }
             .multilineTextAlignment(.center)
             .lineLimit(2)
@@ -53,7 +39,7 @@ struct TextView: View {
         
         }
         else {
-            return AnyView(Text(caption.text)
+            return AnyView(Text(row.data.caption.text)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .frame(width: textWidth)
@@ -65,7 +51,8 @@ struct TextView: View {
 
 struct TextView_Previews: PreviewProvider {
     static var previews: some View {
-        TextView(RowState(AppState(), Caption()))
-            .environmentObject(AppState())
+        TextView()
+        .environmentObject(AppState())
+        .environmentObject(RowState())
     }
 }

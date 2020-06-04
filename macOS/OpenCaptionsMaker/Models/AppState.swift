@@ -15,8 +15,11 @@ enum Mode {
 
 class AppState: ObservableObject {
     
-    // The array which is to be generated via transcription API and edited by the user
-    @Published var captions: [EditableCaption] = sampleCaptionData
+    // The array of styled captions which is to be edited by the user
+    @Published var userData: [StyledCaption] = sampleCaptionData
+    
+    // The array which stores captions as they return from the transcription API
+    @Published var transcriptions: [Caption] = []
     
     // The array which stores various caption styles, editible by the user
     @Published var styles: [Style] = []
@@ -46,8 +49,8 @@ class AppState: ObservableObject {
     // Sync video playback with list index
     func syncVideoAndList(isListControlling: Bool) -> Void {
         let timestamp = videoPos * videoDuration
-        let inferredVideoPos = Double(captions[selectedIndex].startTime) / videoDuration
-        let inferredIndex = captions.firstIndex(where: { timestamp <= Double($0.endTime) }) ?? 0
+        let inferredVideoPos = Double(userData[selectedIndex].caption.startTime) / videoDuration
+        let inferredIndex = userData.firstIndex(where: { timestamp <= Double($0.caption.endTime) }) ?? 0
         
         DispatchQueue.main.async {
             if isListControlling {
@@ -63,5 +66,3 @@ class AppState: ObservableObject {
         self.mode = mode
     }
 }
-
-var sampleCaptionData: [Caption] = load("captionDataLong")

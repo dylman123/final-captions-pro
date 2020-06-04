@@ -10,8 +10,8 @@ import Foundation
 import AVFoundation
 import Firebase
 
-// Generates captions by using a transcription service
-func generateCaptions(_ state: AppState) -> Void {
+// Generates transcriptions by using a transcription service
+func generateCaptions(_ app: AppState) -> Void {
     
     // Semaphore for asynchronous tasks
     let semaphore = DispatchSemaphore(value: 0)
@@ -23,11 +23,11 @@ func generateCaptions(_ state: AppState) -> Void {
     var m4aURL: URL?
     do {
         print("Extracting audio from video file...")
-        m4aURL = try extractAudio(fromVideoFile: state.videoURL)
+        m4aURL = try extractAudio(fromVideoFile: app.videoURL)
         semaphore.signal()
     } catch {
         print("Error extracting audio from video file: \(error): \(error.localizedDescription)")
-        state.captions = initialCaptionsList
+        app.transcriptions = initialCaptionsList
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
@@ -40,7 +40,7 @@ func generateCaptions(_ state: AppState) -> Void {
         semaphore.signal()
     } catch {
         print("Error converting .m4a to .wav format: \(error.localizedDescription)")
-        state.captions = initialCaptionsList
+        app.transcriptions = initialCaptionsList
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
@@ -65,7 +65,7 @@ func generateCaptions(_ state: AppState) -> Void {
         audioRef = ref
         fileID = id
         
-        // Short poll the remote server to download captions JSON from Google Cloud Storage
+        // Short poll the remote server to download transcriptions JSON from Google Cloud Storage
         let timeout: Int = 60  // in secs
         let pollPeriod: Int = 5  // in secs
         var secondsElapsed: Int = 0
@@ -74,7 +74,7 @@ func generateCaptions(_ state: AppState) -> Void {
         var captionData: [Caption]?
         
         //repeat {
-            print("Attempting to download captions file...")
+            print("Attempting to download transcriptions file...")
             sleep(UInt32(30)) //sleep(UInt32(pollPeriod))
             secondsElapsed += pollPeriod
             downloadCaptions(withFileID: fileID!, completion: { (ref: StorageReference?, data: [Caption]?) -> Void in
@@ -97,16 +97,16 @@ func generateCaptions(_ state: AppState) -> Void {
         // Delete temporary audio file from bucket in Google Cloud Storage
         do {
             print("Deleting temp file(s) from Google Cloud Storage...")
-            try deleteTempFiles(audio: audioRef!, captions: jsonRef!)
+            try deleteTempFiles(audio: audioRef!, transcriptions: jsonRef!)
         } catch {
             print("Error deleting temp file(s) from Google Cloud Storage:  \(error.localizedDescription)")
             return
         }
         
         if captionData != nil {
-            state.captions = captionData!
+            app.transcriptions = captionData!
         } else {
-            state.captions = initialCaptionsList
+            app.transcriptions = initialCaptionsList
         }
                 
     })
@@ -318,13 +318,13 @@ func uploadAudio(withURL audioURL: URL, completion: @escaping (StorageReference?
     }
 }
 
-// Download captions file from Google Cloud Storage
+// Download transcriptions file from Google Cloud Storage
 func downloadCaptions(withFileID fileID: String, completion: @escaping (StorageReference?, [Caption]?) -> Void) {
     
     var captionsArray: [Caption]?
 
-    // Do a GET request to download the captions file and check for errors
-    let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
+    // Do a GET request to download the transcriptions file and check for errors
+    let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-transcriptions/\(fileID).json")
     var responseData: Data?
     var downloadError: Error?
     storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
@@ -342,7 +342,7 @@ func downloadCaptions(withFileID fileID: String, completion: @escaping (StorageR
         let decoder = JSONDecoder()
         do {
             let result = try decoder.decode(JSONResult.self, from: responseData!)
-            captionsArray = result.captions
+            captionsArray = result.transcriptions
             print("Successfully parsed JSON: \(captionsArray!)")
             completion(storageRef, captionsArray)
         } catch {
@@ -354,7 +354,7 @@ func downloadCaptions(withFileID fileID: String, completion: @escaping (StorageR
 }
 
 // Delete temporary audio file from bucket in Google Cloud Storage
-func deleteTempFiles(audio audioRef: StorageReference, captions jsonRef: StorageReference) throws -> Void {
+func deleteTempFiles(audio audioRef: StorageReference, transcriptions jsonRef: StorageReference) throws -> Void {
     
     enum deleteError: Error {
         case audio

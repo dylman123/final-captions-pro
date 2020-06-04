@@ -12,16 +12,16 @@ enum RowElement {
     case row, text, startTime, endTime
 }
 
-struct RowState {
+class RowState: ObservableObject {
     
     // To index the current row
     var index: Int {
-        return appState.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        return app.userData.firstIndex(where: { $0.id == data.id }) ?? 0
     }
     
     // Logic to select caption
     var isSelected: Bool {
-        if appState.selectedIndex == index { return true }
+        if app.selectedIndex == index { return true }
         else { return false }
     }
     
@@ -34,7 +34,7 @@ struct RowState {
     // Display caption color
     var color: Color {
         if isSelected {
-            switch appState.mode {
+            switch app.mode {
             case .play: return Color.blue.opacity(0.5)
             case .pause: return Color.gray.opacity(0.5)
             case .edit: return Color.yellow.opacity(0.5)
@@ -48,20 +48,20 @@ struct RowState {
     }
     
     // App state
-    var appState: AppState
+    var app: AppState
     
-    // The caption object for the current row
-    var caption: Caption
+    // The styled caption data object for the current row
+    var data: StyledCaption
     
-    init(_ appState: AppState, _ caption: Caption) {
-        self.appState = appState
-        self.caption = caption
+    init(_ app: AppState = AppState(), _ data: StyledCaption = StyledCaption()) {
+        self.app = app
+        self.data = data
     }
 }
 
 // Set state on mouse click event
 func click(row: RowState, view: RowElement) -> Void {
-    let state = row.appState
+    let state = row.app
     let isSelected = row.isSelected
     let captionIndex = row.index
     switch view {
@@ -131,23 +131,18 @@ struct Row: View {
     let scrollbarPadding = CGFloat(20.0)
     
     // Variables
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var app: AppState
     private var row: RowState  // An object to hold the state of the current row
-    private var caption: Caption  // The caption object in the current row
+    private var data: StyledCaption  // The caption object in the current row
     private var isSelected: Bool  // Is the current row selected?
     private var index: Int  // The current row's index in the list
     private var clickNumber: Int  // An integer to define clicking behaviour
     private var color: Color  // The current row's colour
-
-    // The current caption binding
-    var binding: Binding<Caption> {
-        return $appState.captions[index]
-    }
     
-    init(_ appState: AppState, _ caption: Caption) {
-        // RowState cannot inherent appState from the environment, needs to be passed in as an argument.
-        self.row = RowState(appState, caption)
-        self.caption = row.caption
+    init(_ app: AppState, _ styledCaption: StyledCaption) {
+        // RowState cannot inherent app from the environment, needs to be passed in as an argument.
+        self.row = RowState(app, styledCaption)
+        self.data = row.data
         self.isSelected = row.isSelected
         self.index = row.index
         self.clickNumber = row.clickNumber
@@ -159,25 +154,26 @@ struct Row: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .fill(color).frame(height: 40).clickable(row, fromView: .row)
-            Tag(row)
+            Tag()
             HStack(alignment: .center) {
                 if isSelected {
-                    Timings(row)
+                    Timings()
                     Spacer()
-                    TextView(row)
+                    TextView()
                     Spacer()
-                    PlusMinus(row)
+                    PlusMinus()
                 }
                 else if !row.isSelected {
-                    Timings(row)
+                    Timings()
                     Spacer()
-                    TextView(row)
+                    TextView()
                     Spacer()
                 }
             }
             .padding(.trailing, scrollbarPadding)
         }
         .frame(height: 30)
+        .environmentObject(row)
     }
 }
 
@@ -192,13 +188,13 @@ struct Row_Previews: PreviewProvider {
         
         VStack(spacing: 40) {
             Spacer()
-            Row(playState, playState.captions[index])
+            Row(playState, playState.userData[index])
                 .environmentObject(playState)
-            Row(pauseState, pauseState.captions[index])
+            Row(pauseState, pauseState.userData[index])
                 .environmentObject(pauseState)
-            Row(editState, editState.captions[index])
+            Row(editState, editState.userData[index])
                 .environmentObject(editState)
-            Row(editState, editState.captions[index+1])
+            Row(editState, editState.userData[index+1])
                 .environmentObject(editState)
             Spacer()
         }

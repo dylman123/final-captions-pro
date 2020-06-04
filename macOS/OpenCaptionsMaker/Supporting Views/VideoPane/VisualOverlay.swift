@@ -13,9 +13,9 @@ struct VisualOverlay: View {
     @EnvironmentObject var state: AppState
     
     private var text: String {
-        let captions = self.state.captions
+        let userData = self.state.userData
         let index = self.state.selectedIndex
-        return captions[index].text
+        return userData[index].caption.text
     }
     
     @State private var offset = CGSize.zero

@@ -10,19 +10,19 @@ import Foundation
 
 // Adds a blank caption into the row above the selected cell.
 // The new caption's end time will match the caller caption's start time.
-func addCaption(toArray arrayIn: [Caption], beforeIndex insertedIndex: Int, atTime end: Float) -> [Caption] {
-    var captions = arrayIn
+func addCaption(toArray arrayIn: [StyledCaption], beforeIndex insertedIndex: Int, atTime end: Float) -> [StyledCaption] {
+    var userData = arrayIn
     
     // Increment all subsequent captions' ids
-    for idx in 0..<captions.count {
-        if captions[idx].index >= insertedIndex {
-            captions[idx].index += 1
+    for idx in 0..<userData.count {
+        if userData[idx].id >= insertedIndex {
+            userData[idx].id += 1
         }
     }
      
     // Compute timing values
     var prev_end: Float? {
-        if insertedIndex != 0 { return captions[insertedIndex-1].endTime }
+        if insertedIndex != 0 { return userData[insertedIndex-1].caption.endTime }
         else { return nil }
     }
     let buffer: Float = 1.0 // seconds before previous caption's start
@@ -35,36 +35,29 @@ func addCaption(toArray arrayIn: [Caption], beforeIndex insertedIndex: Int, atTi
         }
         else { return end - buffer }  // if gap is larger than buffer
     }
-    let duration: Float = end - start
      
-    let newCaption = Caption(
-        index: insertedIndex,
-        startTime: start,
-        endTime: end,
-        duration: duration,
-        text: "",
-        speaker: 0,
-        tag: "")
-     
-    // Insert new Caption object
-    captions.insert(newCaption, at: insertedIndex)
+    let newCaption = Caption(startTime: 0.0, endTime: 0.0, text: "")
+    let styledCaption = StyledCaption(id: 0, caption: newCaption, style: defaultStyle)
     
-    return captions
+    // Insert new Caption object
+    userData.insert(styledCaption, at: insertedIndex)
+    
+    return userData
 }
  
 // Deletes the selected cell
-func deleteCaption(fromArray arrayIn: [Caption], atIndex deletedIndex: Int) -> [Caption] {
-    var captions = arrayIn
+func deleteCaption(fromArray arrayIn: [StyledCaption], atIndex deletedIndex: Int) -> [StyledCaption] {
+    var userData = arrayIn
     
     // Remove current Caption object from captions list
-    captions.remove(at: deletedIndex)
+    userData.remove(at: deletedIndex)
      
     // Decrement all subsequent captions' ids
-    for idx in 0..<captions.count {
-        if captions[idx].index >= deletedIndex {
-            captions[idx].index -= 1
+    for idx in 0..<userData.count {
+        if userData[idx].id >= deletedIndex {
+            userData[idx].id -= 1
         }
     }
     
-    return captions
+    return userData
 }

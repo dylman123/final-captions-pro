@@ -9,13 +9,13 @@ import Foundation
 import AEXML
 
 // Finishes the caption review and opens .fcpxml file
-func finishReview(inAppState state: AppState, andSaveFileAs xmlPath: URL) -> Void {
+func finishReview(inAppState app: AppState, andSaveFileAs xmlPath: URL) -> Void {
     
     // Set the path of the file to be saved - TODO: Change this to a user selected URL
     let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
            
     //  Create XML document structure
-    let xmlTree = createXML(forVideo: state.videoURL, withCaptions: state.captions)
+    let xmlTree = createXML(forVideo: app.videoURL, withCaptions: app.userData)
 
     //  Save XML document to disk
     saveXML(of: xmlTree, as: testPath)
@@ -25,7 +25,7 @@ func finishReview(inAppState state: AppState, andSaveFileAs xmlPath: URL) -> Voi
     
 }
 
-func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> AEXMLDocument {
+func createXML(forVideo videoURL: URL, withCaptions captionData: [StyledCaption]) -> AEXMLDocument {
     
     // Set up document scaffolding, parse template.fcpxml as AEXMLDocument
     guard
@@ -99,17 +99,18 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
         
         // Iterate through the list of captions
         var ts: Int = 0  // Text style id
-        for caption in captionData {
+        for data in captionData {
                         
             // Make an instance of a title and modify its template according to the caption
             let newTitle = AEXMLElement(name: "title", attributes: [
-                "name": caption.text,
+                "name": data.caption.text,
                 "lane": "1",
-                "offset": formatTimestamp(val: caption.startTime, fd: frameDuration2997!),
+                "offset": formatTimestamp(val: data.caption.startTime, fd: frameDuration2997!),
                 "ref": "r4",
-                "duration": formatTimestamp(val: caption.duration, fd: frameDuration30!)
+                "duration": formatTimestamp(val: data.caption.duration, fd: frameDuration30!)
             ])
             
+            // TODO: Integrate font config
             let textStyle = AEXMLElement(name: "text-style", attributes: [
                 "font": "Futura",
                 "fontSize": "60",
@@ -123,14 +124,14 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
             
             ts += 1
             let textStyleDef = AEXMLElement(name: "text-style-def", attributes: ["id": "ts\(ts)"])
-            let captionText = AEXMLElement(name: "text-style", value: caption.text, attributes: ["ref": "ts\(ts)"])
+            let captionText = AEXMLElement(name: "text-style", value: data.caption.text, attributes: ["ref": "ts\(ts)"])
             
             let text = AEXMLElement(name: "text")
             
             let position = AEXMLElement(name: "param", attributes: [
                 "name": "Position",
                 "key": "9999/999166631/999166633/1/100/101",
-                "value": "200 -300"
+                "value": "\(data.style.xPos) \(data.style.yPos)"
             ])
             
             let flatten = AEXMLElement(name: "param", attributes: [
@@ -139,6 +140,7 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
                 "value": "1"
             ])
             
+            // TODO: Integrate alignment config
             let alignment = AEXMLElement(name: "param", attributes: [
                 "name": "Alignment",
                 "key": "9999/999166631/999166633/2/354/999169573/401",
