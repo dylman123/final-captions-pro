@@ -28,7 +28,7 @@ struct Timings: View {
     
     // The current caption binding (for stepper)
     var binding: Binding<Caption> {
-        return $app.userData[row.index].caption
+        return $app.captions[row.index]
     }
     
     var body: some View {
@@ -41,14 +41,14 @@ struct Timings: View {
                 if app.mode == .editStartTime {
                     Stepper(value: binding.startTime, step: -0.1) {
                         ZStack {
-                            Text(String(format: "%.1f", row.data.caption.startTime))
+                            Text(String(format: "%.1f", row.caption.startTime))
                                 .clickable(row, fromView: .startTime)
                             SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
                 } else {
-                    Text(String(format: "%.1f", row.data.caption.startTime))
+                    Text(String(format: "%.1f", row.caption.startTime))
                         .clickable(row, fromView: .startTime)
                 }
                 Spacer()
@@ -57,14 +57,14 @@ struct Timings: View {
                 if app.mode == .editEndTime {
                     Stepper(value: binding.endTime, step: -0.1) {
                         ZStack {
-                            Text(String(format: "%.1f", row.data.caption.endTime))
+                            Text(String(format: "%.1f", row.caption.endTime))
                                 .clickable(row, fromView: .endTime)
                             SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
                 } else {
-                    Text(String(format: "%.1f", row.data.caption.endTime))
+                    Text(String(format: "%.1f", row.caption.endTime))
                         .clickable(row, fromView: .endTime)
                 }
             }
@@ -75,10 +75,10 @@ struct Timings: View {
             
             // Display caption timings
             return AnyView(VStack {
-                Text(String(format: "%.1f", row.data.caption.startTime))
+                Text(String(format: "%.1f", row.caption.startTime))
                     .clickable(row, fromView: .startTime)
                 Spacer()
-                Text(String(format: "%.1f", row.data.caption.endTime))
+                Text(String(format: "%.1f", row.caption.endTime))
                    .clickable(row, fromView: .endTime)
             }
             .frame(width: timeWidth))

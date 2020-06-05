@@ -8,57 +8,6 @@
 
 import SwiftUI
 
-enum RowElement {
-    case row, text, startTime, endTime
-}
-
-class RowState: ObservableObject {
-    
-    // To index the current row
-    var index: Int {
-        return app.userData.firstIndex(where: { $0.id == data.id }) ?? 0
-    }
-    
-    // Logic to select caption
-    var isSelected: Bool {
-        if app.selectedIndex == index { return true }
-        else { return false }
-    }
-    
-    // To track whether user can do a double click
-    var clickNumber: Int {
-        if isSelected { return 2 }
-        else { return 1 }
-    }
-    
-    // Display caption color
-    var color: Color {
-        if isSelected {
-            switch app.mode {
-            case .play: return Color.blue.opacity(0.5)
-            case .pause: return Color.gray.opacity(0.5)
-            case .edit: return Color.yellow.opacity(0.5)
-            case .editStartTime: return Color.yellow.opacity(0.5)
-            case .editEndTime: return Color.yellow.opacity(0.5)
-            }
-        }
-        else {
-            return Color.black.opacity(0.5)
-        }
-    }
-    
-    // App state
-    var app: AppState
-    
-    // The styled caption data object for the current row
-    var data: StyledCaption
-    
-    init(_ app: AppState = AppState(), _ data: StyledCaption = StyledCaption()) {
-        self.app = app
-        self.data = data
-    }
-}
-
 // Set state on mouse click event
 func click(row: RowState, view: RowElement) -> Void {
     let state = row.app
@@ -133,30 +82,20 @@ struct Row: View {
     // Variables
     @EnvironmentObject var app: AppState
     private var row: RowState  // An object to hold the state of the current row
-    private var data: StyledCaption  // The caption object in the current row
-    private var isSelected: Bool  // Is the current row selected?
-    private var index: Int  // The current row's index in the list
-    private var clickNumber: Int  // An integer to define clicking behaviour
-    private var color: Color  // The current row's colour
     
-    init(_ app: AppState, _ styledCaption: StyledCaption) {
+    init(_ app: AppState, _ caption: Caption) {
         // RowState cannot inherent app from the environment, needs to be passed in as an argument.
-        self.row = RowState(app, styledCaption)
-        self.data = row.data
-        self.isSelected = row.isSelected
-        self.index = row.index
-        self.clickNumber = row.clickNumber
-        self.color = row.color
+        self.row = RowState(app, caption)
     }
         
     var body: some View {
         
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .fill(color).frame(height: 40).clickable(row, fromView: .row)
+                .fill(row.color).frame(height: 40).clickable(row, fromView: .row)
             Tag()
             HStack(alignment: .center) {
-                if isSelected {
+                if row.isSelected {
                     Timings()
                     Spacer()
                     TextView()
@@ -188,13 +127,13 @@ struct Row_Previews: PreviewProvider {
         
         VStack(spacing: 40) {
             Spacer()
-            Row(playState, playState.userData[index])
+            Row(playState, playState.captions[index])
                 .environmentObject(playState)
-            Row(pauseState, pauseState.userData[index])
+            Row(pauseState, pauseState.captions[index])
                 .environmentObject(pauseState)
-            Row(editState, editState.userData[index])
+            Row(editState, editState.captions[index])
                 .environmentObject(editState)
-            Row(editState, editState.userData[index+1])
+            Row(editState, editState.captions[index+1])
                 .environmentObject(editState)
             Spacer()
         }

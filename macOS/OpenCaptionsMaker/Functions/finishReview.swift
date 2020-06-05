@@ -15,7 +15,7 @@ func finishReview(inAppState app: AppState, andSaveFileAs xmlPath: URL) -> Void 
     let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
            
     //  Create XML document structure
-    let xmlTree = createXML(forVideo: app.videoURL, withCaptions: app.userData)
+    let xmlTree = createXML(forVideo: app.videoURL, withCaptions: app.captions)
 
     //  Save XML document to disk
     saveXML(of: xmlTree, as: testPath)
@@ -25,7 +25,7 @@ func finishReview(inAppState app: AppState, andSaveFileAs xmlPath: URL) -> Void 
     
 }
 
-func createXML(forVideo videoURL: URL, withCaptions captionData: [StyledCaption]) -> AEXMLDocument {
+func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> AEXMLDocument {
     
     // Set up document scaffolding, parse template.fcpxml as AEXMLDocument
     guard
@@ -99,15 +99,15 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [StyledCaption]
         
         // Iterate through the list of captions
         var ts: Int = 0  // Text style id
-        for data in captionData {
+        for caption in captionData {
                         
             // Make an instance of a title and modify its template according to the caption
             let newTitle = AEXMLElement(name: "title", attributes: [
-                "name": data.caption.text,
+                "name": caption.text,
                 "lane": "1",
-                "offset": formatTimestamp(val: data.caption.startTime, fd: frameDuration2997!),
+                "offset": formatTimestamp(val: caption.startTime, fd: frameDuration2997!),
                 "ref": "r4",
-                "duration": formatTimestamp(val: data.caption.duration, fd: frameDuration30!)
+                "duration": formatTimestamp(val: caption.duration, fd: frameDuration30!)
             ])
             
             // TODO: Integrate font config
@@ -124,14 +124,14 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [StyledCaption]
             
             ts += 1
             let textStyleDef = AEXMLElement(name: "text-style-def", attributes: ["id": "ts\(ts)"])
-            let captionText = AEXMLElement(name: "text-style", value: data.caption.text, attributes: ["ref": "ts\(ts)"])
+            let captionText = AEXMLElement(name: "text-style", value: caption.text, attributes: ["ref": "ts\(ts)"])
             
             let text = AEXMLElement(name: "text")
             
             let position = AEXMLElement(name: "param", attributes: [
                 "name": "Position",
                 "key": "9999/999166631/999166633/1/100/101",
-                "value": "\(data.style.xPos) \(data.style.yPos)"
+                "value": "\(caption.style.xPos) \(caption.style.yPos)"
             ])
             
             let flatten = AEXMLElement(name: "param", attributes: [

@@ -10,35 +10,21 @@ import Foundation
 import SwiftUI
 
 struct Caption: Hashable, Codable, Identifiable {
-    let id: Int //UUID  // Random unique identifier of the caption
+    var id: Int //UUID  // Random unique identifier of the caption
     var startTime: Float  // In seconds
     var endTime: Float  // In seconds
     var duration: Float  // In seconds
     var text: String  // Caption text
     var speaker: Int  // Used to differentiate between speakers in the background (for better transcribing)
+    var style: Style
     
-    init(startTime: Float = 0.0, endTime: Float = 0.0, text: String = "") {
-        self.id = 0 //UUID()
+    init(id: Int = 0, startTime: Float = 0.0, endTime: Float = 0.0, text: String = "", style: Style = defaultStyle) {
+        self.id = id //UUID()
         self.startTime = startTime
         self.endTime = endTime
         self.duration = endTime - startTime
         self.text = text
         self.speaker = 0
-    }
-}
-
-struct StyledCaption: Hashable, Codable, Identifiable {
-    var id: Int  // Current List index
-    var caption: Caption  // Stores caption data
-    var style: Style  // Associated with the style object's symbol property
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    init(id: Int = 0, caption: Caption = Caption(), style: Style = defaultStyle) {
-        self.id = id
-        self.caption = caption
         self.style = style
     }
 }
@@ -82,4 +68,4 @@ func == (lhs: Style, rhs: Style) -> Bool {
 let defaultStyle = Style(font: "Arial", xPos: 0.0, yPos: 200.0, alignment: "Center")
 
 // Sample data for testing purposes
-var sampleCaptionData: [StyledCaption] = load("styledCaptions")
+var sampleCaptionData: [Caption] = load("styledCaptions")

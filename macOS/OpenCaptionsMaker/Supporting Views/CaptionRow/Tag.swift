@@ -15,9 +15,9 @@ struct Tag: View {
     @EnvironmentObject var row: RowState
     
     var body: some View {
-        if row.data.style.symbol != nil || (row.isSelected && app.mode != .play) {
+        if row.caption.style.symbol != nil || (row.isSelected && app.mode != .play) {
             return AnyView(
-                TagView(row.data.style.symbol ?? "")
+                TagView(row.caption.style.symbol ?? "")
                     .offset(x: 180)
                     .clickable(row, fromView: .row)
                 )

@@ -27,7 +27,7 @@ func generateCaptions(_ app: AppState) -> Void {
         semaphore.signal()
     } catch {
         print("Error extracting audio from video file: \(error): \(error.localizedDescription)")
-        app.transcriptions = initialCaptionsList
+        app.captions = initialCaptionsList
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
@@ -40,7 +40,7 @@ func generateCaptions(_ app: AppState) -> Void {
         semaphore.signal()
     } catch {
         print("Error converting .m4a to .wav format: \(error.localizedDescription)")
-        app.transcriptions = initialCaptionsList
+        app.captions = initialCaptionsList
     }
     
     _ = semaphore.wait(timeout: .distantFuture)
@@ -104,9 +104,9 @@ func generateCaptions(_ app: AppState) -> Void {
         }
         
         if captionData != nil {
-            app.transcriptions = captionData!
+            app.captions = captionData!
         } else {
-            app.transcriptions = initialCaptionsList
+            app.captions = initialCaptionsList
         }
                 
     })

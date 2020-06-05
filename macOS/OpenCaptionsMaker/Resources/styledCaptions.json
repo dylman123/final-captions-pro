@@ -1,14 +1,11 @@
 [
     {
         "id": 0,
-        "caption": {
-            "id": 0,
-            "startTime": 0.0,
-            "endTime": 1.5,
-            "duration": 1.5,
-            "text": "Mary had a little lamb",
-            "speaker": 1
-        },
+        "startTime": 0.0,
+        "endTime": 1.5,
+        "duration": 1.5,
+        "text": "Mary had a little lamb",
+        "speaker": 1,
         "style": {
             "id": 0,
             "symbol": "",
@@ -20,14 +17,11 @@
     },
     {
         "id": 1,
-        "caption": {
-            "id": 1,
-            "startTime": 1.6,
-            "endTime": 2.0,
-            "duration": 0.4,
-            "text": "little lamb",
-            "speaker": 1
-        },
+        "startTime": 1.6,
+        "endTime": 2.0,
+        "duration": 0.4,
+        "text": "little lamb",
+        "speaker": 1,
         "style": {
             "id": 0,
             "symbol": "",
@@ -39,14 +33,11 @@
     },
     {
         "id": 2,
-        "caption": {
-            "id": 2,
-            "startTime": 2.0,
-            "endTime": 2.8,
-            "duration": 0.8,
-            "text": "little lamb,",
-            "speaker": 2
-        },
+        "startTime": 2.0,
+        "endTime": 2.8,
+        "duration": 0.8,
+        "text": "little lamb,",
+        "speaker": 2,
         "style": {
             "id": 0,
             "symbol": "",
@@ -58,14 +49,11 @@
     },
     {
         "id": 3,
-        "caption": {
-            "id": 3,
-            "startTime": 3.0,
-            "endTime": 3.5,
-            "duration": 1.5,
-            "text": "Mary had a little lamb",
-            "speaker": 1
-        },
+        "startTime": 3.0,
+        "endTime": 3.5,
+        "duration": 1.5,
+        "text": "Mary had a little lamb",
+        "speaker": 1,
         "style": {
             "id": 0,
             "symbol": "",
@@ -77,14 +65,11 @@
     },
     {
         "id": 4,
-        "caption": {
-            "id": 4,
-            "startTime": 3.6,
-            "endTime": 4.0,
-            "duration": 0.4,
-            "text": "Her fleece was",
-            "speaker": 1
-        },
+        "startTime": 3.6,
+        "endTime": 4.0,
+        "duration": 0.4,
+        "text": "Her fleece was",
+        "speaker": 1,
         "style": {
             "id": 0,
             "symbol": "",
@@ -96,14 +81,11 @@
     },
     {
         "id": 5,
-        "caption": {
-            "id": 5,
-            "startTime": 4.0,
-            "endTime": 4.8,
-            "duration": 0.8,
-            "text": "white as snow.",
-            "speaker": 2
-        },
+        "startTime": 4.0,
+        "endTime": 4.8,
+        "duration": 0.8,
+        "text": "white as snow.",
+        "speaker": 2,
         "style": {
             "id": 0,
             "symbol": "",
@@ -115,14 +97,11 @@
     },
     {
         "id": 6,
-        "caption": {
-            "id": 6,
-            "startTime": 5.0,
-            "endTime": 5.5,
-            "duration": 1.5,
-            "text": "And everywhere",
-            "speaker": 1
-        },
+        "startTime": 5.0,
+        "endTime": 5.5,
+        "duration": 1.5,
+        "text": "And everywhere",
+        "speaker": 1,
         "style": {
             "id": 0,
             "symbol": "",
@@ -134,14 +113,11 @@
     },
     {
         "id": 7,
-        "caption": {
-            "id": 7,
-            "startTime": 5.6,
-            "endTime": 6.0,
-            "duration": 0.4,
-            "text": "that",
-            "speaker": 1
-        },
+        "startTime": 5.6,
+        "endTime": 6.0,
+        "duration": 0.4,
+        "text": "that",
+        "speaker": 1,
         "style": {
             "id": 0,
             "symbol": "",
@@ -153,14 +129,11 @@
     },
     {
         "id": 8,
-        "caption": {
-            "id": 8,
-            "startTime": 6.0,
-            "endTime": 6.8,
-            "duration": 0.8,
-            "text": "Mary went",
-            "speaker": 2
-        },
+        "startTime": 6.0,
+        "endTime": 6.8,
+        "duration": 0.8,
+        "text": "Mary went",
+        "speaker": 2,
         "style": {
             "id": 0,
             "symbol": "",
@@ -172,14 +145,11 @@
     },
     {
         "id": 9,
-        "caption": {
-            "id": 9,
-            "startTime": 7.0,
-            "endTime": 7.5,
-            "duration": 1.5,
-            "text": "Mary went",
-            "speaker": 1
-        },
+        "startTime": 7.0,
+        "endTime": 7.5,
+        "duration": 1.5,
+        "text": "Mary went",
+        "speaker": 1,
         "style": {
             "id": 0,
             "symbol": "",
@@ -191,14 +161,11 @@
     },
     {
         "id": 10,
-        "caption": {
-            "id": 10,
-            "startTime": 7.6,
-            "endTime": 8.0,
-            "duration": 0.4,
-            "text": "Merry went,",
-            "speaker": 1
-        },
+        "startTime": 7.6,
+        "endTime": 8.0,
+        "duration": 0.4,
+        "text": "Merry went,",
+        "speaker": 1,
         "style": {
             "id": 0,
             "symbol": "",
@@ -209,3 +176,4 @@
         }
     }
 ]
+

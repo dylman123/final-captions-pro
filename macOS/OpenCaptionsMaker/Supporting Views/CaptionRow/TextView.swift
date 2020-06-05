@@ -25,11 +25,11 @@ struct TextView: View {
             // Caption text
             return AnyView(ZStack {
                 if app.mode == .play {
-                    Text(row.data.caption.text).offset(x: -5)
+                    Text(row.caption.text).offset(x: -5)
                 } else if app.mode == .edit {
-                    Text(row.data.caption.text + "|").offset(x: 2)  // TODO: Make cursor blink
+                    Text(row.caption.text + "|").offset(x: 2)  // TODO: Make cursor blink
                     SelectionBox()
-                } else { Text(row.data.caption.text) }
+                } else { Text(row.caption.text) }
             }
             .multilineTextAlignment(.center)
             .lineLimit(2)
@@ -39,7 +39,7 @@ struct TextView: View {
         
         }
         else {
-            return AnyView(Text(row.data.caption.text)
+            return AnyView(Text(row.caption.text)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .frame(width: textWidth)

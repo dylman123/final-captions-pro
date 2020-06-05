@@ -51,7 +51,7 @@ struct CaptionList: View {
     
     func incrementSelectedIndex() -> Void {
         // Guard against when last caption is selected
-        guard app.selectedIndex < app.userData.count - 1 else { return }
+        guard app.selectedIndex < app.captions.count - 1 else { return }
         goToIndex(target: app.selectedIndex + 1)
     }
     
@@ -63,40 +63,40 @@ struct CaptionList: View {
     
     func modifyTimeVal(byStepSize delta: Float) -> Void {
         if app.mode == .editStartTime {
-            app.userData[app.selectedIndex].caption.startTime += delta
+            app.captions[app.selectedIndex].startTime += delta
         } else if app.mode == .editEndTime {
-            app.userData[app.selectedIndex].caption.endTime += delta
+            app.captions[app.selectedIndex].endTime += delta
         }
     }
     
     func modifyEndTime(byStepSize delta: Float) -> Void {
-        app.userData[app.selectedIndex].caption.endTime += delta
+        app.captions[app.selectedIndex].endTime += delta
     }
     
     func _addCaption() -> Void {
-        app.userData = addCaption(toArray: app.userData, beforeIndex: app.selectedIndex, atTime: app.userData[app.selectedIndex].caption.startTime)
+        app.captions = addCaption(toArray: app.captions, beforeIndex: app.selectedIndex, atTime: app.captions[app.selectedIndex].startTime)
     }
     
     func _deleteCaption() -> Void {
         // Guard against only 1 caption remaining
-        guard app.userData.count > 1 else { return }
-        app.userData = deleteCaption(fromArray: app.userData, atIndex: app.selectedIndex)
+        guard app.captions.count > 1 else { return }
+        app.captions = deleteCaption(fromArray: app.captions, atIndex: app.selectedIndex)
         
         // If the last row is deleted, decrement app.selectedIndex
-        if app.selectedIndex-1 == app.userData.count-1 {
+        if app.selectedIndex-1 == app.captions.count-1 {
             decrementSelectedIndex()
         }
     }
     
     func insertCharacter(_ char: String) -> Void {
-        app.userData[app.selectedIndex].caption.text += char
+        app.captions[app.selectedIndex].text += char
     }
     
     func tag(withSymbol key: String) -> Void {
         let char = Character(key)
         
         if char.isLetter == true {
-            self.app.userData[self.app.selectedIndex].style.symbol = key.uppercased()
+            self.app.captions[self.app.selectedIndex].style.symbol = key.uppercased()
             
             // Check if style already exists
             for style in app.styles {
@@ -118,9 +118,9 @@ struct CaptionList: View {
         OffsetScrollView(.vertical, offset: $scrollOffset) {
         //ScrollView(.vertical) {
         //List {
-            ForEach(app.userData) { data in
-                Row(self.app, data)
-                    .tag(data)
+            ForEach(app.captions) { caption in
+                Row(self.app, caption)
+                    .tag(caption)
                     .padding(.vertical, 5)
                     //.offset(y: self.scrollOffset)
             }
@@ -138,13 +138,13 @@ struct CaptionList: View {
             case .pause: self.tag(withSymbol: key)
             case .edit: self.insertCharacter(key)
             case .editStartTime: ()  // TODO: Manipulate float as a string
-                //var strVal = String(self.app.userData[self.app.selectedIndex].startTime)
+                //var strVal = String(self.app.captions[self.app.selectedIndex].startTime)
                 //strVal += String(describing: notification.object!)
-                //self.app.userData[self.app.selectedIndex].startTime = (strVal as NSString).floatValue
+                //self.app.captions[self.app.selectedIndex].startTime = (strVal as NSString).floatValue
             case .editEndTime: ()  // TODO: Manipulate float as a string
-                //var strVal = String(self.app.userData[self.app.selectedIndex].endTime)
+                //var strVal = String(self.app.captions[self.app.selectedIndex].endTime)
                 //strVal += String(describing: notification.object!)
-                //self.app.userData[self.app.selectedIndex].endTime = (strVal as NSString).floatValue
+                //self.app.captions[self.app.selectedIndex].endTime = (strVal as NSString).floatValue
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
@@ -197,9 +197,9 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause:
-                if self.app.userData[self.app.selectedIndex].style.symbol != "" { self.app.userData[self.app.selectedIndex].style.symbol = "" }
+                if self.app.captions[self.app.selectedIndex].style.symbol != "" { self.app.captions[self.app.selectedIndex].style.symbol = "" }
                 else { self._deleteCaption() }
-            case .edit: _ = self.app.userData[self.app.selectedIndex].caption.text.popLast()
+            case .edit: _ = self.app.captions[self.app.selectedIndex].text.popLast()
             case .editStartTime: ()
             case .editEndTime: ()
             }
