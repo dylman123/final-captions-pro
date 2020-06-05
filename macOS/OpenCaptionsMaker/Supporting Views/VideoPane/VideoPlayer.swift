@@ -127,8 +127,8 @@ class Utility: NSObject {
 // This is the SwiftUI view that contains the controls for the player
 struct VideoPlayerControlsView : View {
     
-    // Handle state
-    @EnvironmentObject var state: AppState
+    // Handle app
+    @EnvironmentObject var app: AppState
     
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
@@ -206,9 +206,9 @@ struct VideoPlayerControlsView : View {
     
     private func togglePlayPause() {
         if playerPaused {
-            state.transition(to: .play)
+            app.transition(to: .play)
         } else {
-            state.transition(to: .pause)
+            app.transition(to: .pause)
         }
     }
     
@@ -226,7 +226,7 @@ struct VideoPlayerControlsView : View {
             // Set a flag stating that we're seeking so the slider doesn't
             // get updated by the periodic time observer on the player
             seeking = true
-            state.transition(to: .pause)
+            app.transition(to: .pause)
         }
         
         // Do the seek if we're finished
@@ -235,15 +235,15 @@ struct VideoPlayerControlsView : View {
             player.seek(to: targetTime) { _ in
                 // Now the seek is finished, resume normal operation
                 self.seeking = false
-                //state.transition(to: .play)
-                self.state.syncVideoAndList(isListControlling: false)
+                //app.transition(to: .play)
+                self.app.syncVideoAndList(isListControlling: false)
             }
         }
     }
     
     private func listEditingChanged() {
         // If the list is controlling the seek, we can assume that the
-        // state mode is .pause or .edit
+        // app mode is .pause or .edit
         let targetTime = CMTime(seconds: videoPos * videoDuration, preferredTimescale: 600)
         player.seek(to: targetTime)
     }
@@ -252,7 +252,9 @@ struct VideoPlayerControlsView : View {
 // This is the SwiftUI view which contains the player and its controls
 struct VideoPlayerContainerView : View {
     
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var app: AppState
+    private var index: Int { app.selectedIndex }
+    private var caption: Caption { app.captions[index] }
     
     // Whether we're currently interacting with the seek bar or doing a seek
     @State private var seeking = false
@@ -266,18 +268,18 @@ struct VideoPlayerContainerView : View {
     var body: some View {
         VStack {
             ZStack {
-                VideoPlayerPaneView(videoPos: $state.videoPos,
-                                videoDuration: $state.videoDuration,
+                VideoPlayerPaneView(videoPos: $app.videoPos,
+                                videoDuration: $app.videoDuration,
                                 seeking: $seeking,
                                 player: player)
-                VisualOverlay()
+                VisualOverlay(xPos: caption.style.xPos, yPos: caption.style.yPos)
                 .onTapGesture {
-                    if self.state.mode == .play { self.state.transition(to: .pause) }
-                    else { self.state.transition(to: .play) }
+                    if self.app.mode == .play { self.app.transition(to: .pause) }
+                    else { self.app.transition(to: .play) }
                 }
             }
-            VideoPlayerControlsView(videoPos: $state.videoPos,
-                                    videoDuration: $state.videoDuration,
+            VideoPlayerControlsView(videoPos: $app.videoPos,
+                                    videoDuration: $app.videoDuration,
                                     seeking: $seeking,
                                     player: player)
         }
