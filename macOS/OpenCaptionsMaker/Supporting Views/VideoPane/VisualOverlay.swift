@@ -14,10 +14,8 @@ struct VisualOverlay: View {
     private var index: Int { app.selectedIndex }
     private var caption: Caption { app.captions[index] }
     private var style: Style { caption.style }
-    //private var position: CGSize { getCaptionStylePosition(style.xPos, style.xPos) }
-    @State private var position: CGSize = .zero
-    @State private var offset: CGSize = .zero
-    
+    @State private var position = CGSize(width: 0, height: 200)
+    @State private var offset = CGSize(width: 0, height: 200)
     
     func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat) {
         if self.offset.width >= maxWidth { self.offset.width = maxWidth }
@@ -26,17 +24,10 @@ struct VisualOverlay: View {
         if self.offset.height <= -maxHeight { self.offset.height = -maxHeight }
     }
     
-//    func getCaptionStylePosition(_ xPosStateful: Float, _ yPosStateful: Float) -> CGSize {
-//        let xPos = CGFloat(xPosStateful)
-//        let yPos = CGFloat(yPosStateful)
-//        return CGSize(width: xPos, height: yPos)
-//    }
-    
-    init(xPos x0: Float, yPos y0: Float) {
-//        let (xPos, yPos) = getCaptionStylePosition(initialCoords: (x0, y0))
-//        let xPos = CGFloat(x0)
-//        let yPos = CGFloat(y0)
-//        self.offset = self.position
+    func getCaptionStylePosition(_ xPosStateful: Float, _ yPosStateful: Float) -> CGSize {
+        let xPos = CGFloat(xPosStateful)
+        let yPos = CGFloat(yPosStateful)
+        return CGSize(width: xPos, height: yPos)
     }
     
     var body: some View {
@@ -78,12 +69,36 @@ struct VisualOverlay: View {
             if self.app.mode == .play { self.app.transition(to: .pause) }
             else { self.app.transition(to: .play) }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
+            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
+            self.offset = self.position
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
+            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
+            self.offset = self.position
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
+            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
+            self.offset = self.position
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
+            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
+            self.offset = self.position
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .seekList)) { _ in
+            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
+            self.offset = self.position
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .seekVideo)) { _ in
+            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
+            self.offset = self.position
+        }
     }
 }
 
 struct VisualOverlay_Previews: PreviewProvider {
     static var previews: some View {
-        VisualOverlay(xPos: 0, yPos: 200)
+        VisualOverlay()
         .environmentObject(AppState())
     }
 }

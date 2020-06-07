@@ -39,7 +39,7 @@
         "text": "little lamb,",
         "speaker": 2,
         "style": {
-            "id": 0,
+            "id": 1,
             "symbol": "",
             "font": "Times",
             "xPos": 0.0,
@@ -55,7 +55,7 @@
         "text": "Mary had a little lamb",
         "speaker": 1,
         "style": {
-            "id": 0,
+            "id": 1,
             "symbol": "",
             "font": "Times",
             "xPos": 0.0,
@@ -71,7 +71,7 @@
         "text": "Her fleece was",
         "speaker": 1,
         "style": {
-            "id": 0,
+            "id": 2,
             "symbol": "",
             "font": "Times",
             "xPos": 0.0,
@@ -87,7 +87,7 @@
         "text": "white as snow.",
         "speaker": 2,
         "style": {
-            "id": 0,
+            "id": 2,
             "symbol": "",
             "font": "Times",
             "xPos": 0.0,
