@@ -272,11 +272,7 @@ struct VideoPlayerContainerView : View {
                                 videoDuration: $app.videoDuration,
                                 seeking: $seeking,
                                 player: player)
-                VisualOverlay(xPos: caption.style.xPos, yPos: caption.style.yPos)
-                .onTapGesture {
-                    if self.app.mode == .play { self.app.transition(to: .pause) }
-                    else { self.app.transition(to: .play) }
-                }
+                VisualOverlay(xPos: 0, yPos: 200)
             }
             VideoPlayerControlsView(videoPos: $app.videoPos,
                                     videoDuration: $app.videoDuration,
