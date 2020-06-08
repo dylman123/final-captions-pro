@@ -29,6 +29,7 @@ extension Notification.Name {
     static let seekList = Notification.Name("seekList")
     static let nextPage = Notification.Name("nextPage")
     static let prevPage = Notification.Name("prevPage")
+    static let updateStyle = Notification.Name("updateStyle")
 }
 
 // Send commands to bash shell

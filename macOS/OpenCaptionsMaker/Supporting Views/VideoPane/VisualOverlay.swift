@@ -67,49 +67,12 @@ struct VisualOverlay: View {
             if self.app.mode == .play { self.app.transition(to: .pause) }
             else { self.app.transition(to: .play) }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
+        .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
             self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .seekList)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .seekVideo)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .character)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .returnKey)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .plus)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .minus)) { _ in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
-            self.offset = self.position
+            if (animate.object != nil) {
+                withAnimation { self.offset = self.position }
+            }
+            else { self.offset = self.position }
         }
     }
 }
