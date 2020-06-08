@@ -128,7 +128,6 @@ struct CaptionList: View {
                         alignment: alignment
                     )
                     self.app.captions[self.app.selectedIndex].style = newStyle
-                    //newStyle.symbol = symbol
                     self.app.styles.append(newStyle)
                 }
             }
@@ -159,8 +158,6 @@ struct CaptionList: View {
                 app.styles.remove(at: index)
             }
         }
-        for style in app.styles { print("STYLE: \(String(describing: style.symbol))") }
-        print("COUNT: \(app.styles.count)")
     }
     
     //init() {
