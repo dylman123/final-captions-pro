@@ -60,8 +60,6 @@ struct VisualOverlay: View {
                             self.position = self.offset
                             self.style.xPos = Float(self.offset.width)
                             self.style.yPos = Float(self.offset.height)
-                            
-                            print("\(self.caption)\n\(self.caption.style.xPos), \(self.caption.style.yPos)\n")
                         }
                 )
         }

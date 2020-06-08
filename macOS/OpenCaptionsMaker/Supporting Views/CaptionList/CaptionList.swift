@@ -93,25 +93,68 @@ struct CaptionList: View {
     }
     
     func tag(withSymbol key: String?) -> Void {
-        guard key != nil else {
-            self.app.captions[self.app.selectedIndex].style.symbol = nil
-            return
+        
+        // New tag
+        if key != nil {
+            let char = Character(key!)
+            if char.isLetter == true {
+                let symbol = key!.uppercased()
+                
+                // Check if style already exists
+                var styleExists = false
+                for style in app.styles {
+                    if style.symbol == symbol { styleExists = true }
+                }
+                
+                // If style already exists, copy the style to the current caption
+                if styleExists {
+                    guard let index = app.styles.firstIndex(where: { $0.symbol == symbol }) else { return }
+                    let copiedStyle = app.styles[index]
+                    self.app.captions[self.app.selectedIndex].style = copiedStyle
+                }
+                
+                // If style does not exist, create a new style
+                if !styleExists {
+                    // Save caption current style to a tagged style
+                    let font = self.app.captions[self.app.selectedIndex].style.font
+                    let xPos = self.app.captions[self.app.selectedIndex].style.xPos
+                    let yPos = self.app.captions[self.app.selectedIndex].style.yPos
+                    let alignment = self.app.captions[self.app.selectedIndex].style.alignment
+                    let newStyle = Style(
+                        symbol: symbol,
+                        font: font,
+                        xPos: xPos,
+                        yPos: yPos,
+                        alignment: alignment
+                    )
+                    self.app.captions[self.app.selectedIndex].style = newStyle
+                    //newStyle.symbol = symbol
+                    self.app.styles.append(newStyle)
+                }
+            }
         }
-        
-        let char = Character(key!)
-        
-        if char.isLetter == true {
-            self.app.captions[self.app.selectedIndex].style.symbol = key!.uppercased()
+        // Remove tag
+        else {
+            let symbol = self.app.captions[self.app.selectedIndex].style.symbol
             
-            // Check if style already exists
-            for style in app.styles {
-                if style.symbol == key! { return }
+            // Disassociate tag from caption
+            self.app.captions[self.app.selectedIndex].style = defaultStyle
+            print("symbol: \(String(describing: self.app.captions[self.app.selectedIndex].style.symbol))")
+            
+            // Check if style needs to be deleted
+            var styleIsShared = false
+            for caption in app.captions {
+                if caption.style.symbol == symbol { styleIsShared = true }
             }
             
-            // If style does not exist, create a new style
-            let newStyle = defaultStyle // TODO: Change this to save current style
-            self.app.styles.append(newStyle)
+            // Delete style from styles array
+            if !styleIsShared {
+                guard let index = app.styles.firstIndex(where: { $0.symbol == symbol }) else { return }
+                app.styles.remove(at: index)
+            }
         }
+        for style in app.styles { print("STYLE: \(String(describing: style.symbol))") }
+        print("COUNT: \(app.styles.count)")
     }
     
     //init() {
@@ -130,7 +173,7 @@ struct CaptionList: View {
                     //.offset(y: self.scrollOffset)
             }
         }
-            
+        
         //}
         //.content.offset(y: self.scrollOffset)
         

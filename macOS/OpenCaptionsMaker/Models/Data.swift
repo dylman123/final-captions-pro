@@ -49,11 +49,12 @@ class Style: Hashable, Identifiable, Codable, Equatable {
     var alignment: String  // Alignment of the text
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(symbol)
     }
     
-    init(font: String, xPos: Float, yPos: Float, alignment: String) {
+    init(symbol: String?, font: String, xPos: Float, yPos: Float, alignment: String) {
         self.id = 0 //UUID()
+        self.symbol = symbol
         self.font = font
         self.xPos = xPos
         self.yPos = yPos
@@ -62,10 +63,10 @@ class Style: Hashable, Identifiable, Codable, Equatable {
 }
 // Need the following func to make Style conform to Equatable
 func == (lhs: Style, rhs: Style) -> Bool {
-    return lhs.id == rhs.id
+    return lhs.symbol == rhs.symbol
 }
 
-let defaultStyle = Style(font: "Arial", xPos: 0.0, yPos: 200.0, alignment: "Center")
+let defaultStyle = Style(symbol: nil, font: "Arial", xPos: 0.0, yPos: 200.0, alignment: "Center")
 
 // Sample data for testing purposes
 var sampleCaptionData: [Caption] = load("styledCaptions")
