@@ -24,7 +24,10 @@ struct Timings: View {
     
     // Variables
     @EnvironmentObject var app: AppState
-    @EnvironmentObject var row: RowState
+    var row: RowState
+    init(_ row: RowState) {
+        self.row = row
+    }
     
     // The current caption binding (for stepper)
     var binding: Binding<Caption> {
@@ -88,8 +91,7 @@ struct Timings: View {
 
 struct Timings_Previews: PreviewProvider {
     static var previews: some View {
-        Timings()
+        Timings(RowState())
         .environmentObject(AppState())
-        .environmentObject(RowState())
     }
 }

@@ -69,8 +69,8 @@ enum RowElement {
     case row, text, startTime, endTime
 }
 
-// The RowState class stores the state of any individual row in the captions list
-class RowState: ObservableObject {
+// The RowState struct stores the state of any individual row in the captions list
+struct RowState {
     
     // To index the current row
     var index: Int {

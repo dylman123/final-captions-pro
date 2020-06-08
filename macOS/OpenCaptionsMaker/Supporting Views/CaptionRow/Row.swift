@@ -93,26 +93,25 @@ struct Row: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .fill(row.color).frame(height: 40).clickable(row, fromView: .row)
-            Tag()
+            Tag(row)
             HStack(alignment: .center) {
                 if row.isSelected {
-                    Timings()
+                    Timings(row)
                     Spacer()
-                    TextView()
+                    TextView(row)
                     Spacer()
-                    PlusMinus()
+                    PlusMinus(row)
                 }
                 else if !row.isSelected {
-                    Timings()
+                    Timings(row)
                     Spacer()
-                    TextView()
+                    TextView(row)
                     Spacer()
                 }
             }
             .padding(.trailing, scrollbarPadding)
         }
         .frame(height: 30)
-        .environmentObject(row)
     }
 }
 

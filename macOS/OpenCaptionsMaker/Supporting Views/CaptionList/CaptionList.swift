@@ -92,15 +92,20 @@ struct CaptionList: View {
         app.captions[app.selectedIndex].text += char
     }
     
-    func tag(withSymbol key: String) -> Void {
-        let char = Character(key)
+    func tag(withSymbol key: String?) -> Void {
+        guard key != nil else {
+            self.app.captions[self.app.selectedIndex].style.symbol = nil
+            return
+        }
+        
+        let char = Character(key!)
         
         if char.isLetter == true {
-            self.app.captions[self.app.selectedIndex].style.symbol = key.uppercased()
+            self.app.captions[self.app.selectedIndex].style.symbol = key!.uppercased()
             
             // Check if style already exists
             for style in app.styles {
-                if style.symbol == key { return }
+                if style.symbol == key! { return }
             }
             
             // If style does not exist, create a new style
@@ -197,7 +202,7 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause:
-                if self.app.captions[self.app.selectedIndex].style.symbol != "" { self.app.captions[self.app.selectedIndex].style.symbol = "" }
+                if self.app.captions[self.app.selectedIndex].style.symbol != nil { self.tag(withSymbol: nil) }
                 else { self._deleteCaption() }
             case .edit: _ = self.app.captions[self.app.selectedIndex].text.popLast()
             case .editStartTime: ()
