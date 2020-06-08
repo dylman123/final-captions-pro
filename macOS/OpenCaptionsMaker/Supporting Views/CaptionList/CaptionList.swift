@@ -120,7 +120,7 @@ struct CaptionList: View {
                     let xPos = self.app.captions[self.app.selectedIndex].style.xPos
                     let yPos = self.app.captions[self.app.selectedIndex].style.yPos
                     let alignment = self.app.captions[self.app.selectedIndex].style.alignment
-                    let newStyle = Style(
+                    let newStyle = Style (
                         symbol: symbol,
                         font: font,
                         xPos: xPos,
@@ -138,7 +138,13 @@ struct CaptionList: View {
             let symbol = self.app.captions[self.app.selectedIndex].style.symbol
             
             // Disassociate tag from caption
-            let defaultStyle = Style(symbol: nil, font: "Arial", xPos: 0.0, yPos: 200.0, alignment: "Center")
+            let defaultStyle = Style (
+                symbol: symbolD,
+                font: fontD,
+                xPos: xPosD,
+                yPos: yPosD,
+                alignment: alignmentD
+            )
             self.app.captions[self.app.selectedIndex].style = defaultStyle
             
             // Check if style needs to be deleted

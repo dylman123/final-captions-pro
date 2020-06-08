@@ -66,7 +66,20 @@ func == (lhs: Style, rhs: Style) -> Bool {
     return lhs.symbol == rhs.symbol
 }
 
-let defaultStyle = Style(symbol: nil, font: "Arial", xPos: 0.0, yPos: 200.0, alignment: "Center")
+// Set default style params
+let symbolD: String? = nil
+let fontD: String = "Arial"
+let xPosD: Float = 0.0
+let yPosD: Float = 200.0
+let alignmentD: String = "Center"
+
+let defaultStyle = Style (
+    symbol: symbolD,
+    font: fontD,
+    xPos: xPosD,
+    yPos: yPosD,
+    alignment: alignmentD
+)
 
 // Sample data for testing purposes
 var sampleCaptionData: [Caption] = load("styledCaptions")
