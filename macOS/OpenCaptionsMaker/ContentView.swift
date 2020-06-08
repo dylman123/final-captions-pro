@@ -13,8 +13,8 @@ struct ContentView: View {
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
-    // To refresh the UI when state changes
-    @EnvironmentObject var state: AppState
+    // To refresh the UI when app state changes
+    @EnvironmentObject var app: AppState
     @State private var showFileInput: Bool = false
     @State private var showProgressBar: Bool = false
     
@@ -27,7 +27,7 @@ struct ContentView: View {
     }
     
     var stateLabel: String {
-        switch state.mode {
+        switch app.mode {
         case .play: return "Play"
         case .pause: return "Pause"
         case .edit: return "Edit"
@@ -59,7 +59,7 @@ struct ContentView: View {
                     
                     Spacer()
                     Button(action: {
-                        finishReview(inAppState: self.state, andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
+                        finishReview(inAppState: self.app, andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
                         IconView("NSGoForwardTemplate")
@@ -86,7 +86,7 @@ struct ContentView: View {
                 FileInput(showFileInput: self.showFileInput)
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
-                    .environmentObject(self.state)
+                    .environmentObject(self.app)
             }
             else if self.showProgressBar {
                 // Progress bar whilst tasks are loading

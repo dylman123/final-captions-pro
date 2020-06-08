@@ -131,7 +131,7 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
             let position = AEXMLElement(name: "param", attributes: [
                 "name": "Position",
                 "key": "9999/999166631/999166633/1/100/101",
-                "value": "\(caption.style.xPos) \(caption.style.yPos)"
+                "value": "\(caption.style.xPos) \(-caption.style.yPos)"
             ])
             
             let flatten = AEXMLElement(name: "param", attributes: [
