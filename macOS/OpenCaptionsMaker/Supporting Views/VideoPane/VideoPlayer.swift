@@ -169,10 +169,16 @@ struct VideoPlayerControlsView : View {
             self.pausePlayer(true)
         }
         .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
-            self.seekBack15()
+            switch self.app.mode {
+            case .play, .pause: self.seekBack15()
+            case .edit, .editStartTime, .editEndTime: ()
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
-            self.seekAhead15()
+            switch self.app.mode {
+            case .play, .pause: self.seekAhead15()
+            case .edit, .editStartTime, .editEndTime: ()
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .seekVideo)) { newPos in
             self.seek(to: newPos.object as! Double, isListControlling: true)

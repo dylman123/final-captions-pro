@@ -19,7 +19,7 @@ struct Tag: View {
     
     var body: some View {
         if row.caption.style.symbol != nil || (row.isSelected && app.mode != .play) {
-            print("Symbol: ", self.row.caption.style.symbol as Any)
+            //print("Symbol: ", self.row.caption.style.symbol as Any)
             return AnyView(
                 TagView(row.caption.style.symbol ?? "")
                     .offset(x: 180)

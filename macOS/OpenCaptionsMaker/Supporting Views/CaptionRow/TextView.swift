@@ -30,7 +30,8 @@ struct TextView: View {
                 if app.mode == .play {
                     Text(row.caption.text).offset(x: -5)
                 } else if app.mode == .edit {
-                    Text(row.caption.text + "|").offset(x: 2)  // TODO: Make cursor blink
+                    // TODO: Make cursor blink and navigate in text
+                    Text(row.caption.text + "|").offset(x: 2)
                     SelectionBox()
                 } else { Text(row.caption.text) }
             }
