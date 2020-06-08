@@ -138,8 +138,8 @@ struct CaptionList: View {
             let symbol = self.app.captions[self.app.selectedIndex].style.symbol
             
             // Disassociate tag from caption
+            let defaultStyle = Style(symbol: nil, font: "Arial", xPos: 0.0, yPos: 200.0, alignment: "Center")
             self.app.captions[self.app.selectedIndex].style = defaultStyle
-            print("symbol: \(String(describing: self.app.captions[self.app.selectedIndex].style.symbol))")
             
             // Check if style needs to be deleted
             var styleIsShared = false

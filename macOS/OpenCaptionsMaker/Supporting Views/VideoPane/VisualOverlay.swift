@@ -91,6 +91,14 @@ struct VisualOverlay: View {
             self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
             self.offset = self.position
         }
+        .onReceive(NotificationCenter.default.publisher(for: .character)) { _ in
+            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
+            self.offset = self.position
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
+            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
+            self.offset = self.position
+        }
     }
 }
 
