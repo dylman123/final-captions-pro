@@ -37,6 +37,11 @@ struct VisualOverlay: View {
             Rectangle().fill(Color.blue.opacity(0.001))
             
             Text(caption.text)
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundColor(Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 1.0))
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
                 .offset(x: self.offset.width, y: self.offset.height)
                 .gesture(
                     DragGesture()
@@ -81,5 +86,6 @@ struct VisualOverlay_Previews: PreviewProvider {
     static var previews: some View {
         VisualOverlay()
         .environmentObject(AppState())
+        .frame(height: 500)
     }
 }
