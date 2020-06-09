@@ -121,8 +121,7 @@ struct CaptionList: View {
                         font: self.app.captions[self.app.selectedIndex].style.font,
                         size: self.app.captions[self.app.selectedIndex].style.size,
                         color: self.app.captions[self.app.selectedIndex].style.color,
-                        xPos: self.app.captions[self.app.selectedIndex].style.xPos,
-                        yPos: self.app.captions[self.app.selectedIndex].style.yPos,
+                        position: self.app.captions[self.app.selectedIndex].style.position,
                         alignment: self.app.captions[self.app.selectedIndex].style.alignment
                     )
                     self.app.captions[self.app.selectedIndex].style = newStyle

@@ -15,10 +15,9 @@ struct VisualOverlay: View {
     private var caption: Caption { app.captions[index] }
     private var style: Style { caption.style }
     private var font: String { style.font }
-    private var size: CGFloat { CGFloat(style.size) }
+    private var size: CGFloat { style.size }
     private var color: Color { style.color }
     private var alignment: TextAlignment { style.alignment }
-    @State private var position = CGSize(width: 0, height: 200)
     @State private var offset = CGSize(width: 0, height: 200)
     
     func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat) {
@@ -26,12 +25,6 @@ struct VisualOverlay: View {
         if self.offset.width <= -maxWidth { self.offset.width = -maxWidth }
         if self.offset.height >= maxHeight { self.offset.height = maxHeight }
         if self.offset.height <= -maxHeight { self.offset.height = -maxHeight }
-    }
-    
-    func getCaptionStylePosition(_ xPosStateful: Float, _ yPosStateful: Float) -> CGSize {
-        let xPos = CGFloat(xPosStateful)
-        let yPos = CGFloat(yPosStateful)
-        return CGSize(width: xPos, height: yPos)
     }
     
     var body: some View {
@@ -48,23 +41,16 @@ struct VisualOverlay: View {
                         .onChanged { gesture in
                             
                             // Break down coords into 2D components
-                            let xPos = self.position.width
-                            let yPos = self.position.height
-                            
-                            // Try move caption
-                            self.offset.width = xPos + gesture.translation.width
-                            self.offset.height = yPos + gesture.translation.height
+                            self.offset.width = self.style.position.width + gesture.translation.width
+                            self.offset.height = self.style.position.height + gesture.translation.height
                             
                             // Keep caption within video frame bounds
                             self.restrictDrag(maxWidth: 400, maxHeight: 300)
                         }
 
                         .onEnded { _ in
-                            
                             // Save positional coords
-                            self.position = self.offset
-                            self.style.xPos = Float(self.offset.width)
-                            self.style.yPos = Float(self.offset.height)
+                            self.style.position = self.offset
                         }
                 )
         }
@@ -73,11 +59,10 @@ struct VisualOverlay: View {
             else { self.app.transition(to: .play) }
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
-            self.position = self.getCaptionStylePosition(self.style.xPos, self.style.yPos)
             if (animate.object != nil) {
-                withAnimation { self.offset = self.position }
+                withAnimation { self.offset = self.style.position }
             }
-            else { self.offset = self.position }
+            else { self.offset = self.style.position }
         }
     }
 }

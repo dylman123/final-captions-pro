@@ -40,30 +40,28 @@ struct JSONResult: Codable {
 // Set the initial captions list
 let initialCaptionsList: [Caption] = [Caption()]
 
-class Style: Hashable, Identifiable, Equatable {
+class Style: Hashable, Identifiable, Equatable, ObservableObject {
     let id: Int //UUID  // Random unique identifier of the style
     //var captionRef: UUID?  // If relevant to a single caption, captionRef will contain the id of the caption
-    var symbol: String?  // The symbol (alphabetical) associated with this style
-    var font: String // Includes bold, italic, underline, font, size, color
-    var size: Float
+    @Published var symbol: String?  // The symbol (alphabetical) associated with this style
+    @Published var font: String
+    @Published var size: CGFloat
     //var fontFace:
-    var color: Color
-    var xPos: Float  // horizontal position of the caption
-    var yPos: Float  // vertical position of the caption
-    var alignment: TextAlignment  // Alignment of the text
+    @Published var color: Color
+    @Published var position: CGSize
+    @Published var alignment: TextAlignment  // Alignment of the text
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(symbol)
     }
     
-    init(symbol: String?, font: String, size: Float, color: Color, xPos: Float, yPos: Float, alignment: TextAlignment) {
+    init(symbol: String?, font: String, size: CGFloat, color: Color, position: CGSize, alignment: TextAlignment) {
         self.id = 0 //UUID()
         self.symbol = symbol
         self.font = font
         self.size = size
         self.color = color
-        self.xPos = xPos
-        self.yPos = yPos
+        self.position = position
         self.alignment = alignment
     }
 }
@@ -75,20 +73,18 @@ func == (lhs: Style, rhs: Style) -> Bool {
 func defaultStyle() -> Style {
     // Set default style params
     let symbolD: String? = nil
-    let fontD: String = "Arial"
-    let sizeD: Float = 40.0
-    let colorD: Color = .white
-    let xPosD: Float = 0.0
-    let yPosD: Float = 200.0
-    let alignmentD: TextAlignment = .center
+    let fontD: String = "Georgia"
+    let sizeD: CGFloat = 60.0
+    let colorD: Color = .orange
+    let positionD: CGSize = CGSize(width: 0.0, height: 200)
+    let alignmentD: TextAlignment = .leading
 
     return Style (
         symbol: symbolD,
         font: fontD,
         size: sizeD,
         color: colorD,
-        xPos: xPosD,
-        yPos: yPosD,
+        position: positionD,
         alignment: alignmentD
     )
 }
