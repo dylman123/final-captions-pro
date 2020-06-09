@@ -117,7 +117,7 @@ struct CaptionList: View {
                 if !styleExists {
                     // Save caption current style to a tagged style
                     let newStyle = Style (
-                        symbol: self.app.captions[self.app.selectedIndex].style.symbol,
+                        symbol: symbol,
                         font: self.app.captions[self.app.selectedIndex].style.font,
                         size: self.app.captions[self.app.selectedIndex].style.size,
                         color: self.app.captions[self.app.selectedIndex].style.color,
@@ -135,16 +135,7 @@ struct CaptionList: View {
             let symbol = self.app.captions[self.app.selectedIndex].style.symbol
             
             // Disassociate tag from caption
-            let defaultStyle = Style (
-                symbol: symbolD,
-                font: fontD,
-                size: sizeD,
-                color: colorD,
-                xPos: xPosD,
-                yPos: yPosD,
-                alignment: alignmentD
-            )
-            self.app.captions[self.app.selectedIndex].style = defaultStyle
+            self.app.captions[self.app.selectedIndex].style = defaultStyle()
             
             // Check if style needs to be deleted
             var styleIsShared = false

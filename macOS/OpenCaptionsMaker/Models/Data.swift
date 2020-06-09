@@ -9,16 +9,20 @@
 import Foundation
 import SwiftUI
 
-struct Caption: Hashable, Codable, Identifiable {
+struct Caption: Hashable, Identifiable, Codable {
     var id: Int //UUID  // Random unique identifier of the caption
     var startTime: Float  // In seconds
     var endTime: Float  // In seconds
     var duration: Float  // In seconds
     var text: String  // Caption text
     var speaker: Int  // Used to differentiate between speakers in the background (for better transcribing)
-    var style: Style
+    var style: Style = defaultStyle()
     
-    init(id: Int = 0, startTime: Float = 0.0, endTime: Float = 0.0, text: String = "", style: Style = defaultStyle) {
+    private enum CodingKeys: String, CodingKey {
+        case id, startTime, endTime, duration, text, speaker
+    }
+    
+    init(id: Int = 0, startTime: Float = 0.0, endTime: Float = 0.0, text: String = "", style: Style = defaultStyle()) {
         self.id = id //UUID()
         self.startTime = startTime
         self.endTime = endTime
@@ -36,7 +40,7 @@ struct JSONResult: Codable {
 // Set the initial captions list
 let initialCaptionsList: [Caption] = [Caption()]
 
-class Style: Hashable, Identifiable, Codable, Equatable {
+class Style: Hashable, Identifiable, Equatable {
     let id: Int //UUID  // Random unique identifier of the style
     //var captionRef: UUID?  // If relevant to a single caption, captionRef will contain the id of the caption
     var symbol: String?  // The symbol (alphabetical) associated with this style
@@ -68,24 +72,26 @@ func == (lhs: Style, rhs: Style) -> Bool {
     return lhs.symbol == rhs.symbol
 }
 
-// Set default style params
-let symbolD: String? = nil
-let fontD: String = "Arial"
-let sizeD: Float = 40.0
-let colorD: String = "white"
-let xPosD: Float = 0.0
-let yPosD: Float = 200.0
-let alignmentD: String = "center"
+func defaultStyle() -> Style {
+    // Set default style params
+    let symbolD: String? = nil
+    let fontD: String = "Arial"
+    let sizeD: Float = 40.0
+    let colorD: Color = .white
+    let xPosD: Float = 0.0
+    let yPosD: Float = 200.0
+    let alignmentD: TextAlignment = .center
 
-let defaultStyle = Style (
-    symbol: symbolD,
-    font: fontD,
-    size: sizeD,
-    color: colorD,
-    xPos: xPosD,
-    yPos: yPosD,
-    alignment: alignmentD
-)
+    return Style (
+        symbol: symbolD,
+        font: fontD,
+        size: sizeD,
+        color: colorD,
+        xPos: xPosD,
+        yPos: yPosD,
+        alignment: alignmentD
+    )
+}
 
 // Sample data for testing purposes
 var sampleCaptionData: [Caption] = load("captionDataLong")
