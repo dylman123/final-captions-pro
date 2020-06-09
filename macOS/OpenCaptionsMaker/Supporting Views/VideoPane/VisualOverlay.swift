@@ -14,6 +14,10 @@ struct VisualOverlay: View {
     private var index: Int { app.selectedIndex }
     private var caption: Caption { app.captions[index] }
     private var style: Style { caption.style }
+    private var font: String { style.font }
+    private var size: CGFloat { CGFloat(style.size) }
+    private var color: Color { style.color }
+    private var alignment: TextAlignment { style.alignment }
     @State private var position = CGSize(width: 0, height: 200)
     @State private var offset = CGSize(width: 0, height: 200)
     
@@ -37,12 +41,8 @@ struct VisualOverlay: View {
             Rectangle().fill(Color.blue.opacity(0.001))
             
             Text(caption.text)
-                .font(.title)
-                .fontWeight(.semibold)
-                .foregroundColor(Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 1.0))
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .offset(x: self.offset.width, y: self.offset.height)
+                .customFont(name: font, size: size, color: color, alignment: alignment)
+                .offset(x: offset.width, y: offset.height)
                 .gesture(
                     DragGesture()
                         .onChanged { gesture in
@@ -87,5 +87,31 @@ struct VisualOverlay_Previews: PreviewProvider {
         VisualOverlay()
         .environmentObject(AppState())
         .frame(height: 500)
+    }
+}
+
+//@available(macCatalyst 13, *)
+struct CustomFont: ViewModifier {
+    //@Environment(\.sizeCategory) var sizeCategory
+    var name: String
+    var size: CGFloat
+    var color: Color
+    var alignment: TextAlignment
+
+    func body(content: Content) -> some View {
+        //let scaledSize = UIFontMetrics.default.scaledValue(for: size)
+        let modifier = content
+            .font(.custom(name, size: size))
+            .foregroundColor(color)
+            .multilineTextAlignment(alignment)
+            .lineLimit(2)
+        return modifier
+    }
+}
+
+@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+extension View {
+    func customFont(name: String, size: CGFloat, color: Color, alignment: TextAlignment) -> some View {
+        return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment))
     }
 }

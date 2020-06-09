@@ -5,7 +5,15 @@
         "endTime": 1.5,
         "duration": 1.5,
         "text": "Mary had a little lamb",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 1,
@@ -13,7 +21,15 @@
         "endTime": 2.0,
         "duration": 0.4,
         "text": "little lamb",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 2,
@@ -21,7 +37,15 @@
         "endTime": 2.8,
         "duration": 0.8,
         "text": "little lamb,",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 3,
@@ -29,7 +53,15 @@
         "endTime": 3.5,
         "duration": 1.5,
         "text": "Mary had a little lamb",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 4,
@@ -37,7 +69,15 @@
         "endTime": 4.0,
         "duration": 0.4,
         "text": "Her fleece was",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 5,
@@ -45,7 +85,15 @@
         "endTime": 4.8,
         "duration": 0.8,
         "text": "white as snow.",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 6,
@@ -53,7 +101,15 @@
         "endTime": 5.5,
         "duration": 1.5,
         "text": "And everywhere",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 7,
@@ -61,7 +117,15 @@
         "endTime": 6.0,
         "duration": 0.4,
         "text": "that",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 8,
@@ -69,7 +133,15 @@
         "endTime": 6.8,
         "duration": 0.8,
         "text": "Mary went",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 9,
@@ -77,7 +149,15 @@
         "endTime": 7.5,
         "duration": 1.5,
         "text": "Mary went",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 10,
@@ -85,7 +165,15 @@
         "endTime": 8.0,
         "duration": 0.4,
         "text": "Merry went,",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 11,
@@ -93,7 +181,15 @@
         "endTime": 8.8,
         "duration": 0.8,
         "text": "and everywhere that",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 12,
@@ -101,7 +197,15 @@
         "endTime": 9.5,
         "duration": 1.5,
         "text": "Mary went,",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 13,
@@ -109,7 +213,15 @@
         "endTime": 10.0,
         "duration": 0.4,
         "text": "her lamb was",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 14,
@@ -117,7 +229,15 @@
         "endTime": 10.8,
         "duration": 0.8,
         "text": "sure to go.",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 15,
@@ -125,7 +245,15 @@
         "endTime": 11.5,
         "duration": 1.5,
         "text": "On a dark desert",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 16,
@@ -133,7 +261,15 @@
         "endTime": 12.0,
         "duration": 0.4,
         "text": "highway,",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 17,
@@ -141,7 +277,15 @@
         "endTime": 12.8,
         "duration": 0.8,
         "text": "cool wind",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 18,
@@ -149,7 +293,15 @@
         "endTime": 13.5,
         "duration": 1.5,
         "text": "in my hair,",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 19,
@@ -157,7 +309,15 @@
         "endTime": 14.0,
         "duration": 0.4,
         "text": "warm smell",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 20,
@@ -165,7 +325,15 @@
         "endTime": 14.8,
         "duration": 0.8,
         "text": "of colitas,",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 21,
@@ -173,7 +341,15 @@
         "endTime": 15.5,
         "duration": 1.5,
         "text": "rising up through the air.",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 22,
@@ -181,7 +357,15 @@
         "endTime": 16.0,
         "duration": 0.4,
         "text": "Up ahead",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 23,
@@ -189,7 +373,15 @@
         "endTime": 16.8,
         "duration": 0.8,
         "text": "in the distance,",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 24,
@@ -197,7 +389,15 @@
         "endTime": 17.0,
         "duration": 1.5,
         "text": "Mary had a little lamb",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 25,
@@ -205,7 +405,15 @@
         "endTime": 18.6,
         "duration": 0.4,
         "text": "little lamb",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 26,
@@ -213,7 +421,15 @@
         "endTime": 19.0,
         "duration": 0.8,
         "text": "little lamb,",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 27,
@@ -221,7 +437,15 @@
         "endTime": 20.0,
         "duration": 1.5,
         "text": "Mary had a little lamb",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 28,
@@ -229,7 +453,15 @@
         "endTime": 21.6,
         "duration": 0.4,
         "text": "Her fleece was",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 29,
@@ -237,7 +469,15 @@
         "endTime": 22.0,
         "duration": 0.8,
         "text": "white as snow.",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 30,
@@ -245,7 +485,15 @@
         "endTime": 23.0,
         "duration": 1.5,
         "text": "And everywhere",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 31,
@@ -253,7 +501,15 @@
         "endTime": 24.6,
         "duration": 0.4,
         "text": "that",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 32,
@@ -261,7 +517,15 @@
         "endTime": 25.0,
         "duration": 0.8,
         "text": "Mary went",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 33,
@@ -269,7 +533,15 @@
         "endTime": 26.0,
         "duration": 1.5,
         "text": "Mary went",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 34,
@@ -277,7 +549,15 @@
         "endTime": 27.6,
         "duration": 0.4,
         "text": "Merry went,",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 35,
@@ -285,7 +565,15 @@
         "endTime": 28.0,
         "duration": 0.8,
         "text": "and everywhere that",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 36,
@@ -293,7 +581,15 @@
         "endTime": 29.0,
         "duration": 1.5,
         "text": "Mary went,",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 37,
@@ -301,7 +597,15 @@
         "endTime": 30.6,
         "duration": 0.4,
         "text": "her lamb was",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 38,
@@ -309,7 +613,15 @@
         "endTime": 31.0,
         "duration": 0.8,
         "text": "sure to go.",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 39,
@@ -317,7 +629,15 @@
         "endTime": 32.0,
         "duration": 1.5,
         "text": "On a dark desert",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 40,
@@ -325,7 +645,15 @@
         "endTime": 33.6,
         "duration": 0.4,
         "text": "highway,",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 41,
@@ -333,7 +661,15 @@
         "endTime": 34.0,
         "duration": 0.8,
         "text": "cool wind",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 42,
@@ -341,7 +677,15 @@
         "endTime": 35.0,
         "duration": 1.5,
         "text": "in my hair,",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 43,
@@ -349,7 +693,15 @@
         "endTime": 36.6,
         "duration": 0.4,
         "text": "warm smell",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 44,
@@ -357,7 +709,15 @@
         "endTime": 37.0,
         "duration": 0.8,
         "text": "of colitas,",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 45,
@@ -365,7 +725,15 @@
         "endTime": 38.0,
         "duration": 1.5,
         "text": "rising up through the air.",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 46,
@@ -373,7 +741,15 @@
         "endTime": 39.6,
         "duration": 0.4,
         "text": "Up ahead",
-        "speaker": 1
+        "speaker": 1,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     },
     {
         "id": 47,
@@ -381,7 +757,15 @@
         "endTime": 40.0,
         "duration": 0.8,
         "text": "in the distance,",
-        "speaker": 2
+        "speaker": 2,
+        "style": {
+            "id": 0,
+            "symbol": null,
+            "font": "Times",
+            "xPos": 0.0,
+            "yPos": 200.0,
+            "alignment": "Center"
+        }
     }
 ]
 

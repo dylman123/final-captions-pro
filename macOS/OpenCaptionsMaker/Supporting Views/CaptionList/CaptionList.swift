@@ -116,16 +116,14 @@ struct CaptionList: View {
                 // If style does not exist, create a new style
                 if !styleExists {
                     // Save caption current style to a tagged style
-                    let font = self.app.captions[self.app.selectedIndex].style.font
-                    let xPos = self.app.captions[self.app.selectedIndex].style.xPos
-                    let yPos = self.app.captions[self.app.selectedIndex].style.yPos
-                    let alignment = self.app.captions[self.app.selectedIndex].style.alignment
                     let newStyle = Style (
-                        symbol: symbol,
-                        font: font,
-                        xPos: xPos,
-                        yPos: yPos,
-                        alignment: alignment
+                        symbol: self.app.captions[self.app.selectedIndex].style.symbol,
+                        font: self.app.captions[self.app.selectedIndex].style.font,
+                        size: self.app.captions[self.app.selectedIndex].style.size,
+                        color: self.app.captions[self.app.selectedIndex].style.color,
+                        xPos: self.app.captions[self.app.selectedIndex].style.xPos,
+                        yPos: self.app.captions[self.app.selectedIndex].style.yPos,
+                        alignment: self.app.captions[self.app.selectedIndex].style.alignment
                     )
                     self.app.captions[self.app.selectedIndex].style = newStyle
                     self.app.styles.append(newStyle)
@@ -140,6 +138,8 @@ struct CaptionList: View {
             let defaultStyle = Style (
                 symbol: symbolD,
                 font: fontD,
+                size: sizeD,
+                color: colorD,
                 xPos: xPosD,
                 yPos: yPosD,
                 alignment: alignmentD
@@ -175,12 +175,12 @@ struct CaptionList: View {
                 Row(self.app, caption)
                     .tag(caption)
                     .padding(.vertical, 5)
-                    //.offset(y: self.scrollOffset)
+                    .offset(y: -self.scrollOffset.y)
             }
         }
         
         //}
-        //.content.offset(y: self.scrollOffset)
+        //.content.offset(y: self.scrollOffset.y)
         
         // Keyboard press logic
         .onReceive(NotificationCenter.default.publisher(for: .character)) { notification in

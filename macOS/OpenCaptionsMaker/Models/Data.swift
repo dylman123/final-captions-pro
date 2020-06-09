@@ -41,21 +41,23 @@ class Style: Hashable, Identifiable, Codable, Equatable {
     //var captionRef: UUID?  // If relevant to a single caption, captionRef will contain the id of the caption
     var symbol: String?  // The symbol (alphabetical) associated with this style
     var font: String // Includes bold, italic, underline, font, size, color
-    //var size: Int
+    var size: Float
     //var fontFace:
-    //var color: Color
+    var color: Color
     var xPos: Float  // horizontal position of the caption
     var yPos: Float  // vertical position of the caption
-    var alignment: String  // Alignment of the text
+    var alignment: TextAlignment  // Alignment of the text
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(symbol)
     }
     
-    init(symbol: String?, font: String, xPos: Float, yPos: Float, alignment: String) {
+    init(symbol: String?, font: String, size: Float, color: Color, xPos: Float, yPos: Float, alignment: TextAlignment) {
         self.id = 0 //UUID()
         self.symbol = symbol
         self.font = font
+        self.size = size
+        self.color = color
         self.xPos = xPos
         self.yPos = yPos
         self.alignment = alignment
@@ -69,17 +71,21 @@ func == (lhs: Style, rhs: Style) -> Bool {
 // Set default style params
 let symbolD: String? = nil
 let fontD: String = "Arial"
+let sizeD: Float = 40.0
+let colorD: String = "white"
 let xPosD: Float = 0.0
 let yPosD: Float = 200.0
-let alignmentD: String = "Center"
+let alignmentD: String = "center"
 
 let defaultStyle = Style (
     symbol: symbolD,
     font: fontD,
+    size: sizeD,
+    color: colorD,
     xPos: xPosD,
     yPos: yPosD,
     alignment: alignmentD
 )
 
 // Sample data for testing purposes
-var sampleCaptionData: [Caption] = load("styledCaptions")
+var sampleCaptionData: [Caption] = load("captionDataLong")
