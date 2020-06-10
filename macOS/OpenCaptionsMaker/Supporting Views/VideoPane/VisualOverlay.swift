@@ -37,31 +37,29 @@ struct VisualOverlay: View {
             
             VStack {
                 if isHovering { Text("Mouse is hovering!") }
-                
                 Text(caption.text)
                     .customFont(name: font, size: size, color: color, alignment: alignment)
-                    .onHover { hover in
-                        print(hover)
-                        self.isHovering = hover
-                    }
-                    .offset(x: offset.width, y: offset.height)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { gesture in
-                                // Break down coords into 2D components
-                                self.offset.width = self.style.position.width + gesture.translation.width
-                                self.offset.height = self.style.position.height + gesture.translation.height
-                                
-                                // Keep caption within video frame bounds
-                                self.restrictDrag(maxWidth: 400, maxHeight: 300)
-                            }
-                            .onEnded { _ in
-                                // Save positional coords
-                                self.style.position = self.offset
-                            }
-                    )
             }
-            
+            .onHover { hover in
+                print(hover)
+                self.isHovering = hover
+            }
+            .offset(x: offset.width, y: offset.height)
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        // Break down coords into 2D components
+                        self.offset.width = self.style.position.width + gesture.translation.width
+                        self.offset.height = self.style.position.height + gesture.translation.height
+                        
+                        // Keep caption within video frame bounds
+                        self.restrictDrag(maxWidth: 400, maxHeight: 300)
+                    }
+                    .onEnded { _ in
+                        // Save positional coords
+                        self.style.position = self.offset
+                    }
+            )
         }
         .onTapGesture {
             if self.app.mode == .play { self.app.transition(to: .pause) }
