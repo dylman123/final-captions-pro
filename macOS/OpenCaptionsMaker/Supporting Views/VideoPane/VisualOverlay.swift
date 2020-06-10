@@ -20,6 +20,8 @@ struct VisualOverlay: View {
     private var alignment: TextAlignment { style.alignment }
     @State private var offset = CGSize(width: 0, height: 200)
     
+    @State private var isHovering: Bool = false
+    
     func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat) {
         if self.offset.width >= maxWidth { self.offset.width = maxWidth }
         if self.offset.width <= -maxWidth { self.offset.width = -maxWidth }
@@ -33,35 +35,40 @@ struct VisualOverlay: View {
             // Color.clear is undetected by onTapGesture
             Rectangle().fill(Color.blue.opacity(0.001))
             
-            Text(caption.text)
-                .customFont(name: font, size: size, color: color, alignment: alignment)
-                .offset(x: offset.width, y: offset.height)
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            
-                            // Break down coords into 2D components
-                            self.offset.width = self.style.position.width + gesture.translation.width
-                            self.offset.height = self.style.position.height + gesture.translation.height
-                            
-                            // Keep caption within video frame bounds
-                            self.restrictDrag(maxWidth: 400, maxHeight: 300)
-                        }
-
-                        .onEnded { _ in
-                            // Save positional coords
-                            self.style.position = self.offset
-                        }
-                )
+            VStack {
+                if isHovering { Text("Mouse is hovering!") }
+                
+                Text(caption.text)
+                    .customFont(name: font, size: size, color: color, alignment: alignment)
+                    .onHover { hover in
+                        print(hover)
+                        self.isHovering = hover
+                    }
+                    .offset(x: offset.width, y: offset.height)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { gesture in
+                                // Break down coords into 2D components
+                                self.offset.width = self.style.position.width + gesture.translation.width
+                                self.offset.height = self.style.position.height + gesture.translation.height
+                                
+                                // Keep caption within video frame bounds
+                                self.restrictDrag(maxWidth: 400, maxHeight: 300)
+                            }
+                            .onEnded { _ in
+                                // Save positional coords
+                                self.style.position = self.offset
+                            }
+                    )
+            }
+            
         }
         .onTapGesture {
             if self.app.mode == .play { self.app.transition(to: .pause) }
             else { self.app.transition(to: .play) }
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
-            if (animate.object != nil) {
-                withAnimation { self.offset = self.style.position }
-            }
+            if (animate.object != nil) { withAnimation { self.offset = self.style.position } }
             else { self.offset = self.style.position }
         }
     }
