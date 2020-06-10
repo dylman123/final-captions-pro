@@ -35,13 +35,13 @@ struct VisualOverlay: View {
             // Color.clear is undetected by onTapGesture
             Rectangle().fill(Color.blue.opacity(0.001))
             
-            VStack {
-                if isHovering { Text("Mouse is hovering!") }
+            ZStack {
                 Text(caption.text)
                     .customFont(name: font, size: size, color: color, alignment: alignment)
+                if isHovering { TextStyler().offset(y: -60) }
             }
+            .padding(.top, 40)
             .onHover { hover in
-                print(hover)
                 self.isHovering = hover
             }
             .offset(x: offset.width, y: offset.height)

@@ -11,11 +11,31 @@ import SwiftUI
 struct TextStyler: View {
     var body: some View {
         
-        HStack {
-            IconView("")
-            ColorWellView()
+        ZStack {
+            RoundedRectangle(cornerRadius: 5)
+            .fill(Color.black)
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .strokeBorder(Color.white, lineWidth: 3)
+            )
+            
+            HStack {
+                IconView("NSTouchBarTextBoldTemplate")
+                IconView("NSTouchBarTextItalicTemplate")
+                IconView("NSTouchBarTextUnderlineTemplate")
+                
+                IconView("NSTouchBarTextLeftAlignTemplate")
+                IconView("NSTouchBarTextCenterAlignTemplate")
+                IconView("NSTouchBarTextRightAlignTemplate")
+
+                IconView("NSTouchBarGoDownTemplate")
+                IconView("NSTouchBarGoUpTemplate")
+                IconView("NSFontPanel")
+                ColorWellView()
+            }
+            
         }
-        .frame(width: 200, height: 50)
+        .frame(width: 400, height: 35)
     }
 }
 
