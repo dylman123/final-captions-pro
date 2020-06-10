@@ -14,19 +14,31 @@ struct VisualOverlay: View {
     private var index: Int { app.selectedIndex }
     private var caption: Caption { app.captions[index] }
     private var style: Style { caption.style }
-    private var font: String { style.font }
-    private var size: CGFloat { style.size }
-    private var color: Color { style.color }
-    private var alignment: TextAlignment { style.alignment }
-    @State private var offset = CGSize(width: 0, height: 200)
-    
+//    private var font: String { style.font }
+//    private var size: CGFloat { style.size }
+//    private var color: Color { style.color }
+//    private var alignment: TextAlignment { style.alignment }
+
+    @State private var font: String = defaultStyle().font
+    @State private var size: CGFloat = defaultStyle().size
+    @State private var color: Color = defaultStyle().color
+    @State private var position: CGSize = defaultStyle().position
+    @State private var alignment: TextAlignment = defaultStyle().alignment
     @State private var isHovering: Bool = false
     
+    func updateView() -> Void {
+        font = style.font
+        size = style.size
+        color = style.color
+        position = style.position
+        alignment = style.alignment
+    }
+    
     func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat) {
-        if self.offset.width >= maxWidth { self.offset.width = maxWidth }
-        if self.offset.width <= -maxWidth { self.offset.width = -maxWidth }
-        if self.offset.height >= maxHeight { self.offset.height = maxHeight }
-        if self.offset.height <= -maxHeight { self.offset.height = -maxHeight }
+        if position.width >= maxWidth { position.width = maxWidth }
+        if position.width <= -maxWidth { position.width = -maxWidth }
+        if position.height >= maxHeight { position.height = maxHeight }
+        if position.height <= -maxHeight { position.height = -maxHeight }
     }
     
     var body: some View {
@@ -44,20 +56,20 @@ struct VisualOverlay: View {
             .onHover { hover in
                 self.isHovering = hover
             }
-            .offset(x: offset.width, y: offset.height)
+            .offset(x: position.width, y: position.height)
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
                         // Break down coords into 2D components
-                        self.offset.width = self.style.position.width + gesture.translation.width
-                        self.offset.height = self.style.position.height + gesture.translation.height
+                        self.position.width = self.style.position.width + gesture.translation.width
+                        self.position.height = self.style.position.height + gesture.translation.height
                         
                         // Keep caption within video frame bounds
                         self.restrictDrag(maxWidth: 400, maxHeight: 300)
                     }
                     .onEnded { _ in
                         // Save positional coords
-                        self.style.position = self.offset
+                        self.app.captions[self.index].style.position = self.position
                     }
             )
         }
@@ -66,10 +78,14 @@ struct VisualOverlay: View {
             else { self.app.transition(to: .play) }
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
-            if (animate.object != nil) { withAnimation { self.offset = self.style.position } }
-            else { self.offset = self.style.position }
+            if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
+            else { self.updateView() }
         }
     }
+}
+
+func publishToVisualOverlay(animate: Bool) -> Void {
+    NotificationCenter.default.post(name: .updateStyle, object: animate)
 }
 
 struct VisualOverlay_Previews: PreviewProvider {

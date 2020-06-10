@@ -9,6 +9,18 @@
 import SwiftUI
 
 struct TextStyler: View {
+    
+    @EnvironmentObject var app: AppState
+    
+    func updateAlignment(to alignment: TextAlignment) -> Void {
+        app.captions[app.selectedIndex].style.alignment = alignment
+        publishToVisualOverlay(animate: true)
+    }
+    func updateSize(by step: CGFloat) -> Void {
+        app.captions[app.selectedIndex].style.size += step
+        publishToVisualOverlay(animate: false)
+    }
+    
     var body: some View {
         
         ZStack {
@@ -24,12 +36,26 @@ struct TextStyler: View {
                 IconView("NSTouchBarTextItalicTemplate")
                 IconView("NSTouchBarTextUnderlineTemplate")
                 
-                IconView("NSTouchBarTextLeftAlignTemplate")
-                IconView("NSTouchBarTextCenterAlignTemplate")
-                IconView("NSTouchBarTextRightAlignTemplate")
-
-                IconView("NSTouchBarGoDownTemplate")
-                IconView("NSTouchBarGoUpTemplate")
+                Button(action: {
+                    self.updateAlignment(to: .leading)
+                }, label: {IconView("NSTouchBarTextLeftAlignTemplate")})
+                
+                Button(action: {
+                    self.updateAlignment(to: .center)
+                }, label: {IconView("NSTouchBarTextCenterAlignTemplate")})
+                
+                Button(action: {
+                    self.updateAlignment(to: .trailing)
+                }, label: {IconView("NSTouchBarTextRightAlignTemplate")})
+                
+                Button(action: {
+                    self.updateSize(by: -10)
+                }, label: {IconView("NSTouchBarGoDownTemplate")})
+                
+                Button(action: {
+                    self.updateSize(by: 10)
+                }, label: {IconView("NSTouchBarGoUpTemplate")})
+                
                 IconView("NSFontPanel")
                 ColorWellView()
             }

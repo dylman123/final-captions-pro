@@ -57,7 +57,7 @@ class AppState: ObservableObject {
             else if !isListControlling {
                 NotificationCenter.default.post(name: .seekList, object: inferredIndex)
             }
-            NotificationCenter.default.post(name: .updateStyle, object: nil)
+            publishToVisualOverlay(animate: false)
         }
     }
     

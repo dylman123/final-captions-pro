@@ -148,8 +148,7 @@ struct CaptionList: View {
                 app.styles.remove(at: index)
             }
         }
-        let animate = true
-        NotificationCenter.default.post(name: .updateStyle, object: animate)
+        publishToVisualOverlay(animate: true)
     }
     
     //init() {
