@@ -13,6 +13,9 @@ import DynamicColor
 struct TextStyler: View {
     
     @EnvironmentObject var app: AppState
+    private var index: Int { app.selectedIndex }
+    private var caption: Caption { app.captions[index] }
+    private var style: Style { caption.style }
     @Binding var color: NSColor
 
     @State private var isEditingColor = false
@@ -74,9 +77,9 @@ struct TextStyler: View {
             
             if isEditingColor && app.mode != .play {
                 ColorPicker(color: $color, strokeWidth: 20)
-                    .frame(width: 100, height: 100, alignment: .center)
-                    .offset(x: 420, y: 80)
-                }
+                .frame(width: 100, height: 100, alignment: .center)
+                .offset(x: 420, y: 80)
+            }
         }
     }
 }
