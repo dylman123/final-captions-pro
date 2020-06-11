@@ -24,7 +24,7 @@ struct VisualOverlay: View {
     @State private var color: Color = defaultStyle().color
     @State private var position: CGSize = defaultStyle().position
     @State private var alignment: TextAlignment = defaultStyle().alignment
-    @State private var isHovering: Bool = false
+//    @State private var isHovering: Bool = false
     
     func updateView() -> Void {
         font = style.font
@@ -43,48 +43,60 @@ struct VisualOverlay: View {
     
     var body: some View {
         
-        ZStack {
-            // Color.clear is undetected by onTapGesture
-            Rectangle().fill(Color.blue.opacity(0.001))
+        VStack {
+        
+            TextStyler()
             
             ZStack {
-                Text(caption.text)
-                    .customFont(name: font, size: size, color: color, alignment: alignment)
-                if isHovering { TextStyler().offset(y: -60) }
+                // Color.clear is undetected by onTapGesture
+                Rectangle().fill(Color.blue.opacity(0.001))
+                
+                ZStack {
+                    Text(caption.text)
+                        //.underline().italic().bold().strikethrough()
+                        .customFont(name: font, size: size, color: color, alignment: alignment)
+                    //if isHovering { TextStyler().offset(y: -60) }
+                }
+                //.padding(.top, 40)
+                //.onHover { hover in
+                //   self.isHovering = hover
+                //}
+                .offset(x: position.width, y: position.height)
+                .gesture(
+                    DragGesture()
+                        .onChanged { gesture in
+                            // Break down coords into 2D components
+                            self.position.width = self.style.position.width + gesture.translation.width
+                            self.position.height = self.style.position.height + gesture.translation.height
+                            
+                            // Keep caption within video frame bounds
+                            self.restrictDrag(maxWidth: 400, maxHeight: 300)
+                        }
+                        .onEnded { _ in
+                            // Save positional coords
+                            self.app.captions[self.index].style.position = self.position
+                        }
+                )
             }
-            .padding(.top, 40)
-            .onHover { hover in
-                self.isHovering = hover
+            .onTapGesture {
+                if self.app.mode == .play { self.app.transition(to: .pause) }
+                else { self.app.transition(to: .play) }
             }
-            .offset(x: position.width, y: position.height)
-            .gesture(
-                DragGesture()
-                    .onChanged { gesture in
-                        // Break down coords into 2D components
-                        self.position.width = self.style.position.width + gesture.translation.width
-                        self.position.height = self.style.position.height + gesture.translation.height
-                        
-                        // Keep caption within video frame bounds
-                        self.restrictDrag(maxWidth: 400, maxHeight: 300)
-                    }
-                    .onEnded { _ in
-                        // Save positional coords
-                        self.app.captions[self.index].style.position = self.position
-                    }
-            )
-        }
-        .onTapGesture {
-            if self.app.mode == .play { self.app.transition(to: .pause) }
-            else { self.app.transition(to: .play) }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
-            if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
-            else { self.updateView() }
-        }
+            .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
+                if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
+                else { self.updateView() }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .updateColor)) { color in
+                let color = color.object as! Color
+                self.app.captions[self.index].style.color = color
+                self.color = color
+            }
+    }
     }
 }
 
-func publishToVisualOverlay(animate: Bool) -> Void {
+func publishToVisualOverlay(animate: Bool = false, color: Color? = nil) -> Void {
+    if color != nil { NotificationCenter.default.post(name: .updateColor, object: color) }
     NotificationCenter.default.post(name: .updateStyle, object: animate)
 }
 
@@ -117,7 +129,25 @@ struct CustomFont: ViewModifier {
 
 @available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
 extension View {
-    func customFont(name: String, size: CGFloat, color: Color, alignment: TextAlignment) -> some View {
-        return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment))
+    func customFont (
+        name: String,
+        size: CGFloat,
+        color: Color,
+        alignment: TextAlignment
+    ) -> some View {
+        
+        return self.modifier(
+            CustomFont (
+            name: name,
+            size: size,
+            color: color,
+            alignment: alignment
+        ))
     }
 }
+
+//extension View {
+//    func customAttributes (bold: Bool, italic: Bool, underline: Bool, strikethrough: Bool) -> some View {
+//        //return .bold()
+//    }
+//}

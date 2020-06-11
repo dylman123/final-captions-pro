@@ -30,6 +30,7 @@ extension Notification.Name {
     static let nextPage = Notification.Name("nextPage")
     static let prevPage = Notification.Name("prevPage")
     static let updateStyle = Notification.Name("updateStyle")
+    static let updateColor = Notification.Name("updateColor")
 }
 
 // Send commands to bash shell
