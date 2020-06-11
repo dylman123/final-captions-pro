@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2BBBFDC3E2C80F675D7180AD /* Pods_OpenCaptionsMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F13D0A30024D96FB4DEE9B /* Pods_OpenCaptionsMaker.framework */; };
 		A356A70B24921445009F8638 /* ColorPicker in Frameworks */ = {isa = PBXBuildFile; productRef = A356A70A24921445009F8638 /* ColorPicker */; };
+		A356A73824925FBA009F8638 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A356A73724925FBA009F8638 /* ColorPicker.swift */; };
+		A356A73A24925FCE009F8638 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A356A73924925FCE009F8638 /* ColorExtension.swift */; };
 		A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13D2446C46800CD1C15 /* CaptionList.swift */; };
 		A36655C5244A8F1D002FA173 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655C4244A8F1D002FA173 /* State.swift */; };
 		A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1542448788100CD1C15 /* VideoPlayer.swift */; };
@@ -75,6 +77,8 @@
 		587C95032DFCD0281E55DC9A /* Pods-OpenCaptionsMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.debug.xcconfig"; sourceTree = "<group>"; };
 		8102688F56E295272B42443D /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		96500640B2566C2F53A0E7E3 /* Pods-OpenCaptionsMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A356A73724925FBA009F8638 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		A356A73924925FCE009F8638 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		A36655BC24499293002FA173 /* AppKitElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitElements.swift; sourceTree = "<group>"; };
 		A36655C4244A8F1D002FA173 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		A36655CD244D7E95002FA173 /* FileInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInput.swift; sourceTree = "<group>"; };
@@ -266,6 +270,8 @@
 				A37FD1542448788100CD1C15 /* VideoPlayer.swift */,
 				A3E4CB942488A9840046A1BA /* VisualOverlay.swift */,
 				A3E4CB9A2490BA280046A1BA /* TextStyler.swift */,
+				A356A73724925FBA009F8638 /* ColorPicker.swift */,
+				A356A73924925FCE009F8638 /* ColorExtension.swift */,
 			);
 			path = VideoPane;
 			sourceTree = "<group>";
@@ -616,8 +622,10 @@
 				A36655DE24540409002FA173 /* generateCaptions.swift in Sources */,
 				A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */,
 				A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */,
+				A356A73824925FBA009F8638 /* ColorPicker.swift in Sources */,
 				A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */,
 				A36655D5244EDC29002FA173 /* AppKitElements.swift in Sources */,
+				A356A73A24925FCE009F8638 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

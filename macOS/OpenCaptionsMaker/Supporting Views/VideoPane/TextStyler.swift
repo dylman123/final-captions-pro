@@ -7,17 +7,11 @@
 //
 
 import SwiftUI
-import ColorPicker
-import DynamicColor
 
 struct TextStyler: View {
     
     @EnvironmentObject var app: AppState
-    private var index: Int { app.selectedIndex }
-    private var caption: Caption { app.captions[index] }
-    private var style: Style { caption.style }
     @Binding var color: NSColor
-
     @State private var isEditingColor = false
     
     // To format the buttons
