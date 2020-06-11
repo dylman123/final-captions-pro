@@ -42,25 +42,18 @@ struct VisualOverlay: View {
     }
     
     var body: some View {
-        
-        VStack {
-        
-            TextStyler()
             
-            ZStack {
-                // Color.clear is undetected by onTapGesture
-                Rectangle().fill(Color.blue.opacity(0.001))
-                
-                ZStack {
-                    Text(caption.text)
-                        //.underline().italic().bold().strikethrough()
-                        .customFont(name: font, size: size, color: color, alignment: alignment)
-                    //if isHovering { TextStyler().offset(y: -60) }
+        ZStack {
+            // Color.clear is undetected by onTapGesture
+            Rectangle().fill(Color.blue.opacity(0.001))
+                .onTapGesture {
+                    if self.app.mode == .play { self.app.transition(to: .pause) }
+                    else { self.app.transition(to: .play) }
                 }
-                //.padding(.top, 40)
-                //.onHover { hover in
-                //   self.isHovering = hover
-                //}
+            
+            Text(caption.text)
+                //.underline().italic().bold().strikethrough()
+                .customFont(name: font, size: size, color: color, alignment: alignment)
                 .offset(x: position.width, y: position.height)
                 .gesture(
                     DragGesture()
@@ -77,21 +70,19 @@ struct VisualOverlay: View {
                             self.app.captions[self.index].style.position = self.position
                         }
                 )
-            }
-            .onTapGesture {
-                if self.app.mode == .play { self.app.transition(to: .pause) }
-                else { self.app.transition(to: .play) }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
-                if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
-                else { self.updateView() }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .updateColor)) { color in
-                let color = color.object as! Color
-                self.app.captions[self.index].style.color = color
-                self.color = color
-            }
-    }
+            
+            // Style editor
+            TextStyler().offset(y: -290)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
+            if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
+            else { self.updateView() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .updateColor)) { color in
+            let color = color.object as! Color
+            self.app.captions[self.index].style.color = color
+            self.color = color
+        }
     }
 }
 

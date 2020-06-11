@@ -43,7 +43,7 @@ struct ContentView: View {
             
             VStack {
                 Text("State: \(stateLabel)")
-
+                
                 // Video player
                 VideoPlayer(url: testVideo)
                 .buttonStyle(BorderlessButtonStyle())

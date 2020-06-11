@@ -30,14 +30,11 @@ struct TextStyler: View {
     }
     
     var body: some View {
-        
+                
         ZStack {
             RoundedRectangle(cornerRadius: 6)
                 .fill(Color.black.opacity(0.8))
-//                .overlay(
-//                    RoundedRectangle(cornerRadius: 6)
-//                        .strokeBorder(Color.white, lineWidth: 2)
-//                )
+                .frame(height: 35)
             
             HStack(spacing: 15) {
                 
@@ -70,24 +67,23 @@ struct TextStyler: View {
                     
                     Button(action: { self.isEditingColor.toggle() },
                            label: {IconView("NSTouchBarColorPickerStroke")})
-                    
-                    if isEditingColor {
-                        ColorPicker(color: self.$color, strokeWidth: 30)
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .offset(x: 300, y: 20)
-                    }
-                    //ColorWell().frame(width: 35)
                 }
             }
+            .frame(height: 35)
             .buttonStyle(buttonStyle)
             
+            if isEditingColor && app.mode != .play {
+                ColorPicker(color: $color, strokeWidth: 20)
+                    .frame(width: 100, height: 100, alignment: .center)
+                    .offset(x: 420, y: 80)
+                }
         }
-        .frame(height: 35)
     }
 }
 
 struct TextStyler_Previews: PreviewProvider {
     static var previews: some View {
         TextStyler()
+            .frame(width: 1000, height: 300)
     }
 }
