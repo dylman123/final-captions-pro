@@ -13,8 +13,8 @@ import DynamicColor
 struct TextStyler: View {
     
     @EnvironmentObject var app: AppState
-    
-    @State private var color = NSColor.red
+    @Binding var color: NSColor
+
     @State private var isEditingColor = false
     
     // To format the buttons
@@ -82,8 +82,9 @@ struct TextStyler: View {
 }
 
 struct TextStyler_Previews: PreviewProvider {
+    
     static var previews: some View {
-        TextStyler()
+        TextStyler(color: .constant(.red))
             .frame(width: 1000, height: 300)
     }
 }

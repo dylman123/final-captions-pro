@@ -47,7 +47,7 @@ class Style: Hashable, Identifiable, Equatable, ObservableObject {
     @Published var font: String
     @Published var size: CGFloat
     //var fontFace:
-    @Published var color: Color
+    @Published var color: NSColor
     @Published var position: CGSize
     @Published var alignment: TextAlignment  // Alignment of the text
     
@@ -55,7 +55,7 @@ class Style: Hashable, Identifiable, Equatable, ObservableObject {
         hasher.combine(symbol)
     }
     
-    init(symbol: String?, font: String, size: CGFloat, color: Color, position: CGSize, alignment: TextAlignment) {
+    init(symbol: String?, font: String, size: CGFloat, color: NSColor, position: CGSize, alignment: TextAlignment) {
         self.id = 0 //UUID()
         self.symbol = symbol
         self.font = font
@@ -75,7 +75,7 @@ func defaultStyle() -> Style {
     let symbolD: String? = nil
     let fontD: String = "Georgia"
     let sizeD: CGFloat = 60.0
-    let colorD: Color = .orange
+    let colorD: NSColor = .orange
     let positionD: CGSize = CGSize(width: 0.0, height: 200)
     let alignmentD: TextAlignment = .leading
 

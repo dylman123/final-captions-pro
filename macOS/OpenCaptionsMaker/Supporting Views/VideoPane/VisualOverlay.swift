@@ -21,10 +21,9 @@ struct VisualOverlay: View {
 
     @State private var font: String = defaultStyle().font
     @State private var size: CGFloat = defaultStyle().size
-    @State private var color: Color = defaultStyle().color
+    @State private var color: NSColor = defaultStyle().color
     @State private var position: CGSize = defaultStyle().position
     @State private var alignment: TextAlignment = defaultStyle().alignment
-//    @State private var isHovering: Bool = false
     
     func updateView() -> Void {
         font = style.font
@@ -72,31 +71,17 @@ struct VisualOverlay: View {
                 )
             
             // Style editor
-            TextStyler().offset(y: -290)
+            TextStyler(color: $color).offset(y: -290)
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
             if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
             else { self.updateView() }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .updateColor)) { color in
-            let color = color.object as! Color
-            self.app.captions[self.index].style.color = color
-            self.color = color
-        }
     }
 }
 
-func publishToVisualOverlay(animate: Bool = false, color: Color? = nil) -> Void {
-    if color != nil { NotificationCenter.default.post(name: .updateColor, object: color) }
+func publishToVisualOverlay(animate: Bool = false) -> Void {
     NotificationCenter.default.post(name: .updateStyle, object: animate)
-}
-
-struct VisualOverlay_Previews: PreviewProvider {
-    static var previews: some View {
-        VisualOverlay()
-        .environmentObject(AppState())
-        .frame(height: 500)
-    }
 }
 
 //@available(macCatalyst 13, *)
@@ -104,14 +89,14 @@ struct CustomFont: ViewModifier {
     //@Environment(\.sizeCategory) var sizeCategory
     var name: String
     var size: CGFloat
-    var color: Color
+    var color: NSColor
     var alignment: TextAlignment
 
     func body(content: Content) -> some View {
         //let scaledSize = UIFontMetrics.default.scaledValue(for: size)
         let modifier = content
             .font(.custom(name, size: size))
-            .foregroundColor(color)
+            .foregroundColor(Color(color))
             .multilineTextAlignment(alignment)
             .lineLimit(2)
         return modifier
@@ -123,7 +108,7 @@ extension View {
     func customFont (
         name: String,
         size: CGFloat,
-        color: Color,
+        color: NSColor,
         alignment: TextAlignment
     ) -> some View {
         
@@ -142,3 +127,11 @@ extension View {
 //        //return .bold()
 //    }
 //}
+
+struct VisualOverlay_Previews: PreviewProvider {
+    static var previews: some View {
+        VisualOverlay()
+        .environmentObject(AppState())
+        .frame(height: 500)
+    }
+}
