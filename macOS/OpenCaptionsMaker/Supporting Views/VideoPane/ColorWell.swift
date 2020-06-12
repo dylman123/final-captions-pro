@@ -26,14 +26,12 @@ struct ColorWell: NSViewRepresentable {
         // Observe KVO compliant color property on NSColorWell object.
         // Update the selectedColor property on EmbeddedColorWell as needed.
         func changeColor(colorWell: NSColorWell) -> Void {
-            //var savedColor: NSColor?
             subscription = colorWell
                 .publisher(for: \.color, options: .new)
                 .sink { color in
                     DispatchQueue.main.async {
                         self.embedded.selectedColor = color
                         self.app.captions[self.app.selectedIndex].style.color = color
-                        //savedColor = color
                     }
                 }
         }
@@ -46,7 +44,6 @@ struct ColorWell: NSViewRepresentable {
     func makeNSView(context: Context) -> NSColorWell {
         let colorWell = NSColorWell(frame: .zero)
         context.coordinator.changeColor(colorWell: colorWell)
-        //if savedColor != nil { app.captions[app.selectedIndex].style.color = savedColor! }
         return colorWell
     }
     
