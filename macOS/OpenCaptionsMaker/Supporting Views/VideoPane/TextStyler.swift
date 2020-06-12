@@ -25,7 +25,7 @@ struct TextStyler: View {
         case .underline: app.captions[app.selectedIndex].style.underline.toggle()
         case .strikethrough: app.captions[app.selectedIndex].style.strikethrough.toggle()
         }
-        publishToVisualOverlay(animate: true)
+        publishToVisualOverlay(animate: false)
     }
     
     func updateAlignment(to alignment: TextAlignment) -> Void {
