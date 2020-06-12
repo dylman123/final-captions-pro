@@ -84,8 +84,9 @@ struct TextStyler: View {
                     
                     Button(action: {}, label: {IconView("NSFontPanel")})
                     
-                    Button(action: { self.isEditingColor.toggle() },
-                           label: {IconView("NSTouchBarColorPickerStroke")})
+                    ColorWell(selectedColor: $color)
+//                    Button(action: { self.isEditingColor.toggle() },
+//                           label: {IconView("NSTouchBarColorPickerStroke")})
                 }
             }
             .frame(height: 35)
