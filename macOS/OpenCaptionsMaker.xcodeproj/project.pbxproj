@@ -75,6 +75,7 @@
 		587C95032DFCD0281E55DC9A /* Pods-OpenCaptionsMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.debug.xcconfig"; sourceTree = "<group>"; };
 		8102688F56E295272B42443D /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		96500640B2566C2F53A0E7E3 /* Pods-OpenCaptionsMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A330EB28249358C500466670 /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
 		A356A73B24934505009F8638 /* ColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWell.swift; sourceTree = "<group>"; };
 		A36655BC24499293002FA173 /* AppKitElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitElements.swift; sourceTree = "<group>"; };
 		A36655C4244A8F1D002FA173 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
@@ -267,6 +268,7 @@
 				A3E4CB942488A9840046A1BA /* VisualOverlay.swift */,
 				A3E4CB9A2490BA280046A1BA /* TextStyler.swift */,
 				A356A73B24934505009F8638 /* ColorWell.swift */,
+				A330EB28249358C500466670 /* FontPicker.swift */,
 			);
 			path = VideoPane;
 			sourceTree = "<group>";
