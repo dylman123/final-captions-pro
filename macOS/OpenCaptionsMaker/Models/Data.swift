@@ -41,21 +41,23 @@ struct JSONResult: Codable {
 let initialCaptionsList: [Caption] = [Caption()]
 
 class Style: Hashable, Identifiable, Equatable, ObservableObject {
-    let id: Int //UUID  // Random unique identifier of the style
-    //var captionRef: UUID?  // If relevant to a single caption, captionRef will contain the id of the caption
+    let id: Int  // Random unique identifier of the style
     @Published var symbol: String?  // The symbol (alphabetical) associated with this style
     @Published var font: String
     @Published var size: CGFloat
-    //var fontFace:
     @Published var color: NSColor
     @Published var position: CGSize
     @Published var alignment: TextAlignment  // Alignment of the text
+    @Published var bold: Bool
+    @Published var italic: Bool
+    @Published var underline: Bool
+    @Published var strikethrough: Bool
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(symbol)
     }
     
-    init(symbol: String?, font: String, size: CGFloat, color: NSColor, position: CGSize, alignment: TextAlignment) {
+    init(symbol: String?, font: String, size: CGFloat, color: NSColor, position: CGSize, alignment: TextAlignment, bold: Bool, italic: Bool, underline: Bool, strikethrough: Bool) {
         self.id = 0 //UUID()
         self.symbol = symbol
         self.font = font
@@ -63,6 +65,10 @@ class Style: Hashable, Identifiable, Equatable, ObservableObject {
         self.color = color
         self.position = position
         self.alignment = alignment
+        self.bold = bold
+        self.italic = italic
+        self.underline = underline
+        self.strikethrough = strikethrough
     }
 }
 // Need the following func to make Style conform to Equatable
@@ -72,20 +78,28 @@ func == (lhs: Style, rhs: Style) -> Bool {
 
 func defaultStyle() -> Style {
     // Set default style params
-    let symbolD: String? = nil
-    let fontD: String = "Georgia"
-    let sizeD: CGFloat = 60.0
-    let colorD: NSColor = .orange
-    let positionD: CGSize = CGSize(width: 0.0, height: 200)
-    let alignmentD: TextAlignment = .leading
+    let _symbol: String? = nil
+    let _font: String = "Georgia"
+    let _size: CGFloat = 60.0
+    let _color: NSColor = .orange
+    let _position: CGSize = CGSize(width: 0.0, height: 200)
+    let _alignment: TextAlignment = .leading
+    let _bold: Bool = false
+    let _italic: Bool = false
+    let _underline: Bool = false
+    let _strikethrough: Bool = false
 
     return Style (
-        symbol: symbolD,
-        font: fontD,
-        size: sizeD,
-        color: colorD,
-        position: positionD,
-        alignment: alignmentD
+        symbol: _symbol,
+        font: _font,
+        size: _size,
+        color: _color,
+        position: _position,
+        alignment: _alignment,
+        bold: _bold,
+        italic: _italic,
+        underline: _underline,
+        strikethrough: _strikethrough
     )
 }
 

@@ -17,12 +17,26 @@ struct TextStyler: View {
     // To format the buttons
     var buttonStyle = BorderlessButtonStyle()
     
+    enum TextAttribute { case bold, italic, underline, strikethrough }
+    func updateTextAttribute(_ attribute: TextAttribute) -> Void {
+        switch attribute {
+        case .bold: app.captions[app.selectedIndex].style.bold.toggle()
+        case .italic: app.captions[app.selectedIndex].style.italic.toggle()
+        case .underline: app.captions[app.selectedIndex].style.underline.toggle()
+        case .strikethrough: app.captions[app.selectedIndex].style.strikethrough.toggle()
+        }
+        publishToVisualOverlay(animate: true)
+    }
+    
     func updateAlignment(to alignment: TextAlignment) -> Void {
         app.captions[app.selectedIndex].style.alignment = alignment
         publishToVisualOverlay(animate: true)
     }
     func updateSize(by step: CGFloat) -> Void {
         app.captions[app.selectedIndex].style.size += step
+        let newSize = app.captions[app.selectedIndex].style.size
+        if newSize < 10 { app.captions[app.selectedIndex].style.size = 10 }
+        if newSize > 200 { app.captions[app.selectedIndex].style.size = 200 }
         publishToVisualOverlay(animate: false)
     }
     
@@ -35,11 +49,19 @@ struct TextStyler: View {
             
             HStack(spacing: 15) {
                 
-                // Bold, Italic, Underline
+                // Bold, Italic, Underline, Strikethrough
                 Group {
-                    Button(action: {}, label: {IconView("NSTouchBarTextBoldTemplate")})
-                    Button(action: {}, label: {IconView("NSTouchBarTextItalicTemplate")})
-                    Button(action: {}, label: {IconView("NSTouchBarTextUnderlineTemplate")})
+                    Button(action: {self.updateTextAttribute(.bold)},
+                           label: {IconView("NSTouchBarTextBoldTemplate")})
+                    
+                    Button(action: {self.updateTextAttribute(.italic)},
+                           label: {IconView("NSTouchBarTextItalicTemplate")})
+                    
+                    Button(action: {self.updateTextAttribute(.underline)},
+                           label: {IconView("NSTouchBarTextUnderlineTemplate")})
+                    
+                    Button(action: {self.updateTextAttribute(.strikethrough)},
+                           label: {IconView("NSTouchBarTextStrikethroughTemplate")})
                 }
                 // Alignment
                 Group {
@@ -54,10 +76,10 @@ struct TextStyler: View {
                 }
                 // Size, Font, Color
                 Group {
-                    Button(action: { self.updateSize(by: -10) },
+                    Button(action: { self.updateSize(by: -5) },
                            label: {IconView("NSTouchBarGoDownTemplate")})
                     
-                    Button(action: { self.updateSize(by: 10) },
+                    Button(action: { self.updateSize(by: 5) },
                            label: {IconView("NSTouchBarGoUpTemplate")})
                     
                     Button(action: {}, label: {IconView("NSFontPanel")})

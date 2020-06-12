@@ -24,6 +24,10 @@ struct VisualOverlay: View {
     @State private var color: NSColor = defaultStyle().color
     @State private var position: CGSize = defaultStyle().position
     @State private var alignment: TextAlignment = defaultStyle().alignment
+    @State private var bold: Bool = defaultStyle().bold
+    @State private var italic: Bool = defaultStyle().italic
+    @State private var underline: Bool = defaultStyle().underline
+    @State private var strikethrough: Bool = defaultStyle().strikethrough
     
     func updateView() -> Void {
         font = style.font
@@ -31,6 +35,10 @@ struct VisualOverlay: View {
         color = style.color
         position = style.position
         alignment = style.alignment
+        bold = style.bold
+        italic = style.italic
+        underline = style.underline
+        strikethrough = style.strikethrough
     }
     
     func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat) {
@@ -51,7 +59,7 @@ struct VisualOverlay: View {
                 }
             
             Text(caption.text)
-                //.underline().italic().bold().strikethrough()
+                .attributes(_bold: bold, _italic: italic, _underline: underline, _strikethrough: strikethrough)
                 .customFont(name: font, size: size, color: color, alignment: alignment)
                 .offset(x: position.width, y: position.height)
                 .gesture(
@@ -105,28 +113,35 @@ struct CustomFont: ViewModifier {
 
 @available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
 extension View {
-    func customFont (
-        name: String,
-        size: CGFloat,
-        color: NSColor,
-        alignment: TextAlignment
-    ) -> some View {
-        
-        return self.modifier(
-            CustomFont (
-            name: name,
-            size: size,
-            color: color,
-            alignment: alignment
-        ))
+    func customFont (name: String, size: CGFloat, color: NSColor, alignment: TextAlignment) -> some View {
+        return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment))
     }
 }
 
-//extension View {
-//    func customAttributes (bold: Bool, italic: Bool, underline: Bool, strikethrough: Bool) -> some View {
-//        //return .bold()
-//    }
-//}
+extension Text {
+    func attributes (_bold: Bool, _italic: Bool, _underline: Bool, _strikethrough: Bool) -> some View {
+        
+        var modifier: Text = self
+        switch _bold {
+        case true: modifier = modifier.bold()
+        case false: ()
+        }
+        switch _italic {
+        case true: modifier = modifier.italic()
+        case false: ()
+        }
+        switch _underline {
+        case true: modifier = modifier.underline()
+        case false: ()
+        }
+        switch _strikethrough {
+        case true: modifier = modifier.strikethrough()
+        case false: ()
+        }
+        
+        return modifier
+    }
+}
 
 struct VisualOverlay_Previews: PreviewProvider {
     static var previews: some View {

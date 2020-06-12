@@ -122,7 +122,11 @@ struct CaptionList: View {
                         size: self.app.captions[self.app.selectedIndex].style.size,
                         color: self.app.captions[self.app.selectedIndex].style.color,
                         position: self.app.captions[self.app.selectedIndex].style.position,
-                        alignment: self.app.captions[self.app.selectedIndex].style.alignment
+                        alignment: self.app.captions[self.app.selectedIndex].style.alignment,
+                        bold: self.app.captions[self.app.selectedIndex].style.bold,
+                        italic: self.app.captions[self.app.selectedIndex].style.italic,
+                        underline: self.app.captions[self.app.selectedIndex].style.underline,
+                        strikethrough: self.app.captions[self.app.selectedIndex].style.strikethrough
                     )
                     self.app.captions[self.app.selectedIndex].style = newStyle
                     self.app.styles.append(newStyle)
