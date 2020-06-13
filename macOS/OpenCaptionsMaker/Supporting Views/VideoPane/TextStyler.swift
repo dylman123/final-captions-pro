@@ -92,6 +92,7 @@ struct TextStyler: View {
             .buttonStyle(buttonStyle)
             
         }
+        .animation(.spring())
     }
 }
 

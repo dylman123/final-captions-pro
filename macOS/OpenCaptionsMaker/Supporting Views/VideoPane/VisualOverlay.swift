@@ -30,15 +30,17 @@ struct VisualOverlay: View {
     @State private var strikethrough: Bool = defaultStyle().strikethrough
     
     func updateView() -> Void {
-        font = style.font
-        size = style.size
-        color = style.color
-        position = style.position
-        alignment = style.alignment
-        bold = style.bold
-        italic = style.italic
-        underline = style.underline
-        strikethrough = style.strikethrough
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.font = self.style.font
+            self.size = self.style.size
+            self.color = self.style.color
+            self.position = self.style.position
+            self.alignment = self.style.alignment
+            self.bold = self.style.bold
+            self.italic = self.style.italic
+            self.underline = self.style.underline
+            self.strikethrough = self.style.strikethrough
+        }
     }
     
     func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat) {
@@ -79,7 +81,7 @@ struct VisualOverlay: View {
                 )
             
             // Style editor
-            TextStyler(color: $color).offset(y: -290)
+            if app.mode != .play { TextStyler(color: $color).offset(y: -290) }
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
             if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
