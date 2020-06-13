@@ -63,6 +63,7 @@ class VideoPlayerNSView: NSView {
     override func layout() {
         super.layout()
         playerLayer.frame = bounds
+        NotificationCenter.default.post(name: .sizeVideo, object: bounds)
     }
     
     func cleanUp() {
@@ -80,6 +81,8 @@ class VideoPlayerNSView: NSView {
 
 // This is the SwiftUI view which wraps the AppKit-based PlayerNSView above
 struct VideoPlayerPaneView: NSViewRepresentable {
+    
+    @EnvironmentObject var app: AppState
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
@@ -288,6 +291,10 @@ struct VideoPlayerContainerView : View {
         .onDisappear {
             // When this View isn't being shown anymore stop the player
             self.player.replaceCurrentItem(with: nil)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .sizeVideo)) { size in
+            let newFrameSize = size.object as! NSRect
+            self.app.videoFrame = newFrameSize
         }
     }
 }

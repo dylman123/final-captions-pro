@@ -14,10 +14,7 @@ struct VisualOverlay: View {
     private var index: Int { app.selectedIndex }
     private var caption: Caption { app.captions[index] }
     private var style: Style { caption.style }
-//    private var font: String { style.font }
-//    private var size: CGFloat { style.size }
-//    private var color: Color { style.color }
-//    private var alignment: TextAlignment { style.alignment }
+    private var videoFrame: CGRect { app.videoFrame }
 
     @State private var font: String = defaultStyle().font
     @State private var size: CGFloat = defaultStyle().size
@@ -72,7 +69,7 @@ struct VisualOverlay: View {
                             self.position.height = self.style.position.height + gesture.translation.height
                             
                             // Keep caption within video frame bounds
-                            self.restrictDrag(maxWidth: 400, maxHeight: 300)
+                            self.restrictDrag(maxWidth: self.videoFrame.width/2, maxHeight: self.videoFrame.height/2)
                         }
                         .onEnded { _ in
                             // Save positional coords
@@ -103,7 +100,6 @@ struct CustomFont: ViewModifier {
     var alignment: TextAlignment
 
     func body(content: Content) -> some View {
-        //let scaledSize = UIFontMetrics.default.scaledValue(for: size)
         let modifier = content
             .font(.custom(name, size: size))
             .foregroundColor(Color(color))
