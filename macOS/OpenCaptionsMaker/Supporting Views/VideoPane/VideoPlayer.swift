@@ -63,7 +63,6 @@ class VideoPlayerNSView: NSView {
     override func layout() {
         super.layout()
         playerLayer.frame = bounds
-        NotificationCenter.default.post(name: .sizeVideo, object: bounds)
     }
     
     func cleanUp() {
@@ -291,10 +290,6 @@ struct VideoPlayerContainerView : View {
         .onDisappear {
             // When this View isn't being shown anymore stop the player
             self.player.replaceCurrentItem(with: nil)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .sizeVideo)) { size in
-            let newFrameSize = size.object as! NSRect
-            self.app.videoFrame = newFrameSize
         }
     }
 }

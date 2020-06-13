@@ -14,7 +14,6 @@ struct VisualOverlay: View {
     private var index: Int { app.selectedIndex }
     private var caption: Caption { app.captions[index] }
     private var style: Style { caption.style }
-    private var videoFrame: CGRect { app.videoFrame }
 
     @State private var font: String = defaultStyle().font
     @State private var size: CGFloat = defaultStyle().size
@@ -48,37 +47,38 @@ struct VisualOverlay: View {
     }
     
     var body: some View {
-            
-        ZStack {
-            // Color.clear is undetected by onTapGesture
-            Rectangle().fill(Color.blue.opacity(0.001))
-                .onTapGesture {
-                    if self.app.mode == .play { self.app.transition(to: .pause) }
-                    else { self.app.transition(to: .play) }
-                }
-            
-            Text(caption.text)
-                .attributes(_bold: bold, _italic: italic, _underline: underline, _strikethrough: strikethrough)
-                .customFont(name: font, size: size, color: color, alignment: alignment)
-                .offset(x: position.width, y: position.height)
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            // Break down coords into 2D components
-                            self.position.width = self.style.position.width + gesture.translation.width
-                            self.position.height = self.style.position.height + gesture.translation.height
-                            
-                            // Keep caption within video frame bounds
-                            self.restrictDrag(maxWidth: self.videoFrame.width/2, maxHeight: self.videoFrame.height/2)
-                        }
-                        .onEnded { _ in
-                            // Save positional coords
-                            self.app.captions[self.index].style.position = self.position
-                        }
-                )
-            
-            // Style editor
-            if app.mode != .play { TextStyler(color: $color).offset(y: -290) }
+        GeometryReader { geometry in
+            ZStack {
+                // Color.clear is undetected by onTapGesture
+                Rectangle().fill(Color.blue.opacity(0.001))
+                    .onTapGesture {
+                        if self.app.mode == .play { self.app.transition(to: .pause) }
+                        else { self.app.transition(to: .play) }
+                    }
+                
+                Text(self.caption.text)
+                    .attributes(_bold: self.bold, _italic: self.italic, _underline: self.underline, _strikethrough: self.strikethrough)
+                    .customFont(name: self.font, size: self.size, color: self.color, alignment: self.alignment)
+                    .offset(x: self.position.width, y: self.position.height)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { gesture in
+                                // Break down coords into 2D components
+                                self.position.width = self.style.position.width + gesture.translation.width
+                                self.position.height = self.style.position.height + gesture.translation.height
+                                
+                                // Keep caption within video frame bounds
+                                self.restrictDrag(maxWidth: geometry.size.width/2, maxHeight: geometry.size.height/2)
+                            }
+                            .onEnded { _ in
+                                // Save positional coords
+                                self.app.captions[self.index].style.position = self.position
+                            }
+                    )
+                
+                // Style editor
+                if self.app.mode != .play { TextStyler(color: self.$color).offset(y: -290) }
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
             if (animate.object as! Bool == true) { withAnimation { self.updateView() } }

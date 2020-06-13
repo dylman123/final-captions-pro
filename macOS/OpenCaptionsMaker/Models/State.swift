@@ -37,9 +37,6 @@ class AppState: ObservableObject {
     // URL of the imported video
     @Published var videoURL: URL = URL(fileURLWithPath: "")
     
-    // Frame dimensions of the imported video
-    @Published var videoFrame: CGRect = CGRect(x: 0, y: 0, width: 960, height: 600)
-    
     // Set state within the application
     func transition(to newState: Mode) -> Void {
         mode = newState
