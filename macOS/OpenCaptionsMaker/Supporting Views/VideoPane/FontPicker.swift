@@ -11,27 +11,28 @@ import Combine
 
 struct FontPicker: View {
 
-    @State var selectedFont: String
-    //@EnvironmentObject var app: AppState
+    @EnvironmentObject var app: AppState
     
     let fontFamilyNames = NSFontManager.shared.availableFontFamilies
     
     var body: some View {
         
-        Picker("Select a font", selection: $selectedFont) {
+        Picker("Select a font", selection: $app.captions[app.selectedIndex].style.font) {
             ForEach(fontFamilyNames, id: \.self) {
                 Text($0).font(.custom($0, size: 15))
             }
         }
+        .onReceive(app.captions[app.selectedIndex].style.$font) { _ in
+            publishToVisualOverlay(animate: false)
+        }
         .labelsHidden()
-        .id(selectedFont)
-        .animation(.spring())
+        .id(app.captions[app.selectedIndex].style.font)
         
     }
 }
 
 struct FontPicker_Previews: PreviewProvider {
     static var previews: some View {
-        FontPicker(selectedFont: "Arial")
+        FontPicker()
     }
 }

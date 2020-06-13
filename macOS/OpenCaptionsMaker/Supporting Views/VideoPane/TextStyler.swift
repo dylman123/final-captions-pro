@@ -82,7 +82,7 @@ struct TextStyler: View {
                     Button(action: { self.updateSize(by: 5) },
                            label: {IconView("NSTouchBarGoUpTemplate")})
                     
-                    FontPicker(selectedFont: app.captions[app.selectedIndex].style.font)
+                    FontPicker()//selectedFont: app.captions[app.selectedIndex].style.font)
                         .frame(width: 200)
                     
                     ColorWell(selectedColor: $color).frame(width: barThickness*0.8, height: barThickness*0.8)

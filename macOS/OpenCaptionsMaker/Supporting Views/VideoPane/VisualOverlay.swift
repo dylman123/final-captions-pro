@@ -84,7 +84,6 @@ struct VisualOverlay: View {
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
             if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
             else { self.updateView() }
-            print(self.app.captions[self.index].style.font)
         }
     }
 }
