@@ -23,7 +23,6 @@ struct VisualOverlay: View {
     @State private var bold: Bool = defaultStyle().bold
     @State private var italic: Bool = defaultStyle().italic
     @State private var underline: Bool = defaultStyle().underline
-    @State private var strikethrough: Bool = defaultStyle().strikethrough
     
     func updateView() -> Void {
         DispatchQueue.global(qos: .userInteractive).async {
@@ -35,7 +34,6 @@ struct VisualOverlay: View {
             self.bold = self.style.bold
             self.italic = self.style.italic
             self.underline = self.style.underline
-            self.strikethrough = self.style.strikethrough
         }
     }
     
@@ -57,7 +55,7 @@ struct VisualOverlay: View {
                     }
                 
                 Text(self.caption.text)
-                    .attributes(_bold: self.bold, _italic: self.italic, _underline: self.underline, _strikethrough: self.strikethrough)
+                    .attributes(_bold: self.bold, _italic: self.italic, _underline: self.underline)
                     .customFont(name: self.font, size: self.size, color: self.color, alignment: self.alignment)
                     .offset(x: self.position.width, y: self.position.height)
                     .gesture(
@@ -117,7 +115,7 @@ extension View {
 }
 
 extension Text {
-    func attributes (_bold: Bool, _italic: Bool, _underline: Bool, _strikethrough: Bool) -> some View {
+    func attributes (_bold: Bool, _italic: Bool, _underline: Bool) -> some View {
         
         var modifier: Text = self
         switch _bold {
@@ -130,10 +128,6 @@ extension Text {
         }
         switch _underline {
         case true: modifier = modifier.underline()
-        case false: ()
-        }
-        switch _strikethrough {
-        case true: modifier = modifier.strikethrough()
         case false: ()
         }
         

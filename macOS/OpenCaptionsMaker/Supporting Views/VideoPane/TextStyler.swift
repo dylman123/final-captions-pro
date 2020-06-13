@@ -17,13 +17,12 @@ struct TextStyler: View {
     // To format the buttons
     var buttonStyle = BorderlessButtonStyle()
     
-    enum TextAttribute { case bold, italic, underline, strikethrough }
+    enum TextAttribute { case bold, italic, underline }
     func updateTextAttribute(_ attribute: TextAttribute) -> Void {
         switch attribute {
         case .bold: app.captions[app.selectedIndex].style.bold.toggle()
         case .italic: app.captions[app.selectedIndex].style.italic.toggle()
         case .underline: app.captions[app.selectedIndex].style.underline.toggle()
-        case .strikethrough: app.captions[app.selectedIndex].style.strikethrough.toggle()
         }
         publishToVisualOverlay(animate: false)
     }
@@ -49,7 +48,7 @@ struct TextStyler: View {
             
             HStack(spacing: 15) {
                 
-                // Bold, Italic, Underline, Strikethrough
+                // Bold, Italic, Underline
                 Group {
                     Button(action: {self.updateTextAttribute(.bold)},
                            label: {IconView("NSTouchBarTextBoldTemplate")})
@@ -59,9 +58,6 @@ struct TextStyler: View {
                     
                     Button(action: {self.updateTextAttribute(.underline)},
                            label: {IconView("NSTouchBarTextUnderlineTemplate")})
-                    
-                    Button(action: {self.updateTextAttribute(.strikethrough)},
-                           label: {IconView("NSTouchBarTextStrikethroughTemplate")})
                 }
                 // Alignment
                 Group {

@@ -51,13 +51,12 @@ class Style: Hashable, Identifiable, Equatable, ObservableObject {
     @Published var bold: Bool
     @Published var italic: Bool
     @Published var underline: Bool
-    @Published var strikethrough: Bool
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(symbol)
     }
     
-    init(symbol: String?, font: String, size: CGFloat, color: NSColor, position: CGSize, alignment: TextAlignment, bold: Bool, italic: Bool, underline: Bool, strikethrough: Bool) {
+    init(symbol: String?, font: String, size: CGFloat, color: NSColor, position: CGSize, alignment: TextAlignment, bold: Bool, italic: Bool, underline: Bool) {
         self.id = 0 //UUID()
         self.symbol = symbol
         self.font = font
@@ -68,7 +67,6 @@ class Style: Hashable, Identifiable, Equatable, ObservableObject {
         self.bold = bold
         self.italic = italic
         self.underline = underline
-        self.strikethrough = strikethrough
     }
 }
 // Need the following func to make Style conform to Equatable
@@ -81,13 +79,12 @@ func defaultStyle() -> Style {
     let _symbol: String? = nil
     let _font: String = "Georgia"
     let _size: CGFloat = 60.0
-    let _color: NSColor = .white
+    let _color: NSColor = NSColor(calibratedRed: 1, green: 1, blue: 1, alpha: 1)
     let _position: CGSize = CGSize(width: 0.0, height: 200)
     let _alignment: TextAlignment = .leading
     let _bold: Bool = false
     let _italic: Bool = false
     let _underline: Bool = false
-    let _strikethrough: Bool = false
     
     return Style (
         symbol: _symbol,
@@ -98,8 +95,7 @@ func defaultStyle() -> Style {
         alignment: _alignment,
         bold: _bold,
         italic: _italic,
-        underline: _underline,
-        strikethrough: _strikethrough
+        underline: _underline
     )
 }
 
