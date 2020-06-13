@@ -9,53 +9,25 @@
 import SwiftUI
 import Combine
 
-struct FontPicker: NSViewRepresentable {
+struct FontPicker: View {
     //@EnvironmentObject var app: AppState
-    //@Binding var selectedFont: NSFont
+    @State var selectedFont: Set<String>
+    let fontFamilyNames = NSFontManager.shared.availableFontFamilies
     
-//    class Coordinator: NSObject {
-//        var embedded: FontPicker
-//        var subscription: AnyCancellable?
-//        var app: AppState
-//
-//        init(_ embedded: FontPicker, environmentObject app: AppState) {
-//            self.embedded = embedded
-//            self.app = app
-//        }
-//
-//        // Observe KVO compliant color property on NSFontPanel object.
-//        // Update the selectedColor property on EmbeddedColorWell as needed.
-//        func changeFont(fontPanel: NSFontPanel) -> Void {
-//            subscription = fontPanel
-//                .publisher(for: \.isEnabled , options: .new)
-//                .sink { isEnabled in
-//                    if isEnabled {
-//                        DispatchQueue.main.async {
-//                            self.embedded.selectedFont = font(selectedFont)
-//                            self.app.captions[self.app.selectedIndex].style.font = font
-//                        }
-//                    }
-//                }
-//        }
-//    }
-//
-//    func makeCoordinator() -> FontPicker.Coordinator {
-//        Coordinator(self, environmentObject: app)
-//    }
-    
-    func makeNSView(context: Context) -> NSFontPanel {
-        let fontPanel = NSFontPanel(contentViewController: NSViewController(coder: NSCoder())!)
-        //context.coordinator.changeFont(fontPanel: fontPanel)
-        return fontPanel
+    var body: some View {
+        
+        List(selection: $selectedFont) {
+            ForEach(fontFamilyNames, id: \.self) {
+                Text($0).font(.custom($0, size: 15))
+            }
+        }
+        
     }
     
-    func updateNSView(_ nsView: NSFontPanel, context: Context) {
-        //nsView.setPanelFont(selectedFont, isMultiple: false)
-    }
 }
 
 struct FontPicker_Previews: PreviewProvider {
     static var previews: some View {
-        FontPicker()//selectedFont: .constant(NSFont(name: "Arial", size: 60)!))
+        FontPicker(selectedFont: .init(minimumCapacity: 0))
     }
 }

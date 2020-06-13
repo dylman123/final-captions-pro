@@ -89,9 +89,6 @@ func defaultStyle() -> Style {
     let _underline: Bool = false
     let _strikethrough: Bool = false
     
-    let fontFamilyNames = NSFontManager.shared.availableFontFamilies
-    print("avaialble fonts is \(fontFamilyNames)")
-    
     return Style (
         symbol: _symbol,
         font: _font,

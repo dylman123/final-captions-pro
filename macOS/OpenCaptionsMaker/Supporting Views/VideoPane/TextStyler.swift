@@ -12,6 +12,7 @@ struct TextStyler: View {
     
     @EnvironmentObject var app: AppState
     @Binding var color: NSColor
+    @State var isBrowsingFonts: Bool = false
     let barThickness: CGFloat = 35
     
     // To format the buttons
@@ -82,13 +83,17 @@ struct TextStyler: View {
                     Button(action: { self.updateSize(by: 5) },
                            label: {IconView("NSTouchBarGoUpTemplate")})
                     
-                    Button(action: {}, label: {IconView("NSFontPanel")})
+                    Button(action: { self.isBrowsingFonts.toggle() }, label: {IconView("NSFontPanel")})
                     
                     ColorWell(selectedColor: $color).frame(width: barThickness*0.8, height: barThickness*0.8)
                 }
             }
             .frame(height: barThickness)
             .buttonStyle(buttonStyle)
+            
+            if isBrowsingFonts {
+                FontPicker(selectedFont: Set(arrayLiteral: app.captions[app.selectedIndex].style.font))
+            }
         }
     }
 }
