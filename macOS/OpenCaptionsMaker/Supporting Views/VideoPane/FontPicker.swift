@@ -10,24 +10,28 @@ import SwiftUI
 import Combine
 
 struct FontPicker: View {
+
+    @State var selectedFont: String
     //@EnvironmentObject var app: AppState
-    @State var selectedFont: Set<String>
+    
     let fontFamilyNames = NSFontManager.shared.availableFontFamilies
     
     var body: some View {
         
-        List(selection: $selectedFont) {
+        Picker("Select a font", selection: $selectedFont) {
             ForEach(fontFamilyNames, id: \.self) {
                 Text($0).font(.custom($0, size: 15))
             }
         }
+        .labelsHidden()
+        .id(selectedFont)
+        .animation(.spring())
         
     }
-    
 }
 
 struct FontPicker_Previews: PreviewProvider {
     static var previews: some View {
-        FontPicker(selectedFont: .init(minimumCapacity: 0))
+        FontPicker(selectedFont: "Arial")
     }
 }

@@ -79,7 +79,7 @@ func == (lhs: Style, rhs: Style) -> Bool {
 func defaultStyle() -> Style {
     // Set default style params
     let _symbol: String? = nil
-    let _font: String = "Arial"
+    let _font: String = "Georgia"
     let _size: CGFloat = 60.0
     let _color: NSColor = .white
     let _position: CGSize = CGSize(width: 0.0, height: 200)
