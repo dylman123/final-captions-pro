@@ -40,15 +40,16 @@ struct ContentView: View {
         HStack {
             
             VStack {
-                Text("State: \(stateLabel)")
+                //Text("State: \(stateLabel)")  // uncomment to test state in app
                 
                 // Video player
-                VideoPlayer(url: app.videoURL)
-                .buttonStyle(BorderlessButtonStyle())
-                .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
-                .padding(.horizontal, 25)
+                if app.videoURL != nil {
+                    VideoPlayer(url: app.videoURL)
+                } else { EmptyView() }
             }
-
+            .buttonStyle(BorderlessButtonStyle())
+            .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
+            .padding(.horizontal, 25)
             
             VStack {
                 

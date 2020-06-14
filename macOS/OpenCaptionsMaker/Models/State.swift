@@ -35,7 +35,7 @@ class AppState: ObservableObject {
     @Published var selectedIndex: Int = 0
     
     // URL of the imported video
-    @Published var videoURL: URL = URL(fileURLWithPath: "")
+    @Published var videoURL: URL?
     
     // Set state within the application
     func transition(to newState: Mode) -> Void {
@@ -63,7 +63,6 @@ class AppState: ObservableObject {
     
     init(mode: Mode = .pause) {
         self.mode = mode
-        self.videoURL = URL(fileURLWithPath: "")
     }
 }
 

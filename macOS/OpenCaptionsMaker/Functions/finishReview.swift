@@ -16,7 +16,7 @@ func finishReview(inAppState app: AppState, andSaveFileAs xmlPath: URL) -> Void 
     let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
            
     //  Create XML document structure
-    let xmlTree = createXML(forVideo: app.videoURL, withCaptions: app.captions)
+    let xmlTree = createXML(forVideo: app.videoURL!, withCaptions: app.captions)
 
     //  Save XML document to disk
     saveXML(of: xmlTree, as: testPath)

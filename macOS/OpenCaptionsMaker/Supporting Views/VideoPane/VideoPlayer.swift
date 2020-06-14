@@ -271,15 +271,15 @@ struct VideoPlayerContainerView : View {
   
     init(url: URL) {
         player = AVPlayer(url: url)
-        print("isPlayable? ", player.currentItem!.asset.isPlayable)
-        print("isReadable? ", player.currentItem!.asset.isReadable)
-        print("isComposable? ", player.currentItem!.asset.isComposable)
-        print("isExportable? ", player.currentItem!.asset.isExportable)
-        print("isCompatibleWithAirPlayVideo? ", player.currentItem!.asset.isCompatibleWithAirPlayVideo)
-        print("currentItem: ", player.currentItem!)
-        print("status: ", player.status.rawValue)
-        print("allowsExternalPlayback: ", player.allowsExternalPlayback)
-        print("error", player.error ?? "No error")
+//        print("isPlayable? ", player.currentItem!.asset.isPlayable)
+//        print("isReadable? ", player.currentItem!.asset.isReadable)
+//        print("isComposable? ", player.currentItem!.asset.isComposable)
+//        print("isExportable? ", player.currentItem!.asset.isExportable)
+//        print("isCompatibleWithAirPlayVideo? ", player.currentItem!.asset.isCompatibleWithAirPlayVideo)
+//        print("currentItem: ", player.currentItem!)
+//        print("status: ", player.status.rawValue)
+//        print("allowsExternalPlayback: ", player.allowsExternalPlayback)
+//        print("error", player.error ?? "No error")
     }
 
     var body: some View {
