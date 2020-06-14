@@ -63,7 +63,7 @@ class AppState: ObservableObject {
     
     init(mode: Mode = .pause) {
         self.mode = mode
-        self.videoURL = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v")!
+        self.videoURL = URL(fileURLWithPath: "")
     }
 }
 

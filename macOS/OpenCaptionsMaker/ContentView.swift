@@ -15,14 +15,12 @@ struct ContentView: View {
     
     // To refresh the UI when app state changes
     @EnvironmentObject var app: AppState
-    @State private var showFileInput: Bool = false
+    @State private var showFileInput: Bool = true
     @State private var showProgressBar: Bool = false
     
     // Test video
     var testVideo: URL? {
-        guard let url = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") else { print("Couldn't load test video")
-            return nil
-        }
+        guard let url = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") else { print("Couldn't load test video"); return nil }
         return url
     }
     
@@ -45,7 +43,7 @@ struct ContentView: View {
                 Text("State: \(stateLabel)")
                 
                 // Video player
-                VideoPlayer(url: testVideo)
+                VideoPlayer(url: app.videoURL)
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
                 .padding(.horizontal, 25)
