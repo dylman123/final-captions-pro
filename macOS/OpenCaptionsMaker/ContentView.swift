@@ -6,31 +6,51 @@
 //  Copyright © 2020 Dylan Klein. All rights reserved.
 //
 import SwiftUI
-//import AVFoundation
-import AVKit
 
 struct ContentView: View {
     
-    //Set window sizes
+    // Set window sizes
     let windowWidth: CGFloat = 1600
     let windowHeight: CGFloat = 800
     
-    @State private var selectedCaption: Caption?
-    @State private var showFileInput: Bool = false
+    // To refresh the UI when app state changes
+    @EnvironmentObject var app: AppState
+    @State private var showFileInput: Bool = true
     @State private var showProgressBar: Bool = false
+    
+    // Test video
+    var testVideo: URL? {
+        guard let url = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") else { print("Couldn't load test video"); return nil }
+        return url
+    }
+    
+    var stateLabel: String {
+        switch app.mode {
+        case .play: return "Play"
+        case .pause: return "Pause"
+        case .edit: return "Edit"
+        case .editStartTime: return "Edit Start Time"
+        case .editEndTime: return "Edit End Time"
+        }
+    }
     
     var body: some View {
         
         // Window view for edit screen
         HStack {
-
-            //Video player
-            //FakeVideoExample()
-            //VideoPlayer(url: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-            TestVideoView()
-                .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
-                .padding(.horizontal, 25)
-
+            
+            VStack {
+                //Text("State: \(stateLabel)")  // uncomment to test state in app
+                
+                // Video player
+                if app.videoURL != nil {
+                    VideoPlayer(url: app.videoURL)
+                } else { EmptyView() }
+            }
+            .buttonStyle(BorderlessButtonStyle())
+            .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
+            .padding(.horizontal, 25)
+            
             VStack {
                 
                 // Finish review button
@@ -38,7 +58,7 @@ struct ContentView: View {
                     
                     Spacer()
                     Button(action: {
-                        finishReview(andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
+                        finishReview(inAppState: self.app, andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
                         IconView("NSGoForwardTemplate")
@@ -50,7 +70,6 @@ struct ContentView: View {
                 
                 // Captions list
                 Headers()
-                //CaptionList(selectedCaption: $selectedCaption)
                 CaptionList()
                     .frame(height: self.windowHeight*0.8)
                 
@@ -66,6 +85,7 @@ struct ContentView: View {
                 FileInput(showFileInput: self.showFileInput)
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
+                    .environmentObject(self.app)
             }
             else if self.showProgressBar {
                 // Progress bar whilst tasks are loading
@@ -74,18 +94,6 @@ struct ContentView: View {
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
             }
         })
-        /*.onReceive(NotificationCenter.default.publisher(for: .addCaption)) { _ in
-            addCaption(beforeIndex: 0, atTime: 0.0)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .deleteCaption)) { _ in
-            if userData.captions.count > 1 {  // Don't delete when only 1 caption is in list
-                deleteCaption(atIndex: 0)
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .enterCharacter)) { notification in
-            guard notification.object != nil else { return }
-            print(notification.object!)
-        }*/
     }
 }
 

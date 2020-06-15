@@ -6,12 +6,13 @@
 //  Copyright © 2020 Dylan Klein. All rights reserved.
 //
 import SwiftUI
-import Combine
 import AppKit
+import Firebase
 
 struct FileInput: View {
     
     // Write data back to model
+    @EnvironmentObject var state: AppState
     @State var showFileInput: Bool
     
     // To show/hide the FileInput view
@@ -38,6 +39,9 @@ struct FileInput: View {
         return nil
     }
     
+    @State var audioRef: StorageReference?
+    @State var fileID: String?
+    
     var body: some View {
         
         Button(action: {
@@ -46,13 +50,16 @@ struct FileInput: View {
             
             if video != nil {
                 print("Selected video file has URL path: \(String(describing: video!))")
-                
-                // Close the FileInput view
-                self.showFileInput.toggle()
-                self.presentationMode.wrappedValue.dismiss()
-                
+            
                 // Generate captions
-                generateCaptions(forFile: video!)
+                self.state.videoURL = video!
+                //generateCaptions(self.state)
+                    
+                // Close the FileInput view
+                DispatchQueue.main.async {
+                    self.showFileInput.toggle()
+                    self.presentationMode.wrappedValue.dismiss()
+                }
             }
             else {
                 print("No file was selected.")

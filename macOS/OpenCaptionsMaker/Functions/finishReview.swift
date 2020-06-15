@@ -7,15 +7,16 @@
 //
 import Foundation
 import AEXML
+import SwiftUI
 
 // Finishes the caption review and opens .fcpxml file
-func finishReview(andSaveFileAs xmlPath: URL) -> Void {
+func finishReview(inAppState app: AppState, andSaveFileAs xmlPath: URL) -> Void {
     
     // Set the path of the file to be saved - TODO: Change this to a user selected URL
     let testPath = getDocumentsDirectory().appendingPathComponent("test.fcpxml")
            
     //  Create XML document structure
-    let xmlTree = createXML(forVideo: userData.videoURL, withCaptions: userData.captions)
+    let xmlTree = createXML(forVideo: app.videoURL!, withCaptions: app.captions)
 
     //  Save XML document to disk
     saveXML(of: xmlTree, as: testPath)
@@ -97,6 +98,33 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
             return formattedTimestamp
         }
         
+        func getRGBA(_ color: NSColor) -> String {
+            let R = color.redComponent
+            let G = color.greenComponent
+            let B = color.blueComponent
+            let A = color.alphaComponent
+            return "\(R) \(G) \(B) \(A)"
+        }
+        
+        func getAlignment(_ alignment: TextAlignment) -> String {
+            switch alignment {
+            case .leading: return "left"
+            case .center: return "center"
+            case .trailing: return "right"
+            }
+        }
+        
+        func getAttribute(_ attribute: Bool) -> String {
+            if attribute { return "1" }
+            else { return "0" }
+        }
+        
+        func getPosition(_ position: CGSize) -> String {
+            let x = position.width
+            let y = position.height
+            return "\(x) \(-y)"
+        }
+        
         // Iterate through the list of captions
         var ts: Int = 0  // Text style id
         for caption in captionData {
@@ -105,20 +133,23 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
             let newTitle = AEXMLElement(name: "title", attributes: [
                 "name": caption.text,
                 "lane": "1",
-                "offset": formatTimestamp(val: caption.start, fd: frameDuration2997!),
+                "offset": formatTimestamp(val: caption.startTime, fd: frameDuration2997!),
                 "ref": "r4",
                 "duration": formatTimestamp(val: caption.duration, fd: frameDuration30!)
             ])
             
             let textStyle = AEXMLElement(name: "text-style", attributes: [
-                "font": "Futura",
-                "fontSize": "60",
-                "fontFace": "Condensed ExtraBold",
-                "fontColor": "1 1 1 1",
-                "bold": "1",
-                "strokeColor": "0 0 0 1",
-                "strokeWidth": "3",
-                "alignment": "center"
+                "font": caption.style.font,
+                "fontSize": "\(caption.style.size)",
+                "fontFace": "Regular",
+                "fontColor": getRGBA(caption.style.color),
+                "bold": getAttribute(caption.style.bold),
+                "italic": getAttribute(caption.style.italic),
+                "underline": getAttribute(caption.style.underline),
+                //"strikethrough": getAttribute(caption.style.strikethrough),
+                "strokeColor": "0 0 0 1",  // Black text outline
+                "strokeWidth": "3",  // Text outline thickness
+                "alignment": getAlignment(caption.style.alignment)
             ])
             
             ts += 1
@@ -130,7 +161,7 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
             let position = AEXMLElement(name: "param", attributes: [
                 "name": "Position",
                 "key": "9999/999166631/999166633/1/100/101",
-                "value": "200 -300"
+                "value": getPosition(caption.style.position)
             ])
             
             let flatten = AEXMLElement(name: "param", attributes: [
@@ -185,9 +216,10 @@ func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
     guard let dtdURL = Bundle.main.url(forResource: "fcpxml-v1.8", withExtension: "dtd") else {
         return
     }
-    let result: String? = shell("xmllint --noout --dtdvalid \(dtdURL) \(xmlPath)")
+    let result: String = shell("xmllint --noout --dtdvalid \(dtdURL) \(xmlPath)")
+    print("result of DTD check command: \(String(describing: result))")
     if result != "" {  // DTD validation has failed
-        print("Error in DTD validation. \(result!)")
+        print("Error in DTD validation. \(result)")
         // Open the .fcpxml file in a text editor for debugging purposes
         let _ = shell("open -a 'TextEdit' \(xmlPath)")
         return

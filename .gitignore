@@ -91,3 +91,8 @@ iOSInjectionProject/
 
 # Mac system files
 .DS_Store
+
+# Video Files
+*.m4v
+*.mp4
+*.mov

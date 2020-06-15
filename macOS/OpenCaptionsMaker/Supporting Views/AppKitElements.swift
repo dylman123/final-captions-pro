@@ -28,27 +28,6 @@ struct IconView: NSViewRepresentable {
     
 }
 
-//  User to pick a color from  well
-struct ColorWellView: NSViewRepresentable {
-  
-    class Coordinator {
-        
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
-    }
-    
-    func makeNSView(context: Context) -> NSColorWell {
-        let well = NSColorWell()
-        //well.delegate = context.coordinator
-        return well
-    }
-    
-    func updateNSView(_ nsView: NSColorWell, context: Context) {
-    }
-}
-
 //  Progress indicator whilst waiting for API response
 struct ProgressView: NSViewRepresentable {
   

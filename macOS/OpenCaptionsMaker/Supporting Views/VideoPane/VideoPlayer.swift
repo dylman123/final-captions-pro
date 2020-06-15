@@ -28,8 +28,10 @@ class VideoPlayerNSView: NSView {
         
         super.init(frame: .zero)
         _ = NSView.BackgroundStyle(rawValue: 0)
-        //backgroundColor = .lightGray
         playerLayer.player = player
+        if layer == nil {
+            layer = CALayer()
+        }
         layer?.addSublayer(playerLayer)
         
         // Observe the duration of the player's item so we can display it
@@ -78,6 +80,8 @@ class VideoPlayerNSView: NSView {
 
 // This is the SwiftUI view which wraps the AppKit-based PlayerNSView above
 struct VideoPlayerPaneView: NSViewRepresentable {
+    
+    @EnvironmentObject var app: AppState
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
@@ -124,44 +128,103 @@ class Utility: NSObject {
 
 // This is the SwiftUI view that contains the controls for the player
 struct VideoPlayerControlsView : View {
+    
+    // Handle app
+    @EnvironmentObject var app: AppState
+    
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
     
     let player: AVPlayer
     
-    @State private var playerPaused = true
+    @State private var playerPaused: Bool = true
     
     var body: some View {
         HStack {
             // Play/pause button
             Button(action: togglePlayPause) {
-                //Image(playerPaused ? "play" : "pause")
-                IconView(playerPaused ? "NSTouchBarPlayTemplate" : "NSTouchBarPauseTemplate")
+                if playerPaused { IconView("NSTouchBarPlayTemplate") }
+                else { IconView("NSTouchBarPauseTemplate") }
             }
-
             // Current video time
             Text("\(Utility.formatSecondsToHMS(videoPos * videoDuration))")
             // Slider for seeking / showing video progress
             Slider(value: $videoPos, in: 0...1, onEditingChanged: sliderEditingChanged)
             // Video duration
             Text("\(Utility.formatSecondsToHMS(videoDuration))")
-
+            // Seek -15 seconds button
+            Button(action: seekBack15) {
+                IconView("NSTouchBarSkipBack15SecondsTemplate")
+            }
+            // Seek +15 seconds button
+            Button(action: seekAhead15) {
+                IconView("NSTouchBarSkipAhead15SecondsTemplate")
+            }
         }
         .padding(.leading, 10)
         .padding(.trailing, 10)
+        .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
+            self.pausePlayer(false)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .pause)) { _ in
+            self.pausePlayer(true)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
+            switch self.app.mode {
+            case .play, .pause: self.seekBack15()
+            case .edit, .editStartTime, .editEndTime: ()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
+            switch self.app.mode {
+            case .play, .pause: self.seekAhead15()
+            case .edit, .editStartTime, .editEndTime: ()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .seekVideo)) { newPos in
+            self.seek(to: newPos.object as! Double, isListControlling: true)
+        }
+    }
+    
+    private func seekBack15() -> Void {
+        seek(to: videoPos - 15.0 / videoDuration, isListControlling: false)
+    }
+    
+    private func seekAhead15() -> Void {
+        seek(to: videoPos + 15.0 / videoDuration, isListControlling: false)
+    }
+    
+    private func seek(to newPos: Double, isListControlling: Bool) -> Void {
+        switch isListControlling {
+        case true: ()
+        case false: sliderEditingChanged(editingStarted: true)
+        }
+        
+        if newPos < 0 { videoPos = 0 }
+        else if newPos > 1 { videoPos = 1 }
+        else { videoPos = newPos }
+        
+        switch isListControlling {
+        case true: listEditingChanged()
+        case false: sliderEditingChanged(editingStarted: false)
+        }
+        
     }
     
     private func togglePlayPause() {
-        pausePlayer(!playerPaused)
+        if playerPaused {
+            app.transition(to: .play)
+        } else {
+            app.transition(to: .pause)
+        }
     }
     
     private func pausePlayer(_ pause: Bool) {
         playerPaused = pause
         if playerPaused {
             player.pause()
-        }
-        else {
+        } else {
             player.play()
         }
     }
@@ -171,28 +234,36 @@ struct VideoPlayerControlsView : View {
             // Set a flag stating that we're seeking so the slider doesn't
             // get updated by the periodic time observer on the player
             seeking = true
-            pausePlayer(true)
+            app.transition(to: .pause)
         }
         
         // Do the seek if we're finished
         if !editingStarted {
-            let targetTime = CMTime(seconds: videoPos * videoDuration,
-                                    preferredTimescale: 600)
+            let targetTime = CMTime(seconds: videoPos * videoDuration, preferredTimescale: 600)
             player.seek(to: targetTime) { _ in
                 // Now the seek is finished, resume normal operation
                 self.seeking = false
-                self.pausePlayer(false)
+                //app.transition(to: .play)
+                self.app.syncVideoAndList(isListControlling: false)
             }
         }
+    }
+    
+    private func listEditingChanged() {
+        // If the list is controlling the seek, we can assume that the
+        // app mode is .pause or .edit
+        let targetTime = CMTime(seconds: videoPos * videoDuration, preferredTimescale: 600)
+        player.seek(to: targetTime)
     }
 }
 
 // This is the SwiftUI view which contains the player and its controls
 struct VideoPlayerContainerView : View {
-    // The progress through the video, as a percentage (from 0 to 1)
-    @State private var videoPos: Double = 0
-    // The duration of the video in seconds
-    @State private var videoDuration: Double = 0
+    
+    @EnvironmentObject var app: AppState
+    private var index: Int { app.selectedIndex }
+    private var caption: Caption { app.captions[index] }
+    
     // Whether we're currently interacting with the seek bar or doing a seek
     @State private var seeking = false
     
@@ -200,16 +271,28 @@ struct VideoPlayerContainerView : View {
   
     init(url: URL) {
         player = AVPlayer(url: url)
+//        print("isPlayable? ", player.currentItem!.asset.isPlayable)
+//        print("isReadable? ", player.currentItem!.asset.isReadable)
+//        print("isComposable? ", player.currentItem!.asset.isComposable)
+//        print("isExportable? ", player.currentItem!.asset.isExportable)
+//        print("isCompatibleWithAirPlayVideo? ", player.currentItem!.asset.isCompatibleWithAirPlayVideo)
+//        print("currentItem: ", player.currentItem!)
+//        print("status: ", player.status.rawValue)
+//        print("allowsExternalPlayback: ", player.allowsExternalPlayback)
+//        print("error", player.error ?? "No error")
     }
-  
+
     var body: some View {
         VStack {
-            VideoPlayerPaneView(videoPos: $videoPos,
-                            videoDuration: $videoDuration,
-                            seeking: $seeking,
-                            player: player)
-            VideoPlayerControlsView(videoPos: $videoPos,
-                                    videoDuration: $videoDuration,
+            ZStack {
+                VideoPlayerPaneView(videoPos: $app.videoPos,
+                                videoDuration: $app.videoDuration,
+                                seeking: $seeking,
+                                player: player)
+                VisualOverlay()
+            }
+            VideoPlayerControlsView(videoPos: $app.videoPos,
+                                    videoDuration: $app.videoDuration,
                                     seeking: $seeking,
                                     player: player)
         }
@@ -222,34 +305,19 @@ struct VideoPlayerContainerView : View {
 
 // This is the main SwiftUI view for this app, containing a single PlayerContainerView
 struct VideoPlayer: View {
-    var url: String?
+    var url: URL?
     
-    init(url: String) {
-        self.url = url
-        guard self.url != nil else {
-            return
-        }
+    init(url: URL?) {
+        guard url != nil else { return }
+        self.url = url!
     }
     var body: some View {
-        VideoPlayerContainerView(url: URL(string: (self.url)!)!)
-    }
-}
-
-struct TestVideoView: NSViewRepresentable {
-    
-    func updateNSView(_ nsView: NSView, context: NSViewRepresentableContext<TestVideoView>) {
-        // This function gets called if the bindings change, which could be useful if
-        // you need to respond to external changes, but we don't in this example
-    }
-    
-    func makeNSView(context: NSViewRepresentableContext<TestVideoView>) -> NSView {
-        let nsView = AVPlayerView()
-        return nsView
+        VideoPlayerContainerView(url: self.url!)
     }
 }
 
 struct VideoPlayer_Previews: PreviewProvider {
     static var previews: some View {
-        TestVideoView()
+        VideoPlayer(url: URL(string: ""))
     }
 }
