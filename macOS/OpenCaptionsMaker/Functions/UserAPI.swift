@@ -238,43 +238,45 @@ class Transcriber: ObservableObject {
     func downloadCaptions(withID fileID: String) {
         guard readyStatus[4] == true else { return }
         readyStatus[4] = false
-        //var repeatFlag = true
         
         // Do a GET request to download the captions file and check for errors
         let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
         jsonRef = storageRef
         
-        //repeat {
-            sleep(10)
-            storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
-                
-                // If there is an error in downloading the file
-                if let error = error {
+        storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
+            
+            // If there is an error in downloading the file
+            if let error = error {
+                if error.localizedDescription.contains("json does not exist.") {
+                    print("File not ready. Trying again in 5 secs...")
+                    sleep(5)  // polling period
+                    self.readyStatus[4] = true
+                    self.downloadCaptions(withID: fileID)  // Recursively try again
+                }
+                else {
                     DispatchQueue.main.async { [weak self] in
                         self?.state = .downloadedJSON(.failure(.error("Error downloading captions file! \(error.localizedDescription)")))
                     }
                 }
-                else {
-                    print("Captions file succesfully downloaded.")
-                    let decoder = JSONDecoder()
-                    do {
-                        // Parse downloaded response as JSON
-                        let result = try decoder.decode(JSONResult.self, from: data!)
-                        self.captions = result.captions
-                        DispatchQueue.main.async { [weak self] in
-                            self?.readyStatus[5] = true
-                            self?.state = .downloadedJSON(.success("Successfully parsed JSON."))
-                        }
-                        //repeatFlag = false
-                    } catch {
-                        DispatchQueue.main.async { [weak self] in
-                            self?.state = .downloadedJSON(.failure(.error("Error parsing JSON! \(error.localizedDescription)")))
-                        }
+            }
+            else {
+                print("Captions file succesfully downloaded.")
+                let decoder = JSONDecoder()
+                do {
+                    // Parse downloaded response as JSON
+                    let result = try decoder.decode(JSONResult.self, from: data!)
+                    self.captions = result.captions
+                    DispatchQueue.main.async { [weak self] in
+                        self?.readyStatus[5] = true
+                        self?.state = .downloadedJSON(.success("Successfully parsed JSON."))
+                    }
+                } catch {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.state = .downloadedJSON(.failure(.error("Error parsing JSON! \(error.localizedDescription)")))
                     }
                 }
             }
-        //   sleep(5)  // Polling period
-        //} while ( repeatFlag == true )
+        }
     }
 
     // Delete temporary files from bucket in Google Cloud Storage

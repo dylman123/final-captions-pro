@@ -39,6 +39,7 @@ struct FileInput: View {
         return nil
     }
     
+    // To manage the API-based transcription process
     @ObservedObject var userAPI = Transcriber()
     
     private var progressView: AnyView {
