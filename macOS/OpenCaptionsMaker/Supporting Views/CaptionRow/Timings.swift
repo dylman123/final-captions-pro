@@ -42,32 +42,32 @@ struct Timings: View {
                     
                 // Start Time
                 if app.mode == .editStartTime {
-                    Stepper(value: binding.startTime, step: -0.1) {
+                    Stepper(value: binding.start, step: -0.1) {
                         ZStack {
-                            Text(String(format: "%.1f", row.caption.startTime))
+                            Text(String(format: "%.1f", row.caption.start))
                                 .clickable(row, fromView: .startTime)
                             SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
                 } else {
-                    Text(String(format: "%.1f", row.caption.startTime))
+                    Text(String(format: "%.1f", row.caption.start))
                         .clickable(row, fromView: .startTime)
                 }
                 Spacer()
                 
                 // End Time
                 if app.mode == .editEndTime {
-                    Stepper(value: binding.endTime, step: -0.1) {
+                    Stepper(value: binding.end, step: -0.1) {
                         ZStack {
-                            Text(String(format: "%.1f", row.caption.endTime))
+                            Text(String(format: "%.1f", row.caption.end))
                                 .clickable(row, fromView: .endTime)
                             SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
                 } else {
-                    Text(String(format: "%.1f", row.caption.endTime))
+                    Text(String(format: "%.1f", row.caption.end))
                         .clickable(row, fromView: .endTime)
                 }
             }
@@ -78,10 +78,10 @@ struct Timings: View {
             
             // Display caption timings
             return AnyView(VStack {
-                Text(String(format: "%.1f", row.caption.startTime))
+                Text(String(format: "%.1f", row.caption.start))
                     .clickable(row, fromView: .startTime)
                 Spacer()
-                Text(String(format: "%.1f", row.caption.endTime))
+                Text(String(format: "%.1f", row.caption.end))
                    .clickable(row, fromView: .endTime)
             }
             .frame(width: timeWidth))

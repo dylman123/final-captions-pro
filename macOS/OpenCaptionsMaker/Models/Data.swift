@@ -11,22 +11,22 @@ import SwiftUI
 
 struct Caption: Hashable, Identifiable, Codable {
     var id: Int //UUID  // Random unique identifier of the caption
-    var startTime: Float  // In seconds
-    var endTime: Float  // In seconds
+    var start: Float  // In seconds
+    var end: Float  // In seconds
     var duration: Float  // In seconds
     var text: String  // Caption text
     var speaker: Int  // Used to differentiate between speakers in the background (for better transcribing)
     var style: Style = defaultStyle()
     
     private enum CodingKeys: String, CodingKey {
-        case id, startTime, endTime, duration, text, speaker
+        case id, start, end, duration, text, speaker
     }
     
-    init(id: Int = 0, startTime: Float = 0.0, endTime: Float = 0.0, text: String = "", style: Style = defaultStyle()) {
+    init(id: Int = 0, start: Float = 0.0, end: Float = 0.0, text: String = "", style: Style = defaultStyle()) {
         self.id = id //UUID()
-        self.startTime = startTime
-        self.endTime = endTime
-        self.duration = endTime - startTime
+        self.start = start
+        self.end = end
+        self.duration = end - start
         self.text = text
         self.speaker = 0
         self.style = style

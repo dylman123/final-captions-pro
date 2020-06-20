@@ -25,7 +25,7 @@ struct PlusMinus: View {
         VStack {
             // Plus button
             Button(action: {
-                self.app.captions = addCaption(toArray: self.app.captions, beforeIndex: self.row.index, atTime: self.row.caption.startTime)
+                self.app.captions = addCaption(toArray: self.app.captions, beforeIndex: self.row.index, atTime: self.row.caption.start)
             }) { if app.mode != .play {  // Don't show +- buttons in play mode
                 IconView("NSAddTemplate")
                     .frame(width: 12, height: 12)

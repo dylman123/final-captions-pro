@@ -133,7 +133,7 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
             let newTitle = AEXMLElement(name: "title", attributes: [
                 "name": caption.text,
                 "lane": "1",
-                "offset": formatTimestamp(val: caption.startTime, fd: frameDuration2997!),
+                "offset": formatTimestamp(val: caption.start, fd: frameDuration2997!),
                 "ref": "r4",
                 "duration": formatTimestamp(val: caption.duration, fd: frameDuration30!)
             ])

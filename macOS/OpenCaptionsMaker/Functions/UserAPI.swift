@@ -237,12 +237,13 @@ class CaptionsMaker: ObservableObject {
 
     // Download captions file from Google Cloud Storage
     func downloadCaptions(withID fileID: String) {
-        var repeatFlag = true
+        //var repeatFlag = true
         
         // Do a GET request to download the captions file and check for errors
         let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
         
-        repeat {
+        //repeat {
+            sleep(10)
             storageRef.getData(maxSize: 1024 * 1024) { (data, error) in
                 
                 // If there is an error in downloading the file
@@ -252,7 +253,7 @@ class CaptionsMaker: ObservableObject {
                     }
                 }
                 else {
-                    print("Captions file succesfully downloaded.")
+                    print("Captions file succesfully downloaded: ", data!)
                     let decoder = JSONDecoder()
                     do {
                         // Parse downloaded response as JSON
@@ -262,7 +263,7 @@ class CaptionsMaker: ObservableObject {
                         DispatchQueue.main.async {
                             self.state = .downloadedJSON(.success((storageRef, captions)))
                         }
-                        repeatFlag = false
+                        //repeatFlag = false
                     } catch {
                         DispatchQueue.main.async {
                             self.state = .downloadedJSON(.failure(.error("Error parsing JSON! \(error.localizedDescription)")))
@@ -270,8 +271,8 @@ class CaptionsMaker: ObservableObject {
                     }
                 }
             }
-            sleep(5)  // Polling period
-        } while ( repeatFlag == true )
+        //   sleep(5)  // Polling period
+        //} while ( repeatFlag == true )
     }
 
     // Delete temporary files from bucket in Google Cloud Storage

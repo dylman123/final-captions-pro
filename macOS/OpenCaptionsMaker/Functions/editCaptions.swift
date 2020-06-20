@@ -22,7 +22,7 @@ func addCaption(toArray arrayIn: [Caption], beforeIndex insertedIndex: Int, atTi
      
     // Compute timing values
     var prev_end: Float? {
-        if insertedIndex != 0 { return captions[insertedIndex-1].endTime }
+        if insertedIndex != 0 { return captions[insertedIndex-1].end }
         else { return nil }
     }
     let buffer: Float = 1.0 // seconds before previous caption's start
@@ -36,7 +36,7 @@ func addCaption(toArray arrayIn: [Caption], beforeIndex insertedIndex: Int, atTi
         else { return end - buffer }  // if gap is larger than buffer
     }
      
-    let newCaption = Caption(id: insertedIndex, startTime: start, endTime: end)
+    let newCaption = Caption(id: insertedIndex, start: start, end: end)
     
     // Insert new Caption object
     captions.insert(newCaption, at: insertedIndex)

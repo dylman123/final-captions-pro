@@ -63,18 +63,18 @@ struct CaptionList: View {
     
     func modifyTimeVal(byStepSize delta: Float) -> Void {
         if app.mode == .editStartTime {
-            app.captions[app.selectedIndex].startTime += delta
+            app.captions[app.selectedIndex].start += delta
         } else if app.mode == .editEndTime {
-            app.captions[app.selectedIndex].endTime += delta
+            app.captions[app.selectedIndex].end += delta
         }
     }
     
     func modifyEndTime(byStepSize delta: Float) -> Void {
-        app.captions[app.selectedIndex].endTime += delta
+        app.captions[app.selectedIndex].end += delta
     }
     
     func _addCaption() -> Void {
-        app.captions = addCaption(toArray: app.captions, beforeIndex: app.selectedIndex, atTime: app.captions[app.selectedIndex].startTime)
+        app.captions = addCaption(toArray: app.captions, beforeIndex: app.selectedIndex, atTime: app.captions[app.selectedIndex].start)
     }
     
     func _deleteCaption() -> Void {
@@ -183,13 +183,13 @@ struct CaptionList: View {
             case .pause: self.tag(withSymbol: key)
             case .edit: self.insertCharacter(key)
             case .editStartTime: ()  // TODO: Manipulate float as a string
-                //var strVal = String(self.app.captions[self.app.selectedIndex].startTime)
+                //var strVal = String(self.app.captions[self.app.selectedIndex].start)
                 //strVal += String(describing: notification.object!)
-                //self.app.captions[self.app.selectedIndex].startTime = (strVal as NSString).floatValue
+                //self.app.captions[self.app.selectedIndex].start = (strVal as NSString).floatValue
             case .editEndTime: ()  // TODO: Manipulate float as a string
-                //var strVal = String(self.app.captions[self.app.selectedIndex].endTime)
+                //var strVal = String(self.app.captions[self.app.selectedIndex].end)
                 //strVal += String(describing: notification.object!)
-                //self.app.captions[self.app.selectedIndex].endTime = (strVal as NSString).floatValue
+                //self.app.captions[self.app.selectedIndex].end = (strVal as NSString).floatValue
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
