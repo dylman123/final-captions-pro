@@ -42,9 +42,9 @@ struct FileInput: View {
     // To manage the API-based transcription process
     @ObservedObject var userAPI = Transcriber()
     
-    private var progressView: AnyView {
+    private var StatusView: AnyView {
         var status = ""
-        print("State: ", userAPI.state)
+        print(userAPI.state)
         switch userAPI.state {
             
         case .idle:
@@ -65,7 +65,10 @@ struct FileInput: View {
             case .success(let url):
                 userAPI.extractAudio(fromFile: url)
                 status = "Extracting audio from video..."
-                return AnyView(Text(status))
+                return AnyView(VStack {
+                    Text(status)
+                    ProgressView()
+                })
             }
             
         case .extractedAudio(let result):
@@ -75,7 +78,10 @@ struct FileInput: View {
             case .success(let m4aURL):
                 userAPI.convertAudio(forFile: m4aURL)
                 status = "Coverting audio to .wav format..."
-                return AnyView(Text(status))
+                return AnyView(VStack {
+                    Text(status)
+                    ProgressView()
+                })
             }
             
         case .convertedAudio(let result):
@@ -85,7 +91,10 @@ struct FileInput: View {
             case .success(let wavURL):
                 userAPI.uploadAudio(fromFile: wavURL)
                 status = "Uploading audio to server..."
-                return AnyView(Text(status))
+                return AnyView(VStack {
+                    Text(status)
+                    ProgressView()
+                })
             }
             
         case .uploadedAudio(let result):
@@ -94,8 +103,11 @@ struct FileInput: View {
                 return AnyView(Text(error.localizedDescription))
             case .success(let id):
                 userAPI.downloadCaptions(withID: id)
-                status = "Transcribing audio..."
-                return AnyView(Text(status))
+                status = "Transcribing audio. This may take several minutes..."
+                return AnyView(VStack {
+                    Text(status)
+                    ProgressView()
+                })
             }
             
         case .downloadedJSON(let result):
@@ -105,7 +117,10 @@ struct FileInput: View {
             case .success:
                 userAPI.deleteTempFiles()
                 status = "Downloaded captions! Deleting temp server files..."
-                return AnyView(Text(status))
+                return AnyView(VStack {
+                    Text(status)
+                    ProgressView()
+                })
             }
             
         case .deletedTemp(let result):
@@ -129,7 +144,7 @@ struct FileInput: View {
     }
     
     var body: some View {
-        progressView
+        StatusView
     }
 }
 
