@@ -12,7 +12,7 @@ import Firebase
 struct FileInput: View {
     
     // Write data back to model
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var app: AppState
     @State var showFileInput: Bool
     
     // To show/hide the FileInput view
@@ -39,35 +39,96 @@ struct FileInput: View {
         return nil
     }
     
+    @ObservedObject var userAPI = CaptionMaker()
     @State var audioRef: StorageReference?
-    @State var fileID: String?
+    @State var jsonRef: StorageReference?
+    
+    func closeView() {
+        DispatchQueue.main.async {
+            self.showFileInput.toggle()
+            self.presentationMode.wrappedValue.dismiss()
+        }
+    }
+    
+    private var progressView: AnyView {
+        var status = ""
+        print("State: ", userAPI.state)
+        switch userAPI.state {
+            
+        case .idle:
+            return AnyView(
+                Button(action: {
+                    let video: URL? = self.openFileDialog()
+                    if video != nil {
+                        print("Selected video file has URL path: \(String(describing: video!))")
+                        self.app.videoURL = video!
+                        self.userAPI.generateCaptions()
+                    }
+                    else { print("No file was selected.") }
+                }) { Text("Select video from file") }
+            )
+            
+        case .videoSelected:
+            userAPI.extractAudio(fromFile: app.videoURL!)
+            status = "Extracting audio from video..."
+            return AnyView(Text(status))
+            
+        case .extractedAudio(let result):
+            switch result {
+            case .failure(let error):
+                return AnyView(Text(error.localizedDescription))
+            case .success(let m4aURL):
+                userAPI.convertAudio(forFile: m4aURL)
+                status = "Coverting audio to .wav format..."
+                return AnyView(Text(status))
+            }
+            
+        case .convertedAudio(let result):
+            switch result {
+            case .failure(let error):
+                return AnyView(Text(error.localizedDescription))
+            case .success(let wavURL):
+                userAPI.uploadAudio(fromFile: wavURL)
+                status = "Uploading audio to server..."
+                return AnyView(Text(status))
+            }
+            
+        case .uploadedAudio(let result):
+            switch result {
+            case .failure(let error):
+                return AnyView(Text(error.localizedDescription))
+            case .success(let (ref, id)):
+                audioRef = ref
+                userAPI.downloadCaptions(withID: id)
+                status = "Transcribing audio..."
+                return AnyView(Text(status))
+            }
+            
+        case .downloadedJSON(let result):
+            switch result {
+            case .failure(let error):
+                return AnyView(Text(error.localizedDescription))
+            case .success(let (ref, captions)):
+                jsonRef = ref
+                app.captions = captions
+                userAPI.deleteTempFiles(audio: audioRef!, json: jsonRef!)
+                status = "Downloaded captions! Deleting temp server files..."
+                return AnyView(Text(status))
+            }
+            
+        case .deletedTemp(let result):
+            switch result {
+            case .failure(let error):
+                return AnyView(Text(error.localizedDescription))
+            case .success:
+                closeView()
+                return AnyView(EmptyView())
+            }
+        }
+    }
     
     var body: some View {
-        
-        Button(action: {
-            
-            let video: URL? = self.openFileDialog()
-            
-            if video != nil {
-                print("Selected video file has URL path: \(String(describing: video!))")
-            
-                // Generate captions
-                self.state.videoURL = video!
-                //generateCaptions(self.state)
-                    
-                // Close the FileInput view
-                DispatchQueue.main.async {
-                    self.showFileInput.toggle()
-                    self.presentationMode.wrappedValue.dismiss()
-                }
-            }
-            else {
-                print("No file was selected.")
-            }
-        }) {
-            Text("Select video from file")
-        }
-        
+        progressView
     }
 }
 
