@@ -203,15 +203,15 @@
 		A37FD14B2447243400CD1C15 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
+				A327E4CB249DAAE30044A328 /* Transcriber.swift */,
 				A36655E124540CDA002FA173 /* editCaptions.swift */,
 				A36655D92452DFD1002FA173 /* finishReview.swift */,
 				A3E663262467C4080013450E /* Utilities.swift */,
-				A327E4CB249DAAE30044A328 /* Transcriber.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
 		};
-		A37FD14C2447247200CD1C15 /* Supporting Views */ = {
+		A37FD14C2447247200CD1C15 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				A3E4CB932488A6FA0046A1BA /* VideoPane */,
@@ -219,9 +219,10 @@
 				A3E4CB8D2487D92E0046A1BA /* CaptionRow */,
 				A36655BC24499293002FA173 /* AppKitElements.swift */,
 				A36655CD244D7E95002FA173 /* FileInput.swift */,
+				A3EB48AB2445A1D10077E555 /* ContentView.swift */,
 				A36655D1244DC0DA002FA173 /* MainMenu.xib */,
 			);
-			path = "Supporting Views";
+			path = UI;
 			sourceTree = "<group>";
 		};
 		A37FD151244804D300CD1C15 /* Resources */ = {
@@ -301,11 +302,10 @@
 			children = (
 				A36655C9244C63CB002FA173 /* Inputs */,
 				A37FD151244804D300CD1C15 /* Resources */,
-				A37FD14C2447247200CD1C15 /* Supporting Views */,
+				A37FD14C2447247200CD1C15 /* UI */,
 				A37FD14B2447243400CD1C15 /* Functions */,
 				A37FD146244722B500CD1C15 /* Models */,
 				A3EB48A92445A1D10077E555 /* AppDelegate.swift */,
-				A3EB48AB2445A1D10077E555 /* ContentView.swift */,
 				A3E4CB78247103850046A1BA /* TypingWindow.swift */,
 				A3EB48AD2445A1D90077E555 /* Assets.xcassets */,
 				A3EB48B22445A1D90077E555 /* Main.storyboard */,
