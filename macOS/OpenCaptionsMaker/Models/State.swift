@@ -17,7 +17,7 @@ enum Mode {
 class AppState: ObservableObject {
     
     // The array of captions which is to be edited by the user
-    @Published var captions: [Caption] = sampleCaptionData
+    @Published var captions: [Caption] = []
     
     // The array which stores various caption styles, editible by the user
     @Published var styles: [Style] = []

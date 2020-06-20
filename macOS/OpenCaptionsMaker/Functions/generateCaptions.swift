@@ -342,7 +342,7 @@ func downloadCaptions(withFileID fileID: String, completion: @escaping (StorageR
         let decoder = JSONDecoder()
         do {
             let result = try decoder.decode(JSONResult.self, from: responseData!)
-            captionsArray = result.transcriptions
+            captionsArray = result.captions
             print("Successfully parsed JSON: \(captionsArray!)")
             completion(storageRef, captionsArray)
         } catch {

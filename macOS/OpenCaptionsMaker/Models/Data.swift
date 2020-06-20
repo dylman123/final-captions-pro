@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct Caption: Hashable, Identifiable, Codable {
-    var id: Int //UUID  // Random unique identifier of the caption
+    var id: Int  // Random unique identifier of the caption
     var start: Float  // In seconds
     var end: Float  // In seconds
     var duration: Float  // In seconds
@@ -34,7 +34,7 @@ struct Caption: Hashable, Identifiable, Codable {
 }
 
 struct JSONResult: Codable {
-    var transcriptions: [Caption] = []
+    var captions: [Caption] = []
 }
 
 // Set the initial captions list

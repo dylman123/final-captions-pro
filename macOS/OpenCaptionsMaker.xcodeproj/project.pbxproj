@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2BBBFDC3E2C80F675D7180AD /* Pods_OpenCaptionsMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F13D0A30024D96FB4DEE9B /* Pods_OpenCaptionsMaker.framework */; };
 		A327E4CC249DAAE30044A328 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327E4CB249DAAE30044A328 /* UserAPI.swift */; };
+		A327E4CD249E2A150044A328 /* generateCaptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655D72452DC0F002FA173 /* generateCaptions.swift */; };
 		A33410BC24938539003AEC24 /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A330EB28249358C500466670 /* FontPicker.swift */; };
 		A356A73C24934505009F8638 /* ColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A356A73B24934505009F8638 /* ColorWell.swift */; };
 		A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13D2446C46800CD1C15 /* CaptionList.swift */; };
@@ -17,7 +18,6 @@
 		A36655D2244DC0DA002FA173 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A36655D1244DC0DA002FA173 /* MainMenu.xib */; };
 		A36655D5244EDC29002FA173 /* AppKitElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655BC24499293002FA173 /* AppKitElements.swift */; };
 		A36655D624505239002FA173 /* FileInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655CD244D7E95002FA173 /* FileInput.swift */; };
-		A36655DE24540409002FA173 /* generateCaptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655D72452DC0F002FA173 /* generateCaptions.swift */; };
 		A36655E024540A49002FA173 /* finishReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655D92452DFD1002FA173 /* finishReview.swift */; };
 		A36655E224540CDA002FA173 /* editCaptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655E124540CDA002FA173 /* editCaptions.swift */; };
 		A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */; };
@@ -616,11 +616,11 @@
 				A3E663272467C4080013450E /* Utilities.swift in Sources */,
 				A3E4CB902487DA2C0046A1BA /* TextView.swift in Sources */,
 				A36655E024540A49002FA173 /* finishReview.swift in Sources */,
+				A327E4CD249E2A150044A328 /* generateCaptions.swift in Sources */,
 				A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */,
 				A3E4CB8C2487D8BC0046A1BA /* SelectionBox.swift in Sources */,
 				A36655D624505239002FA173 /* FileInput.swift in Sources */,
 				A3E4CB79247103850046A1BA /* TypingWindow.swift in Sources */,
-				A36655DE24540409002FA173 /* generateCaptions.swift in Sources */,
 				A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */,
 				A33410BC24938539003AEC24 /* FontPicker.swift in Sources */,
 				A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */,

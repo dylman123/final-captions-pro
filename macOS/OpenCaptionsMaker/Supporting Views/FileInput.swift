@@ -39,10 +39,7 @@ struct FileInput: View {
         return nil
     }
     
-    @ObservedObject var userAPI = CaptionsMaker()
-    @State var audioRef: StorageReference?
-    @State var jsonRef: StorageReference?
-    @State var video: URL?
+    @ObservedObject var userAPI = Transcriber()
     
     private var progressView: AnyView {
         var status = ""
@@ -65,7 +62,6 @@ struct FileInput: View {
             switch result {
             case .failure: return AnyView(EmptyView())
             case .success(let url):
-                video = url
                 userAPI.extractAudio(fromFile: url)
                 status = "Extracting audio from video..."
                 return AnyView(Text(status))
@@ -95,8 +91,7 @@ struct FileInput: View {
             switch result {
             case .failure(let error):
                 return AnyView(Text(error.localizedDescription))
-            case .success(let (ref, id)):
-                audioRef = ref
+            case .success(let id):
                 userAPI.downloadCaptions(withID: id)
                 status = "Transcribing audio..."
                 return AnyView(Text(status))
@@ -106,10 +101,8 @@ struct FileInput: View {
             switch result {
             case .failure(let error):
                 return AnyView(Text(error.localizedDescription))
-            case .success(let (ref, captions)):
-                jsonRef = ref
-                app.captions = captions
-                userAPI.deleteTempFiles(audio: audioRef!, json: jsonRef!)
+            case .success:
+                userAPI.deleteTempFiles()
                 status = "Downloaded captions! Deleting temp server files..."
                 return AnyView(Text(status))
             }
@@ -120,7 +113,6 @@ struct FileInput: View {
                 return AnyView(Text(error.localizedDescription))
             case .success:
                 closeView()
-                app.videoURL = video
                 return AnyView(EmptyView())
             }
         }
@@ -128,6 +120,8 @@ struct FileInput: View {
     
     func closeView() {
         DispatchQueue.main.async {
+            self.app.videoURL = self.userAPI.video!
+            self.app.captions = self.userAPI.captions!
             self.showFileInput.toggle()
             self.presentationMode.wrappedValue.dismiss()
         }

@@ -16,20 +16,11 @@ enum TranscriptionState {
     case selectedVideo(Result<URL, APIError>)
     case extractedAudio(Result<URL, APIError>)
     case convertedAudio(Result<URL, APIError>)
-    case uploadedAudio(Result<(StorageReference, String), APIError>)
-    case downloadedJSON(Result<(StorageReference, [Caption]), APIError>)
+    case uploadedAudio(Result<String, APIError>)
+    case downloadedJSON(Result<String, APIError>)
     case deletedTemp(Result<String, APIError>)
 }
 
-//enum APIState<T> {
-//    case dormant
-//    case loading
-//    case fetched(Result<T, APIError>)
-//    case notauthorized
-//    case notfound
-//    case servererror
-//}
-//
 enum APIError: Error {
     case error(String)
 
@@ -40,28 +31,28 @@ enum APIError: Error {
         }
     }
 }
-//
-//class UserAPI {
-//
-//    public static let shared = UserAPI()
-//    private init() {}
-//
-//}
 
-class CaptionsMaker: ObservableObject {
+class Transcriber: ObservableObject {
     
-    var objectWillChange = PassthroughSubject<CaptionsMaker, Never>()
-    @Published var state: TranscriptionState = .idle {
-        didSet { objectWillChange.send(self) }
-    }
+    @Published var state: TranscriptionState = .idle
+    @Published var video: URL?
+    @Published var audioRef: StorageReference?
+    @Published var jsonRef: StorageReference?
+    @Published var captions: [Caption]?
+    private var readyStatus = [true, false, false, false, false, false]
 
     // Top level function
     func generateCaptions(forFile url: URL) {
+        guard readyStatus[0] == true else { return }
+        
+        readyStatus[1] = true
+        self.video = url
         self.state = .selectedVideo(.success(url))
     }
         
     // Extract audio from video file and asynchronously return result in a closure
     func extractAudio(fromFile sourceURL: URL) {
+        guard readyStatus[1] == true else { return }
         
         // Check format conversion compatibility (to m4a)
         let videoAsset = AVURLAsset(url: sourceURL)
@@ -81,8 +72,8 @@ class CaptionsMaker: ObservableObject {
             guard let audioCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) else { return }
             try audioCompositionTrack.insertTimeRange(audioAssetTrack.timeRange, of: audioAssetTrack, at: CMTime.zero)
         } catch {
-            DispatchQueue.main.async {
-                self.state = .extractedAudio(.failure(.error("Error extracting audio from video file: \(error.localizedDescription)")))
+            DispatchQueue.main.async { [weak self] in
+                self?.state = .extractedAudio(.failure(.error("Error extracting audio from video file: \(error.localizedDescription)")))
             }
         }
 
@@ -104,6 +95,7 @@ class CaptionsMaker: ObservableObject {
             guard let outputURL = exportSession.outputURL else { return }
             print("Extracted audio file has URL path: \(outputURL)")
             DispatchQueue.main.async { [weak self] in
+                self?.readyStatus[2] = true
                 self?.state = .extractedAudio(.success(outputURL))
             }
         }
@@ -112,6 +104,8 @@ class CaptionsMaker: ObservableObject {
 
     // Convert .m4a file to .wav format
     func convertAudio(forFile inputURL: URL) {
+        guard readyStatus[2] == true else { return }
+        
         let outputURL: URL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
         
         var error : OSStatus = noErr
@@ -198,22 +192,26 @@ class CaptionsMaker: ObservableObject {
         error = ExtAudioFileDispose(sourceFile!)
         print("Status 7 in convertAudio: \(error.description)")
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             if error == 0 {
-                self.state = .convertedAudio(.success(outputURL))
+                self?.readyStatus[3] = true
+                self?.state = .convertedAudio(.success(outputURL))
             }
             else {
-                self.state = .convertedAudio(.failure(.error("Error converting audio to .wav format: \(error.description)")))
+                self?.state = .convertedAudio(.failure(.error("Error converting audio to .wav format: \(error.description)")))
             }
         }
     }
 
     // Upload audio to Google Cloud Storage where a Firebase transcription function will be triggered
     func uploadAudio(fromFile audioURL: URL) {
+        guard readyStatus[3] == true else { return }
+        readyStatus[3] = false
         
         // Assign a random identifier to be used in the bucket and reference the file in the bucket
         let randomID = UUID.init().uuidString
         let uploadRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-audio/\(randomID).wav")
+        audioRef = uploadRef
         
         // Create file metadata
         let uploadMetadata = StorageMetadata.init()
@@ -222,13 +220,14 @@ class CaptionsMaker: ObservableObject {
         // Do a PUT request to upload the file and check for errors
         print("Uploading audio to the cloud...")
         uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 if let error = error {
-                    self.state = .uploadedAudio(.failure(.error("Error uploading audio file! \(error.localizedDescription)")))
+                    self?.state = .uploadedAudio(.failure(.error("Error uploading audio file! \(error.localizedDescription)")))
                 }
                 else {
                     print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
-                    self.state = .uploadedAudio(.success((uploadRef, randomID)))
+                    self?.readyStatus[4] = true
+                    self?.state = .uploadedAudio(.success(randomID))
                 }
             }
         }
@@ -237,10 +236,13 @@ class CaptionsMaker: ObservableObject {
 
     // Download captions file from Google Cloud Storage
     func downloadCaptions(withID fileID: String) {
+        guard readyStatus[4] == true else { return }
+        readyStatus[4] = false
         //var repeatFlag = true
         
         // Do a GET request to download the captions file and check for errors
         let storageRef = Storage.storage().reference(forURL: "gs://opencaptionsmaker.appspot.com/temp-captions/\(fileID).json")
+        jsonRef = storageRef
         
         //repeat {
             sleep(10)
@@ -248,25 +250,25 @@ class CaptionsMaker: ObservableObject {
                 
                 // If there is an error in downloading the file
                 if let error = error {
-                    DispatchQueue.main.async {
-                        self.state = .downloadedJSON(.failure(.error("Error downloading captions file! \(error.localizedDescription)")))
+                    DispatchQueue.main.async { [weak self] in
+                        self?.state = .downloadedJSON(.failure(.error("Error downloading captions file! \(error.localizedDescription)")))
                     }
                 }
                 else {
-                    print("Captions file succesfully downloaded: ", data!)
+                    print("Captions file succesfully downloaded.")
                     let decoder = JSONDecoder()
                     do {
                         // Parse downloaded response as JSON
                         let result = try decoder.decode(JSONResult.self, from: data!)
-                        let captions = result.transcriptions
-                        print("Successfully parsed JSON.")
-                        DispatchQueue.main.async {
-                            self.state = .downloadedJSON(.success((storageRef, captions)))
+                        self.captions = result.captions
+                        DispatchQueue.main.async { [weak self] in
+                            self?.readyStatus[5] = true
+                            self?.state = .downloadedJSON(.success("Successfully parsed JSON."))
                         }
                         //repeatFlag = false
                     } catch {
-                        DispatchQueue.main.async {
-                            self.state = .downloadedJSON(.failure(.error("Error parsing JSON! \(error.localizedDescription)")))
+                        DispatchQueue.main.async { [weak self] in
+                            self?.state = .downloadedJSON(.failure(.error("Error parsing JSON! \(error.localizedDescription)")))
                         }
                     }
                 }
@@ -276,58 +278,28 @@ class CaptionsMaker: ObservableObject {
     }
 
     // Delete temporary files from bucket in Google Cloud Storage
-    func deleteTempFiles(audio audioRef: StorageReference, json jsonRef: StorageReference) {
+    func deleteTempFiles() {
+        guard readyStatus[5] == true else { return }
+        readyStatus[5] = false
         
-        audioRef.delete { error in
-            DispatchQueue.main.async {
+        audioRef!.delete { error in
+            DispatchQueue.main.async { [weak self] in
                 if let error = error {
-                    self.state = .deletedTemp(.failure(.error("Error deleting audio file from Google Cloud Storage: \(error.localizedDescription)")))
+                    self?.state = .deletedTemp(.failure(.error("Error deleting audio file from Google Cloud Storage: \(error.localizedDescription)")))
                 } else {
-                    self.state = .deletedTemp(.success("Successfully deleted audio file from Google Cloud Storage."))
+                    self?.state = .deletedTemp(.success("Successfully deleted audio file from Google Cloud Storage."))
                 }
             }
         }
         
-        jsonRef.delete { error in
-            DispatchQueue.main.async {
+        jsonRef!.delete { error in
+            DispatchQueue.main.async { [weak self] in
                 if let error = error {
-                    self.state = .deletedTemp(.failure(.error("Error deleting JSON file from Google Cloud Storage: \(error.localizedDescription)")))
+                    self?.state = .deletedTemp(.failure(.error("Error deleting JSON file from Google Cloud Storage: \(error.localizedDescription)")))
                 } else {
-                    self.state = .deletedTemp(.success("Successfully deleted JSON file from Google Cloud Storage."))
+                    self?.state = .deletedTemp(.success("Successfully deleted JSON file from Google Cloud Storage."))
                 }
             }
         }
     }
 }
-
-//// Generates captions by using a transcription service
-//func _generateCaptions(forFile videoURL: URL) -> Void {
-//
-//    // Extract audio from video file and asynchronously return result in a closure
-//    extractAudio(fromVideoFile: videoURL) { m4aURL, error in
-//        if m4aURL != nil {
-//
-//            // Convert .m4a file to .wav format
-//            let wavURL = URL(fileURLWithPath: NSTemporaryDirectory() + "converted-audio.wav")
-//            convertM4AToWAV(inputURL: m4aURL!, outputURL: wavURL)
-//
-//            // Upload audio to Google Cloud Storage
-//            uploadAudio(withURL: wavURL) { audioRef, fileID, error in
-//                if fileID != nil {
-//
-//                    // Download captions file from Google Cloud Storage by short polling the server
-//                    do { sleep(10) }  // TODO: Make this a websockets callback to the Firebase DB
-//                    downloadCaptions(withFileID: fileID!) { captionData, error in
-//                        if captionData != nil {
-//                            self.captions = captionData!
-//                            print(self.captions)
-//                            //deleteAudio(withStorageRef: audioRef!) //FIXME: This is messing up the upload step (multithread issue!)
-//                        } else { self.captions = [] }
-//
-//                        return
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
