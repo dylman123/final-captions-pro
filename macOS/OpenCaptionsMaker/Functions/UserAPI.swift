@@ -13,7 +13,7 @@ import Firebase
 
 enum TranscriptionState {
     case idle
-    case videoSelected
+    case selectedVideo(Result<URL, APIError>)
     case extractedAudio(Result<URL, APIError>)
     case convertedAudio(Result<URL, APIError>)
     case uploadedAudio(Result<(StorageReference, String), APIError>)
@@ -48,13 +48,16 @@ enum APIError: Error {
 //
 //}
 
-class CaptionMaker: ObservableObject {
+class CaptionsMaker: ObservableObject {
     
-    @Published var state: TranscriptionState = .idle
+    var objectWillChange = PassthroughSubject<CaptionsMaker, Never>()
+    @Published var state: TranscriptionState = .idle {
+        didSet { objectWillChange.send(self) }
+    }
 
     // Top level function
-    func generateCaptions() {
-        self.state = .videoSelected
+    func generateCaptions(forFile url: URL) {
+        self.state = .selectedVideo(.success(url))
     }
         
     // Extract audio from video file and asynchronously return result in a closure
@@ -78,7 +81,9 @@ class CaptionMaker: ObservableObject {
             guard let audioCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) else { return }
             try audioCompositionTrack.insertTimeRange(audioAssetTrack.timeRange, of: audioAssetTrack, at: CMTime.zero)
         } catch {
-            self.state = .extractedAudio(.failure(.error("Error extracting audio from video file: \(error.localizedDescription)")))
+            DispatchQueue.main.async {
+                self.state = .extractedAudio(.failure(.error("Error extracting audio from video file: \(error.localizedDescription)")))
+            }
         }
 
         // Get URL for output
@@ -98,7 +103,9 @@ class CaptionMaker: ObservableObject {
 
             guard let outputURL = exportSession.outputURL else { return }
             print("Extracted audio file has URL path: \(outputURL)")
-            self.state = .extractedAudio(.success(outputURL))
+            DispatchQueue.main.async { [weak self] in
+                self?.state = .extractedAudio(.success(outputURL))
+            }
         }
         return
     }
@@ -191,11 +198,13 @@ class CaptionMaker: ObservableObject {
         error = ExtAudioFileDispose(sourceFile!)
         print("Status 7 in convertAudio: \(error.description)")
         
-        if error == 0 {
-            self.state = .convertedAudio(.success(outputURL))
-        }
-        else {
-            self.state = .convertedAudio(.failure(.error("Error converting audio to .wav format: \(error.description)")))
+        DispatchQueue.main.async {
+            if error == 0 {
+                self.state = .convertedAudio(.success(outputURL))
+            }
+            else {
+                self.state = .convertedAudio(.failure(.error("Error converting audio to .wav format: \(error.description)")))
+            }
         }
     }
 
@@ -213,12 +222,14 @@ class CaptionMaker: ObservableObject {
         // Do a PUT request to upload the file and check for errors
         print("Uploading audio to the cloud...")
         uploadRef.putFile(from: audioURL, metadata: uploadMetadata) { (downloadMetadata, error) in
-            if let error = error {
-                self.state = .uploadedAudio(.failure(.error("Error uploading audio file! \(error.localizedDescription)")))
-            }
-            else {
-                print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
-                self.state = .uploadedAudio(.success((uploadRef, randomID)))
+            DispatchQueue.main.async {
+                if let error = error {
+                    self.state = .uploadedAudio(.failure(.error("Error uploading audio file! \(error.localizedDescription)")))
+                }
+                else {
+                    print("PUT is complete. Successful response from server is: \(downloadMetadata!)")
+                    self.state = .uploadedAudio(.success((uploadRef, randomID)))
+                }
             }
         }
         
@@ -236,7 +247,9 @@ class CaptionMaker: ObservableObject {
                 
                 // If there is an error in downloading the file
                 if let error = error {
-                    self.state = .downloadedJSON(.failure(.error("Error downloading captions file! \(error.localizedDescription)")))
+                    DispatchQueue.main.async {
+                        self.state = .downloadedJSON(.failure(.error("Error downloading captions file! \(error.localizedDescription)")))
+                    }
                 }
                 else {
                     print("Captions file succesfully downloaded.")
@@ -246,10 +259,14 @@ class CaptionMaker: ObservableObject {
                         let result = try decoder.decode(JSONResult.self, from: data!)
                         let captions = result.transcriptions
                         print("Successfully parsed JSON.")
-                        self.state = .downloadedJSON(.success((storageRef, captions)))
+                        DispatchQueue.main.async {
+                            self.state = .downloadedJSON(.success((storageRef, captions)))
+                        }
                         repeatFlag = false
                     } catch {
-                        self.state = .downloadedJSON(.failure(.error("Error parsing JSON! \(error.localizedDescription)")))
+                        DispatchQueue.main.async {
+                            self.state = .downloadedJSON(.failure(.error("Error parsing JSON! \(error.localizedDescription)")))
+                        }
                     }
                 }
             }
@@ -261,18 +278,22 @@ class CaptionMaker: ObservableObject {
     func deleteTempFiles(audio audioRef: StorageReference, json jsonRef: StorageReference) {
         
         audioRef.delete { error in
-            if let error = error {
-                self.state = .deletedTemp(.failure(.error("Error deleting audio file from Google Cloud Storage: \(error.localizedDescription)")))
-            } else {
-                self.state = .deletedTemp(.success("Successfully deleted audio file from Google Cloud Storage."))
+            DispatchQueue.main.async {
+                if let error = error {
+                    self.state = .deletedTemp(.failure(.error("Error deleting audio file from Google Cloud Storage: \(error.localizedDescription)")))
+                } else {
+                    self.state = .deletedTemp(.success("Successfully deleted audio file from Google Cloud Storage."))
+                }
             }
         }
         
         jsonRef.delete { error in
-            if let error = error {
-                self.state = .deletedTemp(.failure(.error("Error deleting JSON file from Google Cloud Storage: \(error.localizedDescription)")))
-            } else {
-                self.state = .deletedTemp(.success("Successfully deleted JSON file from Google Cloud Storage."))
+            DispatchQueue.main.async {
+                if let error = error {
+                    self.state = .deletedTemp(.failure(.error("Error deleting JSON file from Google Cloud Storage: \(error.localizedDescription)")))
+                } else {
+                    self.state = .deletedTemp(.success("Successfully deleted JSON file from Google Cloud Storage."))
+                }
             }
         }
     }

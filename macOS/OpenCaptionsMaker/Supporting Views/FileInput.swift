@@ -39,16 +39,10 @@ struct FileInput: View {
         return nil
     }
     
-    @ObservedObject var userAPI = CaptionMaker()
+    @ObservedObject var userAPI = CaptionsMaker()
     @State var audioRef: StorageReference?
     @State var jsonRef: StorageReference?
-    
-    func closeView() {
-        DispatchQueue.main.async {
-            self.showFileInput.toggle()
-            self.presentationMode.wrappedValue.dismiss()
-        }
-    }
+    @State var video: URL?
     
     private var progressView: AnyView {
         var status = ""
@@ -61,17 +55,21 @@ struct FileInput: View {
                     let video: URL? = self.openFileDialog()
                     if video != nil {
                         print("Selected video file has URL path: \(String(describing: video!))")
-                        self.app.videoURL = video!
-                        self.userAPI.generateCaptions()
+                        self.userAPI.generateCaptions(forFile: video!)
                     }
                     else { print("No file was selected.") }
                 }) { Text("Select video from file") }
             )
             
-        case .videoSelected:
-            userAPI.extractAudio(fromFile: app.videoURL!)
-            status = "Extracting audio from video..."
-            return AnyView(Text(status))
+        case .selectedVideo(let result):
+            switch result {
+            case .failure: return AnyView(EmptyView())
+            case .success(let url):
+                video = url
+                userAPI.extractAudio(fromFile: url)
+                status = "Extracting audio from video..."
+                return AnyView(Text(status))
+            }
             
         case .extractedAudio(let result):
             switch result {
@@ -122,8 +120,16 @@ struct FileInput: View {
                 return AnyView(Text(error.localizedDescription))
             case .success:
                 closeView()
+                app.videoURL = video
                 return AnyView(EmptyView())
             }
+        }
+    }
+    
+    func closeView() {
+        DispatchQueue.main.async {
+            self.showFileInput.toggle()
+            self.presentationMode.wrappedValue.dismiss()
         }
     }
     
