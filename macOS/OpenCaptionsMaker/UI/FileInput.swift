@@ -66,7 +66,7 @@ struct FileInput: View {
                 userAPI.extractAudio(fromFile: url)
                 status = "Extracting audio from video..."
                 return AnyView(VStack {
-                    Text(status)
+                    Text(status).multilineTextAlignment(.center)
                     ProgressView()
                 })
             }
@@ -74,12 +74,12 @@ struct FileInput: View {
         case .extractedAudio(let result):
             switch result {
             case .failure(let error):
-                return AnyView(Text(error.localizedDescription))
+                return AnyView(Text(error.localizedDescription).multilineTextAlignment(.center))
             case .success(let m4aURL):
                 userAPI.convertAudio(forFile: m4aURL)
                 status = "Coverting audio to .wav format..."
                 return AnyView(VStack {
-                    Text(status)
+                    Text(status).multilineTextAlignment(.center)
                     ProgressView()
                 })
             }
@@ -87,12 +87,12 @@ struct FileInput: View {
         case .convertedAudio(let result):
             switch result {
             case .failure(let error):
-                return AnyView(Text(error.localizedDescription))
+                return AnyView(Text(error.localizedDescription).multilineTextAlignment(.center))
             case .success(let wavURL):
                 userAPI.uploadAudio(fromFile: wavURL)
                 status = "Uploading audio to server..."
                 return AnyView(VStack {
-                    Text(status)
+                    Text(status).multilineTextAlignment(.center)
                     ProgressView()
                 })
             }
@@ -100,12 +100,12 @@ struct FileInput: View {
         case .uploadedAudio(let result):
             switch result {
             case .failure(let error):
-                return AnyView(Text(error.localizedDescription))
+                return AnyView(Text(error.localizedDescription).multilineTextAlignment(.center))
             case .success(let id):
                 userAPI.downloadCaptions(withID: id)
                 status = "Transcribing audio. This may take several minutes..."
                 return AnyView(VStack {
-                    Text(status)
+                    Text(status).multilineTextAlignment(.center)
                     ProgressView()
                 })
             }
@@ -113,12 +113,12 @@ struct FileInput: View {
         case .downloadedJSON(let result):
             switch result {
             case .failure(let error):
-                return AnyView(Text(error.localizedDescription))
+                return AnyView(Text(error.localizedDescription).multilineTextAlignment(.center))
             case .success:
                 userAPI.deleteTempFiles()
                 status = "Downloaded captions! Deleting temp server files..."
                 return AnyView(VStack {
-                    Text(status)
+                    Text(status).multilineTextAlignment(.center)
                     ProgressView()
                 })
             }
@@ -126,7 +126,7 @@ struct FileInput: View {
         case .deletedTemp(let result):
             switch result {
             case .failure(let error):
-                return AnyView(Text(error.localizedDescription))
+                return AnyView(Text(error.localizedDescription).multilineTextAlignment(.center))
             case .success:
                 closeView()
                 return AnyView(EmptyView())

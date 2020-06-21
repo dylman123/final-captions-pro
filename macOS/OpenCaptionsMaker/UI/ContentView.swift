@@ -16,7 +16,6 @@ struct ContentView: View {
     // To refresh the UI when app state changes
     @EnvironmentObject var app: AppState
     @State private var showFileInput: Bool = true
-    @State private var showProgressBar: Bool = false
     
     // Test video
     var testVideo: URL? {
@@ -86,12 +85,6 @@ struct ContentView: View {
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
                     .environmentObject(self.app)
-            }
-            else if self.showProgressBar {
-                // Progress bar whilst tasks are loading
-                ProgressView()
-                    .padding()
-                    .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
             }
         })
     }

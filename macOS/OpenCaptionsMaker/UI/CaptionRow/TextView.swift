@@ -39,7 +39,22 @@ struct TextView: View {
             .lineLimit(2)
             .clickable(row, fromView: .text)
             .offset(x: textOffset + deltaOffset)
-            .frame(width: textWidth))
+            .frame(width: textWidth)
+            .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
+                switch self.app.mode {
+                case .play, .pause: ()
+                case .edit: ()
+                case .editStartTime, .editEndTime: ()
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
+                switch self.app.mode {
+                case .play, .pause: ()
+                case .edit: ()
+                case .editStartTime, .editEndTime: ()
+                }
+            }
+            )
         
         }
         else {
