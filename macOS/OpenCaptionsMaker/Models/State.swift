@@ -48,7 +48,7 @@ class AppState: ObservableObject {
     func syncVideoAndList(isListControlling: Bool) -> Void {
         let timestamp = videoPos * videoDuration
         let inferredVideoPos = Double(captions[selectedIndex].start) / videoDuration
-        let inferredIndex = captions.firstIndex(where: { timestamp <= Double($0.end) }) ?? 0
+        let inferredIndex = captions.firstIndex(where: { Double($0.end) >= timestamp }) ?? 0
         
         DispatchQueue.main.async {
             if isListControlling {

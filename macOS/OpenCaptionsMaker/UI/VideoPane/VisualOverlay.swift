@@ -44,6 +44,16 @@ struct VisualOverlay: View {
         if position.height <= -maxHeight { position.height = -maxHeight }
     }
     
+    // Consider caption timings when displaying caption text
+    var displayText: Bool {
+        guard app.mode == .play else { return true }  // always display in edit modes
+        let timestamp = app.videoPos * app.videoDuration
+        let startTime = Double(caption.start)
+        let endTime = Double(caption.end)
+        if ( timestamp >= startTime ) && ( timestamp < endTime ) { return true }
+        else { return false }
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -54,25 +64,27 @@ struct VisualOverlay: View {
                         else { self.app.transition(to: .play) }
                     }
                 
-                Text(self.caption.text)
-                    .attributes(_bold: self.bold, _italic: self.italic, _underline: self.underline)
-                    .customFont(name: self.font, size: self.size, color: self.color, alignment: self.alignment)
-                    .offset(x: self.position.width, y: self.position.height)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { gesture in
-                                // Break down coords into 2D components
-                                self.position.width = self.style.position.width + gesture.translation.width
-                                self.position.height = self.style.position.height + gesture.translation.height
-                                
-                                // Keep caption within video frame bounds
-                                self.restrictDrag(maxWidth: geometry.size.width/2, maxHeight: geometry.size.height/2)
-                            }
-                            .onEnded { _ in
-                                // Save positional coords
-                                self.app.captions[self.index].style.position = self.position
-                            }
-                    )
+                if self.displayText {
+                    Text(self.caption.text)
+                        .attributes(_bold: self.bold, _italic: self.italic, _underline: self.underline)
+                        .customFont(name: self.font, size: self.size, color: self.color, alignment: self.alignment)
+                        .offset(x: self.position.width, y: self.position.height)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    // Break down coords into 2D components
+                                    self.position.width = self.style.position.width + gesture.translation.width
+                                    self.position.height = self.style.position.height + gesture.translation.height
+                                    
+                                    // Keep caption within video frame bounds
+                                    self.restrictDrag(maxWidth: geometry.size.width/2, maxHeight: geometry.size.height/2)
+                                }
+                                .onEnded { _ in
+                                    // Save positional coords
+                                    self.app.captions[self.index].style.position = self.position
+                                }
+                        )
+                }
                 
                 // Style editor
                 if self.app.mode != .play { TextStyler(color: self.$color).offset(y: -290) }
