@@ -46,37 +46,36 @@ class TextModifier: ObservableObject {
 struct ModifiableText: View {
     
     @EnvironmentObject var app: AppState
-    @ObservedObject var modifier: TextModifier
     var row: RowState
     
     init(_ row: RowState) {
         self.row = row
-        self.modifier = TextModifier(row.caption.text)
     }
     
     func insertCharacter(_ char: String) {
         var text = app.captions[app.selectedIndex].text
-        text.insert(contentsOf: char, at: text.index(text.startIndex, offsetBy: modifier.cursor+1))
+        text.insert(contentsOf: char, at: text.index(text.startIndex, offsetBy: row.modifier.cursor+1))
         app.captions[app.selectedIndex].text = text
-        modifier.updateCursor(.right)
+        row.modifier.updateCursor(.right)
     }
     
     func deleteCharacter() {
+        guard row.modifier.cursor >= 0 else { return }
         var text = self.app.captions[self.app.selectedIndex].text
-        text.remove(at: text.index(text.startIndex, offsetBy: modifier.cursor))
+        text.remove(at: text.index(text.startIndex, offsetBy: row.modifier.cursor))
         self.app.captions[self.app.selectedIndex].text = text
-        modifier.updateCursor(.left)
+        row.modifier.updateCursor(.left)
     }
     
     var body: some View {
-        Text(modifier.text)
+        Text(row.modifier.text)
         .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
             guard self.app.mode == .edit else { return }
-            self.modifier.moveCursor(.left)
+            self.row.modifier.moveCursor(.left)
         }
         .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
             guard self.app.mode == .edit else { return }
-            self.modifier.moveCursor(.right)
+            self.row.modifier.moveCursor(.right)
         }
         .onReceive(NotificationCenter.default.publisher(for: .character)) { notification in
             guard self.app.mode == .edit else { return }
@@ -102,7 +101,6 @@ struct ModifiableText: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
             guard self.app.mode == .edit else { return }
-            guard self.modifier.cursor >= 0 else { return }
             self.deleteCharacter()
         }
     }

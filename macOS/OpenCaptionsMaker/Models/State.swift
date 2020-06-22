@@ -113,8 +113,12 @@ struct RowState {
     // The caption object for the current row
     var caption: Caption
     
+    // The modifier object for the caption text
+    @ObservedObject var modifier: TextModifier
+    
     init(_ app: AppState = AppState(), _ caption: Caption = Caption()) {
         self.app = app
         self.caption = caption
+        self.modifier = TextModifier(caption.text)
     }
 }
