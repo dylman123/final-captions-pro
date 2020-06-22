@@ -1,6 +1,0 @@
-framework module Pods_OpenCaptionsMaker {
-  umbrella header "Pods-OpenCaptionsMaker-umbrella.h"
-
-  export *
-  module * { export * }
-}

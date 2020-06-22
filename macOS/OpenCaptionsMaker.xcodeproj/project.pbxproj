@@ -7,26 +7,41 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		27CA6E2BB3E88326F9130E02 /* Pods_OpenCaptionsMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */; };
+		2BBBFDC3E2C80F675D7180AD /* Pods_OpenCaptionsMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F13D0A30024D96FB4DEE9B /* Pods_OpenCaptionsMaker.framework */; };
+		A327E4CC249DAAE30044A328 /* Transcriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327E4CB249DAAE30044A328 /* Transcriber.swift */; };
+		A33410BC24938539003AEC24 /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A330EB28249358C500466670 /* FontPicker.swift */; };
+		A356A73C24934505009F8638 /* ColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A356A73B24934505009F8638 /* ColorWell.swift */; };
 		A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13D2446C46800CD1C15 /* CaptionList.swift */; };
-		A36655C5244A8F1D002FA173 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655C4244A8F1D002FA173 /* UserData.swift */; };
+		A36655C5244A8F1D002FA173 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655C4244A8F1D002FA173 /* State.swift */; };
 		A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1542448788100CD1C15 /* VideoPlayer.swift */; };
 		A36655D2244DC0DA002FA173 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A36655D1244DC0DA002FA173 /* MainMenu.xib */; };
 		A36655D5244EDC29002FA173 /* AppKitElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655BC24499293002FA173 /* AppKitElements.swift */; };
 		A36655D624505239002FA173 /* FileInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655CD244D7E95002FA173 /* FileInput.swift */; };
-		A36655DE24540409002FA173 /* generateCaptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655D72452DC0F002FA173 /* generateCaptions.swift */; };
 		A36655E024540A49002FA173 /* finishReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655D92452DFD1002FA173 /* finishReview.swift */; };
 		A36655E224540CDA002FA173 /* editCaptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36655E124540CDA002FA173 /* editCaptions.swift */; };
 		A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */; };
-		A37FD1402446C66700CD1C15 /* CaptionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13F2446C66700CD1C15 /* CaptionRow.swift */; };
+		A37FD1402446C66700CD1C15 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13F2446C66700CD1C15 /* Row.swift */; };
 		A37FD1432446C99D00CD1C15 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD1422446C99D00CD1C15 /* Headers.swift */; };
-		A37FD148244722D700CD1C15 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD147244722D700CD1C15 /* Data.swift */; };
-		A37FD14A244722F000CD1C15 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD149244722F000CD1C15 /* Caption.swift */; };
-		A37FD14E2447254400CD1C15 /* captionData.json in Resources */ = {isa = PBXBuildFile; fileRef = A37FD14D2447254400CD1C15 /* captionData.json */; };
+		A37FD14A244722F000CD1C15 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD149244722F000CD1C15 /* Data.swift */; };
+		A37FD14E2447254400CD1C15 /* captionDataShort.json in Resources */ = {isa = PBXBuildFile; fileRef = A37FD14D2447254400CD1C15 /* captionDataShort.json */; };
+		A3E4CB77246FD6A20046A1BA /* captionDataLong.json in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB76246FD6A20046A1BA /* captionDataLong.json */; };
+		A3E4CB79247103850046A1BA /* TypingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB78247103850046A1BA /* TypingWindow.swift */; };
+		A3E4CB81247CEEB40046A1BA /* RAW-short.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB7E247CEDD80046A1BA /* RAW-short.mp4 */; };
+		A3E4CB82247CF0F50046A1BA /* RAW-long.m4v in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB7F247CEDD80046A1BA /* RAW-long.m4v */; };
+		A3E4CB84247E421E0046A1BA /* OffsetScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB83247E421E0046A1BA /* OffsetScrollView.swift */; };
+		A3E4CB8824864E2E0046A1BA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB8724864E2E0046A1BA /* Tag.swift */; };
+		A3E4CB8A2487D4250046A1BA /* Timings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB892487D4250046A1BA /* Timings.swift */; };
+		A3E4CB8C2487D8BC0046A1BA /* SelectionBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB8B2487D8BC0046A1BA /* SelectionBox.swift */; };
+		A3E4CB902487DA2C0046A1BA /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB8F2487DA2C0046A1BA /* TextView.swift */; };
+		A3E4CB922487DE440046A1BA /* PlusMinus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB912487DE440046A1BA /* PlusMinus.swift */; };
+		A3E4CB952488A9840046A1BA /* VisualOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB942488A9840046A1BA /* VisualOverlay.swift */; };
+		A3E4CB99248A04ED0046A1BA /* styledCaptions.json in Resources */ = {isa = PBXBuildFile; fileRef = A3E4CB98248A04ED0046A1BA /* styledCaptions.json */; };
+		A3E4CB9B2490BA290046A1BA /* TextStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4CB9A2490BA280046A1BA /* TextStyler.swift */; };
 		A3E663272467C4080013450E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E663262467C4080013450E /* Utilities.swift */; };
 		A3E6632B2467CE740013450E /* fcpxml-v1.8.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A3E663282467CE740013450E /* fcpxml-v1.8.dtd */; };
 		A3E6632C2467CE740013450E /* title.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E663292467CE740013450E /* title.fcpxml */; };
 		A3E6632D2467CE740013450E /* template.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3E6632A2467CE740013450E /* template.fcpxml */; };
+		A3E6633324680BF00013450E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3E6633224680BF00013450E /* GoogleService-Info.plist */; };
 		A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48A92445A1D10077E555 /* AppDelegate.swift */; };
 		A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48AB2445A1D10077E555 /* ContentView.swift */; };
 		A3EB48AE2445A1D90077E555 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3EB48AD2445A1D90077E555 /* Assets.xcassets */; };
@@ -34,9 +49,8 @@
 		A3EB48B42445A1D90077E555 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EB48B22445A1D90077E555 /* Main.storyboard */; };
 		A3EB48C02445A1D90077E555 /* OpenCaptionsMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48BF2445A1D90077E555 /* OpenCaptionsMakerTests.swift */; };
 		A3EB48CB2445A1D90077E555 /* OpenCaptionsMakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EB48CA2445A1D90077E555 /* OpenCaptionsMakerUITests.swift */; };
-		A3F346812456EF790055858D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3F346802456EF790055858D /* GoogleService-Info.plist */; };
-		B1115A07077872F99A757CC7 /* Pods_OpenCaptionsMakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */; };
-		F5A4513DCD167E3BC7761514 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */; };
+		C125AE4EFBADD1B191EF9ADF /* Pods_OpenCaptionsMakerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7FAF567FD699CB84564AA5F /* Pods_OpenCaptionsMakerTests.framework */; };
+		DB90D55F1EF2317EAD1471A8 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBADC2D2454DB37BA22F6722 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,33 +71,46 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.debug.xcconfig"; sourceTree = "<group>"; };
-		07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.release.xcconfig"; sourceTree = "<group>"; };
-		55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMakerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		356004B9532EB481C449A66F /* Pods-OpenCaptionsMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.release.xcconfig"; sourceTree = "<group>"; };
+		566DDB1271F81508935C89C4 /* Pods-OpenCaptionsMakerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.release.xcconfig"; sourceTree = "<group>"; };
+		587C95032DFCD0281E55DC9A /* Pods-OpenCaptionsMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.debug.xcconfig"; sourceTree = "<group>"; };
+		8102688F56E295272B42443D /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		96500640B2566C2F53A0E7E3 /* Pods-OpenCaptionsMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A327E4CB249DAAE30044A328 /* Transcriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcriber.swift; sourceTree = "<group>"; };
+		A330EB28249358C500466670 /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
+		A356A73B24934505009F8638 /* ColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWell.swift; sourceTree = "<group>"; };
 		A36655BC24499293002FA173 /* AppKitElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitElements.swift; sourceTree = "<group>"; };
-		A36655C4244A8F1D002FA173 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		A36655C4244A8F1D002FA173 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		A36655CD244D7E95002FA173 /* FileInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInput.swift; sourceTree = "<group>"; };
 		A36655D1244DC0DA002FA173 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		A36655D72452DC0F002FA173 /* generateCaptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = generateCaptions.swift; sourceTree = "<group>"; };
 		A36655D92452DFD1002FA173 /* finishReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = finishReview.swift; sourceTree = "<group>"; };
 		A36655E124540CDA002FA173 /* editCaptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editCaptions.swift; sourceTree = "<group>"; };
 		A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeVideoExample.swift; sourceTree = "<group>"; };
 		A37FD13D2446C46800CD1C15 /* CaptionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionList.swift; sourceTree = "<group>"; };
-		A37FD13F2446C66700CD1C15 /* CaptionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionRow.swift; sourceTree = "<group>"; };
+		A37FD13F2446C66700CD1C15 /* Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
 		A37FD1422446C99D00CD1C15 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
-		A37FD147244722D700CD1C15 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		A37FD149244722F000CD1C15 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
-		A37FD14D2447254400CD1C15 /* captionData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = captionData.json; sourceTree = "<group>"; };
+		A37FD149244722F000CD1C15 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		A37FD14D2447254400CD1C15 /* captionDataShort.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = captionDataShort.json; sourceTree = "<group>"; };
 		A37FD1542448788100CD1C15 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
+		A3E4CB76246FD6A20046A1BA /* captionDataLong.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = captionDataLong.json; sourceTree = "<group>"; };
+		A3E4CB78247103850046A1BA /* TypingWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingWindow.swift; sourceTree = "<group>"; };
+		A3E4CB7E247CEDD80046A1BA /* RAW-short.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-short.mp4"; sourceTree = "<group>"; };
+		A3E4CB7F247CEDD80046A1BA /* RAW-long.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-long.m4v"; sourceTree = "<group>"; };
+		A3E4CB83247E421E0046A1BA /* OffsetScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetScrollView.swift; sourceTree = "<group>"; };
+		A3E4CB852484E7630046A1BA /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
+		A3E4CB8724864E2E0046A1BA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		A3E4CB892487D4250046A1BA /* Timings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timings.swift; sourceTree = "<group>"; };
+		A3E4CB8B2487D8BC0046A1BA /* SelectionBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionBox.swift; sourceTree = "<group>"; };
+		A3E4CB8F2487DA2C0046A1BA /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		A3E4CB912487DE440046A1BA /* PlusMinus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMinus.swift; sourceTree = "<group>"; };
+		A3E4CB942488A9840046A1BA /* VisualOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualOverlay.swift; sourceTree = "<group>"; };
+		A3E4CB98248A04ED0046A1BA /* styledCaptions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = styledCaptions.json; sourceTree = "<group>"; };
+		A3E4CB9A2490BA280046A1BA /* TextStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyler.swift; sourceTree = "<group>"; };
 		A3E663262467C4080013450E /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		A3E663282467CE740013450E /* fcpxml-v1.8.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "fcpxml-v1.8.dtd"; sourceTree = "<group>"; };
 		A3E663292467CE740013450E /* title.fcpxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = title.fcpxml; sourceTree = "<group>"; };
 		A3E6632A2467CE740013450E /* template.fcpxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = template.fcpxml; sourceTree = "<group>"; };
-		A3E9B887245BCAF8006265C9 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		A3E6633224680BF00013450E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A3EB48A62445A1D10077E555 /* OpenCaptionsMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenCaptionsMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3EB48A92445A1D10077E555 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3EB48AB2445A1D10077E555 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,9 +125,10 @@
 		A3EB48C62445A1D90077E555 /* OpenCaptionsMakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenCaptionsMakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3EB48CA2445A1D90077E555 /* OpenCaptionsMakerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenCaptionsMakerUITests.swift; sourceTree = "<group>"; };
 		A3EB48CC2445A1D90077E555 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A3F346802456EF790055858D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker.release.xcconfig"; sourceTree = "<group>"; };
-		D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BCAD8F92DB8C43773BAEDBF4 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C7FAF567FD699CB84564AA5F /* Pods_OpenCaptionsMakerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMakerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3F13D0A30024D96FB4DEE9B /* Pods_OpenCaptionsMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBADC2D2454DB37BA22F6722 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27CA6E2BB3E88326F9130E02 /* Pods_OpenCaptionsMaker.framework in Frameworks */,
+				2BBBFDC3E2C80F675D7180AD /* Pods_OpenCaptionsMaker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1115A07077872F99A757CC7 /* Pods_OpenCaptionsMakerTests.framework in Frameworks */,
+				C125AE4EFBADD1B191EF9ADF /* Pods_OpenCaptionsMakerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5A4513DCD167E3BC7761514 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */,
+				DB90D55F1EF2317EAD1471A8 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,22 +162,22 @@
 		47EF76770BDEB6677740BA35 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */,
-				D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */,
-				603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */,
-				D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */,
-				07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */,
-				23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */,
+				587C95032DFCD0281E55DC9A /* Pods-OpenCaptionsMaker.debug.xcconfig */,
+				356004B9532EB481C449A66F /* Pods-OpenCaptionsMaker.release.xcconfig */,
+				BCAD8F92DB8C43773BAEDBF4 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */,
+				8102688F56E295272B42443D /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */,
+				96500640B2566C2F53A0E7E3 /* Pods-OpenCaptionsMakerTests.debug.xcconfig */,
+				566DDB1271F81508935C89C4 /* Pods-OpenCaptionsMakerTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		75EBD76382B840B5787E2B1D /* Frameworks */ = {
+		526A71A583296E414EC77B6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6A10AC263C73EEF6509FCD08 /* Pods_OpenCaptionsMaker.framework */,
-				64558DF37075CD0E30826680 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */,
-				55DBF5C2C8DCE0C1EC575C9F /* Pods_OpenCaptionsMakerTests.framework */,
+				D3F13D0A30024D96FB4DEE9B /* Pods_OpenCaptionsMaker.framework */,
+				EBADC2D2454DB37BA22F6722 /* Pods_OpenCaptionsMaker_OpenCaptionsMakerUITests.framework */,
+				C7FAF567FD699CB84564AA5F /* Pods_OpenCaptionsMakerTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -157,6 +185,8 @@
 		A36655C9244C63CB002FA173 /* Inputs */ = {
 			isa = PBXGroup;
 			children = (
+				A3E4CB7F247CEDD80046A1BA /* RAW-long.m4v */,
+				A3E4CB7E247CEDD80046A1BA /* RAW-short.mp4 */,
 			);
 			path = Inputs;
 			sourceTree = "<group>";
@@ -164,9 +194,8 @@
 		A37FD146244722B500CD1C15 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A37FD147244722D700CD1C15 /* Data.swift */,
-				A37FD149244722F000CD1C15 /* Caption.swift */,
-				A36655C4244A8F1D002FA173 /* UserData.swift */,
+				A37FD149244722F000CD1C15 /* Data.swift */,
+				A36655C4244A8F1D002FA173 /* State.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -174,27 +203,26 @@
 		A37FD14B2447243400CD1C15 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
-				A36655D72452DC0F002FA173 /* generateCaptions.swift */,
+				A327E4CB249DAAE30044A328 /* Transcriber.swift */,
 				A36655E124540CDA002FA173 /* editCaptions.swift */,
 				A36655D92452DFD1002FA173 /* finishReview.swift */,
-				A3E9B887245BCAF8006265C9 /* Networking.swift */,
 				A3E663262467C4080013450E /* Utilities.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
 		};
-		A37FD14C2447247200CD1C15 /* Supporting Views */ = {
+		A37FD14C2447247200CD1C15 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				A3E4CB932488A6FA0046A1BA /* VideoPane */,
+				A3E4CB8E2487D9F30046A1BA /* CaptionList */,
+				A3E4CB8D2487D92E0046A1BA /* CaptionRow */,
 				A36655BC24499293002FA173 /* AppKitElements.swift */,
-				A37FD13D2446C46800CD1C15 /* CaptionList.swift */,
-				A37FD13F2446C66700CD1C15 /* CaptionRow.swift */,
-				A37FD1422446C99D00CD1C15 /* Headers.swift */,
-				A37FD1542448788100CD1C15 /* VideoPlayer.swift */,
 				A36655CD244D7E95002FA173 /* FileInput.swift */,
+				A3EB48AB2445A1D10077E555 /* ContentView.swift */,
 				A36655D1244DC0DA002FA173 /* MainMenu.xib */,
 			);
-			path = "Supporting Views";
+			path = UI;
 			sourceTree = "<group>";
 		};
 		A37FD151244804D300CD1C15 /* Resources */ = {
@@ -204,9 +232,47 @@
 				A3E6632A2467CE740013450E /* template.fcpxml */,
 				A3E663292467CE740013450E /* title.fcpxml */,
 				A37FD13B2446C43600CD1C15 /* FakeVideoExample.swift */,
-				A37FD14D2447254400CD1C15 /* captionData.json */,
+				A37FD14D2447254400CD1C15 /* captionDataShort.json */,
+				A3E4CB76246FD6A20046A1BA /* captionDataLong.json */,
+				A3E4CB98248A04ED0046A1BA /* styledCaptions.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		A3E4CB8D2487D92E0046A1BA /* CaptionRow */ = {
+			isa = PBXGroup;
+			children = (
+				A37FD13F2446C66700CD1C15 /* Row.swift */,
+				A3E4CB892487D4250046A1BA /* Timings.swift */,
+				A3E4CB8724864E2E0046A1BA /* Tag.swift */,
+				A3E4CB8B2487D8BC0046A1BA /* SelectionBox.swift */,
+				A3E4CB8F2487DA2C0046A1BA /* TextView.swift */,
+				A3E4CB912487DE440046A1BA /* PlusMinus.swift */,
+			);
+			path = CaptionRow;
+			sourceTree = "<group>";
+		};
+		A3E4CB8E2487D9F30046A1BA /* CaptionList */ = {
+			isa = PBXGroup;
+			children = (
+				A37FD13D2446C46800CD1C15 /* CaptionList.swift */,
+				A37FD1422446C99D00CD1C15 /* Headers.swift */,
+				A3E4CB83247E421E0046A1BA /* OffsetScrollView.swift */,
+				A3E4CB852484E7630046A1BA /* CustomScrollView.swift */,
+			);
+			path = CaptionList;
+			sourceTree = "<group>";
+		};
+		A3E4CB932488A6FA0046A1BA /* VideoPane */ = {
+			isa = PBXGroup;
+			children = (
+				A37FD1542448788100CD1C15 /* VideoPlayer.swift */,
+				A3E4CB942488A9840046A1BA /* VisualOverlay.swift */,
+				A3E4CB9A2490BA280046A1BA /* TextStyler.swift */,
+				A356A73B24934505009F8638 /* ColorWell.swift */,
+				A330EB28249358C500466670 /* FontPicker.swift */,
+			);
+			path = VideoPane;
 			sourceTree = "<group>";
 		};
 		A3EB489D2445A1D10077E555 = {
@@ -217,7 +283,7 @@
 				A3EB48C92445A1D90077E555 /* OpenCaptionsMakerUITests */,
 				A3EB48A72445A1D10077E555 /* Products */,
 				47EF76770BDEB6677740BA35 /* Pods */,
-				75EBD76382B840B5787E2B1D /* Frameworks */,
+				526A71A583296E414EC77B6A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,15 +302,15 @@
 			children = (
 				A36655C9244C63CB002FA173 /* Inputs */,
 				A37FD151244804D300CD1C15 /* Resources */,
-				A37FD14C2447247200CD1C15 /* Supporting Views */,
+				A37FD14C2447247200CD1C15 /* UI */,
 				A37FD14B2447243400CD1C15 /* Functions */,
 				A37FD146244722B500CD1C15 /* Models */,
 				A3EB48A92445A1D10077E555 /* AppDelegate.swift */,
-				A3EB48AB2445A1D10077E555 /* ContentView.swift */,
+				A3E4CB78247103850046A1BA /* TypingWindow.swift */,
 				A3EB48AD2445A1D90077E555 /* Assets.xcassets */,
 				A3EB48B22445A1D90077E555 /* Main.storyboard */,
 				A3EB48B52445A1D90077E555 /* Info.plist */,
-				A3F346802456EF790055858D /* GoogleService-Info.plist */,
+				A3E6633224680BF00013450E /* GoogleService-Info.plist */,
 				A3EB48B62445A1D90077E555 /* OpenCaptionsMaker.entitlements */,
 				A3EB48AF2445A1D90077E555 /* Preview Content */,
 			);
@@ -284,17 +350,19 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48CF2445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMaker" */;
 			buildPhases = (
-				34E862B999E4FF4E113F3B72 /* [CP] Check Pods Manifest.lock */,
+				828B4CED85D77B2648EC6B55 /* [CP] Check Pods Manifest.lock */,
 				A3EB48A22445A1D10077E555 /* Sources */,
 				A3EB48A32445A1D10077E555 /* Frameworks */,
 				A3EB48A42445A1D10077E555 /* Resources */,
-				F8A070DE093097970C18A6FD /* [CP] Embed Pods Frameworks */,
+				5C503CD90872656F605D988D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = OpenCaptionsMaker;
+			packageProductDependencies = (
+			);
 			productName = OpenCaptionsMaker;
 			productReference = A3EB48A62445A1D10077E555 /* OpenCaptionsMaker.app */;
 			productType = "com.apple.product-type.application";
@@ -303,7 +371,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48D22445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMakerTests" */;
 			buildPhases = (
-				C59AFB05DBFDD3EEE48589B7 /* [CP] Check Pods Manifest.lock */,
+				F417AF0DB73E31F08C50F864 /* [CP] Check Pods Manifest.lock */,
 				A3EB48B72445A1D90077E555 /* Sources */,
 				A3EB48B82445A1D90077E555 /* Frameworks */,
 				A3EB48B92445A1D90077E555 /* Resources */,
@@ -322,11 +390,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3EB48D52445A1D90077E555 /* Build configuration list for PBXNativeTarget "OpenCaptionsMakerUITests" */;
 			buildPhases = (
-				801C6D1E45B452FF3AA2147E /* [CP] Check Pods Manifest.lock */,
+				9D90B42034FDFAFBD3723930 /* [CP] Check Pods Manifest.lock */,
 				A3EB48C22445A1D90077E555 /* Sources */,
 				A3EB48C32445A1D90077E555 /* Frameworks */,
 				A3EB48C42445A1D90077E555 /* Resources */,
-				4D3E9AAA9A3B289107F1974F /* [CP] Embed Pods Frameworks */,
+				8F4215DBFC327459F9A66914 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -370,6 +438,8 @@
 				Base,
 			);
 			mainGroup = A3EB489D2445A1D10077E555;
+			packageReferences = (
+			);
 			productRefGroup = A3EB48A72445A1D10077E555 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -386,12 +456,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A37FD14E2447254400CD1C15 /* captionData.json in Resources */,
+				A37FD14E2447254400CD1C15 /* captionDataShort.json in Resources */,
 				A36655D2244DC0DA002FA173 /* MainMenu.xib in Resources */,
+				A3E4CB77246FD6A20046A1BA /* captionDataLong.json in Resources */,
+				A3E4CB81247CEEB40046A1BA /* RAW-short.mp4 in Resources */,
+				A3E4CB82247CF0F50046A1BA /* RAW-long.m4v in Resources */,
+				A3E6633324680BF00013450E /* GoogleService-Info.plist in Resources */,
+				A3E4CB99248A04ED0046A1BA /* styledCaptions.json in Resources */,
 				A3EB48B42445A1D90077E555 /* Main.storyboard in Resources */,
 				A3EB48B12445A1D90077E555 /* Preview Assets.xcassets in Resources */,
 				A3EB48AE2445A1D90077E555 /* Assets.xcassets in Resources */,
-				A3F346812456EF790055858D /* GoogleService-Info.plist in Resources */,
 				A3E6632C2467CE740013450E /* title.fcpxml in Resources */,
 				A3E6632B2467CE740013450E /* fcpxml-v1.8.dtd in Resources */,
 				A3E6632D2467CE740013450E /* template.fcpxml in Resources */,
@@ -415,7 +489,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		34E862B999E4FF4E113F3B72 /* [CP] Check Pods Manifest.lock */ = {
+		5C503CD90872656F605D988D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		828B4CED85D77B2648EC6B55 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -437,7 +528,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4D3E9AAA9A3B289107F1974F /* [CP] Embed Pods Frameworks */ = {
+		8F4215DBFC327459F9A66914 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -454,7 +545,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		801C6D1E45B452FF3AA2147E /* [CP] Check Pods Manifest.lock */ = {
+		9D90B42034FDFAFBD3723930 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -476,7 +567,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59AFB05DBFDD3EEE48589B7 /* [CP] Check Pods Manifest.lock */ = {
+		F417AF0DB73E31F08C50F864 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -498,23 +589,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F8A070DE093097970C18A6FD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenCaptionsMaker/Pods-OpenCaptionsMaker-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -523,18 +597,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				A36655E224540CDA002FA173 /* editCaptions.swift in Sources */,
-				A36655C5244A8F1D002FA173 /* UserData.swift in Sources */,
+				A3E4CB952488A9840046A1BA /* VisualOverlay.swift in Sources */,
+				A36655C5244A8F1D002FA173 /* State.swift in Sources */,
+				A356A73C24934505009F8638 /* ColorWell.swift in Sources */,
+				A3E4CB9B2490BA290046A1BA /* TextStyler.swift in Sources */,
+				A3E4CB84247E421E0046A1BA /* OffsetScrollView.swift in Sources */,
 				A37FD1432446C99D00CD1C15 /* Headers.swift in Sources */,
-				A37FD1402446C66700CD1C15 /* CaptionRow.swift in Sources */,
-				A37FD14A244722F000CD1C15 /* Caption.swift in Sources */,
+				A3E4CB922487DE440046A1BA /* PlusMinus.swift in Sources */,
+				A327E4CC249DAAE30044A328 /* Transcriber.swift in Sources */,
+				A37FD1402446C66700CD1C15 /* Row.swift in Sources */,
+				A37FD14A244722F000CD1C15 /* Data.swift in Sources */,
+				A3E4CB8A2487D4250046A1BA /* Timings.swift in Sources */,
+				A3E4CB8824864E2E0046A1BA /* Tag.swift in Sources */,
 				A3EB48AC2445A1D10077E555 /* ContentView.swift in Sources */,
 				A3E663272467C4080013450E /* Utilities.swift in Sources */,
+				A3E4CB902487DA2C0046A1BA /* TextView.swift in Sources */,
 				A36655E024540A49002FA173 /* finishReview.swift in Sources */,
 				A3EB48AA2445A1D10077E555 /* AppDelegate.swift in Sources */,
+				A3E4CB8C2487D8BC0046A1BA /* SelectionBox.swift in Sources */,
 				A36655D624505239002FA173 /* FileInput.swift in Sources */,
-				A37FD148244722D700CD1C15 /* Data.swift in Sources */,
-				A36655DE24540409002FA173 /* generateCaptions.swift in Sources */,
+				A3E4CB79247103850046A1BA /* TypingWindow.swift in Sources */,
 				A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */,
+				A33410BC24938539003AEC24 /* FontPicker.swift in Sources */,
 				A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */,
 				A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */,
 				A36655D5244EDC29002FA173 /* AppKitElements.swift in Sources */,
@@ -616,6 +700,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -676,6 +761,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -699,13 +785,16 @@
 		};
 		A3EB48D02445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 03759EB562A224EBDB9ECDD7 /* Pods-OpenCaptionsMaker.debug.xcconfig */;
+			baseConfigurationReference = 587C95032DFCD0281E55DC9A /* Pods-OpenCaptionsMaker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OpenCaptionsMaker/OpenCaptionsMaker.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"OpenCaptionsMaker/Preview Content\"";
+				DEVELOPMENT_TEAM = GF4GWD5VS6;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = OpenCaptionsMaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -713,21 +802,70 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AEXML\"",
+					"-framework",
+					"\"AppKit\"",
+					"-framework",
+					"\"CoreServices\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseFunctions\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleDataTransportCCTSupport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"protobuf\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dylan.OpenCaptionsMaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		A3EB48D12445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D561CBCF675F0B9F8250FE06 /* Pods-OpenCaptionsMaker.release.xcconfig */;
+			baseConfigurationReference = 356004B9532EB481C449A66F /* Pods-OpenCaptionsMaker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OpenCaptionsMaker/OpenCaptionsMaker.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"OpenCaptionsMaker/Preview Content\"";
+				DEVELOPMENT_TEAM = GF4GWD5VS6;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = OpenCaptionsMaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -735,15 +873,61 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AEXML\"",
+					"-framework",
+					"\"AppKit\"",
+					"-framework",
+					"\"CoreServices\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseFunctions\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseInstanceID\"",
+					"-framework",
+					"\"FirebaseStorage\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleDataTransportCCTSupport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"protobuf\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dylan.OpenCaptionsMaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		A3EB48D32445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07BFA495D4AA85288F793B4F /* Pods-OpenCaptionsMakerTests.debug.xcconfig */;
+			baseConfigurationReference = 96500640B2566C2F53A0E7E3 /* Pods-OpenCaptionsMakerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -765,7 +949,7 @@
 		};
 		A3EB48D42445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 23B17C4737EDC14AEA0117A8 /* Pods-OpenCaptionsMakerTests.release.xcconfig */;
+			baseConfigurationReference = 566DDB1271F81508935C89C4 /* Pods-OpenCaptionsMakerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -787,7 +971,7 @@
 		};
 		A3EB48D62445A1D90077E555 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 603702D33D4DFD9D6183340A /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */;
+			baseConfigurationReference = BCAD8F92DB8C43773BAEDBF4 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -807,7 +991,7 @@
 		};
 		A3EB48D72445A1D90077E555 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7D206D1FC3E727E53816387 /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */;
+			baseConfigurationReference = 8102688F56E295272B42443D /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
