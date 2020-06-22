@@ -16,6 +16,7 @@ struct ContentView: View {
     // To refresh the UI when app state changes
     @EnvironmentObject var app: AppState
     @State private var showFileInput: Bool = true
+    @State private var showExportLabel: Bool = false
     
     // Test video
     var testVideo: URL? {
@@ -54,16 +55,16 @@ struct ContentView: View {
                 
                 // Finish review button
                 HStack {
-                    
                     Spacer()
+                    if showExportLabel { Text("Export to Final Cut Pro") }
                     Button(action: {
                         finishReview(inAppState: self.app, andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
-                        IconView("NSGoForwardTemplate")
+                        IconView("NSGoForwardTemplate").onHover(perform: { _ in self.showExportLabel.toggle() })
                     })
-                    .offset(y: 20)
                 }
+                .offset(y: 20)
                 
                 Spacer()
                 
