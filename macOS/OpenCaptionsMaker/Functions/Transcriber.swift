@@ -284,7 +284,7 @@ class Transcriber: ObservableObject {
     func adjustCaptionTimings(captions: [Caption]) {
         var array = captions
         let buffer: Float = 0.5  // in seconds
-        let offset: Float = 0.2  // in seconds
+        let offset: Float = 0.1  // in seconds
         
         for idx in 0..<array.count {
             // If not the last caption in the array

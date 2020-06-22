@@ -88,10 +88,6 @@ struct CaptionList: View {
         }
     }
     
-    func insertCharacter(_ char: String) -> Void {
-        app.captions[app.selectedIndex].text += char
-    }
-    
     func tag(withSymbol key: String?) -> Void {
         
         // New tag
@@ -154,6 +150,11 @@ struct CaptionList: View {
         publishToVisualOverlay(animate: true)
     }
     
+    private var isTagged: Bool {
+        if app.captions[app.selectedIndex].style.symbol != nil { return true }
+        else { return false }
+    }
+    
     //init() {
     //    scrollBinding = scrollOffset as Binding<CGPoint>
     //}
@@ -181,15 +182,9 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause: self.tag(withSymbol: key)
-            case .edit: self.insertCharacter(key)
+            case .edit: ()
             case .editStartTime: ()  // TODO: Manipulate float as a string
-                //var strVal = String(self.app.captions[self.app.selectedIndex].start)
-                //strVal += String(describing: notification.object!)
-                //self.app.captions[self.app.selectedIndex].start = (strVal as NSString).floatValue
             case .editEndTime: ()  // TODO: Manipulate float as a string
-                //var strVal = String(self.app.captions[self.app.selectedIndex].end)
-                //strVal += String(describing: notification.object!)
-                //self.app.captions[self.app.selectedIndex].end = (strVal as NSString).floatValue
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
@@ -210,7 +205,7 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause: self._addCaption()
-            case .edit: self.insertCharacter(notification.object as! String)
+            case .edit: ()
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
@@ -218,7 +213,7 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause: self._deleteCaption()
-            case .edit: self.insertCharacter(notification.object as! String)
+            case .edit: ()
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
@@ -242,9 +237,9 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause:
-                if self.app.captions[self.app.selectedIndex].style.symbol != nil { self.tag(withSymbol: nil) }
+                if self.isTagged { self.tag(withSymbol: nil) }
                 else { self._deleteCaption() }
-            case .edit: _ = self.app.captions[self.app.selectedIndex].text.popLast()
+            case .edit: ()
             case .editStartTime: ()
             case .editEndTime: ()
             }
@@ -253,7 +248,7 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause: self.app.transition(to: .play)
-            case .edit: self.insertCharacter(" ")
+            case .edit: ()
             case .editStartTime: ()
             case .editEndTime: ()
             }
