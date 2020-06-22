@@ -205,7 +205,7 @@ exports.audioToCaptions = functions
   // Create an array which holds captions rather than words
   function generateCaptions(formattedWords) {  
     var captionsArray = []
-    const wordLimit = 4  // Maximum allowed words in a caption
+    const wordLimit = 5  // Maximum allowed words in a caption
     var consecutive = 0  // A counter to track how many consecutive words have been spoken
     
     // Set up a caption template
