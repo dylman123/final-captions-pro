@@ -265,7 +265,8 @@ class Transcriber: ObservableObject {
                 do {
                     // Parse downloaded response as JSON
                     let result = try decoder.decode(JSONResult.self, from: data!)
-                    self.captions = result.captions
+                    let downloadedCaptions = result.captions
+                    self.adjustCaptionTimings(captions: downloadedCaptions)
                     DispatchQueue.main.async { [weak self] in
                         self?.readyStatus[5] = true
                         self?.state = .downloadedJSON(.success("Successfully parsed JSON."))
@@ -279,6 +280,16 @@ class Transcriber: ObservableObject {
         }
     }
 
+    // Adjust timing for better readability
+    func adjustCaptionTimings(captions: [Caption]) {
+        var array = captions
+        for idx in 0..<array.count {
+            array[idx].start += 0.2  // add a buffer to the caption's start value
+            array[idx].end += 0.2  // add a buffer to the caption's end value
+        }
+        self.captions = array
+    }
+    
     // Delete temporary files from bucket in Google Cloud Storage
     func deleteTempFiles() {
         guard readyStatus[5] == true else { return }
