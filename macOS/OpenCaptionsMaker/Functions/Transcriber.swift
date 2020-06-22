@@ -280,12 +280,26 @@ class Transcriber: ObservableObject {
         }
     }
 
-    // Adjust timing for better readability
+    // Adjust timing for better readability / usability
     func adjustCaptionTimings(captions: [Caption]) {
         var array = captions
+        let buffer: Float = 0.5  // in seconds
+        let offset: Float = 0.2  // in seconds
+        
         for idx in 0..<array.count {
-            array[idx].start += 0.2  // add a buffer to the caption's start value
-            array[idx].end += 0.2  // add a buffer to the caption's end value
+            // If not the last caption in the array
+            if idx != array.count-1 {
+                // Linger caption to fill gap in audio
+                if array[idx].end + buffer < array[idx+1].start {
+                    array[idx].end += buffer
+                } else { array[idx].end = array[idx+1].start }
+            }
+            // Translate each caption forward by a fixed offset
+            array[idx].start += offset
+            array[idx].end += offset
+            
+            // Adjust duration values
+            array[idx].duration = array[idx].end - array[idx].start
         }
         self.captions = array
     }
