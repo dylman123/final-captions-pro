@@ -31,7 +31,7 @@ struct TextView: View {
                     Text(row.caption.text).offset(x: -5)
                 } else if app.mode == .edit {
                     // TODO: Make cursor blink and navigate in text
-                    Text(row.caption.text + "|").offset(x: 2)
+                    ModifiableText(row).offset(x: 2)
                     SelectionBox()
                 } else { Text(row.caption.text) }
             }
@@ -40,20 +40,6 @@ struct TextView: View {
             .clickable(row, fromView: .text)
             .offset(x: textOffset + deltaOffset)
             .frame(width: textWidth)
-            .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
-                switch self.app.mode {
-                case .play, .pause: ()
-                case .edit: ()
-                case .editStartTime, .editEndTime: ()
-                }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
-                switch self.app.mode {
-                case .play, .pause: ()
-                case .edit: ()
-                case .editStartTime, .editEndTime: ()
-                }
-            }
             )
         
         }

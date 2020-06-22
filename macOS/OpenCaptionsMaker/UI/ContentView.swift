@@ -15,7 +15,7 @@ struct ContentView: View {
     
     // To refresh the UI when app state changes
     @EnvironmentObject var app: AppState
-    @State private var showFileInput: Bool = true
+    @State private var showFileInput: Bool = false
     @State private var showExportLabel: Bool = false
     
     // Test video

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2BBBFDC3E2C80F675D7180AD /* Pods_OpenCaptionsMaker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F13D0A30024D96FB4DEE9B /* Pods_OpenCaptionsMaker.framework */; };
 		A327E4CC249DAAE30044A328 /* Transcriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327E4CB249DAAE30044A328 /* Transcriber.swift */; };
+		A327E4CF24A093CD0044A328 /* ModifiableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A327E4CE24A093CD0044A328 /* ModifiableText.swift */; };
 		A33410BC24938539003AEC24 /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A330EB28249358C500466670 /* FontPicker.swift */; };
 		A356A73C24934505009F8638 /* ColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A356A73B24934505009F8638 /* ColorWell.swift */; };
 		A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37FD13D2446C46800CD1C15 /* CaptionList.swift */; };
@@ -77,6 +78,7 @@
 		8102688F56E295272B42443D /* Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests/Pods-OpenCaptionsMaker-OpenCaptionsMakerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		96500640B2566C2F53A0E7E3 /* Pods-OpenCaptionsMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenCaptionsMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenCaptionsMakerTests/Pods-OpenCaptionsMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A327E4CB249DAAE30044A328 /* Transcriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcriber.swift; sourceTree = "<group>"; };
+		A327E4CE24A093CD0044A328 /* ModifiableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiableText.swift; sourceTree = "<group>"; };
 		A330EB28249358C500466670 /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
 		A356A73B24934505009F8638 /* ColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWell.swift; sourceTree = "<group>"; };
 		A36655BC24499293002FA173 /* AppKitElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitElements.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 				A3E4CB8724864E2E0046A1BA /* Tag.swift */,
 				A3E4CB8B2487D8BC0046A1BA /* SelectionBox.swift */,
 				A3E4CB8F2487DA2C0046A1BA /* TextView.swift */,
+				A327E4CE24A093CD0044A328 /* ModifiableText.swift */,
 				A3E4CB912487DE440046A1BA /* PlusMinus.swift */,
 			);
 			path = CaptionRow;
@@ -618,6 +621,7 @@
 				A36655D624505239002FA173 /* FileInput.swift in Sources */,
 				A3E4CB79247103850046A1BA /* TypingWindow.swift in Sources */,
 				A37FD13C2446C43600CD1C15 /* FakeVideoExample.swift in Sources */,
+				A327E4CF24A093CD0044A328 /* ModifiableText.swift in Sources */,
 				A33410BC24938539003AEC24 /* FontPicker.swift in Sources */,
 				A36655CC244D5F09002FA173 /* VideoPlayer.swift in Sources */,
 				A36655C32449C0BF002FA173 /* CaptionList.swift in Sources */,
