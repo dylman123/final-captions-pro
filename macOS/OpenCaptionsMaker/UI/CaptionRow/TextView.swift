@@ -28,10 +28,12 @@ struct TextView: View {
             // Caption text
             return AnyView(ZStack {
                 if app.mode == .play {
-                    Text(row.caption.text).offset(x: -5)
+                    Text(row.caption.text)
+                        .offset(x: -5)
                 } else if app.mode == .edit {
                     // TODO: Make cursor blink and navigate in text
-                    ModifiableText(row).offset(x: 2)
+                    ModifiableText(row)
+                        .offset(x: 2)
                     SelectionBox()
                 } else { Text(row.caption.text) }
             }

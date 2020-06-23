@@ -10,72 +10,90 @@ import SwiftUI
 
 enum Direction { case left, right }
 
-class TextModifier: ObservableObject {
+//class TextModifier: ObservableObject {
+//
+//    @Published var cursor: Int
+//    @Published var text: String
+//
+//    func updateCursor(_ dir: Direction) {
+//        text.remove(at: text.index(text.startIndex, offsetBy: cursor))
+//        switch dir {
+//        case .left: cursor -= 1
+//        case .right: cursor += 1
+//        }
+//        text.insert("|", at: text.index(text.startIndex, offsetBy: cursor))
+//    }
+//
+//    func moveCursor(_ dir: Direction) {
+//        switch dir {
+//        case .left:
+//            if cursor - 1 >= 0 { updateCursor(.left) }
+//            else { cursor = 0 }
+//        case .right:
+//            if cursor + 1 <= text.count - 1 { updateCursor(.right) }
+//            else { cursor = text.count - 1 }
+//        }
+//        print(cursor, "max: ", text.count)
+//    }
+//
+//    init(_ text: String) {
+//        self.cursor = text.count-1
+//        self.text = text
+//        self.text.insert("|", at: text.index(text.startIndex, offsetBy: cursor+1))
+//    }
+//}
+
+struct Cursor: View {
+    @State private var isVisible: Bool = true
     
-    @Published var cursor: Int
-    @Published var text: String
-    
-    func updateCursor(_ dir: Direction) {
-        text.remove(at: text.index(text.startIndex, offsetBy: cursor))
-        switch dir {
-        case .left: cursor -= 1
-        case .right: cursor += 1
+    var body: some View {
+        if isVisible {
+            return AnyView(Text("|"))
         }
-        text.insert("|", at: text.index(text.startIndex, offsetBy: cursor))
-    }
-    
-    func moveCursor(_ dir: Direction) {
-        switch dir {
-        case .left:
-            if cursor - 1 > 0 { updateCursor(.left) }
-            else { cursor = 0 }
-        case .right:
-            if cursor + 1 < text.count - 2 { updateCursor(.right) }
-            else { cursor = text.count - 2 }
+        else {
+            return AnyView(EmptyView())
         }
-        print(cursor, "max: ", text.count)
-    }
-    
-    init(_ text: String) {
-        self.cursor = text.count
-        self.text = text
-        self.text.insert("|", at: text.index(text.startIndex, offsetBy: cursor))
     }
 }
 
 struct ModifiableText: View {
+    
+    // The modifier object for the caption text
+//    @ObservedObject var modifier: TextModifier
     
     @EnvironmentObject var app: AppState
     var row: RowState
     
     init(_ row: RowState) {
         self.row = row
+//        self.modifier = modifier
     }
     
     func insertCharacter(_ char: String) {
         var text = app.captions[app.selectedIndex].text
-        text.insert(contentsOf: char, at: text.index(text.startIndex, offsetBy: row.modifier.cursor+1))
+        text += char
         app.captions[app.selectedIndex].text = text
-        row.modifier.updateCursor(.right)
     }
     
     func deleteCharacter() {
-        guard row.modifier.cursor >= 0 else { return }
+//        guard modifier.cursor >= 0 else { return }
         var text = self.app.captions[self.app.selectedIndex].text
-        text.remove(at: text.index(text.startIndex, offsetBy: row.modifier.cursor))
+        _ = text.popLast()
         self.app.captions[self.app.selectedIndex].text = text
-        row.modifier.updateCursor(.left)
     }
     
     var body: some View {
-        Text(row.modifier.text)
+        HStack {
+            Text(row.caption.text)
+            Cursor().offset(x: -10)
+        }
         .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
             guard self.app.mode == .edit else { return }
-            self.row.modifier.moveCursor(.left)
+//            self.modifier.moveCursor(.left)
         }
         .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
             guard self.app.mode == .edit else { return }
-            self.row.modifier.moveCursor(.right)
+//            self.modifier.moveCursor(.right)
         }
         .onReceive(NotificationCenter.default.publisher(for: .character)) { notification in
             guard self.app.mode == .edit else { return }

@@ -17,8 +17,8 @@ enum Mode {
 class AppState: ObservableObject {
     
     // The array of captions which is to be edited by the user
-    //@Published var captions: [Caption] = []
-    @Published var captions: [Caption] = sampleCaptionData
+    @Published var captions: [Caption] = []
+    //@Published var captions: [Caption] = sampleCaptionData
     
     // The array which stores various caption styles, editible by the user
     @Published var styles: [Style] = []
@@ -113,12 +113,8 @@ struct RowState {
     // The caption object for the current row
     var caption: Caption
     
-    // The modifier object for the caption text
-    @ObservedObject var modifier: TextModifier
-    
     init(_ app: AppState = AppState(), _ caption: Caption = Caption()) {
         self.app = app
         self.caption = caption
-        self.modifier = TextModifier(caption.text)
     }
 }
