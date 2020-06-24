@@ -1,5 +1,5 @@
 //
-//  AppKitElements.swift
+//  IconView.swift
 //  OpenCaptionsMaker
 //
 //  Created by Dylan Klein on 17/4/20.
@@ -28,20 +28,8 @@ struct IconView: NSViewRepresentable {
     
 }
 
-//  Progress indicator whilst waiting for API response
-struct ProgressView: NSViewRepresentable {
-  
-    func makeNSView(context: Context) -> NSProgressIndicator {
-        let progress = NSProgressIndicator()
-        return progress
-    }
-    
-    func updateNSView(_ nsView: NSProgressIndicator, context: Context) {
-    }
-}
-
-struct AppKitElements_Previews: PreviewProvider {
+struct IconView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressView()
+        IconView("")
     }
 }
