@@ -37,11 +37,11 @@ struct VisualOverlay: View {
         }
     }
     
-    func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat) {
-        if position.width >= maxWidth { position.width = maxWidth }
-        if position.width <= -maxWidth { position.width = -maxWidth }
-        if position.height >= maxHeight { position.height = maxHeight }
-        if position.height <= -maxHeight { position.height = -maxHeight }
+    func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat, textWidth: CGFloat, textHeight: CGFloat) {
+        if position.width + textWidth >= maxWidth { position.width = maxWidth - textWidth }
+        if position.width - textWidth <= -maxWidth { position.width = -maxWidth + textWidth }
+        if position.height + textHeight >= maxHeight { position.height = maxHeight - textHeight }
+        if position.height - textHeight <= -maxHeight { position.height = -maxHeight + textHeight }
     }
     
     // Consider caption timings when displaying caption text
@@ -65,25 +65,32 @@ struct VisualOverlay: View {
                     }
                 
                 if self.displayText {
+                        
                     Text(self.caption.text)
-                        .attributes(_bold: self.bold, _italic: self.italic, _underline: self.underline)
-                        .customFont(name: self.font, size: self.size, color: self.color, alignment: self.alignment)
-                        .offset(x: self.position.width, y: self.position.height)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { gesture in
-                                    // Break down coords into 2D components
-                                    self.position.width = self.style.position.width + gesture.translation.width
-                                    self.position.height = self.style.position.height + gesture.translation.height
-                                    
-                                    // Keep caption within video frame bounds
-                                    self.restrictDrag(maxWidth: geometry.size.width/2, maxHeight: geometry.size.height/2)
-                                }
-                                .onEnded { _ in
-                                    // Save positional coords
-                                    self.app.captions[self.index].style.position = self.position
-                                }
-                        )
+                    .attributes(_bold: self.bold, _italic: self.italic, _underline: self.underline)
+                    .customFont(name: self.font, size: self.size, color: self.color, alignment: self.alignment)
+                    .offset(x: self.position.width, y: self.position.height)
+                    .frame(width: 600, height: 200)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { gesture in
+                                // Break down coords into 2D components
+                                self.position.width = self.style.position.width + gesture.translation.width
+                                self.position.height = self.style.position.height + gesture.translation.height
+                                
+                                // Keep caption within video frame bounds
+                                self.restrictDrag(
+                                    maxWidth: geometry.size.width/2,
+                                    maxHeight: geometry.size.height/2,
+                                    textWidth: 600/2,
+                                    textHeight: 200/2
+                                )
+                            }
+                            .onEnded { _ in
+                                // Save positional coords
+                                self.app.captions[self.index].style.position = self.position
+                            }
+                    )
                 }
                 
                 // Style editor
