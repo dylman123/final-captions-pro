@@ -67,7 +67,6 @@ struct FileInput: View {
                 status = "Extracting audio from video..."
                 return AnyView(VStack {
                     Text(status).multilineTextAlignment(.center)
-                    ProgressView()
                 })
             }
             

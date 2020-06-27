@@ -106,7 +106,9 @@ struct CaptionList: View {
                 if styleExists {
                     guard let index = app.styles.firstIndex(where: { $0.symbol == symbol }) else { return }
                     let copiedStyle = app.styles[index]
-                    self.app.captions[self.app.selectedIndex].style = copiedStyle
+                    withAnimation {
+                        self.app.captions[self.app.selectedIndex].style = copiedStyle
+                    }
                 }
                 
                 // If style does not exist, create a new style
@@ -123,7 +125,9 @@ struct CaptionList: View {
                         italic: self.app.captions[self.app.selectedIndex].style.italic,
                         underline: self.app.captions[self.app.selectedIndex].style.underline
                     )
-                    self.app.captions[self.app.selectedIndex].style = newStyle
+                    withAnimation {
+                        self.app.captions[self.app.selectedIndex].style = newStyle
+                    }
                     self.app.styles.append(newStyle)
                 }
             }
@@ -133,7 +137,9 @@ struct CaptionList: View {
             let symbol = self.app.captions[self.app.selectedIndex].style.symbol
             
             // Disassociate tag from caption
-            self.app.captions[self.app.selectedIndex].style = defaultStyle()
+            withAnimation {
+                self.app.captions[self.app.selectedIndex].style = defaultStyle()
+            }
             
             // Check if style needs to be deleted
             var styleIsShared = false
@@ -147,7 +153,6 @@ struct CaptionList: View {
                 app.styles.remove(at: index)
             }
         }
-        publishToVisualOverlay(animate: true)
     }
     
     private var isTagged: Bool {
