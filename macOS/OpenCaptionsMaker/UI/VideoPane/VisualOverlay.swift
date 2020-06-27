@@ -11,39 +11,46 @@ import SwiftUI
 struct VisualOverlay: View {
     
     @EnvironmentObject var app: AppState
-    private var index: Int { app.selectedIndex }
-    private var caption: Caption { app.captions[index] }
+    //private var index: Int { app.selectedIndex }
+    @Binding var caption: Caption //{ app.captions[index] }
     private var style: Style { caption.style }
 
-    @State private var font: String = defaultStyle().font
-    @State private var size: CGFloat = defaultStyle().size
-    @State private var color: NSColor = defaultStyle().color
-    @State private var position: CGSize = defaultStyle().position
-    @State private var alignment: TextAlignment = defaultStyle().alignment
-    @State private var bold: Bool = defaultStyle().bold
-    @State private var italic: Bool = defaultStyle().italic
-    @State private var underline: Bool = defaultStyle().underline
+//    @State private var font: String = defaultStyle().font
+//    @State private var size: CGFloat = defaultStyle().size
+//    @State private var color: NSColor = defaultStyle().color
+//    @State private var position: CGSize = defaultStyle().position
+//    @State private var alignment: TextAlignment = defaultStyle().alignment
+//    @State private var bold: Bool = defaultStyle().bold
+//    @State private var italic: Bool = defaultStyle().italic
+//    @State private var underline: Bool = defaultStyle().underline
     
-    func updateView() -> Void {
-        DispatchQueue.global(qos: .userInteractive).async {
-            self.font = self.style.font
-            self.size = self.style.size
-            self.color = self.style.color
-            self.position = self.style.position
-            self.alignment = self.style.alignment
-            self.bold = self.style.bold
-            self.italic = self.style.italic
-            self.underline = self.style.underline
-        }
-    }
+//    func updateView() -> Void {
+//        DispatchQueue.global(qos: .userInteractive).async {
+//            self.font = self.style.font
+//            self.size = self.style.size
+//            self.color = self.style.color
+//            self.position = self.style.position
+//            self.alignment = self.style.alignment
+//            self.bold = self.style.bold
+//            self.italic = self.style.italic
+//            self.underline = self.style.underline
+//        }
+//    }
+    
+//    func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat, textWidth: CGFloat, textHeight: CGFloat) {
+//        if position.width + textWidth >= maxWidth { position.width = maxWidth - textWidth }
+//        if position.width - textWidth <= -maxWidth { position.width = -maxWidth + textWidth }
+//        if position.height + textHeight >= maxHeight { position.height = maxHeight - textHeight }
+//        if position.height - textHeight <= -maxHeight { position.height = -maxHeight + textHeight }
+//    }
     
     func restrictDrag(maxWidth: CGFloat, maxHeight: CGFloat, textWidth: CGFloat, textHeight: CGFloat) {
-        if position.width + textWidth >= maxWidth { position.width = maxWidth - textWidth }
-        if position.width - textWidth <= -maxWidth { position.width = -maxWidth + textWidth }
-        if position.height + textHeight >= maxHeight { position.height = maxHeight - textHeight }
-        if position.height - textHeight <= -maxHeight { position.height = -maxHeight + textHeight }
+        if style.position.width + textWidth >= maxWidth { style.position.width = maxWidth - textWidth }
+        if style.position.width - textWidth <= -maxWidth { style.position.width = -maxWidth + textWidth }
+        if style.position.height + textHeight >= maxHeight { style.position.height = maxHeight - textHeight }
+        if style.position.height - textHeight <= -maxHeight { style.position.height = -maxHeight + textHeight }
     }
-    
+
     // Consider caption timings when displaying caption text
     var displayText: Bool {
         guard app.mode == .play else { return true }  // always display in edit modes
@@ -67,40 +74,42 @@ struct VisualOverlay: View {
                 if self.displayText {
                         
                     Text(self.caption.text)
-                    .attributes(_bold: self.bold, _italic: self.italic, _underline: self.underline)
-                    .customFont(name: self.font, size: self.size, color: self.color, alignment: self.alignment)
-                    .offset(x: self.position.width, y: self.position.height)
-                    .frame(width: 600, height: 200)
+                    .attributes(_bold: self.style.bold, _italic: self.style.italic, _underline: self.style.underline)
+                    .customFont(name: self.style.font, size: self.style.size, color: self.style.color, alignment: self.style.alignment)
+                    .offset(x: self.style.position.width, y: self.style.position.height)
+                    //.frame(width: 600, height: 200)
                     .gesture(
                         DragGesture()
                             .onChanged { gesture in
+
                                 // Break down coords into 2D components
-                                self.position.width = self.style.position.width + gesture.translation.width
-                                self.position.height = self.style.position.height + gesture.translation.height
-                                
-                                // Keep caption within video frame bounds
+                                self.style.position.width += gesture.translation.width
+                                self.style.position.height += gesture.translation.height
+//
+//                                // Keep caption within video frame bounds
                                 self.restrictDrag(
                                     maxWidth: geometry.size.width/2,
                                     maxHeight: geometry.size.height/2,
-                                    textWidth: 600/2,
-                                    textHeight: 200/2
+                                    textWidth: 0/2,
+                                    textHeight: 0/2
                                 )
                             }
                             .onEnded { _ in
                                 // Save positional coords
-                                self.app.captions[self.index].style.position = self.position
+                                //self.app.captions[self.index].style.position = self.position
                             }
                     )
                 }
                 
                 // Style editor
-                if self.app.mode != .play { TextStyler(color: self.$color).offset(y: -290) }
+                if self.app.mode != .play { TextStyler(color: self.$caption.style.color).offset(y: -290) }
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
-            if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
-            else { self.updateView() }
-        }
+//        .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { animate in
+//            if (animate.object as! Bool == true) { withAnimation { self.updateView() } }
+//            else { self.updateView() }
+//            //print("animate: ", animate.object as! Bool)
+//        }
     }
 }
 
@@ -156,7 +165,7 @@ extension Text {
 
 struct VisualOverlay_Previews: PreviewProvider {
     static var previews: some View {
-        VisualOverlay()
+        VisualOverlay(caption: .constant(Caption()))
         .environmentObject(AppState())
         .frame(height: 500)
     }

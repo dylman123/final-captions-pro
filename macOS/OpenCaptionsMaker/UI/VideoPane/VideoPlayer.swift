@@ -289,7 +289,7 @@ struct VideoPlayerContainerView : View {
                                 videoDuration: $app.videoDuration,
                                 seeking: $seeking,
                                 player: player)
-                VisualOverlay()
+                VisualOverlay(caption: $app.captions[index])
             }
             VideoPlayerControlsView(videoPos: $app.videoPos,
                                     videoDuration: $app.videoDuration,
