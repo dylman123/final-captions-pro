@@ -14,6 +14,7 @@ struct VisualOverlay: View {
     //private var index: Int { app.selectedIndex }
     @Binding var caption: Caption //{ app.captions[index] }
     private var style: Style { caption.style }
+    @State private var localPos: CGSize = defaultStyle().position
 
 //    @State private var font: String = defaultStyle().font
 //    @State private var size: CGFloat = defaultStyle().size
@@ -76,17 +77,17 @@ struct VisualOverlay: View {
                     Text(self.caption.text)
                     .attributes(_bold: self.style.bold, _italic: self.style.italic, _underline: self.style.underline)
                     .customFont(name: self.style.font, size: self.style.size, color: self.style.color, alignment: self.style.alignment)
-                    .offset(x: self.style.position.width, y: self.style.position.height)
+                        .offset(x: self.localPos.width, y: self.localPos.height)
                     //.frame(width: 600, height: 200)
                     .gesture(
                         DragGesture()
                             .onChanged { gesture in
 
                                 // Break down coords into 2D components
-                                self.style.position.width += gesture.translation.width
-                                self.style.position.height += gesture.translation.height
-//
-//                                // Keep caption within video frame bounds
+                                self.localPos.width = self.style.position.width + gesture.translation.width
+                                self.localPos.height = self.style.position.height + gesture.translation.height
+
+                                // Keep caption within video frame bounds
                                 self.restrictDrag(
                                     maxWidth: geometry.size.width/2,
                                     maxHeight: geometry.size.height/2,
@@ -97,6 +98,7 @@ struct VisualOverlay: View {
                             .onEnded { _ in
                                 // Save positional coords
                                 //self.app.captions[self.index].style.position = self.position
+                                self.style.position = self.localPos
                             }
                     )
                 }
