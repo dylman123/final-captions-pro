@@ -45,7 +45,7 @@ class Style: Hashable, Identifiable, Equatable, ObservableObject {
     @Published var symbol: String?  // The symbol (alphabetical) associated with this style
     @Published var font: String
     @Published var size: CGFloat
-    @Published var color: NSColor
+    @Published var color: Color
     @Published var position: CGSize
     @Published var alignment: TextAlignment  // Alignment of the text
     @Published var bold: Bool
@@ -56,7 +56,7 @@ class Style: Hashable, Identifiable, Equatable, ObservableObject {
         hasher.combine(symbol)
     }
     
-    init(symbol: String?, font: String, size: CGFloat, color: NSColor, position: CGSize, alignment: TextAlignment, bold: Bool, italic: Bool, underline: Bool) {
+    init(symbol: String?, font: String, size: CGFloat, color: Color, position: CGSize, alignment: TextAlignment, bold: Bool, italic: Bool, underline: Bool) {
         self.id = 0 //UUID()
         self.symbol = symbol
         self.font = font
@@ -79,7 +79,7 @@ func defaultStyle() -> Style {
     let _symbol: String? = nil
     let _font: String = "Georgia"
     let _size: CGFloat = 60.0
-    let _color: NSColor = NSColor(calibratedRed: 1, green: 1, blue: 1, alpha: 1)
+    let _color: Color = .white
     let _position: CGSize = CGSize(width: 0.0, height: 200)
     let _alignment: TextAlignment = .leading
     let _bold: Bool = false

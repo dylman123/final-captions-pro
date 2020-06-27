@@ -81,12 +81,7 @@ struct Row: View {
     
     // Variables
     @EnvironmentObject var app: AppState
-    private var row: RowState  // An object to hold the state of the current row
-    
-    init(_ app: AppState, _ caption: Caption) {
-        // RowState cannot inherent app from the environment, needs to be passed in as an argument.
-        self.row = RowState(app, caption)
-    }
+    @State var row: RowState // An object to hold the state of the current row
         
     var body: some View {
         
@@ -98,14 +93,14 @@ struct Row: View {
                 if row.isSelected {
                     Timings(row)
                     Spacer()
-                    TextView(row)
+                    TextView(row: $row)
                     Spacer()
                     PlusMinus(row)
                 }
                 else if !row.isSelected {
                     Timings(row)
                     Spacer()
-                    TextView(row)
+                    TextView(row: $row)
                     Spacer()
                 }
             }
@@ -126,13 +121,11 @@ struct Row_Previews: PreviewProvider {
         
         VStack(spacing: 40) {
             Spacer()
-            Row(playState, playState.captions[index])
+            Row(row: RowState())
                 .environmentObject(playState)
-            Row(pauseState, pauseState.captions[index])
+            Row(row: RowState())
                 .environmentObject(pauseState)
-            Row(editState, editState.captions[index])
-                .environmentObject(editState)
-            Row(editState, editState.captions[index+1])
+            Row(row: RowState())
                 .environmentObject(editState)
             Spacer()
         }

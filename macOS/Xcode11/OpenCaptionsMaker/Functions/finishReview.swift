@@ -98,12 +98,18 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
             return formattedTimestamp
         }
         
-        func getRGBA(_ color: NSColor) -> String {
-            let R = color.redComponent
-            let G = color.greenComponent
-            let B = color.blueComponent
-            let A = color.alphaComponent
-            return "\(R) \(G) \(B) \(A)"
+        func getRGBA(_ color: Color) -> String {
+            if #available(OSX 11.0, *) {
+                let nsColor = NSColor(color)
+                let R = nsColor.redComponent
+                let G = nsColor.greenComponent
+                let B = nsColor.blueComponent
+                let A = nsColor.alphaComponent
+                return "\(R) \(G) \(B) \(A)"
+            } else {
+                // Fallback on earlier versions
+                return "1 1 1 1"
+            }
         }
         
         func getAlignment(_ alignment: TextAlignment) -> String {

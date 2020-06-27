@@ -17,10 +17,7 @@ struct TextView: View {
     
     // Variables
     @EnvironmentObject var app: AppState
-    var row: RowState
-    init(_ row: RowState) {
-        self.row = row
-    }
+    @Binding var row: RowState
     
     var body: some View {
         
@@ -28,8 +25,12 @@ struct TextView: View {
             // Caption text
             return AnyView(ZStack {
                 if app.mode == .play {
-                    Text(row.caption.text)
-                        .offset(x: -5)
+                    if #available(OSX 11.0, *) {
+                        TextEditor(text: $row.caption.text)
+                            .offset(x: -5)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 } else if app.mode == .edit {
                     // TODO: Make cursor blink and navigate in text
                     ModifiableText(row)
@@ -58,7 +59,7 @@ struct TextView: View {
 
 struct TextView_Previews: PreviewProvider {
     static var previews: some View {
-        TextView(RowState())
+        TextView(row: .constant(RowState()))
         .environmentObject(AppState())
     }
 }

@@ -77,8 +77,12 @@ struct TextStyler: View {
                     FontPicker(font: $style.font)
                         .frame(width: 200)
                     
-                    ColorWell(selectedColor: $style.color)
-                        .frame(width: barThickness*0.8, height: barThickness*0.8)
+                    if #available(OSX 11.0, *) {
+                        ColorPicker("", selection: $style.color, supportsOpacity: true)
+                            .frame(width: barThickness*0.8, height: barThickness*0.8)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }
             .frame(height: barThickness)

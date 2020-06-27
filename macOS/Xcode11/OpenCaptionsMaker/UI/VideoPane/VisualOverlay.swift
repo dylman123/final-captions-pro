@@ -77,13 +77,13 @@ struct CustomFont: ViewModifier {
     //@Environment(\.sizeCategory) var sizeCategory
     var name: String
     var size: CGFloat
-    var color: NSColor
+    var color: Color
     var alignment: TextAlignment
 
     func body(content: Content) -> some View {
         let modifier = content
             .font(.custom(name, size: size))
-            .foregroundColor(Color(color))
+            .foregroundColor(color)
             .multilineTextAlignment(alignment)
             .lineLimit(2)
         return modifier
@@ -92,7 +92,7 @@ struct CustomFont: ViewModifier {
 
 @available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
 extension View {
-    func customFont (name: String, size: CGFloat, color: NSColor, alignment: TextAlignment) -> some View {
+    func customFont (name: String, size: CGFloat, color: Color, alignment: TextAlignment) -> some View {
         return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment))
     }
 }
