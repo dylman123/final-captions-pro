@@ -10,8 +10,7 @@ import SwiftUI
 
 struct TextStyler: View {
     
-    @EnvironmentObject var app: AppState
-    @Binding var color: NSColor
+    @Binding var style: Style
     let barThickness: CGFloat = 35
     
     // To format the buttons
@@ -20,23 +19,20 @@ struct TextStyler: View {
     enum TextAttribute { case bold, italic, underline }
     func updateTextAttribute(_ attribute: TextAttribute) -> Void {
         switch attribute {
-        case .bold: app.captions[app.selectedIndex].style.bold.toggle()
-        case .italic: app.captions[app.selectedIndex].style.italic.toggle()
-        case .underline: app.captions[app.selectedIndex].style.underline.toggle()
+        case .bold: style.bold.toggle()
+        case .italic: style.italic.toggle()
+        case .underline: style.underline.toggle()
         }
-        publishToVisualOverlay(animate: false)
     }
     
     func updateAlignment(to alignment: TextAlignment) -> Void {
-        app.captions[app.selectedIndex].style.alignment = alignment
-        publishToVisualOverlay(animate: true)
+        style.alignment = alignment
     }
     func updateSize(by step: CGFloat) -> Void {
-        app.captions[app.selectedIndex].style.size += step
-        let newSize = app.captions[app.selectedIndex].style.size
-        if newSize < 10 { app.captions[app.selectedIndex].style.size = 10 }
-        if newSize > 200 { app.captions[app.selectedIndex].style.size = 200 }
-        publishToVisualOverlay(animate: false)
+        style.size += step
+        let newSize = style.size
+        if newSize < 10 { style.size = 10 }
+        if newSize > 200 { style.size = 200 }
     }
     
     var body: some View {
@@ -78,10 +74,11 @@ struct TextStyler: View {
                     Button(action: { self.updateSize(by: 5) },
                            label: {IconView("NSTouchBarGoUpTemplate")})
                     
-                    FontPicker()//selectedFont: app.captions[app.selectedIndex].style.font)
+                    FontPicker(font: $style.font)
                         .frame(width: 200)
                     
-                    ColorWell(selectedColor: $color).frame(width: barThickness*0.8, height: barThickness*0.8)
+                    ColorWell(selectedColor: $style.color)
+                        .frame(width: barThickness*0.8, height: barThickness*0.8)
                 }
             }
             .frame(height: barThickness)
@@ -95,7 +92,7 @@ struct TextStyler: View {
 struct TextStyler_Previews: PreviewProvider {
     
     static var previews: some View {
-        TextStyler(color: .constant(.red))
+        TextStyler(style: .constant(defaultStyle()))
             .frame(width: 1000, height: 300)
     }
 }

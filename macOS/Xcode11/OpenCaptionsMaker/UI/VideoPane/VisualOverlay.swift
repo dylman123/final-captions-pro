@@ -66,14 +66,10 @@ struct VisualOverlay: View {
                 }
                 
                 // Style editor
-                if self.app.mode != .play { TextStyler(color: self.$caption.style.color).offset(y: -290) }
+                if self.app.mode != .play { TextStyler(style: self.$caption.style).offset(y: -290) }
             }
         }
     }
-}
-
-func publishToVisualOverlay(animate: Bool = false) -> Void {
-    NotificationCenter.default.post(name: .updateStyle, object: animate)
 }
 
 //@available(macCatalyst 13, *)

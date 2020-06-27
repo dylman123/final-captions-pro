@@ -10,17 +10,14 @@ import SwiftUI
 import Combine
 
 struct ColorWell: NSViewRepresentable {
-    @EnvironmentObject var app: AppState
     @Binding var selectedColor: NSColor
     
     class Coordinator: NSObject {
         var embedded: ColorWell
         var subscription: AnyCancellable?
-        var app: AppState
 
-        init(_ embedded: ColorWell, environmentObject app: AppState) {
+        init(_ embedded: ColorWell) {
             self.embedded = embedded
-            self.app = app
         }
         
         // Observe KVO compliant color property on NSColorWell object.
@@ -29,16 +26,15 @@ struct ColorWell: NSViewRepresentable {
             subscription = colorWell
                 .publisher(for: \.color, options: .new)
                 .sink { color in
-                    DispatchQueue.main.async {
-                        self.embedded.selectedColor = color
-                        self.app.captions[self.app.selectedIndex].style.color = color
+                    DispatchQueue.main.async { [weak self] in
+                        self?.embedded.selectedColor = color
                     }
                 }
         }
     }
     
     func makeCoordinator() -> ColorWell.Coordinator {
-        Coordinator(self, environmentObject: app)
+        Coordinator(self)
     }
     
     func makeNSView(context: Context) -> NSColorWell {
