@@ -93,6 +93,6 @@ iOSInjectionProject/
 .DS_Store
 
 # Video Files
-*.m4v
-*.mp4
-*.mov
+*.m4v*
+*.mp4*
+*.mov*
