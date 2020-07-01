@@ -3,12 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		19DD5E3223DE595F07180753 /* Pods_FinalCaptionsPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BDC3F35743F9AE22C5E996 /* Pods_FinalCaptionsPro.framework */; };
 		623662B5D4E2B513B983EA33 /* Pods_FinalCaptionsPro_FinalCaptionsProUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33BCEDED00C21D89498C4F6 /* Pods_FinalCaptionsPro_FinalCaptionsProUITests.framework */; };
+		A353BAE324ACAC7C008C8CCB /* RAW-long.m4v in Resources */ = {isa = PBXBuildFile; fileRef = A353BAE124ACAC7B008C8CCB /* RAW-long.m4v */; };
+		A353BAE424ACAC7C008C8CCB /* RAW-short.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A353BAE224ACAC7C008C8CCB /* RAW-short.mp4 */; };
 		A3633F7824A7444300A63FD8 /* FinalCaptionsProApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3633F7724A7444300A63FD8 /* FinalCaptionsProApp.swift */; };
 		A3633F7C24A7445C00A63FD8 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = A3633F7B24A7445C00A63FD8 /* Assets.xcassets */; };
 		A3633F7F24A7445C00A63FD8 /* Preview Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = A3633F7E24A7445C00A63FD8 /* Preview Assets.xcassets */; };
@@ -68,6 +70,8 @@
 		0CA4FA1ADC1650C866B0DBF7 /* Pods-FinalCaptionsPro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalCaptionsPro.release.xcconfig"; path = "Target Support Files/Pods-FinalCaptionsPro/Pods-FinalCaptionsPro.release.xcconfig"; sourceTree = "<group>"; };
 		1BBD939F06183835BD2FCBD4 /* Pods-FinalCaptionsProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalCaptionsProTests.release.xcconfig"; path = "Target Support Files/Pods-FinalCaptionsProTests/Pods-FinalCaptionsProTests.release.xcconfig"; sourceTree = "<group>"; };
 		3C2DB4DDADFC88C228070EAD /* Pods-FinalCaptionsProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalCaptionsProTests.debug.xcconfig"; path = "Target Support Files/Pods-FinalCaptionsProTests/Pods-FinalCaptionsProTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A353BAE124ACAC7B008C8CCB /* RAW-long.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-long.m4v"; sourceTree = "<group>"; };
+		A353BAE224ACAC7C008C8CCB /* RAW-short.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-short.mp4"; sourceTree = "<group>"; };
 		A3633F7424A7444200A63FD8 /* FinalCaptionsPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalCaptionsPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3633F7724A7444300A63FD8 /* FinalCaptionsProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalCaptionsProApp.swift; sourceTree = "<group>"; };
 		A3633F7B24A7445C00A63FD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -318,6 +322,8 @@
 		A3A8CF0224AB0B1200F77754 /* ExampleInputs */ = {
 			isa = PBXGroup;
 			children = (
+				A353BAE124ACAC7B008C8CCB /* RAW-long.m4v */,
+				A353BAE224ACAC7C008C8CCB /* RAW-short.mp4 */,
 				A3B6535B24AC1D690005275B /* captionDataLong.json */,
 				A3B6535D24AC1DD00005275B /* FakeVideoExample.swift */,
 			);
@@ -334,7 +340,6 @@
 				3C2DB4DDADFC88C228070EAD /* Pods-FinalCaptionsProTests.debug.xcconfig */,
 				1BBD939F06183835BD2FCBD4 /* Pods-FinalCaptionsProTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -456,8 +461,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A353BAE324ACAC7C008C8CCB /* RAW-long.m4v in Resources */,
 				A3B6535C24AC1D690005275B /* captionDataLong.json in Resources */,
 				A3B6536224AC1E3E0005275B /* fcpxml-v1.8.dtd in Resources */,
+				A353BAE424ACAC7C008C8CCB /* RAW-short.mp4 in Resources */,
 				A3B6536424AC1E650005275B /* title.fcpxml in Resources */,
 				A3B6536024AC1E1C0005275B /* template.fcpxml in Resources */,
 			);

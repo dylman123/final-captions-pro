@@ -44,19 +44,19 @@ struct FileSelector: View {
     
     private var StatusView: AnyView {
         var status = ""
-        print(userAPI.state)
+        //print(userAPI.state)
         switch userAPI.state {
             
         case .idle:
             return AnyView(
-                Button(action: {
+                Button {
                     let video: URL? = self.openFileDialog()
                     if video != nil {
                         print("Selected video file has URL path: \(String(describing: video!))")
                         self.userAPI.generateCaptions(forFile: video!)
                     }
                     else { print("No file was selected.") }
-                }) { Text("Select video from file") }
+                } label: { Text("Select video from file") }
             )
             
         case .selectedVideo(let result):

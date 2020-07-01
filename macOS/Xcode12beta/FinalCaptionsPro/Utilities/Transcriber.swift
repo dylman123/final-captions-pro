@@ -45,8 +45,10 @@ class Transcriber: ObservableObject {
         guard readyStatus[0] == true else { return }
         
         readyStatus[1] = true
-        self.video = url
-        self.state = .selectedVideo(.success(url))
+        DispatchQueue.main.async { [weak self] in
+            self?.video = url
+            self?.state = .selectedVideo(.success(url))
+        }
     }
         
     // Extract audio from video file and asynchronously return result in a closure

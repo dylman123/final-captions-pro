@@ -46,42 +46,38 @@ struct Styler: View {
                 // Bold, Italic, Underline
                 Group {
                     Button(action: {self.updateTextAttribute(.bold)},
-                           label: {Image(systemName: "NSTouchBarTextBoldTemplate")})
+                           label: {Image(systemName: "bold")})
                     
                     Button(action: {self.updateTextAttribute(.italic)},
-                           label: {Image(systemName: "NSTouchBarTextItalicTemplate")})
+                           label: {Image(systemName: "italic")})
                     
                     Button(action: {self.updateTextAttribute(.underline)},
-                           label: {Image(systemName: "NSTouchBarTextUnderlineTemplate")})
+                           label: {Image(systemName: "underline")})
                 }
                 // Alignment
                 Group {
                     Button(action: { self.updateAlignment(to: .leading) },
-                           label: {Image(systemName: "NSTouchBarTextLeftAlignTemplate")})
+                           label: {Image(systemName: "text.justifyleft")})
                     
                     Button(action: { self.updateAlignment(to: .center) },
-                           label: {Image(systemName: "NSTouchBarTextCenterAlignTemplate")})
+                           label: {Image(systemName: "text.justify")})
                     
                     Button(action: { self.updateAlignment(to: .trailing) },
-                           label: {Image(systemName: "NSTouchBarTextRightAlignTemplate")})
+                           label: {Image(systemName: "text.justifyright")})
                 }
                 // Size, Font, Color
                 Group {
                     Button(action: { self.updateSize(by: -5) },
-                           label: {Image(systemName: "NSTouchBarGoDownTemplate")})
+                           label: {Image(systemName: "chevron.down")})
                     
                     Button(action: { self.updateSize(by: 5) },
-                           label: {Image(systemName: "NSTouchBarGoUpTemplate")})
+                           label: {Image(systemName: "chevron.up")})
                     
                     FontPicker(font: $style.font)
                         .frame(width: 200)
                     
-                    if #available(OSX 11.0, *) {
-                        ColorPicker("", selection: $style.color, supportsOpacity: true)
-                            .frame(width: barThickness*0.8, height: barThickness*0.8)
-                    } else {
-                        // Fallback on earlier versions
-                    }
+                    ColorPicker("", selection: $style.color, supportsOpacity: true)
+                        .frame(width: barThickness*0.8, height: barThickness*0.8)
                 }
             }
             .frame(height: barThickness)
