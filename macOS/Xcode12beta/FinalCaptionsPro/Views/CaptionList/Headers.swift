@@ -9,7 +9,17 @@ import SwiftUI
 
 struct Headers: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+        VStack {
+            ZStack {
+                Text("Caption")
+                HStack {
+                    Text("Timings")
+                    Spacer()
+                }
+            }
+            Divider()
+        }
     }
 }
 

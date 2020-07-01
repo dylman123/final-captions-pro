@@ -7,9 +7,16 @@
 
 import SwiftUI
 
+// Draw a box when element is selected
 struct SelectionBox: View {
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        RoundedRectangle(cornerRadius: 5)
+            .fill(Color.clear)
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .strokeBorder(Color.white, lineWidth: 2)
+            )
     }
 }
 
