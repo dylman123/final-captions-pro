@@ -65,7 +65,7 @@ struct VisualOverlay: View {
                 }
                 
                 // Style editor
-                if self.app.mode != .play { TextStyler(style: self.$caption.style).offset(y: -290) }
+                if self.app.mode != .play { Styler(style: self.$caption.style).offset(y: -290) }
             }
         }
     }

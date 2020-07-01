@@ -144,8 +144,8 @@ struct VideoPlayerControlsView : View {
         HStack {
             // Play/pause button
             Button(action: togglePlayPause) {
-                if playerPaused { IconView("NSTouchBarPlayTemplate") }
-                else { IconView("NSTouchBarPauseTemplate") }
+                if playerPaused { Image(systemName: "NSTouchBarPlayTemplate") }
+                else { Image(systemName: "NSTouchBarPauseTemplate") }
             }
             // Current video time
             Text("\(Utility.formatSecondsToHMS(videoPos * videoDuration))")
@@ -155,11 +155,11 @@ struct VideoPlayerControlsView : View {
             Text("\(Utility.formatSecondsToHMS(videoDuration))")
             // Seek -15 seconds button
             Button(action: seekBack15) {
-                IconView("NSTouchBarSkipBack15SecondsTemplate")
+                Image(systemName: "NSTouchBarSkipBack15SecondsTemplate")
             }
             // Seek +15 seconds button
             Button(action: seekAhead15) {
-                IconView("NSTouchBarSkipAhead15SecondsTemplate")
+                Image(systemName: "NSTouchBarSkipAhead15SecondsTemplate")
             }
         }
         .padding(.leading, 10)

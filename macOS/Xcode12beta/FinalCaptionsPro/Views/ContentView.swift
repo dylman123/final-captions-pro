@@ -61,7 +61,7 @@ struct ContentView: View {
                         finishReview(inAppState: self.app, andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
-                        IconView("NSGoForwardTemplate").onHover(perform: { _ in self.showExportLabel.toggle() })
+                        Image(systemName: "NSGoForwardTemplate").onHover(perform: { _ in self.showExportLabel.toggle() })
                     })
                 }
                 .offset(y: 20)
@@ -82,7 +82,7 @@ struct ContentView: View {
         .sheet(isPresented: $showFileInput, content: {
             if self.showFileInput {
                 // Shows file dialog button
-                FileInput(showFileInput: self.showFileInput)
+                FileSelector(showFileInput: self.showFileInput)
                     .padding()
                     .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
                     .environmentObject(self.app)

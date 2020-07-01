@@ -32,7 +32,8 @@ struct TextView: View {
                     }
                 } else if app.mode == .edit {
                     // TODO: Make cursor blink and navigate in text
-                    ModifiableText(row)
+                    Text(row.caption.text)
+                    //ModifiableText(row)
                         .offset(x: 2)
                     SelectionBox()
                 } else { Text(row.caption.text) }

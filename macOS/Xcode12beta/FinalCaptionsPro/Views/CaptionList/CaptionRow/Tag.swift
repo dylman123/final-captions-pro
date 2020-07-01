@@ -41,7 +41,8 @@ struct TagView: View {
     var body: some View {
         
         ZStack {
-            IconView("NSTouchBarTagIconTemplate")
+            Image(systemName: "NSTouchBarTagIconTemplate")
+            //IconView("NSTouchBarTagIconTemplate")
             Text(symbol)
         }
         .frame(width: 30, height: 20)

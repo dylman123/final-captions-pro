@@ -46,32 +46,32 @@ struct Styler: View {
                 // Bold, Italic, Underline
                 Group {
                     Button(action: {self.updateTextAttribute(.bold)},
-                           label: {IconView("NSTouchBarTextBoldTemplate")})
+                           label: {Image(systemName: "NSTouchBarTextBoldTemplate")})
                     
                     Button(action: {self.updateTextAttribute(.italic)},
-                           label: {IconView("NSTouchBarTextItalicTemplate")})
+                           label: {Image(systemName: "NSTouchBarTextItalicTemplate")})
                     
                     Button(action: {self.updateTextAttribute(.underline)},
-                           label: {IconView("NSTouchBarTextUnderlineTemplate")})
+                           label: {Image(systemName: "NSTouchBarTextUnderlineTemplate")})
                 }
                 // Alignment
                 Group {
                     Button(action: { self.updateAlignment(to: .leading) },
-                           label: {IconView("NSTouchBarTextLeftAlignTemplate")})
+                           label: {Image(systemName: "NSTouchBarTextLeftAlignTemplate")})
                     
                     Button(action: { self.updateAlignment(to: .center) },
-                           label: {IconView("NSTouchBarTextCenterAlignTemplate")})
+                           label: {Image(systemName: "NSTouchBarTextCenterAlignTemplate")})
                     
                     Button(action: { self.updateAlignment(to: .trailing) },
-                           label: {IconView("NSTouchBarTextRightAlignTemplate")})
+                           label: {Image(systemName: "NSTouchBarTextRightAlignTemplate")})
                 }
                 // Size, Font, Color
                 Group {
                     Button(action: { self.updateSize(by: -5) },
-                           label: {IconView("NSTouchBarGoDownTemplate")})
+                           label: {Image(systemName: "NSTouchBarGoDownTemplate")})
                     
                     Button(action: { self.updateSize(by: 5) },
-                           label: {IconView("NSTouchBarGoUpTemplate")})
+                           label: {Image(systemName: "NSTouchBarGoUpTemplate")})
                     
                     FontPicker(font: $style.font)
                         .frame(width: 200)
