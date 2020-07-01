@@ -61,7 +61,7 @@ struct ContentView: View {
                         finishReview(inAppState: self.app, andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
                     },
                     label: {
-                        Image(systemName: "NSGoForwardTemplate").onHover(perform: { _ in self.showExportLabel.toggle() })
+                        Image(systemName: "greaterthan").onHover(perform: { _ in self.showExportLabel.toggle() })
                     })
                 }
                 .offset(y: 20)

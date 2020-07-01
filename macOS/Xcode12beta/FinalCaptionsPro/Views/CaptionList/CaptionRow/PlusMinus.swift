@@ -22,7 +22,7 @@ struct PlusMinus: View {
             Button(action: {
                 row.app.captions = addCaption(toArray: row.app.captions, beforeIndex: row.index, atTime: row.caption.start)
             }) { if row.app.mode != .play {  // Don't show +- buttons in play mode
-                Image(systemName: "NSAddTemplate")
+                Image(systemName: "plus")
                 //IconView("NSAddTemplate")
                     .frame(width: 12, height: 12)
                 }
@@ -33,7 +33,7 @@ struct PlusMinus: View {
                 row.app.captions = deleteCaption(fromArray: row.app.captions, atIndex: row.index)
             }) {
                 if (row.app.mode != .play) && (row.app.captions.count > 1) {  // Don't give option to delete when only 1 caption is in list
-                    Image(systemName: "NSRemoveTemplate")
+                    Image(systemName: "minus")
                     //IconView("NSRemoveTemplate")
                     .frame(width: 12, height: 12)
                 }
