@@ -79,29 +79,24 @@ struct CaptionRow: View {
     let scrollbarPadding = CGFloat(20.0)
     
     // Variables
-    @EnvironmentObject var app: AppState
-    @StateObject var row = RowState() // An object to hold the state of the current row
-    
-    init(_ caption: Caption) {
-        _row = StateObject(wrappedValue: RowState(caption))
-    }
+    @EnvironmentObject var row: RowState  // An object to hold the state of the current row
         
     var body: some View {
         
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .fill(row.color).frame(height: 40).clickable(row, fromView: .row)
-            Tag(row)
+            Tag()
             HStack(alignment: .center) {
                 if row.isSelected {
-                    Timings(row)
+                    Timings()
                     Spacer()
                     TextView()
                     Spacer()
-                    PlusMinus(row)
+                    PlusMinus()
                 }
                 else if !row.isSelected {
-                    Timings(row)
+                    Timings()
                     Spacer()
                     TextView()
                     Spacer()
@@ -124,13 +119,14 @@ struct CaptionRow_Previews: PreviewProvider {
         
         VStack(spacing: 40) {
             Spacer()
-            CaptionRow(Caption())
+            CaptionRow()
                 .environmentObject(playState)
-            CaptionRow(Caption())
+            CaptionRow()
                 .environmentObject(pauseState)
-            CaptionRow(Caption())
+            CaptionRow()
                 .environmentObject(editState)
             Spacer()
         }
+        .environmentObject(RowState())
     }
 }

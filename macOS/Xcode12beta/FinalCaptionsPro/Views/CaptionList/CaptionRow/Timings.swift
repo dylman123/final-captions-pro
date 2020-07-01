@@ -22,15 +22,11 @@ struct Timings: View {
 //    }
     
     // Variables
-    @EnvironmentObject var app: AppState
-    var row: RowState
-    init(_ row: RowState) {
-        self.row = row
-    }
+    @EnvironmentObject var row: RowState
     
     // The current caption binding (for stepper)
     var binding: Binding<Caption> {
-        return $app.captions[row.index]
+        return $row.app.captions[row.index]
     }
     
     var body: some View {
@@ -40,7 +36,7 @@ struct Timings: View {
             return AnyView(VStack {
                     
                 // Start Time
-                if app.mode == .editStartTime {
+                if row.app.mode == .editStartTime {
                     Stepper(value: binding.start, step: -0.1) {
                         ZStack {
                             Text(String(format: "%.1f", row.caption.start))
@@ -56,7 +52,7 @@ struct Timings: View {
                 Spacer()
                 
                 // End Time
-                if app.mode == .editEndTime {
+                if row.app.mode == .editEndTime {
                     Stepper(value: binding.end, step: -0.1) {
                         ZStack {
                             Text(String(format: "%.1f", row.caption.end))
@@ -90,7 +86,7 @@ struct Timings: View {
 
 struct Timings_Previews: PreviewProvider {
     static var previews: some View {
-        Timings(RowState())
-        .environmentObject(AppState())
+        Timings()
+            .environmentObject(RowState())
     }
 }

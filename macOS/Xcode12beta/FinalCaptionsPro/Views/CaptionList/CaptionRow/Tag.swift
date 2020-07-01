@@ -10,14 +10,10 @@ import SwiftUI
 struct Tag: View {
     
     // Variables
-    @EnvironmentObject var app: AppState
-    var row: RowState
-    init(_ row: RowState) {
-        self.row = row
-    }
+    @EnvironmentObject var row: RowState
     
     var body: some View {
-        if row.caption.style.symbol != nil || (row.isSelected && app.mode != .play) {
+        if row.caption.style.symbol != nil || (row.isSelected && row.app.mode != .play) {
             //print("Symbol: ", self.row.caption.style.symbol as Any)
             return AnyView(
                 TagView(row.caption.style.symbol ?? "")
@@ -53,6 +49,5 @@ struct TagView: View {
 struct Tag_Previews: PreviewProvider {
     static var previews: some View {
         TagView("g")
-        .environmentObject(AppState())
     }
 }

@@ -7,12 +7,15 @@
 
 import SwiftUI
 
+// Initialise the application state
+var appState = AppState()
+
 @main
 struct FinalCaptionsProApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(AppState())
+                .environmentObject(appState)
         }
     }
 }
