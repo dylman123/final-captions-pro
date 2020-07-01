@@ -16,7 +16,7 @@ struct TextView: View {
     
     // Variables
     @EnvironmentObject var app: AppState
-    @Binding var row: RowState
+    @EnvironmentObject var row: RowState
     
     var body: some View {
         
@@ -59,7 +59,8 @@ struct TextView: View {
 
 struct TextView_Previews: PreviewProvider {
     static var previews: some View {
-        TextView(row: .constant(RowState()))
+        TextView()
         .environmentObject(AppState())
+        .environmentObject(RowState())
     }
 }

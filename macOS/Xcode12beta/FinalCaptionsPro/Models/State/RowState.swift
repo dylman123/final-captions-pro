@@ -14,7 +14,7 @@ enum RowElement {
 }
 
 // The RowState struct stores the state of any individual row in the captions list
-struct RowState {
+class RowState: ObservableObject {
     @EnvironmentObject var app: AppState
     
     // To index the current row

@@ -80,7 +80,11 @@ struct CaptionRow: View {
     
     // Variables
     @EnvironmentObject var app: AppState
-    @State var row: RowState // An object to hold the state of the current row
+    @StateObject var row = RowState() // An object to hold the state of the current row
+    
+    init(_ caption: Caption) {
+        _row = StateObject(wrappedValue: RowState(caption))
+    }
         
     var body: some View {
         
@@ -92,14 +96,14 @@ struct CaptionRow: View {
                 if row.isSelected {
                     Timings(row)
                     Spacer()
-                    TextView(row: $row)
+                    TextView()
                     Spacer()
                     PlusMinus(row)
                 }
                 else if !row.isSelected {
                     Timings(row)
                     Spacer()
-                    TextView(row: $row)
+                    TextView()
                     Spacer()
                 }
             }
@@ -120,11 +124,11 @@ struct CaptionRow_Previews: PreviewProvider {
         
         VStack(spacing: 40) {
             Spacer()
-            CaptionRow(row: RowState())
+            CaptionRow(Caption())
                 .environmentObject(playState)
-            CaptionRow(row: RowState())
+            CaptionRow(Caption())
                 .environmentObject(pauseState)
-            CaptionRow(row: RowState())
+            CaptionRow(Caption())
                 .environmentObject(editState)
             Spacer()
         }
