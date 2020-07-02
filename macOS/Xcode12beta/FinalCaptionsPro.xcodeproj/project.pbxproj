@@ -49,6 +49,7 @@
 		A3B6536024AC1E1C0005275B /* template.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3B6535F24AC1E1C0005275B /* template.fcpxml */; };
 		A3B6536224AC1E3E0005275B /* fcpxml-v1.8.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A3B6536124AC1E3E0005275B /* fcpxml-v1.8.dtd */; };
 		A3B6536424AC1E650005275B /* title.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3B6536324AC1E650005275B /* title.fcpxml */; };
+		A3BD96CD24ADFA1A00C9F716 /* DisplayedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BD96CC24ADFA1A00C9F716 /* DisplayedText.swift */; };
 		EDBC29993819E91657D2894F /* Pods_FinalCaptionsProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F557A191D5B2BD52FF052C2F /* Pods_FinalCaptionsProTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -120,6 +121,7 @@
 		A3B6535F24AC1E1C0005275B /* template.fcpxml */ = {isa = PBXFileReference; lastKnownFileType = text; path = template.fcpxml; sourceTree = "<group>"; };
 		A3B6536124AC1E3E0005275B /* fcpxml-v1.8.dtd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "fcpxml-v1.8.dtd"; sourceTree = "<group>"; };
 		A3B6536324AC1E650005275B /* title.fcpxml */ = {isa = PBXFileReference; lastKnownFileType = text; path = title.fcpxml; sourceTree = "<group>"; };
+		A3BD96CC24ADFA1A00C9F716 /* DisplayedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedText.swift; sourceTree = "<group>"; };
 		C23FAF6CA25C662D8098B2EC /* Pods-FinalCaptionsPro-FinalCaptionsProUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalCaptionsPro-FinalCaptionsProUITests.debug.xcconfig"; path = "Target Support Files/Pods-FinalCaptionsPro-FinalCaptionsProUITests/Pods-FinalCaptionsPro-FinalCaptionsProUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D4BDC3F35743F9AE22C5E996 /* Pods_FinalCaptionsPro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalCaptionsPro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33BCEDED00C21D89498C4F6 /* Pods_FinalCaptionsPro_FinalCaptionsProUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalCaptionsPro_FinalCaptionsProUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -290,6 +292,7 @@
 			children = (
 				A3A8CEDC24AB08C400F77754 /* VideoPlayer.swift */,
 				A3A8CEDE24AB08D400F77754 /* VisualOverlay.swift */,
+				A3BD96CC24ADFA1A00C9F716 /* DisplayedText.swift */,
 				A33334D224ADF08900C553DC /* Styler */,
 			);
 			path = VideoPane;
@@ -616,6 +619,7 @@
 				A33334D124ADEF7000C553DC /* Alignment.swift in Sources */,
 				A3A8CEEF24AB099200F77754 /* SelectionBox.swift in Sources */,
 				A3633F7824A7444300A63FD8 /* FinalCaptionsProApp.swift in Sources */,
+				A3BD96CD24ADFA1A00C9F716 /* DisplayedText.swift in Sources */,
 				A3A8CEEB24AB097700F77754 /* Timings.swift in Sources */,
 				A3A8CEE924AB096800F77754 /* CaptionRow.swift in Sources */,
 				A3A8CED324AB077300F77754 /* Style.swift in Sources */,

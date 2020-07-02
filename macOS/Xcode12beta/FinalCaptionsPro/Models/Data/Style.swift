@@ -15,7 +15,7 @@ class Style: Hashable, Identifiable, Equatable, ObservableObject {
     @Published var size: CGFloat
     @Published var color: Color
     @Published var position: CGSize
-    @Published var alignment: TextAlignment  // Alignment of the text
+    @Published var alignment: TextAlignment
     @Published var bold: Bool
     @Published var italic: Bool
     @Published var underline: Bool
