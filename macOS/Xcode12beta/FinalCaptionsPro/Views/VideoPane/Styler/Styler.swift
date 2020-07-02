@@ -52,7 +52,7 @@ struct Styler: View {
                     .frame(width: 200)
                 
                 ColorPicker("", selection: $style.color, supportsOpacity: true)
-                    .frame(width: barThickness*0.8, height: barThickness*0.8)
+                    .frame(width: barThickness, height: barThickness*0.8)
             }
             .frame(height: barThickness)
             .buttonStyle(buttonStyle)
