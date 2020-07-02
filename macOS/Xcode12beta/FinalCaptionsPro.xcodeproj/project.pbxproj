@@ -12,6 +12,7 @@
 		A33334CF24ADED7700C553DC /* BoldItalicUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33334CE24ADED7700C553DC /* BoldItalicUnderline.swift */; };
 		A33334D124ADEF7000C553DC /* Alignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33334D024ADEF7000C553DC /* Alignment.swift */; };
 		A33334D424ADF0A100C553DC /* Sizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33334D324ADF0A100C553DC /* Sizer.swift */; };
+		A33334D624ADF4B500C553DC /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33334D524ADF4B500C553DC /* Styler.swift */; };
 		A353BAE324ACAC7C008C8CCB /* RAW-long.m4v in Resources */ = {isa = PBXBuildFile; fileRef = A353BAE124ACAC7B008C8CCB /* RAW-long.m4v */; };
 		A353BAE424ACAC7C008C8CCB /* RAW-short.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A353BAE224ACAC7C008C8CCB /* RAW-short.mp4 */; };
 		A3633F7824A7444300A63FD8 /* FinalCaptionsProApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3633F7724A7444300A63FD8 /* FinalCaptionsProApp.swift */; };
@@ -27,7 +28,6 @@
 		A3A8CEDB24AB087B00F77754 /* FileSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEDA24AB087B00F77754 /* FileSelector.swift */; };
 		A3A8CEDD24AB08C400F77754 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEDC24AB08C400F77754 /* VideoPlayer.swift */; };
 		A3A8CEDF24AB08D400F77754 /* VisualOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEDE24AB08D400F77754 /* VisualOverlay.swift */; };
-		A3A8CEE124AB08EC00F77754 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEE024AB08EC00F77754 /* Styler.swift */; };
 		A3A8CEE324AB090200F77754 /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEE224AB090200F77754 /* FontPicker.swift */; };
 		A3A8CEE524AB091A00F77754 /* CaptionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEE424AB091A00F77754 /* CaptionList.swift */; };
 		A3A8CEE724AB092B00F77754 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEE624AB092B00F77754 /* Headers.swift */; };
@@ -76,6 +76,7 @@
 		A33334CE24ADED7700C553DC /* BoldItalicUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoldItalicUnderline.swift; sourceTree = "<group>"; };
 		A33334D024ADEF7000C553DC /* Alignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alignment.swift; sourceTree = "<group>"; };
 		A33334D324ADF0A100C553DC /* Sizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sizer.swift; sourceTree = "<group>"; };
+		A33334D524ADF4B500C553DC /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		A353BAE124ACAC7B008C8CCB /* RAW-long.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-long.m4v"; sourceTree = "<group>"; };
 		A353BAE224ACAC7C008C8CCB /* RAW-short.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RAW-short.mp4"; sourceTree = "<group>"; };
 		A3633F7424A7444200A63FD8 /* FinalCaptionsPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalCaptionsPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,7 +99,6 @@
 		A3A8CEDA24AB087B00F77754 /* FileSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelector.swift; sourceTree = "<group>"; };
 		A3A8CEDC24AB08C400F77754 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		A3A8CEDE24AB08D400F77754 /* VisualOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualOverlay.swift; sourceTree = "<group>"; };
-		A3A8CEE024AB08EC00F77754 /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		A3A8CEE224AB090200F77754 /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
 		A3A8CEE424AB091A00F77754 /* CaptionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionList.swift; sourceTree = "<group>"; };
 		A3A8CEE624AB092B00F77754 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 		A33334D224ADF08900C553DC /* Styler */ = {
 			isa = PBXGroup;
 			children = (
-				A3A8CEE024AB08EC00F77754 /* Styler.swift */,
+				A33334D524ADF4B500C553DC /* Styler.swift */,
 				A3A8CEE224AB090200F77754 /* FontPicker.swift */,
 				A33334CE24ADED7700C553DC /* BoldItalicUnderline.swift */,
 				A33334D024ADEF7000C553DC /* Alignment.swift */,
@@ -621,6 +621,7 @@
 				A3A8CED324AB077300F77754 /* Style.swift in Sources */,
 				A3A8CED924AB07FD00F77754 /* RowState.swift in Sources */,
 				A3A8CED724AB07F100F77754 /* AppState.swift in Sources */,
+				A33334D624ADF4B500C553DC /* Styler.swift in Sources */,
 				A3A8CEED24AB098100F77754 /* Tag.swift in Sources */,
 				A3A8CEF324AB09B500F77754 /* PlusMinus.swift in Sources */,
 				A3A8CEDB24AB087B00F77754 /* FileSelector.swift in Sources */,
@@ -633,7 +634,6 @@
 				A33334D424ADF0A100C553DC /* Sizer.swift in Sources */,
 				A3633F7F24A7445C00A63FD8 /* Preview Assets.xcassets in Sources */,
 				A3A8CEF524AB09FA00F77754 /* Transcriber.swift in Sources */,
-				A3A8CEE124AB08EC00F77754 /* Styler.swift in Sources */,
 				A3A8CEFD24AB0A6A00F77754 /* Notifications.swift in Sources */,
 				A3A8CEDD24AB08C400F77754 /* VideoPlayer.swift in Sources */,
 				A3A8CECB24AB059500F77754 /* ContentView.swift in Sources */,
