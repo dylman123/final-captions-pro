@@ -96,6 +96,7 @@ extension Text {
         
         return modifier
     }
+    
 }
 
 //struct DisplayedText_Previews: PreviewProvider {

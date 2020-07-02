@@ -14,25 +14,6 @@ struct Styler: View {
     // To format the buttons
     var buttonStyle = BorderlessButtonStyle()
     
-    enum TextAttribute { case bold, italic, underline }
-    func updateTextAttribute(_ attribute: TextAttribute) -> Void {
-        switch attribute {
-        case .bold: style.bold.toggle()
-        case .italic: style.italic.toggle()
-        case .underline: style.underline.toggle()
-        }
-    }
-    
-    func updateAlignment(to alignment: TextAlignment) -> Void {
-        style.alignment = alignment
-    }
-    func updateSize(by step: CGFloat) -> Void {
-        style.size += step
-        let newSize = style.size
-        if newSize < 10 { style.size = 10 }
-        if newSize > 200 { style.size = 200 }
-    }
-    
     var body: some View {
                 
         ZStack {
@@ -42,7 +23,11 @@ struct Styler: View {
             
             HStack(spacing: 15) {
                 
-                BoldItalicUnderline(bold: $style.bold, italic: $style.italic, underline: $style.underline)
+                BoldItalicUnderline (
+                    bold: $style.bold,
+                    italic: $style.italic,
+                    underline: $style.underline
+                )
                 
                 Alignment(alignment: $style.alignment)
                 
