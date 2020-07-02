@@ -33,6 +33,7 @@ enum APIError: Error {
 
 class Transcriber: ObservableObject {
     
+    // Transcription properties
     @Published var state: TranscriptionState = .idle
     @Published var video: URL?
     @Published var audioRef: StorageReference?

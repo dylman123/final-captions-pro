@@ -41,7 +41,7 @@ struct VisualOverlay: View {
                 
                 if self.displayText {
                         
-                    Text(self.caption.text)
+                    Text(caption.text)
                         .attributes(_bold: self.caption.style.bold, _italic: self.caption.style.italic, _underline: self.caption.style.underline)
                         .customFont(name: self.caption.style.font, size: self.caption.style.size, color: self.caption.style.color, alignment: self.caption.style.alignment)
                         .offset(x: self.caption.style.position.width, y: self.caption.style.position.height)
@@ -50,11 +50,11 @@ struct VisualOverlay: View {
                                 .onChanged { gesture in
 
                                     // Break down coords into 2D components
-                                    self.caption.style.position.width = gesture.location.x
-                                    self.caption.style.position.height = gesture.location.y
+                                    caption.style.position.width = gesture.location.x
+                                    caption.style.position.height = gesture.location.y
 
                                     // Keep caption within video frame bounds
-                                    self.restrictDrag(
+                                    restrictDrag(
                                         maxWidth: geometry.size.width/2,
                                         maxHeight: geometry.size.height/2,
                                         textWidth: 0/2,
