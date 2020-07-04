@@ -26,26 +26,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let copy = HotKey(key: .c, modifiers: [.command])  // Must make available for TextField
     let paste = HotKey(key: .v, modifiers: [.command])  // Must make available for TextField
 
-    func post(notification: Notification.Name, object: Any?) {
+    func post(_ notification: Notification.Name, object: Any?) {
         NotificationCenter.default.post(name: notification, object: object)
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        downArrow.keyDownHandler = { self.post(notification: .downArrow, object: nil) }
-        upArrow.keyDownHandler = { self.post(notification: .upArrow, object: nil) }
-        rightArrow.keyDownHandler = { self.post(notification: .rightArrow, object: nil) }
-        leftArrow.keyDownHandler = { self.post(notification: .leftArrow, object: nil) }
-        plus.keyDownHandler = { self.post(notification: .plus, object: nil) }
-        minus.keyDownHandler = { self.post(notification: .minus, object: nil) }
-        returnKey.keyDownHandler = { self.post(notification: .returnKey, object: nil) }
-        tab.keyDownHandler = { self.post(notification: .tab, object: nil) }
-        spacebar.keyDownHandler = { self.post(notification: .spacebar, object: nil) }
-        delete.keyDownHandler = { self.post(notification: .delete, object: nil) }
-        forwardDelete.keyDownHandler = { self.post(notification: .fwdDelete, object: nil) }
-        escape.keyDownHandler = { self.post(notification: .escape, object: nil) }
-        undo.keyDownHandler = { self.post(notification: .undo, object: nil) }
-        copy.keyDownHandler = { self.post(notification: .copy, object: nil) }
-        paste.keyDownHandler = { self.post(notification: .delete, object: nil) }
+        downArrow.keyDownHandler = { self.post(.downArrow, object: nil) }
+        upArrow.keyDownHandler = { self.post(.upArrow, object: nil) }
+        rightArrow.keyDownHandler = { self.post(.rightArrow, object: nil) }
+        leftArrow.keyDownHandler = { self.post(.leftArrow, object: nil) }
+        plus.keyDownHandler = { self.post(.plus, object: nil) }
+        minus.keyDownHandler = { self.post(.minus, object: nil) }
+        returnKey.keyDownHandler = { self.post(.returnKey, object: nil) }
+        tab.keyDownHandler = { self.post(.tab, object: nil) }
+        spacebar.keyDownHandler = { self.post(.spacebar, object: nil) }
+        delete.keyDownHandler = { self.post(.delete, object: nil) }
+        forwardDelete.keyDownHandler = { self.post(.fwdDelete, object: nil) }
+        escape.keyDownHandler = { self.post(.escape, object: nil) }
+        undo.keyDownHandler = { self.post(.undo, object: nil) }
+        copy.keyDownHandler = { self.post(.copy, object: nil) }
+        paste.keyDownHandler = { self.post(.delete, object: nil) }
     }
 }
 
