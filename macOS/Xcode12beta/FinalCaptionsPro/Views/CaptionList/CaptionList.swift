@@ -136,10 +136,10 @@ struct CaptionList: View {
             ScrollViewReader { value in
                 
                 ForEach(app.captions) { caption in
-                    CaptionRow()
+                    CaptionRow(caption: caption)
                         .tag(caption)
                         .padding(.vertical, 5)
-                        .environmentObject(RowState(caption))
+                        //.environmentObject(RowState(caption))
                         .id(caption.id)
                 }
                 .onReceive(NotificationCenter.default.publisher(for: .scroll)) { target in

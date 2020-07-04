@@ -10,14 +10,15 @@ import SwiftUI
 struct Tag: View {
     
     // Variables
-    @EnvironmentObject var row: RowState
+    @EnvironmentObject var app: AppState
+    @EnvironmentObject var row: RowProperties
     
     var body: some View {
-        if row.caption.style.symbol != nil || (row.isSelected && row.app.mode != .play) {
+        if row.caption.style.symbol != nil || (row.isSelected && app.mode != .play) {
             return AnyView(
                 TagView(row.caption.style.symbol ?? "")
                     .offset(x: 180)
-                    .clickable(row, fromView: .row)
+                    .clickable(app, row, fromView: .row)
                 )
         } else {
             return AnyView(EmptyView())

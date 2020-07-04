@@ -22,11 +22,12 @@ struct Timings: View {
 //    }
     
     // Variables
-    @EnvironmentObject var row: RowState
+    @EnvironmentObject var app: AppState
+    @EnvironmentObject var row: RowProperties
     
     // The current caption binding (for stepper)
     var binding: Binding<Caption> {
-        return $row.app.captions[row.index]
+        return $app.captions[row.index]
     }
     
     var body: some View {
@@ -36,34 +37,34 @@ struct Timings: View {
             return AnyView(VStack {
                     
                 // Start Time
-                if row.app.mode == .editStartTime {
+                if app.mode == .editStartTime {
                     Stepper(value: binding.start, step: -0.1) {
                         ZStack {
                             Text(String(format: "%.1f", row.caption.start))
-                                .clickable(row, fromView: .startTime)
+                                .clickable(app, row, fromView: .startTime)
                             SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
                 } else {
                     Text(String(format: "%.1f", row.caption.start))
-                        .clickable(row, fromView: .startTime)
+                        .clickable(app, row, fromView: .startTime)
                 }
                 Spacer()
                 
                 // End Time
-                if row.app.mode == .editEndTime {
+                if app.mode == .editEndTime {
                     Stepper(value: binding.end, step: -0.1) {
                         ZStack {
                             Text(String(format: "%.1f", row.caption.end))
-                                .clickable(row, fromView: .endTime)
+                                .clickable(app, row, fromView: .endTime)
                             SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
                 } else {
                     Text(String(format: "%.1f", row.caption.end))
-                        .clickable(row, fromView: .endTime)
+                        .clickable(app, row, fromView: .endTime)
                 }
             }
             .frame(width: timeWidth))
@@ -74,10 +75,10 @@ struct Timings: View {
             // Display caption timings
             return AnyView(VStack {
                 Text(String(format: "%.1f", row.caption.start))
-                    .clickable(row, fromView: .startTime)
+                    .clickable(app, row, fromView: .startTime)
                 Spacer()
                 Text(String(format: "%.1f", row.caption.end))
-                   .clickable(row, fromView: .endTime)
+                    .clickable(app, row, fromView: .endTime)
             }
             .frame(width: timeWidth))
         }
@@ -87,6 +88,6 @@ struct Timings: View {
 struct Timings_Previews: PreviewProvider {
     static var previews: some View {
         Timings()
-            .environmentObject(RowState())
+            .environmentObject(RowProperties(Caption(), 0, true, 1, .black))
     }
 }

@@ -15,21 +15,22 @@ struct TextView: View {
     let deltaOffset = CGFloat(6.0)
     
     // Variables
-    @EnvironmentObject var row: RowState
+    @EnvironmentObject var app: AppState
+    @EnvironmentObject var row: RowProperties
     
     var body: some View {
         
         if row.isSelected {
             // Caption text
             return AnyView(ZStack {
-                if row.app.mode == .play {
+                if app.mode == .play {
                     if #available(OSX 11.0, *) {
                         TextEditor(text: $row.caption.text)
                             .offset(x: -5)
                     } else {
                         // Fallback on earlier versions
                     }
-                } else if row.app.mode == .edit {
+                } else if app.mode == .edit {
                     // TODO: Make cursor blink and navigate in text
                     Text(row.caption.text)
                     //ModifiableText(row)
@@ -39,7 +40,7 @@ struct TextView: View {
             }
             .multilineTextAlignment(.center)
             .lineLimit(2)
-            .clickable(row, fromView: .text)
+            .clickable(app, row, fromView: .text)
             .offset(x: textOffset + deltaOffset)
             .frame(width: textWidth)
             )
@@ -51,7 +52,8 @@ struct TextView: View {
                 .lineLimit(2)
                 .frame(width: textWidth)
                 .offset(x: textOffset)
-                .clickable(row, fromView: .text))
+                .clickable(app, row, fromView: .text)
+            )
         }
     }
 }
@@ -59,6 +61,6 @@ struct TextView: View {
 struct TextView_Previews: PreviewProvider {
     static var previews: some View {
         TextView()
-        .environmentObject(RowState())
+            .environmentObject(RowProperties(Caption(), 0, true, 1, .black))
     }
 }

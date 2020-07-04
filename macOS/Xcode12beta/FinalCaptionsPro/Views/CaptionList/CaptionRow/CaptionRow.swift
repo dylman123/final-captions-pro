@@ -8,15 +8,12 @@
 import SwiftUI
 
 // Set state on mouse click event
-func click(row: RowState, view: RowElement) -> Void {
-    let state = row.app
-    let isSelected = row.isSelected
-    let captionIndex = row.index
+func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Void {
     switch view {
     case .row:
         switch state.mode {
         case .play: state.transition(to: .pause)
-        case .pause: if isSelected { state.transition(to: .edit) }
+        case .pause: if props.isSelected { state.transition(to: .edit) }
         case .edit: state.transition(to: .pause)
         case .editStartTime: state.transition(to: .pause)
         case .editEndTime: state.transition(to: .pause)
@@ -24,7 +21,7 @@ func click(row: RowState, view: RowElement) -> Void {
     case .text:
         switch state.mode {
         case .play: state.transition(to: .pause)
-        case .pause: if isSelected { state.transition(to: .edit) }
+        case .pause: if props.isSelected { state.transition(to: .edit) }
         case .edit: state.transition(to: .pause)
         case .editStartTime: state.transition(to: .edit)
         case .editEndTime: state.transition(to: .edit)
@@ -32,7 +29,7 @@ func click(row: RowState, view: RowElement) -> Void {
     case .startTime:
         switch state.mode {
         case .play: state.transition(to: .pause)
-        case .pause: if isSelected { state.transition(to: .editStartTime) }
+        case .pause: if props.isSelected { state.transition(to: .editStartTime) }
         case .edit: state.transition(to: .editStartTime)
         case .editStartTime: ()
         case .editEndTime: state.transition(to: .editStartTime)
@@ -40,37 +37,66 @@ func click(row: RowState, view: RowElement) -> Void {
     case .endTime:
         switch state.mode {
         case .play: state.transition(to: .pause)
-        case .pause: if isSelected { state.transition(to: .editEndTime) }
+        case .pause: if props.isSelected { state.transition(to: .editEndTime) }
         case .edit: state.transition(to: .editEndTime)
         case .editStartTime: state.transition(to: .editEndTime)
         case .editEndTime: ()
         }
     }
-    state.selectedIndex = captionIndex  // Calling caption becomes selected
+    state.selectedIndex = props.index  // Calling caption becomes selected
     state.syncVideoAndList(isListControlling: true)
 }
 
 // ViewModifier allows each subview to be clicked once or twice (when appropriate)
 struct Clickable: ViewModifier {
-    var row: RowState
+    var app: AppState
+    var props: RowProperties
     var view: RowElement
+    
+    init(_ app: AppState, _ props: RowProperties, _ view: RowElement) {
+        self.app = app
+        self.props = props
+        self.view = view
+    }
     
     func body(content: Content) -> some View {
         content
-        .onTapGesture(count: row.clickNumber) {
-                click(row: self.row, view: self.view)
+        .onTapGesture(count: props.clickNumber) {
+            click(app, props, view)
         }
         .onTapGesture(count: 1) {
-            click(row: self.row, view: self.view)
+            click(app, props, view)
         }
     }
 }
 
 // Custom modifier to make a subview clickable
 extension View {
-    func clickable(_ row: RowState, fromView view: RowElement) -> some View {
-        self.modifier(Clickable(row: row, view: view))
+    func clickable(_ app: AppState, _ props: RowProperties, fromView view: RowElement) -> some View {
+        self.modifier(Clickable(app, props, view))
     }
+}
+
+// Row properties as an object
+class RowProperties: ObservableObject {
+    var caption: Caption
+    var index: Int
+    var isSelected: Bool
+    var clickNumber: Int
+    var color: Color
+    
+    init(_ caption: Caption, _ index: Int, _ isSelected: Bool, _ clickNumber: Int, _ color: Color) {
+        self.caption = caption
+        self.index = index
+        self.isSelected = isSelected
+        self.clickNumber = clickNumber
+        self.color = color
+    }
+}
+
+// Various clickable elements of the row
+enum RowElement {
+    case row, text, startTime, endTime
 }
 
 struct CaptionRow: View {
@@ -79,23 +105,63 @@ struct CaptionRow: View {
     let scrollbarPadding = CGFloat(20.0)
     
     // Variables
-    @EnvironmentObject var row: RowState  // An object to hold the state of the current row
+    @EnvironmentObject var app: AppState
+    @State var caption: Caption
+    
+    var props: RowProperties {
+        // The caption object itself
+        var caption: Caption {
+            return self.caption
+        }
+        // To index the current row
+        var index: Int {
+            return app.captions.firstIndex(where: { $0.id == caption.id }) ?? 0
+        }
+        // Logic to select caption
+        var isSelected: Bool {
+            if app.selectedIndex == index { return true }
+            else { return false }
+        }
+        // To track whether user can do a double click
+        var clickNumber: Int {
+            if isSelected { return 2 }
+            else { return 1 }
+        }
+        // Display caption color
+        var color: Color {
+            if isSelected {
+                switch app.mode {
+                case .play: return Color.blue.opacity(0.5)
+                case .pause: return Color.gray.opacity(0.5)
+                case .edit: return Color.yellow.opacity(0.5)
+                case .editStartTime: return Color.yellow.opacity(0.5)
+                case .editEndTime: return Color.yellow.opacity(0.5)
+                }
+            }
+            else {
+                return Color.black.opacity(0.5)
+            }
+        }
+        return RowProperties(caption, index, isSelected, clickNumber, color)
+    }
         
     var body: some View {
         
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .fill(row.color).frame(height: 40).clickable(row, fromView: .row)
+                .fill(props.color).frame(height: 40)
+                .clickable(app, props, fromView: .row)
+            
             Tag()
             HStack(alignment: .center) {
-                if row.isSelected {
+                if props.isSelected {
                     Timings()
                     Spacer()
                     TextView()
                     Spacer()
                     PlusMinus()
                 }
-                else if !row.isSelected {
+                else if !props.isSelected {
                     Timings()
                     Spacer()
                     TextView()
@@ -105,6 +171,7 @@ struct CaptionRow: View {
             .padding(.trailing, scrollbarPadding)
         }
         .frame(height: 30)
+        .environmentObject(props)
     }
 }
 
@@ -119,14 +186,14 @@ struct CaptionRow_Previews: PreviewProvider {
         
         VStack(spacing: 40) {
             Spacer()
-            CaptionRow()
+            CaptionRow(caption: Caption())
                 .environmentObject(playState)
-            CaptionRow()
+            CaptionRow(caption: Caption())
                 .environmentObject(pauseState)
-            CaptionRow()
+            CaptionRow(caption: Caption())
                 .environmentObject(editState)
             Spacer()
         }
-        .environmentObject(RowState())
+        .environmentObject(RowProperties(Caption(), 0, true, 1, .black))
     }
 }

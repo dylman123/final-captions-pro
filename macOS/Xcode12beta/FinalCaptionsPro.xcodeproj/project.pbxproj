@@ -24,7 +24,6 @@
 		A3A8CED124AB076200F77754 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CED024AB076200F77754 /* Caption.swift */; };
 		A3A8CED324AB077300F77754 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CED224AB077300F77754 /* Style.swift */; };
 		A3A8CED724AB07F100F77754 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CED624AB07F100F77754 /* AppState.swift */; };
-		A3A8CED924AB07FD00F77754 /* RowState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CED824AB07FD00F77754 /* RowState.swift */; };
 		A3A8CEDB24AB087B00F77754 /* FileSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEDA24AB087B00F77754 /* FileSelector.swift */; };
 		A3A8CEDD24AB08C400F77754 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEDC24AB08C400F77754 /* VideoPlayer.swift */; };
 		A3A8CEDF24AB08D400F77754 /* VisualOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEDE24AB08D400F77754 /* VisualOverlay.swift */; };
@@ -96,7 +95,6 @@
 		A3A8CED024AB076200F77754 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
 		A3A8CED224AB077300F77754 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		A3A8CED624AB07F100F77754 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		A3A8CED824AB07FD00F77754 /* RowState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowState.swift; sourceTree = "<group>"; };
 		A3A8CEDA24AB087B00F77754 /* FileSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSelector.swift; sourceTree = "<group>"; };
 		A3A8CEDC24AB08C400F77754 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		A3A8CEDE24AB08D400F77754 /* VisualOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualOverlay.swift; sourceTree = "<group>"; };
@@ -334,7 +332,6 @@
 			isa = PBXGroup;
 			children = (
 				A3A8CED624AB07F100F77754 /* AppState.swift */,
-				A3A8CED824AB07FD00F77754 /* RowState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -623,7 +620,6 @@
 				A3A8CEEB24AB097700F77754 /* Timings.swift in Sources */,
 				A3A8CEE924AB096800F77754 /* CaptionRow.swift in Sources */,
 				A3A8CED324AB077300F77754 /* Style.swift in Sources */,
-				A3A8CED924AB07FD00F77754 /* RowState.swift in Sources */,
 				A3A8CED724AB07F100F77754 /* AppState.swift in Sources */,
 				A33334D624ADF4B500C553DC /* Styler.swift in Sources */,
 				A3A8CEED24AB098100F77754 /* Tag.swift in Sources */,
