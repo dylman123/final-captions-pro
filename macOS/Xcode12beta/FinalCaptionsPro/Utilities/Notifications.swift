@@ -30,4 +30,5 @@ extension Notification.Name {
     static let prevPage = Notification.Name("prevPage")
     static let updateStyle = Notification.Name("updateStyle")
     static let updateColor = Notification.Name("updateColor")
+    static let scroll = Notification.Name("scroll")
 }

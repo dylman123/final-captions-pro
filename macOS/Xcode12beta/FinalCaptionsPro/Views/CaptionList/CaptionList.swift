@@ -12,38 +12,9 @@ struct CaptionList: View {
     // Handle app state
     @EnvironmentObject var app: AppState
     
-    // Scroll logic
-    @State private var scrollOffset = CGPoint(x: 0.0, y: 0.0)
-    @State private var scrollBinding: Binding<CGPoint> = .constant(.zero)
-    let scrollAmount: CGFloat = 45.0
-    let numCaptionsOnPage: Int = 12
-
-    func turnPages(quantity numPages: Int) -> Void {
-        scrollOffset.y += scrollAmount * CGFloat(numCaptionsOnPage * numPages)
-    }
-    
     func goToIndex(target: Int) {
-        // Check if the target index is on a new page
-        let distanceToNextPage = numCaptionsOnPage - (app.selectedIndex % numCaptionsOnPage)
-        let distanceToPrevPage = distanceToNextPage - numCaptionsOnPage
-        let delta = target - app.selectedIndex
-        let isOnFuturePage: Bool = (delta >= distanceToNextPage)
-        let isOnPrevPage: Bool = (delta < distanceToPrevPage)
-        
-        // Count the number of pages to turn
-        var numPagesToTurn: Int {
-            if delta > 0 && delta <= numCaptionsOnPage { return 1 }
-            else if delta > numCaptionsOnPage { return delta / numCaptionsOnPage }
-            else if delta < 0 && delta >= -numCaptionsOnPage { return -1 }
-            else if delta < -numCaptionsOnPage { return delta / numCaptionsOnPage }
-            else { return 0 }
-        }
-        
-        // If applicable, turn to the relevant page
-        if isOnFuturePage || isOnPrevPage {
-            withAnimation { turnPages(quantity: numPagesToTurn) }
-        }
-        
+        // Scroll to new target index
+        NotificationCenter.default.post(name: .scroll, object: target)
         // Set the new selectedIndex
         app.selectedIndex = target
     }
@@ -159,26 +130,27 @@ struct CaptionList: View {
         else { return false }
     }
     
-    //init() {
-    //    scrollBinding = scrollOffset as Binding<CGPoint>
-    //}
-    
     var body: some View {
         
-        //OffsetScrollView(.vertical, offset: $scrollOffset) {
         ScrollView(.vertical) {
-        //List {
-            ForEach(app.captions) { caption in
-                CaptionRow()
-                    .tag(caption)
-                    .padding(.vertical, 5)
-                    .offset(y: -self.scrollOffset.y)
-                    .environmentObject(RowState(caption))
+            ScrollViewReader { value in
+                
+                ForEach(app.captions) { caption in
+                    CaptionRow()
+                        .tag(caption)
+                        .padding(.vertical, 5)
+                        .environmentObject(RowState(caption))
+                        .id(caption.id)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .scroll)) { target in
+                    guard target.object != nil else { return }
+                    let scrollTarget = target.object as! Int
+                    withAnimation {
+                        value.scrollTo(scrollTarget, anchor: .center)
+                    }
+                }
             }
         }
-        
-        //}
-        //.content.offset(y: self.scrollOffset.y)
         
         // Keyboard press logic
         .onReceive(NotificationCenter.default.publisher(for: .character)) { notification in
