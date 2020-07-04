@@ -11,7 +11,9 @@ target 'FinalCaptionsPro' do
   pod 'Firebase/Storage'
   pod 'Firebase/Functions'
   #pod 'Firebase/Messaging'
-  pod 'AEXML'
+  pod 'AEXML'  # for XML handling
+  pod 'HotKey'  # for MacOS keyboard shortcuts. This caused dependency issues with FBLPromises in Google Utilities
+  #pod 'KeyboardShortcuts'  # for MacOS keyboard shortcuts
 
   target 'FinalCaptionsProTests' do
     inherit! :search_paths

@@ -31,7 +31,10 @@ struct TextView: View {
                 if app.mode == .play {
                     Text(row.caption.text)
                         .offset(x: -5)
-                } else { TextField(row.caption.text, text: binding.text) }
+                } else {
+                    TextField(row.caption.text, text: binding.text)
+                        //.keyboardShortcut(.return)
+                }
             }
             .multilineTextAlignment(.center)
             .lineLimit(2)
