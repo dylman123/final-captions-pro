@@ -106,7 +106,7 @@ struct CaptionRow: View {
     
     // Variables
     @EnvironmentObject var app: AppState
-    @State var caption: Caption
+    var caption: Caption
     
     var props: RowProperties {
         // The caption object itself

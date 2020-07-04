@@ -139,7 +139,6 @@ struct CaptionList: View {
                     CaptionRow(caption: caption)
                         .tag(caption)
                         .padding(.vertical, 5)
-                        //.environmentObject(RowState(caption))
                         .id(caption.id)
                 }
                 .onReceive(NotificationCenter.default.publisher(for: .scroll)) { target in
