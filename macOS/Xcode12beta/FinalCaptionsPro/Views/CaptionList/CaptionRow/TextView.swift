@@ -18,25 +18,20 @@ struct TextView: View {
     @EnvironmentObject var app: AppState
     @EnvironmentObject var row: RowProperties
     
+    // The current caption binding (for text)
+    var binding: Binding<Caption> {
+        return $app.captions[row.index]
+    }
+    
     var body: some View {
         
         if row.isSelected {
             // Caption text
             return AnyView(ZStack {
                 if app.mode == .play {
-                    if #available(OSX 11.0, *) {
-                        TextEditor(text: $row.caption.text)
-                            .offset(x: -5)
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                } else if app.mode == .edit {
-                    // TODO: Make cursor blink and navigate in text
                     Text(row.caption.text)
-                    //ModifiableText(row)
-                        .offset(x: 2)
-                    SelectionBox()
-                } else { Text(row.caption.text) }
+                        .offset(x: -5)
+                } else { TextField(row.caption.text, text: binding.text) }
             }
             .multilineTextAlignment(.center)
             .lineLimit(2)
