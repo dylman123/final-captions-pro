@@ -7,6 +7,45 @@
 
 import SwiftUI
 
+struct CustomTextField: NSViewRepresentable {
+
+    class Coordinator: NSObject, NSTextFieldDelegate {
+
+        @Binding var text: String
+        var didBecomeFirstResponder = false
+
+        init(text: Binding<String>) {
+            _text = text
+        }
+
+        func textFieldDidChangeSelection(_ textField: NSTextField) {
+            text = textField.stringValue
+        }
+
+    }
+
+    @Binding var text: String
+    var isFirstResponder: Bool = false
+
+    func makeNSView(context: NSViewRepresentableContext<CustomTextField>) -> NSTextField {
+        let textField = NSTextField(frame: .zero)
+        textField.delegate = context.coordinator
+        return textField
+    }
+
+    func makeCoordinator() -> CustomTextField.Coordinator {
+        return Coordinator(text: $text)
+    }
+
+    func updateNSView(_ nsView: NSTextField, context: NSViewRepresentableContext<CustomTextField>) {
+        nsView.stringValue = text
+        if isFirstResponder && !context.coordinator.didBecomeFirstResponder  {
+            nsView.becomeFirstResponder()
+            context.coordinator.didBecomeFirstResponder = true
+        }
+    }
+}
+
 struct TextView: View {
     
     // Constants
@@ -32,8 +71,9 @@ struct TextView: View {
                     Text(row.caption.text)
                         .offset(x: -5)
                 } else {
+//                    CustomTextField(text: binding.text, isFirstResponder: true)
                     TextField(row.caption.text, text: binding.text)
-                        //.keyboardShortcut(.return)
+//                        .keyboardShortcut(.return)
                 }
             }
             .multilineTextAlignment(.center)

@@ -19,6 +19,7 @@ extension Notification.Name {
     static let tab = Notification.Name("tab")
     static let spacebar = Notification.Name("spacebar")
     static let delete = Notification.Name("delete")
+    static let fwdDelete = Notification.Name("fwdDelete")
     static let escape = Notification.Name("escape")
     static let character = Notification.Name("character")
     static let play = Notification.Name("play")
@@ -31,4 +32,7 @@ extension Notification.Name {
     static let updateStyle = Notification.Name("updateStyle")
     static let updateColor = Notification.Name("updateColor")
     static let scroll = Notification.Name("scroll")
+    static let undo = Notification.Name("undo")
+    static let copy = Notification.Name("copy")
+    static let paste = Notification.Name("paste")
 }
