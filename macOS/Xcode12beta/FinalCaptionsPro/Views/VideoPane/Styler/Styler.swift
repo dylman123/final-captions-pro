@@ -16,8 +16,13 @@ struct Styler: View {
     var buttonStyle = BorderlessButtonStyle()
     
     var body: some View {
+        
+//        let colorBinding = Binding (
+//            get: { style.color },
+//            set: { style.color = $0 }
+//        )
                 
-        ZStack {
+        return ZStack {
             RoundedRectangle(cornerRadius: 6)
                 .fill(colorScheme == .dark ? Color.black : Color.white)
                 .frame(height: barThickness)

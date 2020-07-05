@@ -19,6 +19,8 @@ struct Tag: View {
                 TagView(row.caption.style.symbol ?? "")
                     .offset(x: 180)
                     .clickable(app, row, fromView: .row)
+                    .font(.system(size: 20))
+                    .foregroundColor(row.caption.style.color)
                 )
         } else {
             return AnyView(EmptyView())
@@ -40,13 +42,13 @@ struct TagView: View {
         
         Group {
             if symbol != "" {
-                Image(systemName: "\(lowercase).circle")
+                Image(systemName: "\(lowercase).circle.fill")
+
             }
             else {
-                Image(systemName: "circle")
+                Image(systemName: "circle.fill")
             }
         }
-        .font(.system(size: 20))
     }
 }
 
