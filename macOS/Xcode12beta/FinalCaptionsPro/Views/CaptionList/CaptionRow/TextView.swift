@@ -30,6 +30,7 @@ struct TextView: View {
             return AnyView(ZStack {
                 if app.mode == .edit {
                     TextField(row.caption.text, text: binding.text, onCommit: {
+                        guard binding.text.wrappedValue != "" else { return }
                         NotificationCenter.default.post(name: .returnKey, object: nil)
                     })
                         .textFieldStyle(RoundedBorderTextFieldStyle())

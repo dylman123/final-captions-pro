@@ -8,6 +8,7 @@ import SwiftUI
 
 struct Styler: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @Binding var style: Style
     let barThickness: CGFloat = 35
     
@@ -18,7 +19,7 @@ struct Styler: View {
                 
         ZStack {
             RoundedRectangle(cornerRadius: 6)
-                .fill(Color.black.opacity(0.8))
+                .fill(colorScheme == .dark ? Color.black : Color.white)
                 .frame(height: barThickness)
             
             HStack(spacing: 15) {
@@ -41,6 +42,7 @@ struct Styler: View {
             }
             .frame(height: barThickness)
             .buttonStyle(buttonStyle)
+            .font(.system(size: 20))
             
         }
         .animation(.spring())
