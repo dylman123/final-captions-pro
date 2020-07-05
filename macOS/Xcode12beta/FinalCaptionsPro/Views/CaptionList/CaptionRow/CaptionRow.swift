@@ -22,7 +22,7 @@ func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Voi
         switch state.mode {
         case .play: state.transition(to: .pause)
         case .pause: if props.isSelected { state.transition(to: .edit) }
-        case .edit: state.transition(to: .pause)
+        case .edit: ()
         case .editStartTime: state.transition(to: .edit)
         case .editEndTime: state.transition(to: .edit)
         }

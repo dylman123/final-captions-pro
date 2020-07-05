@@ -7,44 +7,109 @@
 
 import SwiftUI
 
-struct CustomTextField: NSViewRepresentable {
+//struct CustomTextField: NSViewRepresentable {
+//
+//    class Coordinator: NSObject, NSTextFieldDelegate {
+//
+//        @Binding var text: String
+//        var didBecomeFirstResponder = false
+//
+//        init(text: Binding<String>) {
+//            _text = text
+//        }
+//
+//        func textFieldDidChangeSelection(_ textField: NSTextField) {
+//            text = textField.stringValue
+//        }
+//
+//    }
+//
+//    @Binding var text: String
+//    var isFirstResponder: Bool = false
+//
+//    func makeNSView(context: NSViewRepresentableContext<CustomTextField>) -> NSTextField {
+//        let textField = NSTextField(frame: .zero)
+//        textField.delegate = context.coordinator
+//        return textField
+//    }
+//
+//    func makeCoordinator() -> CustomTextField.Coordinator {
+//        return Coordinator(text: $text)
+//    }
+//
+//    func updateNSView(_ nsView: NSTextField, context: NSViewRepresentableContext<CustomTextField>) {
+//        nsView.stringValue = text
+//        if isFirstResponder && !context.coordinator.didBecomeFirstResponder  {
+//            nsView.becomeFirstResponder()
+//            context.coordinator.didBecomeFirstResponder = true
+//        }
+//    }
+//}
 
-    class Coordinator: NSObject, NSTextFieldDelegate {
-
-        @Binding var text: String
-        var didBecomeFirstResponder = false
-
-        init(text: Binding<String>) {
-            _text = text
-        }
-
-        func textFieldDidChangeSelection(_ textField: NSTextField) {
-            text = textField.stringValue
-        }
-
-    }
-
-    @Binding var text: String
-    var isFirstResponder: Bool = false
-
-    func makeNSView(context: NSViewRepresentableContext<CustomTextField>) -> NSTextField {
-        let textField = NSTextField(frame: .zero)
-        textField.delegate = context.coordinator
-        return textField
-    }
-
-    func makeCoordinator() -> CustomTextField.Coordinator {
-        return Coordinator(text: $text)
-    }
-
-    func updateNSView(_ nsView: NSTextField, context: NSViewRepresentableContext<CustomTextField>) {
-        nsView.stringValue = text
-        if isFirstResponder && !context.coordinator.didBecomeFirstResponder  {
-            nsView.becomeFirstResponder()
-            context.coordinator.didBecomeFirstResponder = true
-        }
-    }
-}
+//struct CustomTextField: NSViewRepresentable {
+//
+//  class Coordinator: NSObject, NSTextFieldDelegate {
+//
+//     @Binding var text: String
+//     //@Binding var nextResponder : Bool?
+//     @Binding var isResponder : Bool?
+//
+//
+//     init(text: Binding<String>, /*nextResponder : Binding<Bool?>,*/ isResponder : Binding<Bool?>) {
+//       _text = text
+//       _isResponder = isResponder
+//       //_nextResponder = nextResponder
+//     }
+//
+//     func textFieldDidChangeSelection(_ textField: NSTextField) {
+//        text = textField.stringValue
+//     }
+//
+//     func textFieldDidBeginEditing(_ textField: NSTextField) {
+//        DispatchQueue.main.async {
+//            self.isResponder = true
+//        }
+//     }
+//
+//     func textFieldDidEndEditing(_ textField: NSTextField) {
+//        DispatchQueue.main.async {
+//            self.isResponder = false
+////            if self.nextResponder != nil {
+////                self.nextResponder = true
+////            }
+//        }
+//     }
+// }
+//
+// @Binding var text: String
+// //@Binding var nextResponder : Bool?
+// @Binding var isResponder : Bool?
+//
+// var isSecured : Bool = false
+// var keyboard : CGEventSourceKeyboardType
+//
+// func makeNSView(context: NSViewRepresentableContext<CustomTextField>) -> NSTextField {
+//     let textField = NSTextField(frame: .zero)
+////     textField.isSecureTextEntry = isSecured
+////     textField.autocapitalizationType = .none
+////     textField.autocorrectionType = .no
+////     textField.keyboardType = keyboard
+//     textField.delegate = context.coordinator
+//     return textField
+// }
+//
+// func makeCoordinator() -> CustomTextField.Coordinator {
+//     return Coordinator(text: $text, /*nextResponder: $nextResponder,*/ isResponder: $isResponder)
+// }
+//
+// func updateNSView(_ nsView: NSTextField, context: NSViewRepresentableContext<CustomTextField>) {
+//      nsView.stringValue = text
+//      if isResponder ?? false {
+//          nsView.becomeFirstResponder()
+//      }
+// }
+//
+//}
 
 struct TextView: View {
     
@@ -56,6 +121,7 @@ struct TextView: View {
     // Variables
     @EnvironmentObject var app: AppState
     @EnvironmentObject var row: RowProperties
+//    @State private var isFirstResponder : Bool? = true  // set true , if you want to focus it initially, and set false if you want to focus it by tapping on it.
     
     // The current caption binding (for text)
     var binding: Binding<Caption> {
@@ -67,13 +133,14 @@ struct TextView: View {
         if row.isSelected {
             // Caption text
             return AnyView(ZStack {
-                if app.mode == .play {
+                if app.mode == .edit {
+                    TextField(row.caption.text, text: binding.text, onCommit: {
+                        NotificationCenter.default.post(name: .returnKey, object: nil)
+                    })
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                } else {
                     Text(row.caption.text)
                         .offset(x: -5)
-                } else {
-//                    CustomTextField(text: binding.text, isFirstResponder: true)
-                    TextField(row.caption.text, text: binding.text)
-//                        .keyboardShortcut(.return)
                 }
             }
             .multilineTextAlignment(.center)

@@ -7,56 +7,64 @@
 
 import SwiftUI
 import HotKey
+import Firebase
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
-    let downArrow = HotKey(key: .downArrow, modifiers: [])
-    let upArrow = HotKey(key: .upArrow, modifiers: [])
-    let rightArrow = HotKey(key: .rightArrow, modifiers: [])  // Must make available for TextField
-    let leftArrow = HotKey(key: .leftArrow, modifiers: [])  // Must make available for TextField
-    let plus = HotKey(key: .equal, modifiers: [.shift])  // Must make available for TextField
-    let minus = HotKey(key: .minus, modifiers: [])  // Must make available for TextField
-    let returnKey = HotKey(key: .return, modifiers: [])
+
+    // These HotKeys will be the first responder
+//    let downArrow = HotKey(key: .downArrow, modifiers: [])
+//    let upArrow = HotKey(key: .upArrow, modifiers: [])
+//    let returnKey = HotKey(key: .return, modifiers: [])
     let tab = HotKey(key: .tab, modifiers: [])
-    let spacebar = HotKey(key: .space, modifiers: [])  // Must make available for TextField
-    let delete = HotKey(key: .delete, modifiers: [])  // Must make available for TextField
-    let forwardDelete = HotKey(key: .forwardDelete, modifiers: [])  // Must make available for TextField
     let escape = HotKey(key: .escape, modifiers: [])
-    let undo = HotKey(key: .z, modifiers: [.command])  // Must make available for TextField
-    let copy = HotKey(key: .c, modifiers: [.command])  // Must make available for TextField
-    let paste = HotKey(key: .v, modifiers: [.command])  // Must make available for TextField
+//    let undo = HotKey(key: .z, modifiers: [.command])
+//    let copy = HotKey(key: .c, modifiers: [.command])
+//    let paste = HotKey(key: .v, modifiers: [.command])
+
+    var window: NSWindow!
 
     func post(_ notification: Notification.Name, object: Any?) {
         NotificationCenter.default.post(name: notification, object: object)
     }
-    
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        downArrow.keyDownHandler = { self.post(.downArrow, object: nil) }
-        upArrow.keyDownHandler = { self.post(.upArrow, object: nil) }
-        rightArrow.keyDownHandler = { self.post(.rightArrow, object: nil) }
-        leftArrow.keyDownHandler = { self.post(.leftArrow, object: nil) }
-        plus.keyDownHandler = { self.post(.plus, object: nil) }
-        minus.keyDownHandler = { self.post(.minus, object: nil) }
-        returnKey.keyDownHandler = { self.post(.returnKey, object: nil) }
+//        downArrow.keyDownHandler = { self.post(.downArrow, object: nil) }
+//        upArrow.keyDownHandler = { self.post(.upArrow, object: nil) }
+//        returnKey.keyDownHandler = { self.post(.returnKey, object: nil) }
         tab.keyDownHandler = { self.post(.tab, object: nil) }
-        spacebar.keyDownHandler = { self.post(.spacebar, object: nil) }
-        delete.keyDownHandler = { self.post(.delete, object: nil) }
-        forwardDelete.keyDownHandler = { self.post(.fwdDelete, object: nil) }
         escape.keyDownHandler = { self.post(.escape, object: nil) }
-        undo.keyDownHandler = { self.post(.undo, object: nil) }
-        copy.keyDownHandler = { self.post(.copy, object: nil) }
-        paste.keyDownHandler = { self.post(.delete, object: nil) }
+//        undo.keyDownHandler = { self.post(.undo, object: nil) }
+//        copy.keyDownHandler = { self.post(.copy, object: nil) }
+//        paste.keyDownHandler = { self.post(.delete, object: nil) }
+
+        // Configure Firebase
+        FirebaseApp.configure()
+        
+        // Create the SwiftUI view that provides the window contents.
+        let contentView = ContentView().environmentObject(AppState())
+
+        window = TypingWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
+            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+            backing: .buffered, defer: false)
+        window.center()
+        window.setFrameAutosaveName("Main Window")
+        window.contentView = NSHostingView(rootView: contentView)
+        window.makeKeyAndOrderFront(nil)
     }
 }
 
 @main
 struct FinalCaptionsProApp: App {
-    
+
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(AppState())
+            //ContentView().environmentObject(AppState())
+            Text("Welcome to Final Captions Pro.")
+                .scaledToFill()
+                .padding()
         }
     }
 }

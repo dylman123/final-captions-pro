@@ -11,6 +11,7 @@ import HotKey
 
 class TypingWindow: NSWindow {
 
+    // The key presses defined here will NOT be the first responder
     override func keyDown(with event: NSEvent) {
         guard let character = event.characters else { return }
         var notification: Notification.Name
@@ -22,10 +23,10 @@ class TypingWindow: NSWindow {
         case 123: notification = .leftArrow
         case 124: notification = .rightArrow
         case 36: notification = .returnKey
-        case 48: notification = .tab
+//        case 48: notification = .tab
         case 49: notification = .spacebar
         case 51: notification = .delete
-        case 53: notification = .escape
+//        case 53: notification = .escape
         default: notification = .character
         }
         NotificationCenter.default.post(name: notification, object: character)

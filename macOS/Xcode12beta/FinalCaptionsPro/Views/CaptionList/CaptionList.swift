@@ -206,7 +206,7 @@ struct CaptionList: View {
             case .pause: ()
             case .edit: self.app.transition(to: .editStartTime)
             case .editStartTime: self.app.transition(to: .editEndTime)
-            case .editEndTime: self.app.transition(to: .editStartTime)
+            case .editEndTime: self.app.transition(to: .edit)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
