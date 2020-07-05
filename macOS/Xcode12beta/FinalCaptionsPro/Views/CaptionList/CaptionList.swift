@@ -212,16 +212,7 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
-            case .pause:
-                if self.isTagged { self.tag(withSymbol: nil) }
-                else { self._deleteCaption() }
-            case .edit:
-                if self.isTagged { self.tag(withSymbol: nil) }
-                else { self._deleteCaption() }
-            case .editStartTime:
-                if self.isTagged { self.tag(withSymbol: nil) }
-                else { self._deleteCaption() }
-            case .editEndTime:
+            default:
                 if self.isTagged { self.tag(withSymbol: nil) }
                 else { self._deleteCaption() }
             }

@@ -45,7 +45,9 @@ struct TagView: View {
             else {
                 Image(systemName: "circle")
             }
-        }.frame(width: 30, height: 20)
+        }
+        //.frame(width: 30, height: 20)
+        .font(.system(size: 20))
     }
 }
 

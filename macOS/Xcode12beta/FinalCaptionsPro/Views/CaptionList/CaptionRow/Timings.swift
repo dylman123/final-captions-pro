@@ -42,7 +42,7 @@ struct Timings: View {
                         ZStack {
                             Text(String(format: "%.1f", row.caption.start))
                                 .clickable(app, row, fromView: .startTime)
-                            SelectionBox()
+                            //SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
@@ -58,7 +58,7 @@ struct Timings: View {
                         ZStack {
                             Text(String(format: "%.1f", row.caption.end))
                                 .clickable(app, row, fromView: .endTime)
-                            SelectionBox()
+                            //SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
