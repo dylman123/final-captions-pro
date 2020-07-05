@@ -9,20 +9,18 @@ import SwiftUI
 struct Styler: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var app: AppState
     @Binding var style: Style
+    @State var isPickingColor: Bool = false
+    
     let barThickness: CGFloat = 35
     
     // To format the buttons
     var buttonStyle = BorderlessButtonStyle()
     
     var body: some View {
-        
-//        let colorBinding = Binding (
-//            get: { style.color },
-//            set: { style.color = $0 }
-//        )
                 
-        return ZStack {
+        ZStack {
             RoundedRectangle(cornerRadius: 6)
                 .fill(colorScheme == .dark ? Color.black : Color.white)
                 .frame(height: barThickness)
@@ -42,13 +40,18 @@ struct Styler: View {
                 FontPicker(font: $style.font)
                     .frame(width: 200)
                 
-                ColorPicker("", selection: $style.color, supportsOpacity: true)
-                    .frame(width: barThickness, height: barThickness*0.8)
+                // ColorPicker UX isn't ideal but it works for now
+                Button() { isPickingColor.toggle() }
+                    label: { Image(systemName: "paintpalette.fill") }
+                if isPickingColor {
+                    ColorPicker("", selection: $style.color, supportsOpacity: true)
+                        .frame(width: barThickness, height: barThickness*0.8)
+                }
             }
             .frame(height: barThickness)
             .buttonStyle(buttonStyle)
             .font(.system(size: 20))
-            
+            .onReceive(app.$selectedIndex) { _ in isPickingColor = false }
         }
         .animation(.spring())
     }
