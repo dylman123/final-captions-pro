@@ -137,6 +137,7 @@ struct VideoPlayerControlsView : View {
     @Binding private(set) var seeking: Bool
     
     let player: AVPlayer
+    let fontSize: CGFloat = 20
     
     @State private var playerPaused: Bool = true
     
@@ -149,10 +150,12 @@ struct VideoPlayerControlsView : View {
             }
             // Current video time
             Text("\(Utility.formatSecondsToHMS(videoPos * videoDuration))")
+                .font(.system(size: fontSize*0.7))
             // Slider for seeking / showing video progress
             Slider(value: $videoPos, in: 0...1, onEditingChanged: sliderEditingChanged)
             // Video duration
             Text("\(Utility.formatSecondsToHMS(videoDuration))")
+                .font(.system(size: fontSize*0.7))
             // Seek -15 seconds button
             Button(action: seekBack15) {
                 Image(systemName: "gobackward.15")
@@ -162,6 +165,7 @@ struct VideoPlayerControlsView : View {
                 Image(systemName: "goforward.15")
             }
         }
+        .font(.system(size: fontSize))
         .padding(.leading, 10)
         .padding(.trailing, 10)
         .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
