@@ -21,6 +21,7 @@ struct Tag: View {
                     .clickable(app, row, fromView: .row)
                     .font(.system(size: 20))
                     .foregroundColor(row.caption.style.color)
+                    .brightness(0.3)
                 )
         } else {
             return AnyView(EmptyView())
