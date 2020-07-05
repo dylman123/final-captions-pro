@@ -99,17 +99,23 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
         }
         
         func getRGBA(_ color: Color) -> String {
-            if #available(OSX 11.0, *) {
-                let nsColor = NSColor(color)
-                let R = nsColor.redComponent
-                let G = nsColor.greenComponent
-                let B = nsColor.blueComponent
-                let A = nsColor.alphaComponent
-                return "\(R) \(G) \(B) \(A)"
-            } else {
-                // Fallback on earlier versions
-                return "1 1 1 1"
-            }
+            
+            let nsColor = NSColor(color)
+            let R = nsColor.redComponent
+            let G = nsColor.greenComponent
+            let B = nsColor.blueComponent
+            let A = nsColor.alphaComponent
+            
+//            var red: CGFloat = 0
+//            var green: CGFloat = 0
+//            var blue: CGFloat = 0
+//            var alpha: CGFloat = 0
+//
+//            nsColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+//            print("\(red) \(green) \(blue) \(alpha)")
+//            return("\(red) \(green) \(blue) \(alpha)")
+            print("\(R) \(G) \(B) \(A)")
+            return "\(R) \(G) \(B) \(A)"
         }
         
         func getAlignment(_ alignment: TextAlignment) -> String {

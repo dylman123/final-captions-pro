@@ -13,21 +13,21 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.dylan.OpenCaptionsMaker</string>
+	<string>com.dylan.FinalCaptionsPro</string>
 	<key>PROJECT_ID</key>
 	<string>opencaptionsmaker</string>
 	<key>STORAGE_BUCKET</key>
 	<string>opencaptionsmaker.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:257302180678:ios:e66537b91c88bda1adeb47</string>
 	<key>DATABASE_URL</key>
