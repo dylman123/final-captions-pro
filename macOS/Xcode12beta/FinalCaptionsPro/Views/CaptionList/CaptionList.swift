@@ -158,9 +158,9 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause: self.tag(withSymbol: key)
-            case .edit: ()
-            case .editStartTime: ()  // TODO: Manipulate float as a string
-            case .editEndTime: ()  // TODO: Manipulate float as a string
+            case .edit: self.tag(withSymbol: key)
+            case .editStartTime: self.tag(withSymbol: key)  // TODO: Manipulate float as a string
+            case .editEndTime: self.tag(withSymbol: key)  // TODO: Manipulate float as a string
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
@@ -215,9 +215,15 @@ struct CaptionList: View {
             case .pause:
                 if self.isTagged { self.tag(withSymbol: nil) }
                 else { self._deleteCaption() }
-            case .edit: ()
-            case .editStartTime: ()
-            case .editEndTime: ()
+            case .edit:
+                if self.isTagged { self.tag(withSymbol: nil) }
+                else { self._deleteCaption() }
+            case .editStartTime:
+                if self.isTagged { self.tag(withSymbol: nil) }
+                else { self._deleteCaption() }
+            case .editEndTime:
+                if self.isTagged { self.tag(withSymbol: nil) }
+                else { self._deleteCaption() }
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .spacebar)) { _ in
