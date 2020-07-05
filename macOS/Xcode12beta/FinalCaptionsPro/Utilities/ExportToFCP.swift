@@ -100,22 +100,15 @@ func createXML(forVideo videoURL: URL, withCaptions captionData: [Caption]) -> A
         
         func getRGBA(_ color: Color) -> String {
             
-            let nsColor = NSColor(color)
-            let R = nsColor.redComponent
-            let G = nsColor.greenComponent
-            let B = nsColor.blueComponent
-            let A = nsColor.alphaComponent
+            let nsColor = NSColor(color).usingColorSpace(.sRGB)
+            let R = nsColor!.redComponent
+            let G = nsColor!.greenComponent
+            let B = nsColor!.blueComponent
+            let A = nsColor!.alphaComponent
             
-//            var red: CGFloat = 0
-//            var green: CGFloat = 0
-//            var blue: CGFloat = 0
-//            var alpha: CGFloat = 0
-//
-//            nsColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-//            print("\(red) \(green) \(blue) \(alpha)")
-//            return("\(red) \(green) \(blue) \(alpha)")
-            print("\(R) \(G) \(B) \(A)")
-            return "\(R) \(G) \(B) \(A)"
+            // To 3 decimal places
+            let output = String(format: "%.3f %.3f %.3f %.3f", R, G, B, A)
+            return output
         }
         
         func getAlignment(_ alignment: TextAlignment) -> String {
