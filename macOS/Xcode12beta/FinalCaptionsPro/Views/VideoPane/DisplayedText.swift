@@ -79,12 +79,12 @@ struct DisplayedText: View {
                         position = localPos
                     }
             )
-            // Need to listen to caption position such that when index changes, localPos changes
+            // Need to listen to caption position to update localPos
             .onReceive(app.captions[app.selectedIndex].style.$position) { _ in
-                if app.mode != .play {
+                localPos = position
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { _ in
                     withAnimation { localPos = position }
-                }
-                else { localPos = position }
             }
     }
 }
