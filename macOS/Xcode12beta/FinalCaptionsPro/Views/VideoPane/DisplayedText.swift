@@ -55,6 +55,7 @@ struct DisplayedText: View {
     }
     
     var body: some View {
+        //DraggedText<Text>(displaying: text)
         Text(text)
             .attributes(_bold: bold, _italic: italic, _underline: underline)
             .customFont(name: font, size: size, color: color, alignment: alignment)
@@ -89,6 +90,23 @@ struct DisplayedText: View {
     }
 }
 
+struct DraggedText<Text>: ViewModifier {
+    var displaying: String
+    @State var width: CGFloat = 0
+    @State var height: CGFloat = 0
+    
+    func body(content: Content) -> some View {
+        GeometryReader { geometry in
+            content
+                .onAppear {
+                    width = geometry.size.width
+                    height = geometry.size.height
+                    print(width, height)
+                }
+        }
+    }
+}
+
 //@available(macCatalyst 13, *)
 struct CustomFont: ViewModifier {
     //@Environment(\.sizeCategory) var sizeCategory
@@ -107,7 +125,7 @@ struct CustomFont: ViewModifier {
     }
 }
 
-@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+//@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
 extension View {
     func customFont (name: String, size: CGFloat, color: Color, alignment: TextAlignment) -> some View {
         return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment))
