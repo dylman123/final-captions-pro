@@ -37,15 +37,15 @@ struct VisualOverlay: View {
                     
                     // Caption text is displayed with all its attributes
                     DisplayedText (
-                        text: $caption.text,
-                        font: $caption.style.font,
-                        size: $caption.style.size,
-                        color: $caption.style.color,
+                        text: caption.text,
+                        font: caption.style.font,
+                        size: caption.style.size,
+                        color: caption.style.color,
                         position: $caption.style.position,
-                        alignment: $caption.style.alignment,
-                        bold: $caption.style.bold,
-                        italic: $caption.style.italic,
-                        underline: $caption.style.underline,
+                        alignment: caption.style.alignment,
+                        bold: caption.style.bold,
+                        italic: caption.style.italic,
+                        underline: caption.style.underline,
                         geometry: geometry
                     )
                 }
