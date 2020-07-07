@@ -19,7 +19,7 @@ struct DisplayedText: View {
     var bold: Bool
     var italic: Bool
     var underline: Bool
-    var geometry: GeometryProxy
+    var videoGeometry: GeometryProxy
     @State private var localPos: CGSize = .zero
     
     init (
@@ -43,7 +43,7 @@ struct DisplayedText: View {
         self.bold = bold
         self.italic = italic
         self.underline = underline
-        self.geometry = geometry
+        self.videoGeometry = geometry
         self.localPos = position.wrappedValue
     }
     
@@ -54,12 +54,21 @@ struct DisplayedText: View {
         if localPos.height - textHeight <= -maxHeight { localPos.height = -maxHeight + textHeight }
     }
     
+    @State private var textFrame: CGSize = .zero
+    
     var body: some View {
         //DraggedText<Text>(displaying: text)
+
         Text(text)
             .attributes(_bold: bold, _italic: italic, _underline: underline)
             .customFont(name: font, size: size, color: color, alignment: alignment)
             .offset(x: localPos.width, y: localPos.height)
+            .overlay(
+                GeometryReader { proxy in
+                    Text("")  // Just needs to be some View that isn't an EmptyView()
+                        .onReceive(app.captions[app.selectedIndex].style.$size) { _ in textFrame = proxy.size }
+                }
+            )
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
@@ -70,39 +79,23 @@ struct DisplayedText: View {
 
                         // Keep caption within video frame bounds
                         restrictDrag(
-                            maxWidth: geometry.size.width/2,
-                            maxHeight: geometry.size.height/2,
-                            textWidth: 0/2,
-                            textHeight: 0/2
+                            maxWidth: videoGeometry.size.width/2,
+                            maxHeight: videoGeometry.size.height/2,
+                            textWidth: textFrame.width/2,
+                            textHeight: textFrame.height/2
                         )
                     }
                     .onEnded { _ in
                         position = localPos
                     }
             )
-            // Need to listen to caption position to update localPos
-            .onReceive(app.captions[app.selectedIndex].style.$position) { _ in
-                localPos = position
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { _ in
-                    withAnimation { localPos = position }
-            }
-    }
-}
 
-struct DraggedText<Text>: ViewModifier {
-    var displaying: String
-    @State var width: CGFloat = 0
-    @State var height: CGFloat = 0
-    
-    func body(content: Content) -> some View {
-        GeometryReader { geometry in
-            content
-                .onAppear {
-                    width = geometry.size.width
-                    height = geometry.size.height
-                    print(width, height)
-                }
+        // Need to listen to caption position to update localPos
+        .onReceive(app.captions[app.selectedIndex].style.$position) { _ in
+            localPos = position
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { _ in
+                withAnimation { localPos = position }
         }
     }
 }
@@ -133,8 +126,8 @@ extension View {
 }
 
 extension Text {
-    func attributes (_bold: Bool, _italic: Bool, _underline: Bool) -> some View {
-        
+    func attributes(_bold: Bool, _italic: Bool, _underline: Bool) -> some View {
+
         var modifier: Text = self
         switch _bold {
         case true: modifier = modifier.bold()
@@ -148,10 +141,9 @@ extension Text {
         case true: modifier = modifier.underline()
         case false: ()
         }
-        
+
         return modifier
     }
-    
 }
 
 //struct DisplayedText_Previews: PreviewProvider {
