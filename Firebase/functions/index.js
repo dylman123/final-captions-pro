@@ -75,7 +75,7 @@ exports.audioToCaptions = functions
     const config = {
         enableWordTimeOffsets: true,
         enableSpeakerDiarization: true,
-        diarizationSpeakerCount: 2,
+        diarizationSpeakerCount: 2,  // may want to make this a user input with default = 2
         //encoding: none, // Don't need explicit encoding for WAV format
         //sampleRateHertz: 44100,  // Don't need explicit sampleRateHertz for WAV format
         languageCode: 'en-US', // 'BCP-47 language code, e.g. en-US'
