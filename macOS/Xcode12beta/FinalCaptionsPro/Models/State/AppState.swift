@@ -49,14 +49,6 @@ class AppState: ObservableObject {
         NotificationCenter.default.post(name: notification, object: nil)
     }
     
-    // Play video segment
-    func playSegment() -> Void {
-        let startTime = Double(captions[selectedIndex].start)
-        let endTime = Double(captions[selectedIndex].end)
-        let segTime = (startTime, endTime)
-        NotificationCenter.default.post(name: .playSegment, object: segTime)
-    }
-    
     init(mode: Mode = .pause) {
         self.mode = mode
     }

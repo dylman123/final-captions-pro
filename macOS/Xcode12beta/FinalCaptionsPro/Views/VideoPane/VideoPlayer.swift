@@ -194,45 +194,21 @@ struct VideoPlayerControlsView : View {
             let newPos = Double(app.captions[app.selectedIndex].start) / videoDuration
             self.seek(to: newPos)
         }
-//         .onReceive(NotificationCenter.default.publisher(for: .playSegment)) { seg in
-//            let (start, end) = seg.object as! (Double, Double)
-//            print(start, end)
-//
-//            // Reset player to paused
-//            self.pausePlayer(true)
-//
-//            // Check for start of the segment on background thread
-////            DispatchQueue.global(qos: .userInitiated).async {
-////                var startTimeChecker: Double = 0.0
-////                repeat {
-////                    startTimeChecker = videoPos * videoDuration
-////                    print("startTimeChecker: ", startTimeChecker)
-////                } while startTimeChecker > start
-////
-////                // Start player on main thread
-////                DispatchQueue.main.async {
-////                    self.pausePlayer(false)
-////                }
-////            }
-////
-//            self.pausePlayer(false)
-//
-//            // Check for end of the segment on background thread
-//            DispatchQueue.global(qos: .default).async {
-//                var endTimeChecker: Double = 0.0
-//                var i = 0
-//                repeat {
-//                    endTimeChecker = videoPos * videoDuration
-//                    print(i, "endTimeChecker: ", endTimeChecker)
-//                    i+=1
-//                } while endTimeChecker < end
-//
-//                // Pause player on main thread
-//                DispatchQueue.main.async {
-//                    self.pausePlayer(true)
-//                }
-//            }
-//        }
+        .onReceive(NotificationCenter.default.publisher(for: .playSegment)) { _ in
+            // Play the player whilst the app is in .pause mode
+            pausePlayer(false)
+        }
+        .onReceive(app.$videoPos) { _ in
+            // Ensure that the app is in .pause mode only
+            // Update: allow for .edit modes just in case
+            guard app.mode != .play else { return }
+            let timestamp = app.videoPos * app.videoDuration
+            let end = app.captions[app.selectedIndex].end
+            // If timestamp passes the end time val, pause playback
+            if timestamp > Double(end) {
+                pausePlayer(true)
+            }
+        }
     }
     
     private func seekBack15() -> Void {
