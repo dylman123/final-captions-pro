@@ -196,16 +196,20 @@ struct VideoPlayerControlsView : View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .playSegment)) { _ in
             // Play the player whilst the app is in .pause mode
+            app.videoPos = Double(app.captions[app.selectedIndex].start) / videoDuration
+            print(Double(app.captions[app.selectedIndex].start))
             pausePlayer(false)
         }
         .onReceive(app.$videoPos) { _ in
-            // Ensure that the app is in .pause mode only
-            // Update: allow for .edit modes just in case
-            guard app.mode != .play else { return }
+            // To catch and stop playback at the end of segment
+            guard app.mode != .play else { return }  // Ensure that the app is not in .play mode
+            sleep(UInt32(0.1))
             let timestamp = app.videoPos * app.videoDuration
             let end = app.captions[app.selectedIndex].end
             // If timestamp passes the end time val, pause playback
-            if timestamp > Double(end) {
+            let buffer: Double = 0.5  // a buffer (for improved UX) in seconds
+            print(timestamp, Double(end) - buffer)
+            if timestamp > Double(end) - buffer {
                 pausePlayer(true)
             }
         }

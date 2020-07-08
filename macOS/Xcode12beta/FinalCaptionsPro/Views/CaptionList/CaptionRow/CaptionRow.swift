@@ -55,7 +55,7 @@ func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Voi
     state.isListControlling = true
     
     // Play video segment for better UX
-    if state.mode == .pause {
+    if state.mode == .edit {
         NotificationCenter.default.post(name: .playSegment, object: nil)
     }
 }
@@ -169,6 +169,8 @@ struct CaptionRow: View {
             HStack(alignment: .center) {
                 if props.isSelected {
                     Timings()
+//                    Spacer()
+                    RepeatButton().offset(x: -20)
                     Spacer()
                     TextView()
                     Spacer()
