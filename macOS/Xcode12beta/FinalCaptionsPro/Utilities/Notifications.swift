@@ -35,11 +35,11 @@ extension Notification.Name {
     // Video and list sync
     static let seekVideo = Notification.Name("seekVideo")
     static let seekList = Notification.Name("seekList")
+    static let playSegment = Notification.Name("playSegment")
     
     // Scrolling logic
     static let nextPage = Notification.Name("nextPage")
     static let prevPage = Notification.Name("prevPage")
-    static let scroll = Notification.Name("scroll")
     
     // UI refresh
     static let updateStyle = Notification.Name("updateStyle")

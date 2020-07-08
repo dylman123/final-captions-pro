@@ -184,14 +184,16 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
-            case .pause, .edit: self.incrementSelectedIndex(); self.app.syncVideoAndList(isListControlling: true)
+            case .pause, .edit: self.incrementSelectedIndex();
+                app.isListControlling = true
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
-            case .pause, .edit: self.decrementSelectedIndex(); self.app.syncVideoAndList(isListControlling: true)
+            case .pause, .edit: self.decrementSelectedIndex();
+                app.isListControlling = true
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
@@ -251,28 +253,11 @@ struct CaptionList: View {
             case .editStartTime, .editEndTime: self.app.transition(to: .edit)
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
-            DispatchQueue.global(qos: .background).async {
-                while self.app.mode == .play {
-                    self.app.syncVideoAndList(isListControlling: false)
-                }
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .seekList)) { notification in
-            let newIndex = notification.object as! Int
-            
-            // If the video playback has transitioned to the next caption
-            if newIndex == self.app.selectedIndex + 1 {
-                self.incrementSelectedIndex()
-            }
-                
-            // If the video playback has not transitioned to the next caption
-            else if newIndex == self.app.selectedIndex {}
-            
-            // If the video is seeking
-            else {
-                withAnimation { self.goToIndex(target: newIndex) }
-            }
+        .onReceive(app.$videoPos) { _ in
+            guard app.isListControlling == false else { return }
+            let timestamp = app.videoPos * app.videoDuration
+            let newIndex = app.captions.firstIndex(where: { Double($0.end) >= timestamp }) ?? 0
+            goToIndex(target: newIndex)
         }
     }
 }

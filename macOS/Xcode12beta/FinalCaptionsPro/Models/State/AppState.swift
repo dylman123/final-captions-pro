@@ -39,6 +39,9 @@ class AppState: ObservableObject {
     //@Published var videoURL: URL?
     @Published var videoURL = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v")
     
+    // To control whether the list controls video or vice versa
+    @Published var isListControlling: Bool = false
+    
     // Set state within the application
     func transition(to newState: Mode) -> Void {
         mode = newState
@@ -46,20 +49,12 @@ class AppState: ObservableObject {
         NotificationCenter.default.post(name: notification, object: nil)
     }
     
-    // Sync video playback with list index
-    func syncVideoAndList(isListControlling: Bool) -> Void {
-        let timestamp = videoPos * videoDuration
-        let inferredVideoPos = Double(captions[selectedIndex].start) / videoDuration
-        let inferredIndex = captions.firstIndex(where: { Double($0.end) >= timestamp }) ?? 0
-        
-        DispatchQueue.main.async {
-            if isListControlling {
-                NotificationCenter.default.post(name: .seekVideo, object: inferredVideoPos)
-            }
-            else if !isListControlling {
-                NotificationCenter.default.post(name: .seekList, object: inferredIndex)
-            }
-        }
+    // Play video segment
+    func playSegment() -> Void {
+        let startTime = Double(captions[selectedIndex].start)
+        let endTime = Double(captions[selectedIndex].end)
+        let segTime = (startTime, endTime)
+        NotificationCenter.default.post(name: .playSegment, object: segTime)
     }
     
     init(mode: Mode = .pause) {

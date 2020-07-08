@@ -169,6 +169,7 @@ struct VideoPlayerControlsView : View {
         .padding(.leading, 10)
         .padding(.trailing, 10)
         .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
+            app.isListControlling = false
             self.pausePlayer(false)
         }
         .onReceive(NotificationCenter.default.publisher(for: .pause)) { _ in
@@ -186,21 +187,66 @@ struct VideoPlayerControlsView : View {
             case .edit, .editStartTime, .editEndTime: ()
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .seekVideo)) { newPos in
-            self.seek(to: newPos.object as! Double, isListControlling: true)
+        .onReceive(app.$selectedIndex) { _ in
+            // On startup videoDuration == 0.0 which results in a division by 0
+            guard videoDuration > 0.0 else { return }
+            guard app.isListControlling == true else { return }
+            let newPos = Double(app.captions[app.selectedIndex].start) / videoDuration
+            self.seek(to: newPos)
         }
+//         .onReceive(NotificationCenter.default.publisher(for: .playSegment)) { seg in
+//            let (start, end) = seg.object as! (Double, Double)
+//            print(start, end)
+//
+//            // Reset player to paused
+//            self.pausePlayer(true)
+//
+//            // Check for start of the segment on background thread
+////            DispatchQueue.global(qos: .userInitiated).async {
+////                var startTimeChecker: Double = 0.0
+////                repeat {
+////                    startTimeChecker = videoPos * videoDuration
+////                    print("startTimeChecker: ", startTimeChecker)
+////                } while startTimeChecker > start
+////
+////                // Start player on main thread
+////                DispatchQueue.main.async {
+////                    self.pausePlayer(false)
+////                }
+////            }
+////
+//            self.pausePlayer(false)
+//
+//            // Check for end of the segment on background thread
+//            DispatchQueue.global(qos: .default).async {
+//                var endTimeChecker: Double = 0.0
+//                var i = 0
+//                repeat {
+//                    endTimeChecker = videoPos * videoDuration
+//                    print(i, "endTimeChecker: ", endTimeChecker)
+//                    i+=1
+//                } while endTimeChecker < end
+//
+//                // Pause player on main thread
+//                DispatchQueue.main.async {
+//                    self.pausePlayer(true)
+//                }
+//            }
+//        }
     }
     
     private func seekBack15() -> Void {
-        seek(to: videoPos - 15.0 / videoDuration, isListControlling: false)
+        app.isListControlling = false
+        seek(to: videoPos - 15.0 / videoDuration)
     }
     
     private func seekAhead15() -> Void {
-        seek(to: videoPos + 15.0 / videoDuration, isListControlling: false)
+        app.isListControlling = false
+        seek(to: videoPos + 15.0 / videoDuration)
     }
     
-    private func seek(to newPos: Double, isListControlling: Bool) -> Void {
-        switch isListControlling {
+    private func seek(to newPos: Double) -> Void {
+        switch app.isListControlling {
         case true: ()
         case false: sliderEditingChanged(editingStarted: true)
         }
@@ -209,7 +255,7 @@ struct VideoPlayerControlsView : View {
         else if newPos > 1 { videoPos = 1 }
         else { videoPos = newPos }
         
-        switch isListControlling {
+        switch app.isListControlling {
         case true: listEditingChanged()
         case false: sliderEditingChanged(editingStarted: false)
         }
@@ -247,8 +293,7 @@ struct VideoPlayerControlsView : View {
             player.seek(to: targetTime) { _ in
                 // Now the seek is finished, resume normal operation
                 self.seeking = false
-                //app.transition(to: .play)
-                self.app.syncVideoAndList(isListControlling: false)
+                app.isListControlling = false
             }
         }
     }

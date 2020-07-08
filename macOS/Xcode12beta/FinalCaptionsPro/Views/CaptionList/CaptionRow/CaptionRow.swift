@@ -13,7 +13,8 @@ func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Voi
     case .row:
         switch state.mode {
         case .play: state.transition(to: .pause)
-        case .pause: if props.isSelected { state.transition(to: .edit) }
+        case .pause:
+            if props.isSelected { state.transition(to: .edit) }
         case .edit: state.transition(to: .pause)
         case .editStartTime: state.transition(to: .pause)
         case .editEndTime: state.transition(to: .pause)
@@ -21,7 +22,8 @@ func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Voi
     case .text:
         switch state.mode {
         case .play: state.transition(to: .pause)
-        case .pause: if props.isSelected { state.transition(to: .edit) }
+        case .pause:
+            if props.isSelected { state.transition(to: .edit) }
         case .edit: ()
         case .editStartTime: state.transition(to: .edit)
         case .editEndTime: state.transition(to: .edit)
@@ -29,7 +31,8 @@ func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Voi
     case .startTime:
         switch state.mode {
         case .play: state.transition(to: .pause)
-        case .pause: if props.isSelected { state.transition(to: .editStartTime) }
+        case .pause:
+            if props.isSelected { state.transition(to: .editStartTime) }
         case .edit: state.transition(to: .editStartTime)
         case .editStartTime: ()
         case .editEndTime: state.transition(to: .editStartTime)
@@ -37,14 +40,24 @@ func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Voi
     case .endTime:
         switch state.mode {
         case .play: state.transition(to: .pause)
-        case .pause: if props.isSelected { state.transition(to: .editEndTime) }
+        case .pause:
+            if props.isSelected { state.transition(to: .editEndTime) }
         case .edit: state.transition(to: .editEndTime)
         case .editStartTime: state.transition(to: .editEndTime)
         case .editEndTime: ()
         }
     }
-    state.selectedIndex = props.index  // Calling caption becomes selected
-    state.syncVideoAndList(isListControlling: true)
+    
+    // Calling caption becomes selected
+    state.selectedIndex = props.index
+    
+    // Update video player position
+    state.isListControlling = true
+    
+    // Play video segment for better UX
+    if state.mode == .pause && !props.isSelected {
+        state.playSegment()
+    }
 }
 
 // ViewModifier allows each subview to be clicked once or twice (when appropriate)
