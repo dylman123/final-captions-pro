@@ -11,10 +11,25 @@ struct CaptionList: View {
     
     // Handle app state
     @EnvironmentObject var app: AppState
+    let numCaptionsOnPage: Int = 12
     
     func goToIndex(target: Int) {
+        
+        // Check if the target index is on a new page
+        let distanceToNextPage = numCaptionsOnPage - (app.selectedIndex % numCaptionsOnPage)
+        let distanceToPrevPage = distanceToNextPage - numCaptionsOnPage
+        let delta = target - app.selectedIndex
+        let isOnFuturePage: Bool = (delta >= distanceToNextPage)
+        let isOnPrevPage: Bool = (delta < distanceToPrevPage)
+        
         // Scroll to new target index
-        NotificationCenter.default.post(name: .scroll, object: target)
+        if isOnFuturePage {
+            NotificationCenter.default.post(name: .nextPage, object: target)
+        }
+        if isOnPrevPage {
+            NotificationCenter.default.post(name: .prevPage, object: target)
+        }
+        
         // Set the new selectedIndex
         app.selectedIndex = target
     }
@@ -137,11 +152,18 @@ struct CaptionList: View {
                         .padding(.vertical, 5)
                         .id(caption.id)
                 }
-                .onReceive(NotificationCenter.default.publisher(for: .scroll)) { target in
+                .onReceive(NotificationCenter.default.publisher(for: .nextPage)) { target in
                     guard target.object != nil else { return }
                     let scrollTarget = target.object as! Int
                     withAnimation {
-                        value.scrollTo(scrollTarget, anchor: .center)
+                        value.scrollTo(scrollTarget, anchor: .top)
+                    }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .prevPage)) { target in
+                    guard target.object != nil else { return }
+                    let scrollTarget = target.object as! Int
+                    withAnimation {
+                        value.scrollTo(scrollTarget, anchor: .bottom)
                     }
                 }
             }

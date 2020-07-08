@@ -20,7 +20,9 @@ struct DisplayedText: View {
     var italic: Bool
     var underline: Bool
     var videoGeometry: GeometryProxy
+    
     @State private var localPos: CGSize = .zero
+    @State private var textFrame: CGSize = .zero
     
     init (
         text: String,
@@ -54,10 +56,7 @@ struct DisplayedText: View {
         if localPos.height - textHeight <= -maxHeight { localPos.height = -maxHeight + textHeight }
     }
     
-    @State private var textFrame: CGSize = .zero
-    
     var body: some View {
-        //DraggedText<Text>(displaying: text)
 
         Text(text)
             .attributes(_bold: bold, _italic: italic, _underline: underline)

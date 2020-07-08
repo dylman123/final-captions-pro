@@ -9,6 +9,8 @@ import Foundation
 
 // Custom notifications to send instructions between (and within) views
 extension Notification.Name {
+    
+    // Keyboard presses
     static let plus = Notification.Name("plus")
     static let minus = Notification.Name("minus")
     static let downArrow = Notification.Name("downArrow")
@@ -22,16 +24,28 @@ extension Notification.Name {
     static let fwdDelete = Notification.Name("fwdDelete")
     static let escape = Notification.Name("escape")
     static let character = Notification.Name("character")
+    
+    // App modes
     static let play = Notification.Name("play")
     static let pause = Notification.Name("pause")
     static let edit = Notification.Name("edit")
+    static let editStartTime = Notification.Name("editStartTime")
+    static let editEndTime = Notification.Name("editEndTime")
+    
+    // Video and list sync
     static let seekVideo = Notification.Name("seekVideo")
     static let seekList = Notification.Name("seekList")
+    
+    // Scrolling logic
     static let nextPage = Notification.Name("nextPage")
     static let prevPage = Notification.Name("prevPage")
+    static let scroll = Notification.Name("scroll")
+    
+    // UI refresh
     static let updateStyle = Notification.Name("updateStyle")
     static let updateColor = Notification.Name("updateColor")
-    static let scroll = Notification.Name("scroll")
+    
+    // Convenience user actions
     static let undo = Notification.Name("undo")
     static let copy = Notification.Name("copy")
     static let paste = Notification.Name("paste")
