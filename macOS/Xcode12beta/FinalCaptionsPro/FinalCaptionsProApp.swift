@@ -62,9 +62,12 @@ struct FinalCaptionsProApp: App {
     var body: some Scene {
         WindowGroup {
             //ContentView().environmentObject(AppState())
-            Text("Welcome to Final Captions Pro.")
-                .scaledToFill()
-                .padding()
+            ZStack {
+                //Image("welcome.png", bundle: .main)
+                Text("Welcome to Final Captions Pro.")
+            }
+            .scaledToFill()
+            .padding()
         }
     }
 }
