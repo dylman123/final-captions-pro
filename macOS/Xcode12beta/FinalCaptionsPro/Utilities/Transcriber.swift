@@ -285,8 +285,9 @@ class Transcriber: ObservableObject {
     // Adjust timing for better readability / usability
     func adjustCaptionTimings(captions: [Caption]) {
         var array = captions
-        let buffer: Float = 0.5  // in seconds
-        let offset: Float = 0.1  // in seconds
+        let buffer: Float = 0.5  // the time for a caption to linger if followed by a pause (in seconds)
+        let offset: Float = 0.1  // a fixed delay to add to every caption (in seconds)
+        let minDuration: Float = 0.5  // allows for better UX and readability (in seconds)
         
         for idx in 0..<array.count {
             // If not the last caption in the array
@@ -302,6 +303,10 @@ class Transcriber: ObservableObject {
             
             // Adjust duration values
             array[idx].duration = array[idx].end - array[idx].start
+            if array[idx].duration < minDuration {  // Ensure minimum duration
+                array[idx].end = array[idx].start + minDuration
+                array[idx].duration = minDuration
+            }
         }
         self.captions = array
     }

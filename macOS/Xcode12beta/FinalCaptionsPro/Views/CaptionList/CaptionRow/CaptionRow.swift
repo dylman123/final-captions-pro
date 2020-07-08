@@ -55,7 +55,7 @@ func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Voi
     state.isListControlling = true
     
     // Play video segment for better UX
-    if state.mode == .pause && !props.isSelected {
+    if state.mode == .pause {
         NotificationCenter.default.post(name: .playSegment, object: nil)
     }
 }

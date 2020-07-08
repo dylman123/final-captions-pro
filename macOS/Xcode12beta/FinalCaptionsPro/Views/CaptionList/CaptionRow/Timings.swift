@@ -12,15 +12,7 @@ struct Timings: View {
     // Constants
     let timeWidth = CGFloat(100.0)
     let timePadding = CGFloat(20.0)
-    
-    // To format the time values in text
-//    var timeFormatter: NumberFormatter {
-//        let formatter = NumberFormatter()
-//        formatter.minimumFractionDigits = 1
-//        formatter.maximumFractionDigits = 1
-//        return formatter
-//    }
-    
+        
     // Variables
     @EnvironmentObject var app: AppState
     @EnvironmentObject var row: RowProperties
@@ -38,11 +30,10 @@ struct Timings: View {
                     
                 // Start Time
                 if app.mode == .editStartTime {
-                    Stepper(value: binding.start, step: -0.1) {
+                    Stepper(value: binding.start, step: 0.1) {
                         ZStack {
                             Text(String(format: "%.1f", row.caption.start))
                                 .clickable(app, row, fromView: .startTime)
-                            //SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
@@ -54,11 +45,10 @@ struct Timings: View {
                 
                 // End Time
                 if app.mode == .editEndTime {
-                    Stepper(value: binding.end, step: -0.1) {
+                    Stepper(value: binding.end, step: 0.1) {
                         ZStack {
                             Text(String(format: "%.1f", row.caption.end))
                                 .clickable(app, row, fromView: .endTime)
-                            //SelectionBox()
                         }
                     }
                     .padding(.leading, timePadding)
