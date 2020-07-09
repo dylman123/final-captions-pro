@@ -52,6 +52,7 @@
 		A3B6536224AC1E3E0005275B /* fcpxml-v1.8.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A3B6536124AC1E3E0005275B /* fcpxml-v1.8.dtd */; };
 		A3B6536424AC1E650005275B /* title.fcpxml in Resources */ = {isa = PBXBuildFile; fileRef = A3B6536324AC1E650005275B /* title.fcpxml */; };
 		A3BD96CD24ADFA1A00C9F716 /* DisplayedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BD96CC24ADFA1A00C9F716 /* DisplayedText.swift */; };
+		A3BFA3CF24B731EF002BFF90 /* ExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BFA3CE24B731EF002BFF90 /* ExportButton.swift */; };
 		C82D8F0FB6C810FC7A09A2CF /* Pods_FinalCaptionsProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C59C734BFB2219497B4D5C07 /* Pods_FinalCaptionsProTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -129,6 +130,7 @@
 		A3B6536124AC1E3E0005275B /* fcpxml-v1.8.dtd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "fcpxml-v1.8.dtd"; sourceTree = "<group>"; };
 		A3B6536324AC1E650005275B /* title.fcpxml */ = {isa = PBXFileReference; lastKnownFileType = text; path = title.fcpxml; sourceTree = "<group>"; };
 		A3BD96CC24ADFA1A00C9F716 /* DisplayedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedText.swift; sourceTree = "<group>"; };
+		A3BFA3CE24B731EF002BFF90 /* ExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportButton.swift; sourceTree = "<group>"; };
 		C59C734BFB2219497B4D5C07 /* Pods_FinalCaptionsProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalCaptionsProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7EE43DDECFB900C96E9F4B4 /* Pods-FinalCaptionsProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalCaptionsProTests.release.xcconfig"; path = "Target Support Files/Pods-FinalCaptionsProTests/Pods-FinalCaptionsProTests.release.xcconfig"; sourceTree = "<group>"; };
 		EAF44B5F091339424A9AD2F2 /* Pods-FinalCaptionsPro-FinalCaptionsProUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalCaptionsPro-FinalCaptionsProUITests.debug.xcconfig"; path = "Target Support Files/Pods-FinalCaptionsPro-FinalCaptionsProUITests/Pods-FinalCaptionsPro-FinalCaptionsProUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -252,10 +254,11 @@
 		A3A8CEC424AB051200F77754 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A3A8CECC24AB06BA00F77754 /* ImportWizard */,
+				A3A8CECA24AB059500F77754 /* ContentView.swift */,
 				A3A8CECD24AB070E00F77754 /* VideoPane */,
 				A3A8CECE24AB071B00F77754 /* CaptionList */,
-				A3A8CECA24AB059500F77754 /* ContentView.swift */,
+				A3A8CECC24AB06BA00F77754 /* ImportWizard */,
+				A3BFA3CD24B73198002BFF90 /* ExportWizard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -364,6 +367,14 @@
 				A3B6535D24AC1DD00005275B /* FakeVideoExample.swift */,
 			);
 			path = ExampleInputs;
+			sourceTree = "<group>";
+		};
+		A3BFA3CD24B73198002BFF90 /* ExportWizard */ = {
+			isa = PBXGroup;
+			children = (
+				A3BFA3CE24B731EF002BFF90 /* ExportButton.swift */,
+			);
+			path = ExportWizard;
 			sourceTree = "<group>";
 		};
 		CC650DA2E6E9B6005F02C30E /* Pods */ = {
@@ -635,6 +646,7 @@
 				A3A8CED724AB07F100F77754 /* AppState.swift in Sources */,
 				A33334D624ADF4B500C553DC /* Styler.swift in Sources */,
 				A3A8CEED24AB098100F77754 /* Tag.swift in Sources */,
+				A3BFA3CF24B731EF002BFF90 /* ExportButton.swift in Sources */,
 				A3A8CEF324AB09B500F77754 /* PlusMinus.swift in Sources */,
 				A3A8CEDB24AB087B00F77754 /* FileSelector.swift in Sources */,
 				A3A8CEF924AB0A3200F77754 /* ExportToFCP.swift in Sources */,

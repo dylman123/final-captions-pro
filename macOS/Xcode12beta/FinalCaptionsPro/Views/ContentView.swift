@@ -15,8 +15,7 @@ struct ContentView: View {
     
     // To refresh the UI when app state changes
     @EnvironmentObject var app: AppState
-    @State private var showFileInput: Bool = true
-    @State private var showExportLabel: Bool = true
+    @State private var showFileInput: Bool = false
     
     // Test video
     var testVideo: URL? {
@@ -40,8 +39,6 @@ struct ContentView: View {
         HStack {
             
             VStack {
-                //Text("State: \(stateLabel)")  // uncomment to test state in app
-                
                 // Video player
                 if app.videoURL != nil {
                     VideoPlayer(url: app.videoURL)
@@ -52,26 +49,8 @@ struct ContentView: View {
             .padding(.horizontal, 25)
             
             VStack {
-                
-                // Finish review button
-                HStack {
-                    Spacer()
-                    if showExportLabel { Text("Export to Final Cut Pro") }
-                    Button {
-                        finishReview(inAppState: self.app, andSaveFileAs: URL(fileURLWithPath: "/Users/dylanklein/Desktop/OpenCaptionsMaker/test.fcpxml"))
-                    } label: {
-                        Image(systemName: "greaterthan")
-                    }
-                }
-                .offset(y: 20)
-//                // A bug in Swift 5.3?
-//                .onHover { _ in
-//                    showExportLabel.toggle()
-//                    print(showExportLabel)
-//                }
-                
+                ExportButton()
                 Spacer()
-                
                 // Captions list
                 Headers()
                 CaptionList()
