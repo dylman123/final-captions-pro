@@ -211,7 +211,7 @@ struct VideoPlayerControlsView : View {
             let timestamp = app.videoPos * app.videoDuration
             let end = app.captions[app.selectedIndex].end
             // If timestamp passes the end time val, pause playback
-            let buffer: Double = 0.5  // a buffer (for improved UX) in seconds
+            let buffer: Double = 0.7  // a buffer (for improved UX) in seconds
             if timestamp > Double(end) - buffer {
                 pausePlayer(true)
             }

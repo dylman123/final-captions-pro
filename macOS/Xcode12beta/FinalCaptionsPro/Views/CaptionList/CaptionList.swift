@@ -217,7 +217,10 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause, .editStartTime, .editEndTime: self.app.transition(to: .edit)
-            case .edit: NotificationCenter.default.post(name: .downArrow, object: nil)
+            case .edit:
+                // Intended behaviour is to go to next caption and play segment
+                NotificationCenter.default.post(name: .downArrow, object: nil)
+                NotificationCenter.default.post(name: .edit, object: nil)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .tab)) { _ in

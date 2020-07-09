@@ -286,7 +286,7 @@ class Transcriber: ObservableObject {
     func adjustCaptionTimings(captions: [Caption]) {
         var array = captions
         let buffer: Float = 0.5  // the time for a caption to linger if followed by a pause (in seconds)
-        let offset: Float = 0.1  // a fixed delay to add to every caption (in seconds)
+        let offset: Float = 0  // a fixed delay to add to every caption (in seconds)
         let minDuration: Float = 0.5  // allows for better UX and readability (in seconds)
         
         for idx in 0..<array.count {
