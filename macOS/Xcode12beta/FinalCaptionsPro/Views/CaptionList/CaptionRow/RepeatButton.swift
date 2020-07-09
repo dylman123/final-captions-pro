@@ -20,22 +20,25 @@ struct RepeatButton: View {
     
     var body: some View {
         
-        if isDisplayed {
-            return AnyView (
-                Button {
-                    // Need to republish to selected index in order to update videoPos
-                    app.selectedIndex = row.index
-                    
-                    NotificationCenter.default.post(name: .playSegment, object: nil)
-                } label: {
-                    Image(systemName: "repeat")
-                }.buttonStyle(BorderlessButtonStyle())
-            )
-        } else {
-            return AnyView (
-                EmptyView()
-            )
+        Group<AnyView> {
+            
+            if isDisplayed {
+                return AnyView (
+                    Button {
+                        // Mimic a transition back to edit mode to trigger a repeat
+                        NotificationCenter.default.post(name: .edit, object: nil)
+                    } label: {
+                        Image(systemName: "repeat")
+                    }.buttonStyle(BorderlessButtonStyle())
+                )
+            } else {
+                return AnyView (
+                    EmptyView()
+                )
+            }
+            
         }
+        .offset(x: 20)
     }
 }
 

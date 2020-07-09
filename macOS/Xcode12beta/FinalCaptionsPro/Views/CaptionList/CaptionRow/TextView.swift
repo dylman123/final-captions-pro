@@ -10,7 +10,7 @@ import SwiftUI
 struct TextView: View {
     
     // Constants
-    let textWidth = CGFloat(300.0)
+    let textWidth = CGFloat(250.0)
     let textOffset = CGFloat(-40.0)
     let deltaOffset = CGFloat(6.0)
     
@@ -23,38 +23,43 @@ struct TextView: View {
         return $app.captions[row.index]
     }
     
+    // Horizontal adjustment
+    var horizontalAdjuster: CGFloat {
+        if !row.isSelected { return textOffset }
+        switch app.mode {
+        case .play: return textOffset
+        case .pause: return textOffset + 6
+        case .edit: return textOffset - 5
+        case .editStartTime: return textOffset - 5
+        case .editEndTime: return textOffset - 5
+        }
+    }
+    
     var body: some View {
         
-        if row.isSelected {
-            // Caption text
-            return AnyView(ZStack {
-                if app.mode == .edit {
-                    TextField(row.caption.text, text: binding.text, onCommit: {
-                        guard binding.text.wrappedValue != "" else { return }
-                        NotificationCenter.default.post(name: .returnKey, object: nil)
-                    })
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                } else {
-                    Text(row.caption.text)
-                }
+        Group<AnyView> {
+            if row.isSelected {
+                // Caption text
+                return AnyView(ZStack {
+                    if app.mode == .edit {
+                        TextField(row.caption.text, text: binding.text, onCommit: {
+                            guard binding.text.wrappedValue != "" else { return }
+                            NotificationCenter.default.post(name: .returnKey, object: nil)
+                        })
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    } else {
+                        Text(row.caption.text)
+                    }
+                })
+            
             }
-            .multilineTextAlignment(.center)
-            .lineLimit(2)
-            .clickable(app, row, fromView: .text)
-            .offset(x: textOffset + deltaOffset)
-            .frame(width: textWidth)
-            )
-        
+            else { return AnyView(Text(row.caption.text)) }
         }
-        else {
-            return AnyView(Text(row.caption.text)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .frame(width: textWidth)
-                .offset(x: textOffset)
-                .clickable(app, row, fromView: .text)
-            )
-        }
+        .offset(x: horizontalAdjuster)
+        .multilineTextAlignment(.center)
+        .lineLimit(2)
+        .clickable(app, row, fromView: .text)
+        .frame(width: textWidth)
     }
 }
 

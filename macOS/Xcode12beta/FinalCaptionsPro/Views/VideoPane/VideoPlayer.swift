@@ -168,25 +168,36 @@ struct VideoPlayerControlsView : View {
         .font(.system(size: fontSize))
         .padding(.leading, 10)
         .padding(.trailing, 10)
+        // Start the player
         .onReceive(NotificationCenter.default.publisher(for: .play)) { _ in
             app.isListControlling = false
             self.pausePlayer(false)
         }
+        // Pause the player
         .onReceive(NotificationCenter.default.publisher(for: .pause)) { _ in
             self.pausePlayer(true)
         }
+        // Play a caption segment whilst the app is in .edit mode
+        .onReceive(NotificationCenter.default.publisher(for: .edit)) { _ in
+            let newPos = Double(app.captions[app.selectedIndex].start) / videoDuration
+            self.seek(to: newPos)
+            pausePlayer(false)
+        }
+        // Seek back 15 seconds
         .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
             switch self.app.mode {
             case .play, .pause: self.seekBack15()
             case .edit, .editStartTime, .editEndTime: ()
             }
         }
+        // Seek ahead 15 seconds
         .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
             switch self.app.mode {
             case .play, .pause: self.seekAhead15()
             case .edit, .editStartTime, .editEndTime: ()
             }
         }
+        // To update the video position based on recent changes to selectedIndex
         .onReceive(app.$selectedIndex) { _ in
             // On startup videoDuration == 0.0 which results in a division by 0
             guard videoDuration > 0.0 else { return }
@@ -194,13 +205,8 @@ struct VideoPlayerControlsView : View {
             let newPos = Double(app.captions[app.selectedIndex].start) / videoDuration
             self.seek(to: newPos)
         }
-        .onReceive(NotificationCenter.default.publisher(for: .playSegment)) { _ in
-            // Play the player whilst the app is in .pause mode
-            app.videoPos = Double(app.captions[app.selectedIndex].start) / videoDuration
-            pausePlayer(false)
-        }
+        // To catch and stop playback at the end of segment
         .onReceive(app.$videoPos) { _ in
-            // To catch and stop playback at the end of segment
             guard app.mode != .play else { return }  // Ensure that the app is not in .play mode
             let timestamp = app.videoPos * app.videoDuration
             let end = app.captions[app.selectedIndex].end

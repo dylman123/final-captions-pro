@@ -169,7 +169,6 @@ struct CaptionRow: View {
             HStack(alignment: .center) {
                 if props.isSelected {
                     Timings()
-//                    Spacer()
                     RepeatButton().offset(x: -20)
                     Spacer()
                     TextView()
@@ -195,20 +194,30 @@ struct CaptionRow_Previews: PreviewProvider {
     static var playState = AppState(mode: .play)
     static var pauseState = AppState(mode: .pause)
     static var editState = AppState(mode: .edit)
+    static var editStart = AppState(mode: .editStartTime)
+    static var editEnd = AppState(mode: .editEndTime)
+    static var nonSelect = AppState()
     static var index: Int = 0
 
     static var previews: some View {
         
         VStack(spacing: 40) {
             Spacer()
-            CaptionRow(caption: Caption())
+            CaptionRow(caption: Caption(text: "Mary had a little lamb"))
                 .environmentObject(playState)
-            CaptionRow(caption: Caption())
+            CaptionRow(caption: Caption(text: "Mary had a little lamb"))
                 .environmentObject(pauseState)
-            CaptionRow(caption: Caption())
+            CaptionRow(caption: Caption(id: 1, text: "Mary had a little lamb"))
+                .environmentObject(nonSelect)
+            CaptionRow(caption: Caption(text: "testing"))
                 .environmentObject(editState)
+            CaptionRow(caption: Caption(text: "Mary had a little lamb"))
+                .environmentObject(editStart)
+            CaptionRow(caption: Caption(text: "Mary had a little lamb"))
+                .environmentObject(editEnd)
             Spacer()
         }
+        .frame(width: 1600/3)  // from ContentView
         .environmentObject(RowProperties(Caption(), 0, true, 1, .black))
     }
 }
