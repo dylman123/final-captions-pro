@@ -8,54 +8,54 @@
 import SwiftUI
 
 // Set state on mouse click event
-func click(_ state: AppState, _ props: RowProperties, _ view: RowElement) -> Void {
+func click(_ app: AppState, _ props: RowProperties, _ view: RowElement) -> Void {
     switch view {
     case .row:
-        switch state.mode {
-        case .play: state.transition(to: .pause)
+        switch app.mode {
+        case .play: app.transition(to: .pause)
         case .pause:
-            if props.isSelected { state.transition(to: .edit) }
-        case .edit: state.transition(to: .pause)
-        case .editStartTime: state.transition(to: .pause)
-        case .editEndTime: state.transition(to: .pause)
+            if props.isSelected { app.transition(to: .edit) }
+        case .edit: app.transition(to: .pause)
+        case .editStartTime: app.transition(to: .pause)
+        case .editEndTime: app.transition(to: .pause)
         }
     case .text:
-        switch state.mode {
-        case .play: state.transition(to: .pause)
+        switch app.mode {
+        case .play: app.transition(to: .pause)
         case .pause:
-            if props.isSelected { state.transition(to: .edit) }
+            if props.isSelected { app.transition(to: .edit) }
         case .edit: ()
-        case .editStartTime: state.transition(to: .edit)
-        case .editEndTime: state.transition(to: .edit)
+        case .editStartTime: app.transition(to: .edit)
+        case .editEndTime: app.transition(to: .edit)
         }
     case .startTime:
-        switch state.mode {
-        case .play: state.transition(to: .pause)
+        switch app.mode {
+        case .play: app.transition(to: .pause)
         case .pause:
-            if props.isSelected { state.transition(to: .editStartTime) }
-        case .edit: state.transition(to: .editStartTime)
+            if props.isSelected { app.transition(to: .editStartTime) }
+        case .edit: app.transition(to: .editStartTime)
         case .editStartTime: ()
-        case .editEndTime: state.transition(to: .editStartTime)
+        case .editEndTime: app.transition(to: .editStartTime)
         }
     case .endTime:
-        switch state.mode {
-        case .play: state.transition(to: .pause)
+        switch app.mode {
+        case .play: app.transition(to: .pause)
         case .pause:
-            if props.isSelected { state.transition(to: .editEndTime) }
-        case .edit: state.transition(to: .editEndTime)
-        case .editStartTime: state.transition(to: .editEndTime)
+            if props.isSelected { app.transition(to: .editEndTime) }
+        case .edit: app.transition(to: .editEndTime)
+        case .editStartTime: app.transition(to: .editEndTime)
         case .editEndTime: ()
         }
     }
     
     // Calling caption becomes selected
-    state.selectedIndex = props.index
+    app.selectedIndex = props.index
     
     // Update video player position
-    state.isListControlling = true
-    
+    app.isListControlling = true
+        
     // Play video segment for better UX
-    if state.mode == .edit {
+    if app.mode == .edit {
         NotificationCenter.default.post(name: .playSegment, object: nil)
     }
 }
