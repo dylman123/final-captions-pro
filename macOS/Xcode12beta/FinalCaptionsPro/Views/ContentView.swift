@@ -71,11 +71,6 @@ struct ContentView: View {
                 }
             })
         }
-        .onReceive(NotificationCenter.default.publisher(for: .handoverNSResponder)) { _ in
-            DispatchQueue.main.async {
-                NSApp.keyWindow?.makeFirstResponder()
-            }
-        }
     }
 }
 

@@ -10,30 +10,6 @@ import Cocoa
 import Combine
 import SwiftUI
 
-class TypingWindow: NSWindow {
-
-    // The key presses defined here will NOT be the first responder
-    override func keyDown(with event: NSEvent) {
-        guard let character = event.characters else { return }
-        var notification: Notification.Name
-        switch event.keyCode {
-        case 24: notification = .plus
-        case 27: notification = .minus
-        case 125: notification = .downArrow
-        case 126: notification = .upArrow
-        case 123: notification = .leftArrow
-        case 124: notification = .rightArrow
-        case 36: notification = .returnKey
-        case 48: notification = .tab
-        case 49: notification = .spacebar
-        case 51: notification = .delete
-        case 53: notification = .escape
-        default: notification = .character
-        }
-        NotificationCenter.default.post(name: notification, object: character)
-    }
-}
-
 public func keyboardShortcut<Sender, Label>(
     _ key: KeyEquivalent,
     sender: Sender,
@@ -50,7 +26,6 @@ public func keyboardShortcut<Sender>(
     sender: Sender,
     modifiers: EventModifiers = .none
 ) -> some View where Sender: Subject, Sender.Output == KeyEquivalent {
-
     guard let nameFromKey = key.name else {
         return AnyView(EmptyView())
     }
@@ -67,6 +42,9 @@ extension KeyEquivalent: Equatable {
 
 extension KeyEquivalent {
     var lowerCaseName: String? {
+        if self.character.isLetter {
+            return String(self.character)
+        }
         switch self {
         case .downArrow: return "downArrow"
         case .upArrow: return "upArrow"
@@ -78,6 +56,8 @@ extension KeyEquivalent {
         case .delete: return "delete"
         case .deleteForward: return "fwdDelete"
         case .escape: return "escape"
+        case "+": return "plus"
+        case "-": return "minus"
         default: return nil
         }
     }
