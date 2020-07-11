@@ -44,9 +44,16 @@ struct TextView: View {
                     if app.mode == .edit {
                         TextField(row.caption.text, text: binding.text, onCommit: {
                             guard binding.text.wrappedValue != "" else { return }
-                            NotificationCenter.default.post(name: .returnKey, object: nil)
+                            DispatchQueue.main.async {
+                                NSApp.keyWindow?.makeFirstResponder(nil)
+                            }
+                            NotificationCenter.default.post(name: .handoverNSResponder, object: nil)
+//                            NotificationCenter.default.post(name: .returnKey, object: nil)
                         })
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onExitCommand {
+                            print("ESC from TextField")
+                        }
                     } else {
                         Text(row.caption.text)
                     }

@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    // Set window sizes
-    let windowWidth: CGFloat = 1600
-    let windowHeight: CGFloat = 800
-    
+        
     // To refresh the UI when app state changes
     @EnvironmentObject var app: AppState
     @State private var showFileInput: Bool = false
@@ -34,43 +30,52 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
-        // Window view for edit screen
-        HStack {
-            
-            VStack {
-                // Video player
-                if app.videoURL != nil {
-                    VideoPlayer(url: app.videoURL)
-                } else { EmptyView() }
-            }
-            .buttonStyle(BorderlessButtonStyle())
-            .frame(width: self.windowWidth*0.6, height: self.windowHeight*0.8)
-            .padding(.horizontal, 25)
-            
-            VStack {
-                ExportButton()
-                Spacer()
-                // Captions list
-                Headers()
-                CaptionList()
-                    .frame(height: self.windowHeight*0.8)
+        GeometryReader { geometry in
+            // Set window sizes
+            let windowWidth = geometry.size.width
+            let windowHeight = geometry.size.height
+
+            HStack {
                 
-                Spacer()
+                VStack {
+                    // Video player
+                    if app.videoURL != nil {
+                        VideoPlayer(url: app.videoURL)
+                    } else { EmptyView() }
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .frame(width: windowWidth*0.6, height: windowHeight*0.8)
+                .padding(.horizontal, 25)
+                
+                VStack {
+                    ExportButton()
+                    Spacer()
+                    // Captions list
+                    Headers()
+                    CaptionList()
+                        .frame(height: windowHeight*0.8)
+                    
+                    Spacer()
+                }
+                .frame(width: windowWidth/3)
+                .padding(.horizontal, 25)
             }
-            .frame(width: self.windowWidth/3)
-            .padding(.horizontal, 25)
+            .frame(width: windowWidth, height: windowHeight)
+            .sheet(isPresented: $showFileInput, content: {
+                if showFileInput {
+                    // Shows file dialog button
+                    FileSelector(showFileInput: showFileInput)
+                        .padding()
+                        .frame(width: windowWidth*0.2, height: windowHeight*0.2)
+                        .environmentObject(app)
+                }
+            })
         }
-        .frame(width: self.windowWidth, height: self.windowHeight)
-        .sheet(isPresented: $showFileInput, content: {
-            if self.showFileInput {
-                // Shows file dialog button
-                FileSelector(showFileInput: self.showFileInput)
-                    .padding()
-                    .frame(width: self.windowWidth*0.2, height: self.windowHeight*0.2)
-                    .environmentObject(self.app)
+        .onReceive(NotificationCenter.default.publisher(for: .handoverNSResponder)) { _ in
+            DispatchQueue.main.async {
+                NSApp.keyWindow?.makeFirstResponder()
             }
-        })
+        }
     }
 }
 

@@ -25,6 +25,9 @@ extension Notification.Name {
     static let escape = Notification.Name("escape")
     static let character = Notification.Name("character")
     
+    // Hand back NSResponder to ContentView
+    static let handoverNSResponder = Notification.Name("handoverNSResponder")
+    
     // App modes
     static let play = Notification.Name("play")
     static let pause = Notification.Name("pause")
