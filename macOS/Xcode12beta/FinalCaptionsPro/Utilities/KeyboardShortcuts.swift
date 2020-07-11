@@ -1,5 +1,5 @@
 //
-//  TypingWindow.swift
+//  KeyboardShortcuts.swift
 //  FinalCaptionsPro
 //
 //  Created by Dylan Klein on 30/6/20.
@@ -19,7 +19,6 @@ public func keyboardShortcut<Sender, Label>(
     Button(action: { sender.send(key) }, label: label)
         .keyboardShortcut(key, modifiers: modifiers)
 }
-
 
 public func keyboardShortcut<Sender>(
     _ key: KeyEquivalent,

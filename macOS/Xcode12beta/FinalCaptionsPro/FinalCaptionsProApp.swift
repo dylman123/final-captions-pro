@@ -21,6 +21,7 @@ struct FinalCaptionsProApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     private let keyInputSubject = KeyInputSubjectWrapper()
+    // Send keyboard shortcuts as notifications
     func postKeyPress(_ key: KeyEquivalent, object: Any?) {
         if key.character.isLetter {
             NotificationCenter.default.post(name: .character, object: String(key.character))

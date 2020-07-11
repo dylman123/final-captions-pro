@@ -42,7 +42,7 @@
 		A3A8CEF524AB09FA00F77754 /* Transcriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEF424AB09FA00F77754 /* Transcriber.swift */; };
 		A3A8CEF724AB0A0F00F77754 /* EditCaptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEF624AB0A0F00F77754 /* EditCaptions.swift */; };
 		A3A8CEF924AB0A3200F77754 /* ExportToFCP.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEF824AB0A3200F77754 /* ExportToFCP.swift */; };
-		A3A8CEFB24AB0A4400F77754 /* TypingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEFA24AB0A4400F77754 /* TypingWindow.swift */; };
+		A3A8CEFB24AB0A4400F77754 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEFA24AB0A4400F77754 /* KeyboardShortcuts.swift */; };
 		A3A8CEFD24AB0A6A00F77754 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEFC24AB0A6A00F77754 /* Notifications.swift */; };
 		A3A8CEFF24AB0AB200F77754 /* BashCmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CEFE24AB0AB200F77754 /* BashCmd.swift */; };
 		A3A8CF0124AB0ADF00F77754 /* DiskReadWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8CF0024AB0ADF00F77754 /* DiskReadWrite.swift */; };
@@ -120,7 +120,7 @@
 		A3A8CEF424AB09FA00F77754 /* Transcriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcriber.swift; sourceTree = "<group>"; };
 		A3A8CEF624AB0A0F00F77754 /* EditCaptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCaptions.swift; sourceTree = "<group>"; };
 		A3A8CEF824AB0A3200F77754 /* ExportToFCP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportToFCP.swift; sourceTree = "<group>"; };
-		A3A8CEFA24AB0A4400F77754 /* TypingWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingWindow.swift; sourceTree = "<group>"; };
+		A3A8CEFA24AB0A4400F77754 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
 		A3A8CEFC24AB0A6A00F77754 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		A3A8CEFE24AB0AB200F77754 /* BashCmd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BashCmd.swift; sourceTree = "<group>"; };
 		A3A8CF0024AB0ADF00F77754 /* DiskReadWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskReadWrite.swift; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 				A3A8CEF424AB09FA00F77754 /* Transcriber.swift */,
 				A3A8CEF624AB0A0F00F77754 /* EditCaptions.swift */,
 				A3A8CEF824AB0A3200F77754 /* ExportToFCP.swift */,
-				A3A8CEFA24AB0A4400F77754 /* TypingWindow.swift */,
+				A3A8CEFA24AB0A4400F77754 /* KeyboardShortcuts.swift */,
 				A3A8CEFC24AB0A6A00F77754 /* Notifications.swift */,
 				A3A8CEFE24AB0AB200F77754 /* BashCmd.swift */,
 				A3A8CF0024AB0ADF00F77754 /* DiskReadWrite.swift */,
@@ -654,7 +654,7 @@
 				A3A8CEF124AB09A500F77754 /* TextView.swift in Sources */,
 				A3A8CEF724AB0A0F00F77754 /* EditCaptions.swift in Sources */,
 				A3A8CEE724AB092B00F77754 /* Headers.swift in Sources */,
-				A3A8CEFB24AB0A4400F77754 /* TypingWindow.swift in Sources */,
+				A3A8CEFB24AB0A4400F77754 /* KeyboardShortcuts.swift in Sources */,
 				A33334D424ADF0A100C553DC /* Sizer.swift in Sources */,
 				A3633F7F24A7445C00A63FD8 /* Preview Assets.xcassets in Sources */,
 				A3A8CEF524AB09FA00F77754 /* Transcriber.swift in Sources */,
