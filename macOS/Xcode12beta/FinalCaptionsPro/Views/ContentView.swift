@@ -36,7 +36,6 @@ struct ContentView: View {
             let windowHeight = geometry.size.height
 
             HStack {
-                
                 VStack {
                     // Video player
                     if app.videoURL != nil {
@@ -48,6 +47,7 @@ struct ContentView: View {
                 .padding(.horizontal, 25)
                 
                 VStack {
+                    //Text(stateLabel)
                     ExportButton()
                     Spacer()
                     // Captions list

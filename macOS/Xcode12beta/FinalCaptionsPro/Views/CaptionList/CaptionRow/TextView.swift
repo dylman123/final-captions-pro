@@ -47,7 +47,6 @@ struct TextView: View {
                             DispatchQueue.main.async {
                                 NSApp.keyWindow?.makeFirstResponder(nil)
                             }
-                            //NotificationCenter.default.post(name: .returnKey, object: nil)
                         })
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onExitCommand {

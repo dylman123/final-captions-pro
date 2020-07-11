@@ -184,16 +184,26 @@ struct CaptionList: View {
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
-            case .pause, .edit: self.incrementSelectedIndex();
+            case .pause:
+                self.incrementSelectedIndex();
                 app.isListControlling = true
+            case .edit:
+                self.incrementSelectedIndex();
+                app.isListControlling = true
+                NotificationCenter.default.post(name: .edit, object: nil)
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
-            case .pause, .edit: self.decrementSelectedIndex();
+            case .pause:
+                self.decrementSelectedIndex();
                 app.isListControlling = true
+            case .edit:
+                self.decrementSelectedIndex();
+                app.isListControlling = true
+                NotificationCenter.default.post(name: .edit, object: nil)
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
@@ -217,10 +227,7 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause, .editStartTime, .editEndTime: self.app.transition(to: .edit)
-            case .edit:
-                // Intended behaviour is to go to next caption and play segment
-                NotificationCenter.default.post(name: .downArrow, object: nil)
-                NotificationCenter.default.post(name: .edit, object: nil)
+            case .edit: self.app.transition(to: .pause)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .tab)) { _ in
