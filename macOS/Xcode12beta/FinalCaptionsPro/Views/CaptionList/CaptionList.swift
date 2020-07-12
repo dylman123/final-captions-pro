@@ -251,9 +251,9 @@ struct CaptionList: View {
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause: self.app.transition(to: .play)
-            case .edit: ()
-            case .editStartTime: ()
-            case .editEndTime: ()
+            case .edit: self.app.transition(to: .play)
+            case .editStartTime: self.app.transition(to: .play)
+            case .editEndTime: self.app.transition(to: .play)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .escape)) { _ in

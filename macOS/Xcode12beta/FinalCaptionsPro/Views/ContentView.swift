@@ -11,13 +11,7 @@ struct ContentView: View {
         
     // To refresh the UI when app state changes
     @EnvironmentObject var app: AppState
-    @State private var showFileInput: Bool = false
-    
-    // Test video
-    var testVideo: URL? {
-        guard let url = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") else { print("Couldn't load test video"); return nil }
-        return url
-    }
+    @State private var showFileInput: Bool = isTestingEditUX ? false : true
     
     var stateLabel: String {
         switch app.mode {

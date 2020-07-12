@@ -45,11 +45,11 @@ func == (lhs: Style, rhs: Style) -> Bool {
 func defaultStyle() -> Style {
     // Set default style params
     let _symbol: String? = nil
-    let _font: String = "Georgia"
-    let _size: CGFloat = 60.0
+    let _font: String = "Arial"
+    let _size: CGFloat = 30.0
     let _color: Color = .white
-    let _position: CGSize = CGSize(width: 0.0, height: 200)
-    let _alignment: TextAlignment = .leading
+    let _position: CGSize = CGSize(width: 0.0, height: 150)
+    let _alignment: TextAlignment = .center
     let _bold: Bool = false
     let _italic: Bool = false
     let _underline: Bool = false

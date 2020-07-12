@@ -106,3 +106,6 @@ private extension FinalCaptionsProApp {
         keyboardShortcut(key, sender: keyInputSubject, modifiers: modifiers)
     }
 }
+
+// Boolean to quickly test edit UX
+var isTestingEditUX: Bool = true

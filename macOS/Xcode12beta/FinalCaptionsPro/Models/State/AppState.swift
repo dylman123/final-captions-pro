@@ -17,8 +17,7 @@ enum Mode {
 class AppState: ObservableObject {
     
     // The array of captions which is to be edited by the user
-    //@Published var captions: [Caption] = []
-    @Published var captions: [Caption] = sampleCaptionData
+    @Published var captions: [Caption] = isTestingEditUX ? sampleCaptionData : []
     
     // The array which stores various caption styles, editible by the user
     @Published var styles: [Style] = []
@@ -36,8 +35,7 @@ class AppState: ObservableObject {
     @Published var selectedIndex: Int = 0
     
     // URL of the imported video
-    //@Published var videoURL: URL?
-    @Published var videoURL = Bundle.main.url(forResource: "RAW-long", withExtension: "m4v")
+    @Published var videoURL: URL? = isTestingEditUX ? Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") : nil
     
     // To control whether the list controls video or vice versa
     @Published var isListControlling: Bool = false
