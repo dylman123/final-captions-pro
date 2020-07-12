@@ -191,7 +191,7 @@ struct CaptionList: View {
                 self.incrementSelectedIndex();
                 app.isListControlling = true
                 NotificationCenter.default.post(name: .edit, object: nil)
-            case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
+            case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
@@ -204,7 +204,7 @@ struct CaptionList: View {
                 self.decrementSelectedIndex();
                 app.isListControlling = true
                 NotificationCenter.default.post(name: .edit, object: nil)
-            case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
+            case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .plus)) { notification in

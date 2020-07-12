@@ -157,13 +157,9 @@ struct VideoPlayerControlsView : View {
             Text("\(Utility.formatSecondsToHMS(videoDuration))")
                 .font(.system(size: fontSize*0.7))
             // Seek -15 seconds button
-            Button(action: seekBack15) {
-                Image(systemName: "gobackward.15")
-            }
+            Button { seekBack15() } label: { Image(systemName: "gobackward.15") }
             // Seek +15 seconds button
-            Button(action: seekAhead15) {
-                Image(systemName: "goforward.15")
-            }
+            Button { seekAhead15() } label: { Image(systemName: "goforward.15") }
         }
         .font(.system(size: fontSize))
         .padding(.leading, 10)
@@ -186,14 +182,14 @@ struct VideoPlayerControlsView : View {
         // Seek back 15 seconds
         .onReceive(NotificationCenter.default.publisher(for: .leftArrow)) { _ in
             switch self.app.mode {
-            case .play, .pause: self.seekBack15()
+            case .play, .pause: seekBack15()
             case .edit, .editStartTime, .editEndTime: ()
             }
         }
         // Seek ahead 15 seconds
         .onReceive(NotificationCenter.default.publisher(for: .rightArrow)) { _ in
             switch self.app.mode {
-            case .play, .pause: self.seekAhead15()
+            case .play, .pause: seekAhead15()
             case .edit, .editStartTime, .editEndTime: ()
             }
         }

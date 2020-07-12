@@ -57,7 +57,8 @@ struct ContentView: View {
                     
                     Spacer()
                 }
-                .frame(width: windowWidth/3)
+                .fixedSize(horizontal: true, vertical: false)
+                //.frame(minWidth: 533)
                 .padding(.horizontal, 25)
             }
             .frame(width: windowWidth, height: windowHeight)

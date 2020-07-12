@@ -28,10 +28,10 @@ struct TextView: View {
         if !row.isSelected { return textOffset }
         switch app.mode {
         case .play: return textOffset
-        case .pause: return textOffset + 6
-        case .edit: return textOffset - 5
-        case .editStartTime: return textOffset - 5
-        case .editEndTime: return textOffset - 5
+        case .pause: return textOffset + 20
+        case .edit: return textOffset + 9
+        case .editStartTime: return textOffset + 9
+        case .editEndTime: return textOffset + 9
         }
     }
     

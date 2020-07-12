@@ -164,15 +164,14 @@ struct CaptionRow: View {
             RoundedRectangle(cornerRadius: 10)
                 .fill(props.color).frame(height: 40)
                 .clickable(app, props, fromView: .row)
-            
-            Tag()
-            HStack(alignment: .center) {
+            HStack {
                 if props.isSelected {
                     Timings()
-                    RepeatButton().offset(x: -20)
+                    RepeatButton()
                     Spacer()
                     TextView()
                     Spacer()
+                    Tag()
                     PlusMinus()
                 }
                 else if !props.isSelected {
@@ -180,6 +179,7 @@ struct CaptionRow: View {
                     Spacer()
                     TextView()
                     Spacer()
+                    Tag()
                 }
             }
             .padding(.trailing, scrollbarPadding)

@@ -17,7 +17,6 @@ struct Tag: View {
         if row.caption.style.symbol != nil || (row.isSelected && app.mode != .play) {
             return AnyView(
                 TagView(row.caption.style.symbol ?? "")
-                    .offset(x: 200)
                     .clickable(app, row, fromView: .row)
                     .font(.system(size: 20))
                     .foregroundColor(row.caption.style.color)

@@ -38,7 +38,7 @@ struct RepeatButton: View {
             }
             
         }
-        .offset(x: 20)
+        //.offset(x: 20)
     }
 }
 
