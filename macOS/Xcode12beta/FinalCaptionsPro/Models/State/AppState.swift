@@ -41,7 +41,7 @@ class AppState: ObservableObject {
     @Published var selectedIndex: Int = 0
     
     // To control whether the list controls video or vice versa
-    @Published var isListControlling: Bool = false
+    @Published var isListControlling: Bool = true
     
     // Exporter object to export captions to Final Cut Pro
     var exporter = Exporter()

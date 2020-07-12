@@ -269,6 +269,7 @@ struct VideoPlayerControlsView : View {
             // get updated by the periodic time observer on the player
             seeking = true
             app.transition(to: .pause)
+            app.isListControlling = false
         }
         
         // Do the seek if we're finished

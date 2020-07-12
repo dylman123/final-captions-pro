@@ -182,32 +182,27 @@ struct CaptionList: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .downArrow)) { _ in
+            app.isListControlling = true
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
-            case .pause:
-                self.incrementSelectedIndex();
-                app.isListControlling = true
-            case .edit:
-                self.incrementSelectedIndex();
-                app.isListControlling = true
+            case .pause: self.incrementSelectedIndex();
+            case .edit: self.incrementSelectedIndex();
                 NotificationCenter.default.post(name: .edit, object: nil)
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: -0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .upArrow)) { _ in
+            app.isListControlling = true
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
-            case .pause:
-                self.decrementSelectedIndex();
-                app.isListControlling = true
-            case .edit:
-                self.decrementSelectedIndex();
-                app.isListControlling = true
+            case .pause: self.decrementSelectedIndex();
+            case .edit: self.decrementSelectedIndex();
                 NotificationCenter.default.post(name: .edit, object: nil)
             case .editStartTime, .editEndTime: self.modifyTimeVal(byStepSize: 0.1)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .plus)) { notification in
+            app.isListControlling = true
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause: self._addCaption()
@@ -216,6 +211,7 @@ struct CaptionList: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .minus)) { notification in
+            app.isListControlling = true
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause: self._deleteCaption()
@@ -224,6 +220,7 @@ struct CaptionList: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .returnKey)) { _ in
+            app.isListControlling = true
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             case .pause, .editStartTime, .editEndTime: self.app.transition(to: .edit)
@@ -240,6 +237,7 @@ struct CaptionList: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .delete)) { _ in
+            app.isListControlling = true
             switch self.app.mode {
             case .play: self.app.transition(to: .pause)
             default:
