@@ -25,6 +25,12 @@ class AppState: ObservableObject {
     // The mode of the app when editing captions
     @Published var mode: Mode = .pause
     
+    // URL of the imported video
+    @Published var videoURL: URL? = isTestingEditUX ? Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") : nil
+    
+    // Dimensions of the video
+    @Published var videoPaneDimensions: CGSize = .zero
+    
     // The progress through the video, as a percentage (from 0 to 1)
     @Published var videoPos: Double = 0.0
     
@@ -34,11 +40,11 @@ class AppState: ObservableObject {
     // An index which represents the selected caption
     @Published var selectedIndex: Int = 0
     
-    // URL of the imported video
-    @Published var videoURL: URL? = isTestingEditUX ? Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") : nil
-    
     // To control whether the list controls video or vice versa
     @Published var isListControlling: Bool = false
+    
+    // Exporter object to export captions to Final Cut Pro
+    var exporter = Exporter()
     
     // Set state within the application
     func transition(to newState: Mode) -> Void {

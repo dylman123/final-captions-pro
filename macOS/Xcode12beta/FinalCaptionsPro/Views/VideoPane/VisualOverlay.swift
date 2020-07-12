@@ -60,6 +60,12 @@ struct VisualOverlay: View {
                 // Style editor
                 if app.mode != .play { Styler(style: $caption.style).offset(y: -290) }
             }
+            .onAppear {
+                app.videoPaneDimensions = geometry.size
+            }
+            .onChange(of: geometry.size) { size in
+                app.videoPaneDimensions = size
+            }
         }
     }
 }

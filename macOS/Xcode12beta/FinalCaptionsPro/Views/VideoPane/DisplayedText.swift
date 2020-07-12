@@ -21,7 +21,7 @@ struct DisplayedText: View {
     var underline: Bool
     var videoGeometry: GeometryProxy
     
-    @State private var localPos: CGSize = .zero
+    @State private var localPos: CGSize = defaultStyle().position
     @State private var textFrame: CGSize = .zero
     
     init (
@@ -72,9 +72,12 @@ struct DisplayedText: View {
                 DragGesture()
                     .onChanged { gesture in
 
+                        let absoluteWidth = position.width * app.videoPaneDimensions.width
+                        let absoluteHeight = position.height * app.videoPaneDimensions.height
+                        
                         // Break down coords into 2D components
-                        localPos.width = position.width + gesture.translation.width
-                        localPos.height = position.height + gesture.translation.height
+                        localPos.width = absoluteWidth + gesture.translation.width
+                        localPos.height = absoluteHeight + gesture.translation.height
 
                         // Keep caption within video frame bounds
                         restrictDrag(
@@ -85,16 +88,25 @@ struct DisplayedText: View {
                         )
                     }
                     .onEnded { _ in
-                        position = localPos
+                        position.width = localPos.width / app.videoPaneDimensions.width
+                        position.height = localPos.height / app.videoPaneDimensions.height
                     }
             )
 
         // Need to listen to caption position to update localPos
         .onReceive(app.captions[app.selectedIndex].style.$position) { _ in
-            localPos = position
+            localPos.width = position.width * app.videoPaneDimensions.width
+            localPos.height = position.height * app.videoPaneDimensions.height
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { _ in
-                withAnimation { localPos = position }
+            withAnimation {
+                localPos.width = position.width * app.videoPaneDimensions.width
+                localPos.height = position.height * app.videoPaneDimensions.height
+            }
+        }
+        .onReceive(app.$videoPaneDimensions) { _ in
+            localPos.width = position.width * app.videoPaneDimensions.width
+            localPos.height = position.height * app.videoPaneDimensions.height
         }
     }
 }

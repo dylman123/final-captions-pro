@@ -19,12 +19,14 @@ class VideoPlayerNSView: NSView {
     private let seeking: Binding<Bool>
     private var durationObservation: NSKeyValueObservation?
     private var timeObservation: Any?
+    private var videoRect: Binding<CGRect>
   
-    init(player: AVPlayer, videoPos: Binding<Double>, videoDuration: Binding<Double>, seeking: Binding<Bool>) {
+    init(player: AVPlayer, videoPos: Binding<Double>, videoDuration: Binding<Double>, seeking: Binding<Bool>, videoRect: Binding<CGRect>) {
         self.player = player
         self.videoDuration = videoDuration
         self.videoPos = videoPos
         self.seeking = seeking
+        self.videoRect = videoRect
         
         super.init(frame: .zero)
         _ = NSView.BackgroundStyle(rawValue: 0)
@@ -63,6 +65,7 @@ class VideoPlayerNSView: NSView {
     override func layout() {
         super.layout()
         playerLayer.frame = bounds
+        self.videoRect.wrappedValue = playerLayer.frame
     }
     
     func cleanUp() {
@@ -85,6 +88,7 @@ struct VideoPlayerPaneView: NSViewRepresentable {
     @Binding private(set) var videoPos: Double
     @Binding private(set) var videoDuration: Double
     @Binding private(set) var seeking: Bool
+    @Binding private(set) var videoRect: CGRect
     
     let player: AVPlayer
     
@@ -97,7 +101,8 @@ struct VideoPlayerPaneView: NSViewRepresentable {
         let nsView = VideoPlayerNSView(player: player,
                                        videoPos: $videoPos,
                                        videoDuration: $videoDuration,
-                                       seeking: $seeking)
+                                       seeking: $seeking,
+                                       videoRect: $videoRect)
         return nsView
     }
     
@@ -294,6 +299,7 @@ struct VideoPlayerContainerView : View {
     
     // Whether we're currently interacting with the seek bar or doing a seek
     @State private var seeking = false
+    @State private var videoRect: CGRect = .zero
     
     private let player: AVPlayer
   
@@ -313,11 +319,18 @@ struct VideoPlayerContainerView : View {
     var body: some View {
         VStack {
             ZStack {
-                VideoPlayerPaneView(videoPos: $app.videoPos,
-                                videoDuration: $app.videoDuration,
-                                seeking: $seeking,
-                                player: player)
-                VisualOverlay(caption: $app.captions[index])
+                GeometryReader { geometry in
+                    VideoPlayerPaneView(videoPos: $app.videoPos,
+                                    videoDuration: $app.videoDuration,
+                                    seeking: $seeking,
+                                    videoRect: $videoRect,
+                                    player: player)
+                    VisualOverlay(caption: $app.captions[index])
+                    .onChange(of: videoRect) { rect in
+                        app.exporter.videoFileDimensions.width = rect.width
+                        app.exporter.videoFileDimensions.height = rect.height
+                    }
+                }
             }
             VideoPlayerControlsView(videoPos: $app.videoPos,
                                     videoDuration: $app.videoDuration,

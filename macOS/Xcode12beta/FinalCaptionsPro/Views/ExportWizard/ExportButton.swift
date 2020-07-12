@@ -21,7 +21,7 @@ struct ExportButton: View {
             Spacer()
             if showExportLabel { Text("Export to Final Cut Pro") }
             Button {
-                finishReview(inAppState: self.app, andSaveFileAs: testPath)
+                app.exporter.finishReview(inAppState: self.app, andSaveFileAs: testPath)
             } label: {
                 Image(systemName: "chevron.right")
             }
