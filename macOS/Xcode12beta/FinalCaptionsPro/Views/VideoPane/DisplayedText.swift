@@ -94,7 +94,7 @@ struct DisplayedText: View {
             )
 
         // Need to listen to caption position to update localPos
-        .onReceive(app.captions[app.selectedIndex].style.$position) { _ in
+        .onChange(of: app.captions[app.selectedIndex].style.position) { _ in
             localPos.width = position.width * app.videoPaneDimensions.width
             localPos.height = position.height * app.videoPaneDimensions.height
         }
@@ -104,7 +104,7 @@ struct DisplayedText: View {
                 localPos.height = position.height * app.videoPaneDimensions.height
             }
         }
-        .onReceive(app.$videoPaneDimensions) { _ in
+        .onChange(of: app.videoPaneDimensions) { _ in
             localPos.width = position.width * app.videoPaneDimensions.width
             localPos.height = position.height * app.videoPaneDimensions.height
         }

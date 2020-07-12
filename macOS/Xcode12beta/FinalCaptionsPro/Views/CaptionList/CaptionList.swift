@@ -263,7 +263,7 @@ struct CaptionList: View {
             case .editStartTime, .editEndTime: self.app.transition(to: .edit)
             }
         }
-        .onReceive(app.$videoPos) { _ in
+        .onChange(of: app.videoPos) { _ in
             guard app.isListControlling == false else { return }
             let timestamp = app.videoPos * app.videoDuration
             let newIndex = app.captions.firstIndex(where: { Double($0.end) >= timestamp }) ?? 0
