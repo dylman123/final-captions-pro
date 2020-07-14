@@ -29,7 +29,7 @@ class AppState: ObservableObject {
     @Published var videoURL: URL? = isTestingEditUX ? Bundle.main.url(forResource: "RAW-long", withExtension: "m4v") : nil
     
     // Dimensions of the video
-    @Published var videoPaneDimensions: CGSize = .zero
+    //@Published var videoPaneDimensions: CGSize = .zero
     
     // The progress through the video, as a percentage (from 0 to 1)
     @Published var videoPos: Double = 0.0

@@ -11,7 +11,8 @@ struct VisualOverlay: View {
     
     @EnvironmentObject var app: AppState
     @Binding var caption: Caption
-
+    @State private var dimensions = CGSize()
+    
     // Consider caption timings when displaying caption text
     var displayText: Bool {
         guard app.mode == .play else { return true }  // do not display during play mode
@@ -31,40 +32,36 @@ struct VisualOverlay: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            VStack {
                 
-                // Color.clear is undetected by onTapGesture
-                Rectangle().fill(Color.blue.opacity(0.001))
-                    .onTapGesture {
-                        if app.mode == .play { app.transition(to: .pause) }
-                        else { app.transition(to: .play) }
-                    }
+                if app.mode != .play { Styler(style: $caption.style) }
                 
-                if displayText {
+                ZStack {
                     
-                    // Caption text is displayed with all its attributes
-                    DisplayedText (
-                        text: caption.text,
-                        font: caption.style.font,
-                        size: caption.style.size,
-                        color: caption.style.color,
-                        position: $caption.style.position,
-                        alignment: caption.style.alignment,
-                        bold: caption.style.bold,
-                        italic: caption.style.italic,
-                        underline: caption.style.underline,
-                        geometry: geometry
-                    )
+                    // Color.clear is undetected by onTapGesture
+                    Rectangle().fill(Color.blue.opacity(0.001))
+                        .onTapGesture {
+                            if app.mode == .play { app.transition(to: .pause) }
+                            else { app.transition(to: .play) }
+                        }
+                    
+                    if displayText {
+                        
+                        // Caption text is displayed with all its attributes
+                        DisplayedText (
+                            text: caption.text,
+                            font: caption.style.font,
+                            size: caption.style.size,
+                            color: caption.style.color,
+                            position: $caption.style.position,
+                            alignment: caption.style.alignment,
+                            bold: caption.style.bold,
+                            italic: caption.style.italic,
+                            underline: caption.style.underline,
+                            geometry: geometry
+                        )
+                    }
                 }
-                
-                // Style editor
-                if app.mode != .play { Styler(style: $caption.style).offset(y: -290) }
-            }
-            .onAppear {
-                app.videoPaneDimensions = geometry.size
-            }
-            .onChange(of: geometry.size) { size in
-                app.videoPaneDimensions = size
             }
         }
     }

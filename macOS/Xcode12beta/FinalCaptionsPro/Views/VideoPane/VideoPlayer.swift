@@ -65,7 +65,8 @@ class VideoPlayerNSView: NSView {
     override func layout() {
         super.layout()
         playerLayer.frame = bounds
-        self.videoRect.wrappedValue = playerLayer.frame
+        playerLayer.videoGravity = .resizeAspect
+        self.videoRect.wrappedValue = playerLayer.videoRect
     }
     
     func cleanUp() {
@@ -320,18 +321,17 @@ struct VideoPlayerContainerView : View {
     var body: some View {
         VStack {
             ZStack {
-                GeometryReader { geometry in
-                    VideoPlayerPaneView(videoPos: $app.videoPos,
-                                    videoDuration: $app.videoDuration,
-                                    seeking: $seeking,
-                                    videoRect: $videoRect,
-                                    player: player)
-                    VisualOverlay(caption: $app.captions[index])
+                VideoPlayerPaneView(videoPos: $app.videoPos,
+                                videoDuration: $app.videoDuration,
+                                seeking: $seeking,
+                                videoRect: $videoRect,
+                                player: player)
+                VisualOverlay(caption: $app.captions[index])
+                    .frame(maxWidth: videoRect.width, maxHeight: videoRect.height)
                     .onChange(of: videoRect) { rect in
                         app.exporter.videoFileDimensions.width = rect.width
                         app.exporter.videoFileDimensions.height = rect.height
                     }
-                }
             }
             VideoPlayerControlsView(videoPos: $app.videoPos,
                                     videoDuration: $app.videoDuration,

@@ -1,5 +1,5 @@
 //
-//  ExportToFCP.swift
+//  Exporter.swift
 //  FinalCaptionsPro
 //
 //  Created by Dylan Klein on 30/6/20.

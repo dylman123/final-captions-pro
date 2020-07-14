@@ -72,8 +72,8 @@ struct DisplayedText: View {
                 DragGesture()
                     .onChanged { gesture in
 
-                        let absoluteWidth = position.width * app.videoPaneDimensions.width
-                        let absoluteHeight = position.height * app.videoPaneDimensions.height
+                        let absoluteWidth = position.width * app.exporter.videoFileDimensions.width
+                        let absoluteHeight = position.height * app.exporter.videoFileDimensions.height
                         
                         // Break down coords into 2D components
                         localPos.width = absoluteWidth + gesture.translation.width
@@ -88,25 +88,25 @@ struct DisplayedText: View {
                         )
                     }
                     .onEnded { _ in
-                        position.width = localPos.width / app.videoPaneDimensions.width
-                        position.height = localPos.height / app.videoPaneDimensions.height
+                        position.width = localPos.width / app.exporter.videoFileDimensions.width
+                        position.height = localPos.height / app.exporter.videoFileDimensions.height
                     }
             )
 
         // Need to listen to caption position to update localPos
         .onChange(of: app.captions[app.selectedIndex].style.position) { _ in
-            localPos.width = position.width * app.videoPaneDimensions.width
-            localPos.height = position.height * app.videoPaneDimensions.height
+            localPos.width = position.width * app.exporter.videoFileDimensions.width
+            localPos.height = position.height * app.exporter.videoFileDimensions.height
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateStyle)) { _ in
             withAnimation {
-                localPos.width = position.width * app.videoPaneDimensions.width
-                localPos.height = position.height * app.videoPaneDimensions.height
+                localPos.width = position.width * app.exporter.videoFileDimensions.width
+                localPos.height = position.height * app.exporter.videoFileDimensions.height
             }
         }
-        .onChange(of: app.videoPaneDimensions) { _ in
-            localPos.width = position.width * app.videoPaneDimensions.width
-            localPos.height = position.height * app.videoPaneDimensions.height
+        .onChange(of: app.exporter.videoFileDimensions) { dimensions in
+            localPos.width = position.width * dimensions.width
+            localPos.height = position.height * dimensions.height
         }
     }
 }
