@@ -302,6 +302,12 @@ struct VideoPlayerContainerView : View {
     // Whether we're currently interacting with the seek bar or doing a seek
     @State private var seeking = false
     @State private var videoRect: CGRect = .zero
+    @State private var containerWidth: CGFloat = .zero
+    
+    var isDisplayReady: Bool {
+        if videoRect == .zero { return false }
+        else { return true }
+    }
     
     private let player: AVPlayer
   
@@ -326,12 +332,17 @@ struct VideoPlayerContainerView : View {
                                 seeking: $seeking,
                                 videoRect: $videoRect,
                                 player: player)
-                VisualOverlay(caption: $app.captions[index])
-                    .frame(maxWidth: videoRect.width, maxHeight: videoRect.height)
-                    .onChange(of: videoRect) { rect in
-                        app.exporter.videoFileDimensions.width = rect.width
-                        app.exporter.videoFileDimensions.height = rect.height
-                    }
+                if isDisplayReady {
+                    VisualOverlay(caption: $app.captions[index])
+                        .frame(maxWidth: videoRect.width, maxHeight: videoRect.height)
+                        .onChange(of: videoRect) { rect in
+                            app.exporter.videoFileDimensions.width = rect.width
+                            app.exporter.videoFileDimensions.height = rect.height
+                        }
+                } else {  // FIXME: Should initialise properly
+                    Text("Please adjust window size to begin...")
+                        .font(.largeTitle)
+                }
             }
             VideoPlayerControlsView(videoPos: $app.videoPos,
                                     videoDuration: $app.videoDuration,

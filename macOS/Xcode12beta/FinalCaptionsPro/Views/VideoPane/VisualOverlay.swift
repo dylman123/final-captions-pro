@@ -11,7 +11,6 @@ struct VisualOverlay: View {
     
     @EnvironmentObject var app: AppState
     @Binding var caption: Caption
-    @State private var dimensions = CGSize()
     
     // Consider caption timings when displaying caption text
     var displayText: Bool {
