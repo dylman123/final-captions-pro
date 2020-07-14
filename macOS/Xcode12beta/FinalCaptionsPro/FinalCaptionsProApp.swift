@@ -8,6 +8,9 @@
 import SwiftUI
 import Firebase
 
+// Boolean to quickly test edit UX
+var isTestingEditUX: Bool = true
+
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -36,7 +39,7 @@ struct FinalCaptionsProApp: App {
         
         WindowGroup {
             ContentView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(minWidth: 1250, maxWidth: .infinity, minHeight: 700, maxHeight: .infinity)
                 .fixedSize(horizontal: false, vertical: false)
                 .onReceive(keyInputSubject) {
                     postKeyPress($0, object: nil)
@@ -106,6 +109,3 @@ private extension FinalCaptionsProApp {
         keyboardShortcut(key, sender: keyInputSubject, modifiers: modifiers)
     }
 }
-
-// Boolean to quickly test edit UX
-var isTestingEditUX: Bool = true
