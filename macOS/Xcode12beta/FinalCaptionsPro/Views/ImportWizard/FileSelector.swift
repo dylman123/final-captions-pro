@@ -40,7 +40,7 @@ struct FileSelector: View {
     }
     
     // To manage the API-based transcription process
-    @ObservedObject var userAPI = Transcriber()
+    @StateObject var userAPI = Transcriber()
     
     private var StatusView: AnyView {
         var status = ""
