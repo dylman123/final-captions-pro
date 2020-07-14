@@ -128,7 +128,7 @@ class Exporter {
             func getPosition(_ position: CGSize) -> String {
                 let x = position.width * videoFileDimensions.width
                 let y = position.height * videoFileDimensions.height
-                print("\(x) \(-y)")
+                //print("\(x) \(-y)")
                 return "\(x) \(-y)"
             }
             
@@ -210,13 +210,18 @@ class Exporter {
 
     func saveXML(of rootElement: AEXMLDocument, as xmlPath: URL) -> Void {
 
+        var debug = ""
+
         // Save the .fcpxml file to disk
         do {
             try rootElement.xml.write(to: xmlPath, atomically: true, encoding: String.Encoding.utf8)
-            print("Successfully saved .fcpxml file as: \(xmlPath)")
+            
+            debug = "Successfully saved .fcpxml file as: \(xmlPath)"
+            NotificationCenter.default.post(name: .exportResult, object: debug)
         } catch {
             // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
-            print("Error saving .fcpxml file to disk: \(error.localizedDescription)")
+            debug = "Error saving .fcpxml file to disk: \(error.localizedDescription)"
+            NotificationCenter.default.post(name: .exportResult, object: debug)
         }
         
         // Validate the saved .fcpxml file against its DTD schema
@@ -226,13 +231,17 @@ class Exporter {
         let result: String = shell("xmllint --noout --dtdvalid \(dtdURL) \(xmlPath)")
         print("result of DTD check command: \(String(describing: result))")
         if result != "" {  // DTD validation has failed
-            print("Error in DTD validation. \(result)")
+            
+            debug = "Error in DTD validation. \(result)"
+            NotificationCenter.default.post(name: .exportResult, object: debug)
+            
             // Open the .fcpxml file in a text editor for debugging purposes
             let _ = shell("open -a 'TextEdit' \(xmlPath)")
             return
         }
         else {  // DTD validation has passed
-            print("Successfully passed DTD validation.")
+            debug = "Successfully passed DTD validation."
+            NotificationCenter.default.post(name: .exportResult, object: debug)
             return
         }
     }
@@ -240,7 +249,14 @@ class Exporter {
     func openXML(at xmlPath: URL) -> Void {
         
         // Open the .fcpxml in its native application (Final Cut Pro X)
-        let _ = shell("open -a 'Final Cut Pro' \(xmlPath)")
+        var debug = shell("open -a 'Final Cut Pro' \(xmlPath)")
+        if debug != "" {
+            NotificationCenter.default.post(name: .exportResult, object: debug)
+        }
+        else {
+            debug = "Opening Final Cut Pro..."
+            NotificationCenter.default.post(name: .exportResult, object: debug)
+        }
         
         return
     }

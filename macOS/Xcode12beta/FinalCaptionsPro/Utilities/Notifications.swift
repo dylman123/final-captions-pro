@@ -49,4 +49,7 @@ extension Notification.Name {
     static let undo = Notification.Name("undo")
     static let copy = Notification.Name("copy")
     static let paste = Notification.Name("paste")
+    
+    // Post export info
+    static let exportResult = Notification.Name("exportResult")
 }

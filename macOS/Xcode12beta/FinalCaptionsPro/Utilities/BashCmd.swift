@@ -18,7 +18,9 @@ func shell(_ command: String) -> String {
     task.launch()
 
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output: String = NSString(data: data, encoding: String.Encoding.utf8.rawValue)! as String
+    let output = String(data: data, encoding: .utf8)!
 
     return output
 }
+
+// FIXME: Shell output is not being returned at all.

@@ -12,6 +12,8 @@ struct ContentView: View {
     // To refresh the UI when app state changes
     @EnvironmentObject var app: AppState
     @State private var showFileInput: Bool = isTestingEditUX ? false : true
+    @State private var exportResult: String = ""
+    @State private var showExportResult: Bool = false
     
     var stateLabel: String {
         switch app.mode {
@@ -43,6 +45,13 @@ struct ContentView: View {
                 VStack {
                     //Text(stateLabel)
                     ExportButton()
+                        .popover(
+                            isPresented: $showExportResult,
+                            arrowEdge: .top
+                        ) {
+                            Text(exportResult)
+                                .frame(width: windowWidth*0.2, height: windowHeight*0.075)
+                        }
                     Spacer()
                     // Captions list
                     Headers()
@@ -64,6 +73,11 @@ struct ContentView: View {
                         .environmentObject(app)
                 }
             })
+            .onReceive(NotificationCenter.default.publisher(for: .exportResult)) { debug in
+                let info = debug.object as! String
+                showExportResult = true
+                exportResult = info
+            }
         }
     }
 }
