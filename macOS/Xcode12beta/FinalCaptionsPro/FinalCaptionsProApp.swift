@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 
 // Boolean to quickly test edit UX
-var isTestingEditUX: Bool = false
+var isTestingEditUX: Bool = true
 
 class AppDelegate: NSObject, NSApplicationDelegate {
 

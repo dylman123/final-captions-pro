@@ -47,7 +47,7 @@ struct ContentView: View {
                     // Captions list
                     Headers()
                     CaptionList()
-                        .frame(height: windowHeight*0.8)
+                        .frame(width: windowWidth*0.3, height: windowHeight*0.8)
                     
                     Spacer()
                 }
