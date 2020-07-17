@@ -29,16 +29,27 @@ struct VisualOverlay: View {
         else { return false }  // only disappear if pause is over 0.3 seconds
     }
     
+    let stylerBarThickness: CGFloat = 35
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
                 
-                if app.mode != .play { Styler(style: $caption.style) }
+                if app.mode != .play {
+                    Styler(style: $caption.style, barThickness: stylerBarThickness)
+                }
+                else {
+                    // Need an empty rectangle here to maintain text's vertical pos in VStack
+                    Rectangle()
+                        .fill(Color.blue.opacity(0.001))  // transparent
+                        .frame(height: stylerBarThickness)
+                }
                 
                 ZStack {
                     
                     // Color.clear is undetected by onTapGesture
-                    Rectangle().fill(Color.blue.opacity(0.001))
+                    Rectangle()
+                        .fill(Color.blue.opacity(0.001))  // transparent
                         .onTapGesture {
                             if app.mode == .play { app.transition(to: .pause) }
                             else { app.transition(to: .play) }

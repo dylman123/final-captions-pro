@@ -13,7 +13,7 @@ struct Styler: View {
     @Binding var style: Style
     @State var isPickingColor: Bool = false
     
-    let barThickness: CGFloat = 35
+    let barThickness: CGFloat
     
     // To format the buttons
     var buttonStyle = BorderlessButtonStyle()
@@ -60,7 +60,7 @@ struct Styler: View {
 struct Styler_Previews: PreviewProvider {
     
     static var previews: some View {
-        Styler(style: .constant(defaultStyle()))
+        Styler(style: .constant(defaultStyle()), barThickness: 35)
             .frame(width: 1000, height: 300)
     }
 }
