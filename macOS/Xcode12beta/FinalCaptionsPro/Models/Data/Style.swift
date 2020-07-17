@@ -46,7 +46,7 @@ func defaultStyle() -> Style {
     // Set default style params
     let _symbol: String? = nil
     let _font: String = "Arial"
-    let _size: CGFloat = 30.0
+    let _size: CGFloat = 0.2
     let _color: Color = .white
     let _position: CGSize = CGSize(width: 0.0, height: 0.25)
     let _alignment: TextAlignment = .center

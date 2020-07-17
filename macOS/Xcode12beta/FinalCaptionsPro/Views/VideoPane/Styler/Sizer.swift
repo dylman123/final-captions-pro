@@ -7,15 +7,24 @@
 
 import SwiftUI
 
+struct sizeBounds {
+    let min: CGFloat = 10
+    let max: CGFloat = 200
+}
+
 struct Sizer: View {
     
     @Binding var size: CGFloat
+    let bounds = sizeBounds()
     
     func updateSize(by step: CGFloat) -> Void {
-        size += step
+        let relMin = bounds.min / bounds.max
+        let relMax = bounds.max / bounds.max
+        size += step / bounds.max
+        print("step: ", size)
         let newSize = size
-        if newSize < 10 { size = 10 }
-        if newSize > 200 { size = 200 }
+        if newSize < relMin { size = relMin }
+        if newSize > relMax { size = relMax }
     }
     
     var body: some View {
@@ -28,6 +37,6 @@ struct Sizer: View {
 
 struct Sizer_Previews: PreviewProvider {
     static var previews: some View {
-        Sizer(size: .constant(20))
+        Sizer(size: .constant(0.2))
     }
 }

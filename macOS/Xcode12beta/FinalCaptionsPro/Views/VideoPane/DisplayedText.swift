@@ -21,8 +21,11 @@ struct DisplayedText: View {
     var underline: Bool
     var videoGeometry: GeometryProxy
     
+    // Dynamic geometric properties
     @State private var localPos: CGSize = defaultStyle().position
     @State private var textFrame: CGSize = .zero
+    @State private var initialVideoWidth: CGFloat = .zero
+    @State private var videoFrameScaleFactor: CGFloat = .zero
     
     init (
         text: String,
@@ -60,7 +63,7 @@ struct DisplayedText: View {
 
         Text(text)
             .attributes(_bold: bold, _italic: italic, _underline: underline)
-            .customFont(name: font, size: size, color: color, alignment: alignment)
+            .customFont(name: font, size: size, color: color, alignment: alignment, sf: videoFrameScaleFactor)
             .offset(x: localPos.width, y: localPos.height)
             .overlay(
                 GeometryReader { proxy in
@@ -107,6 +110,13 @@ struct DisplayedText: View {
         .onChange(of: app.exporter.videoFileDimensions) { dimensions in
             localPos.width = position.width * dimensions.width
             localPos.height = position.height * dimensions.height
+            // Calculate a video frame scale factor based on initial dimensions
+            videoFrameScaleFactor = dimensions.width / initialVideoWidth
+        }
+        .onAppear {
+            // Capture the initial dimensions of the video frame
+            let w0 = app.exporter.videoFileDimensions.width
+            initialVideoWidth = w0
         }
     }
 }
@@ -118,10 +128,11 @@ struct CustomFont: ViewModifier {
     var size: CGFloat
     var color: Color
     var alignment: TextAlignment
+    var sf: CGFloat
 
     func body(content: Content) -> some View {
         let modifier = content
-            .font(.custom(name, size: size))
+            .font(.custom(name, size: size * sizeBounds().max * sf))
             .foregroundColor(color)
             .multilineTextAlignment(alignment)
             .lineLimit(2)
@@ -131,8 +142,8 @@ struct CustomFont: ViewModifier {
 
 //@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
 extension View {
-    func customFont (name: String, size: CGFloat, color: Color, alignment: TextAlignment) -> some View {
-        return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment))
+    func customFont (name: String, size: CGFloat, color: Color, alignment: TextAlignment, sf: CGFloat) -> some View {
+        return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment, sf: sf))
     }
 }
 

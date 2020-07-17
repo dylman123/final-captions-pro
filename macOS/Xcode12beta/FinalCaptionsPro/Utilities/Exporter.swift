@@ -147,7 +147,7 @@ class Exporter {
                 
                 let textStyle = AEXMLElement(name: "text-style", attributes: [
                     "font": caption.style.font,
-                    "fontSize": "\(caption.style.size)",
+                    "fontSize": "\(caption.style.size * sizeBounds().max)",
                     "fontFace": "Regular",
                     "fontColor": getRGBA(caption.style.color),
                     "bold": getAttribute(caption.style.bold),
