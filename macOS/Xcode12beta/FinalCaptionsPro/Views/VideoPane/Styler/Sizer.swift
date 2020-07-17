@@ -21,7 +21,6 @@ struct Sizer: View {
         let relMin = bounds.min / bounds.max
         let relMax = bounds.max / bounds.max
         size += step / bounds.max
-        print("step: ", size)
         let newSize = size
         if newSize < relMin { size = relMin }
         if newSize > relMax { size = relMax }

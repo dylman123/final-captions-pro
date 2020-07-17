@@ -181,7 +181,12 @@ struct VideoPlayerControlsView : View {
         }
         // Play a caption segment whilst the app is in .edit mode
         .onReceive(NotificationCenter.default.publisher(for: .edit)) { _ in
-            let newPos = Double(app.captions[app.selectedIndex].start) / videoDuration
+            let currentCaption = app.captions[app.selectedIndex]
+            var newPos = Double(currentCaption.start) / videoDuration
+            // Extend shorter captions' playback segment duration
+//            if currentCaption.duration <= 0.5 {
+//                newPos -= 0.3
+//            }
             self.seek(to: newPos)
             pausePlayer(false)
         }
