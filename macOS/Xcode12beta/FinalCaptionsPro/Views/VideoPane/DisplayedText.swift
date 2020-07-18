@@ -25,7 +25,7 @@ struct DisplayedText: View {
     @State private var localPos: CGSize = defaultStyle().position
     @State private var textFrame: CGSize = .zero
     @State private var initialVideoWidth: CGFloat = .zero
-    @State private var videoFrameScaleFactor: CGFloat = .zero
+    @State private var videoFrameScaleFactor: CGFloat = 1
     
     init (
         text: String,
@@ -128,9 +128,10 @@ struct CustomFont: ViewModifier {
     var size: CGFloat
     var color: Color
     var alignment: TextAlignment
-    var sf: CGFloat
+    @State var sf: CGFloat
 
     func body(content: Content) -> some View {
+        if sf.isInfinite { sf = 1 }  // Guard against sf = infinity which crashes app
         let modifier = content
             .font(.custom(name, size: size * sizeBounds().max * sf))
             .foregroundColor(color)

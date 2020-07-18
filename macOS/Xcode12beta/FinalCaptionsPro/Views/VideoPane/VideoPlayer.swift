@@ -182,11 +182,7 @@ struct VideoPlayerControlsView : View {
         // Play a caption segment whilst the app is in .edit mode
         .onReceive(NotificationCenter.default.publisher(for: .edit)) { _ in
             let currentCaption = app.captions[app.selectedIndex]
-            var newPos = Double(currentCaption.start) / videoDuration
-            // Extend shorter captions' playback segment duration
-//            if currentCaption.duration <= 0.5 {
-//                newPos -= 0.3
-//            }
+            let newPos = Double(currentCaption.start) / videoDuration
             self.seek(to: newPos)
             pausePlayer(false)
         }
@@ -226,11 +222,13 @@ struct VideoPlayerControlsView : View {
     }
     
     private func seekBack15() -> Void {
+        if app.mode == .play { app.transition(to: .pause) }
         app.isListControlling = false
         seek(to: videoPos - 15.0 / videoDuration)
     }
     
     private func seekAhead15() -> Void {
+        if app.mode == .play { app.transition(to: .pause) }
         app.isListControlling = false
         seek(to: videoPos + 15.0 / videoDuration)
     }

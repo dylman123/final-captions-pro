@@ -75,7 +75,7 @@ struct ContentView: View {
             })
             .onReceive(NotificationCenter.default.publisher(for: .exportResult)) { debug in
                 let info = debug.object as! String
-                showExportResult = true
+                //showExportResult = true  // FIXME: Bash command output isn't returning to caller fn
                 exportResult = info
             }
         }
