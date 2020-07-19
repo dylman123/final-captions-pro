@@ -128,10 +128,9 @@ struct CustomFont: ViewModifier {
     var size: CGFloat
     var color: Color
     var alignment: TextAlignment
-    @State var sf: CGFloat
+    var sf: CGFloat
 
     func body(content: Content) -> some View {
-        if sf.isInfinite { sf = 1 }  // Guard against sf = infinity which crashes app
         let modifier = content
             .font(.custom(name, size: size * sizeBounds().max * sf))
             .foregroundColor(color)
@@ -144,7 +143,9 @@ struct CustomFont: ViewModifier {
 //@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
 extension View {
     func customFont (name: String, size: CGFloat, color: Color, alignment: TextAlignment, sf: CGFloat) -> some View {
-        return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment, sf: sf))
+        var scaleFactor = sf
+        if sf.isInfinite { scaleFactor = 1 }  // Guard against sf = infinity which crashes app
+        return self.modifier(CustomFont(name: name, size: size, color: color, alignment: alignment, sf: scaleFactor))
     }
 }
 
