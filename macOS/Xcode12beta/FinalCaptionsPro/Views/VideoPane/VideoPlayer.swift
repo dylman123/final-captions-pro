@@ -66,7 +66,7 @@ class VideoPlayerNSView: NSView {
         super.layout()
         playerLayer.frame = bounds
         playerLayer.videoGravity = .resizeAspect
-        self.videoRect.wrappedValue = playerLayer.videoRect
+        self.videoRect.wrappedValue = playerLayer.videoRect  // FIXME: This line causes app to crash!
     }
     
     func cleanUp() {
