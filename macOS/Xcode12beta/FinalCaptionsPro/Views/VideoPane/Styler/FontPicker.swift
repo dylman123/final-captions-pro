@@ -16,14 +16,23 @@ struct FontPicker: View {
     
     var body: some View {
         
-        Picker("Select a font", selection: $font) {
+//        Picker(selection: $font, label: Text("Select a font...")) {
+//            //BUG IN BIG SUR BETA CAUSES CRASH HERE!
+////            ForEach(fontFamilyNames, id: \.self) {
+////                Text($0).font(.custom($0, size: 15))
+////            }
+//        }
+//        .labelsHidden()
+//        .id(font)
+        
+        // Demo view
+        ScrollView(.vertical) {
             ForEach(fontFamilyNames, id: \.self) {
                 Text($0).font(.custom($0, size: 15))
             }
+            .labelsHidden()
+            .id(font)
         }
-        .labelsHidden()
-        .id(font)
-        
     }
 }
 

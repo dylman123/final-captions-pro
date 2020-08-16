@@ -36,7 +36,7 @@ struct Styler: View {
                 Alignment(alignment: $style.alignment)
                 
                 Sizer(size: $style.size)
-                
+
                 FontPicker(font: $style.font)
                     .frame(width: 200)
                 
