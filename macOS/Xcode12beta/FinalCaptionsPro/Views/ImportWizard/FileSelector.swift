@@ -79,7 +79,7 @@ struct FileSelector: View {
                 status = "Coverting audio to .wav format..."
                 return AnyView(VStack {
                     Text(status).multilineTextAlignment(.center)
-                    //ProgressView()  // Commented out due to Big Sur Beta bug app crash
+                    ProgressView()  // Commented out due to Big Sur Beta bug app crash
                 })
             }
             
@@ -92,7 +92,7 @@ struct FileSelector: View {
                 status = "Uploading audio to server..."
                 return AnyView(VStack {
                     Text(status).multilineTextAlignment(.center)
-                    //ProgressView()  // Commented out due to Big Sur Beta bug app crash
+                    ProgressView()  // Commented out due to Big Sur Beta bug app crash
                 })
             }
             
@@ -105,7 +105,7 @@ struct FileSelector: View {
                 status = "Transcribing audio. This may take several minutes..."
                 return AnyView(VStack {
                     Text(status).multilineTextAlignment(.center)
-                    //ProgressView()  // Commented out due to Big Sur Beta bug app crash
+                    ProgressView()  // Commented out due to Big Sur Beta bug app crash
                 })
             }
             
@@ -118,7 +118,7 @@ struct FileSelector: View {
                 status = "Downloaded captions! Deleting temp server files..."
                 return AnyView(VStack {
                     Text(status).multilineTextAlignment(.center)
-                    //ProgressView()  // Commented out due to Big Sur Beta bug app crash
+                    ProgressView()  // Commented out due to Big Sur Beta bug app crash
                 })
             }
             
@@ -138,7 +138,7 @@ struct FileSelector: View {
             self.app.videoURL = self.userAPI.video!
             self.app.captions = self.userAPI.captions!
             self.showFileInput.toggle()
-            self.presentationMode.wrappedValue.dismiss()
+//            self.presentationMode.wrappedValue.dismiss()
         }
     }
     

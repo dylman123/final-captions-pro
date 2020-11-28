@@ -17,7 +17,7 @@ struct FontPicker: View {
     var body: some View {
         
 //        Picker(selection: $font, label: Text("Select a font...")) {
-            //BUG IN BIG SUR BETA CAUSES CRASH HERE!
+////            BUG IN BIG SUR BETA CAUSES CRASH HERE!
 //            ForEach(fontFamilyNames, id: \.self) {
 //                Text($0).font(.custom($0, size: 15))
 //            }
